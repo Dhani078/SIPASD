@@ -14,25 +14,27 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip dan Sur
 
 ---
 
-## [1.0.0-spec] - 2026-10-20
+## [1.0.0-spec-maxx] - 2026-10-20
 
 ### Added
-- **README.md**: Dokumentasi komprehensif sistem, latar belakang instansi Dispora Prov. Kalsel, RBAC 4 tingkat, arsitektur teknologi, dan panduan instalasi.
-- **AGENT.md**: Direktif agen otonom (zero AI slop, modularitas maks 200 LOC per file, konfigurasi git wajib `Dhani078 / dhanisepeda@gmail.com`).
-- **SPEC.md**: Dokumen spesifikasi rekayasa perangkat lunak resmi mengacu pada metode *Spec-Driven Development*.
-- **task_plan.md**: Struktur perencanaan 8 fase menggunakan metode *planning-with-files*.
-- **findings.md**: Hasil audit dan inventarisasi riil terhadap 420 berkas PDF surat dinas, 11 venue olahraga, dan profil pejabat Dispora Kalsel.
-- **progress.md**: Catatan log kronologis pengerjaan sesi 1.
-- **docs/HANDOFF.md**: Berkas status operasional untuk resume sesi otonom berikutnya.
-- **docs/DATABASE_SCHEMA.md**: Kamus data lengkap, ERD relasi, dan naskah SQL DDL 8 tabel TiDB/MySQL siap eksekusi.
-- **docs/API_ROUTES.md**: Spesifikasi endpoint REST dan Server Actions Next.js 15.
-- **docs/UML_DIAGRAMS.md**: Spesifikasi diagram UML lengkap (Use Case berskenario, Activity Diagram, Sequence Diagram, Class Diagram, dan script PlantUML).
-- **docs/SECURITY_AUDIT.md**: Matriks mitigasi 10 kerentanan OWASP Top 10 dan standar validasi 4 lapis berkas PDF.
-- **docs/SOP_KEDINASAN.md**: Standar Operasional Prosedur 5 alur tata kelola korespondensi dan disposisi Dispora Kalsel.
-- **docs/LAPORAN_MAGANG_MAPPING.md**: Panduan pemetaan fitur teknis ke naskah Bab I hingga Bab V Laporan Magang TI UNISKA.
-- **docs/SKRIPSI_UPGRADE_ROADMAP.md**: Blueprint teknis peningkatan sistem ke Skripsi S1 (metode Naive Bayes TF-IDF & OCR).
-- **CONTRIBUTING.md**: Panduan standar kontribusi kode dan format *Conventional Commits*.
-- **.github/workflows/ci.yml**: Otomasi CI untuk typecheck, linting, dan build test.
-- **.github/ISSUE_TEMPLATE/**: Templat standar pelaporan bug dan permintaan fitur.
-- **.github/PULL_REQUEST_TEMPLATE.md**: Standar peninjauan kode pull request.
-- **.github/dependabot.yml**: Konfigurasi pembaruan dependensi otomatis.
+- **Draf Naskah Lengkap Laporan Magang TI UNISKA (Bab I s/d Bab V)**:
+  - `docs/BAB_1_PENDAHULUAN_DRAFT.md`: Naskah akademik lengkap Bab I (Latar Belakang SPBE, 4 Rumusan Masalah, 6 Batasan Masalah, Tujuan & Manfaat 3 Dimensi, Sistematika).
+  - `docs/BAB_2_PROFIL_INSTANSI_DRAFT.md`: Naskah Bab II (Dasar hukum Perda 11/2016, Visi Kalsel Maju, Tupoksi Sekretariat & Keuangan, Profil Pejabat, Inventaris 11 Venue Olahraga).
+  - `docs/BAB_3_ANALISIS_PERANCANGAN_DRAFT.md`: Naskah Bab III (Alur manual, Evaluasi PIECES, Kebutuhan FURPS, Use Case, Activity, Sequence, Class Diagram, Normalisasi 3NF, Wireframe).
+  - `docs/BAB_4_IMPLEMENTASI_PENGUJIAN_DRAFT.md`: Naskah Bab IV (Hardware/Software env, implementasi antarmuka, kode transaksi atomik penomoran, 15 tabel Black Box Testing, perbandingan performa sebelum vs sesudah).
+  - `docs/BAB_5_PENUTUP_DRAFT.md`: Naskah Bab V (5 kesimpulan berbasis bukti dan saran praktis dinas serta akademis).
+  - `docs/DAFTAR_PUSTAKA.md`: 21 referensi akademik format APA 7th Edition (Peraturan pemerintah, software engineering, cloud architecture, dan jurnal ilmiah persuratan).
+- **Dokumentasi Desain & Operasional Tingkat Lanjut**:
+  - `docs/UI_UX_DESIGN_TOKENS.md`: Desain sistem lengkap palet Emerald Dispora (#047857), Gold Banua (#D97706), Slate, Tipografi Plus Jakarta Sans, dan aturan 0 horizontal overflow mobile.
+  - `docs/DEPLOYMENT_GUIDE.md`: Runbook panduan deployment cloud gratis (Vercel, TiDB Cloud Serverless, Cloudflare R2).
+  - `docs/IMPORT_MIGRATION_GUIDE.md`: Skrip Python mandiri ekstraksi 420 berkas riil PDF ke SQL seed.
+- **Dokumentasi Inti & Spesifikasi Sistem**:
+  - `README.md`, `AGENT.md`, `SPEC.md`, `task_plan.md`, `findings.md`, `progress.md`, `CONTRIBUTING.md`.
+  - `docs/DATABASE_SCHEMA.md`: ERD, kamus data, dan SQL DDL 8 tabel TiDB/MySQL siap pakai.
+  - `docs/API_ROUTES.md`: Spesifikasi REST endpoint dan Server Actions.
+  - `docs/UML_DIAGRAMS.md`: Diagram UML lengkap berskenario dan kode PlantUML.
+  - `docs/SECURITY_AUDIT.md`: Matriks kepatuhan OWASP Top 10.
+  - `docs/SOP_KEDINASAN.md`: 5 Standar Operasional Prosedur kedinasan.
+  - `docs/SKRIPSI_UPGRADE_ROADMAP.md`: Blueprint ilmiah peningkatan ke Skripsi S1 (metode Naive Bayes TF-IDF & OCR).
+- **Konfigurasi GitHub**:
+  - CI Pipeline (`.github/workflows/ci.yml`), Issue Templates, PR Template, Dependabot.

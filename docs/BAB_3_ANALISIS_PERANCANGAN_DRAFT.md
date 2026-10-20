@@ -1,121 +1,76 @@
 # DRAF NASKAH LAPORAN MAGANG: BAB III ANALISIS DAN PERANCANGAN SISTEM
 **Program Studi S1 Teknik Informatika — Fakultas Teknologi Informasi UNISKA MAB Banjarmasin**  
-*Sistem: SIPASD (Sistem Informasi Pengelolaan Arsip dan Surat Dispora)*
+*Sistem: SIPASD (Sistem Informasi Pengelolaan Arsip Surat Dispora)*
 
 ---
 
-## 3.1 Analisis Prosedur Sistem yang Sedang Berjalan
+## 3.1 Analisis Sistem yang Sedang Berjalan (Existing System)
 
-Prosedur administrasi persuratan pada Sekretariat Dispora Provinsi Kalimantan Selatan saat ini masih bertumpu pada pencatatan manual:
-
-### 3.1.1 Prosedur Pengelolaan Surat Masuk Manual
-1. Surat fisik diserahkan oleh kurir eksternal atau staf pengantar kepada Staf Subbagian Umum dan Kepegawaian (Tata Usaha).
-2. Staf TU membuka amplop, memeriksa stempel basah pengirim, dan mencatat nomor surat, tanggal surat, instansi pengirim, dan perihal ke dalam **Buku Agenda Surat Masuk Fisik**.
-3. Staf TU mengetik atau mencoret lembar disposisi kertas kosong, kemudian menjepitnya dengan klip kertas pada map surat fisik.
-4. Berkas fisik diantarkan ke meja Sekretaris Dinas untuk diparaf, lalu diteruskan ke meja Kepala Dinas.
-5. Kepala Dinas membaca surat, mencentang instruksi arahan pada lembar kertas, dan membubuhkan tanda tangan disposisi.
-6. Berkas dikembalikan ke bagian TU untuk dicatat nomor tujuannya, kemudian diantarkan secara fisik oleh kurir kantor (*caraka*) ke ruangan Kepala Bidang terkait.
-7. Kepala Bidang menerima berkas, membaca instruksi, dan menugaskan staf teknis pelaksana.
-
-### 3.1.2 Prosedur Pengelolaan Surat Keluar Manual
-1. Staf bidang pemrakarsa menyusun naskah draf surat dinas menggunakan Microsoft Word.
-2. Staf menghubungi bagian TU secara lisan (tatap muka atau pesan WhatsApp) untuk menanyakan atau meminta (*booking*) nomor surat keluar.
-3. Petugas TU memeriksa buku register fisik surat keluar dan menyebutkan nomor berikutnya.
-4. Draf dicetak, diajukan untuk ditandatangani oleh Kepala Dinas/Sekretaris, kemudian distempel basah.
-5. Satu lembar asli dikirim ke instansi luar via ekspedisi, sedangkan lembar arsip disimpan di lemari ordner.
+### 3.1.1 Alur Pengelolaan Arsip Fisik dan Google Drive Saat Ini
+1. Surat fisik yang telah selesai diproses oleh pimpinan (telah ditandatangani, dicap dinas, dan diberi lembar disposisi fisik) dikumpulkan di Subbagian Umum dan Kepegawaian (Tata Usaha).
+2. Petugas memindai berkas fisik menggunakan mesin scanner menjadi dokumen digital berformat PDF.
+3. Berkas PDF diunggah secara manual ke akun Google Drive dinas (`arsipdispora2026`), disimpan ke dalam folder `sistem magang` pada subfolder `Surat Masuk 2026` atau `Surat Keluar 2026`.
+4. Berkas fisik asli kemudian disimpan ke dalam ordner kardus di lemari arsip kantor.
+5. Saat seorang pegawai atau pimpinan membutuhkan arsip surat terdahulu, petugas harus membuka Google Drive, mencari nama file berdasarkan perkiraan tanggal/nomor, dan membuka file PDF satu demi satu untuk memastikan isinya.
 
 ---
 
-## 3.2 Analisis Kelemahan Sistem Menggunakan Kerangka PIECES
+## 3.2 Analisis Kelemahan Menggunakan Kerangka Kerja PIECES
 
-Analisis kelemahan sistem berjalan dilakukan dengan metode PIECES (*Performance, Information, Economy, Control, Efficiency, Service*):
-
-| Dimensi PIECES | Kondisi Sistem Berjalan (Manual) | Target Solusi pada Sistem SIPASD |
+| Dimensi PIECES | Kelemahan pada Google Drive Manual | Solusi pada Repositori Web SIPASD |
 | :--- | :--- | :--- |
-| **Performance (Kinerja)** | Pencarian berkas memakan waktu 15–30 menit. Alur disposisi fisik memerlukan waktu 1–3 hari kerja hingga sampai ke meja bidang. | Pencarian arsip digital < 2 detik. Disposisi pimpinan terkirim secara instan dalam hitungan detik. |
-| **Information (Informasi)** | Status tindak lanjut surat tidak transparan; pimpinan tidak tahu apakah surat sudah dieksekusi atau belum. Data sering tidak mutakhir. | Dashboard analitik menyajikan status *real-time* (`Menunggu`, `Diproses`, `Selesai`) dengan indikator keterlambatan (*overdue badge*). |
-| **Economy (Ekonomi)** | Biaya tinggi untuk pembelian lemari ordner, map ordner, kertas fotokopi lembar disposisi, dan toner printer. | Mengurangi konsumsi kertas secara signifikan (*paperless*) dan menghemat biaya belanja ATK kantor. |
-| **Control (Pengendalian / Keamanan)** | Berkas fisik mudah dipinjam tanpa pencatatan yang tertib, rawan hilang, terbakar, rusak, atau dibaca oleh pihak yang tidak berhak. | Otentikasi RBAC 4 tingkat, penyimpanan terenkripsi Cloudflare R2, dan jejak forensik *audit trail* otomatis. |
-| **Efficiency (Efisiensi)** | Petugas TU harus berulang kali mengantarkan map surat antar lantai dan ruangan; tenaga staf habis untuk urusan kurir internal. | Staf bidang langsung menerima dokumen PDF melalui sistem web tanpa perlu mobilisasi fisik berkas kerja. |
-| **Service (Pelayanan)** | Respon terhadap surat permohonan izin venue atau dispensasi atlet lambat karena disposisi tertumpuk di meja pimpinan. | Pelayanan kedinasan menjadi cepat dan tanggap karena disposisi dapat diproses melalui smartphone pimpinan. |
+| **Performance (Kinerja)** | Pencarian lambat (15–30 menit) karena harus membuka file PDF satu per satu. File berukuran besar lambat dimuat. | Mesin cari cepat multi-filter menemukan berkas dalam waktu **< 2 detik**. Didukung *chunked streaming viewer*. |
+| **Information (Informasi)** | Tidak memiliki metadata terstruktur (asal instansi, tanggal diterima, ringkasan perihal, dan catatan disposisi tidak tercatat). | Metadata tersimpan rapi dalam basis data relasional TiDB Cloud dengan relasi kode klasifikasi resmi dinas. |
+| **Economy (Ekonomi)** | Penyimpanan Google Drive manual tidak memberikan nilai tambah data dan menyulitkan pembuatan rekapitulasi SPJ/LPJ dinas. | Menghemat waktu kerja aparatur secara signifikan dan menyediakan ekspor Buku Agenda otomatis tanpa biaya lisensi. |
+| **Control (Pengendalian / Keamanan)** | Tidak ada jejak rekam akses (*audit trail*); tidak diketahui siapa saja yang melihat atau mengunduh arsip dokumen negara. | Hak akses RBAC 4 tingkat terproteksi dan setiap aktivitas temu-kembali dokumen tercatat di tabel `audit_logs`. |
+| **Efficiency (Efisiensi)** | Petugas tata usaha menghabiskan waktu produktif hanya untuk mencari dan mencocokkan dokumen fisik dengan Google Drive. | Pengindeksan terpusat memudahkan pimpinan dan staf bidang mengakses dokumen langsung dari meja kerja atau ponsel. |
+| **Service (Pelayanan)** | Pelayanan penyediaan data arsip ke pimpinan dinas atau instansi pemeriksa (Inspektorat/BPK) lambat dan kurang profesional. | Penyajian informasi arsip menjadi cepat, akurat, dan dapat dicetak sewaktu-waktu dalam format resmi kedinasan. |
 
 ---
 
-## 3.3 Analisis Kebutuhan Sistem (System Requirements)
+## 3.3 Analisis Kebutuhan Sistem E-Arsip
 
 ### 3.3.1 Kebutuhan Fungsional (Functional Requirements)
-- **FR-01 (Autentikasi & RBAC)**: Sistem harus mampu memvalidasi login pengguna dan membatasi akses menu berdasarkan 4 role: Super Admin, Pimpinan, TU Umum, dan Bidang.
-- **FR-02 (Pencatatan Surat Masuk)**: Sistem harus dapat mencatat metadata surat masuk, menghasilkan Nomor Agenda tahunan otomatis, dan mengunggah berkas scan PDF.
-- **FR-03 (Pratinjau PDF di Browser)**: Sistem harus menyediakan *in-browser viewer* untuk membaca berkas PDF tanpa mengharuskan pengguna mengunduh berkas ke memori lokal.
-- **FR-04 (Disposisi Elektronik Berjenjang)**: Pimpinan dapat menelaah surat, memilih bidang tujuan, menentukan batas waktu, mencentang instruksi standar, dan mengirim disposisi secara digital.
-- **FR-05 (Pemantauan & Feedback Tindak Lanjut)**: Bidang penerima dapat memperbarui status progres dan melampirkan keterangan penyelesaian tugas.
-- **FR-06 (Auto-Numbering Surat Keluar)**: Sistem harus mengunci dan menerbitkan nomor urut surat keluar resmi secara atomik berbasis kode klasifikasi dinas untuk mencegah nomor ganda.
-- **FR-07 (Buku Ekspedisi Digital)**: Sistem harus dapat mencatat identitas kurir, tanggal pengiriman fisik, dan foto bukti tanda terima instansi luar.
-- **FR-08 (Dashboard Analitik & Ekspor Excel)**: Sistem harus menampilkan statistik volume surat per bulan, distribusi beban bidang, dan mengekspor buku agenda ke format spreadsheet `.xlsx`.
+- **FR-01 (Autentikasi & RBAC)**: Validasi login terenkripsi dengan pemisahan wewenang peran (Super Admin, Petugas Arsip, Pimpinan, dan Bidang).
+- **FR-02 (Katalog & Pencarian Instan)**: Mesin cari instan berdasarkan kata kunci nomor, perihal, asal/tujuan instansi, kode klasifikasi, dan tanggal.
+- **FR-03 (Built-in In-Browser PDF Streaming Viewer)**: Pratinjau langsung berkas scan PDF di layar peramban dengan efisiensi memori (dukungan split-screen).
+- **FR-04 (Perekaman Riwayat Disposisi Fisik)**: Dokumentasi catatan tertulis, arahan, dan pejabat yang mendisposisikan pada naskah fisik surat masuk.
+- **FR-05 (Cetak Salinan Disposisi)**: Menghasilkan lembaran cetak disposisi resmi standar Pemprov Kalsel siap lampir.
+- **FR-06 (Ekspor Buku Agenda Excel)**: Menghasilkan berkas spreadsheet `.xlsx` rekapitulasi buku agenda surat masuk dan surat keluar berstandar dinas.
+- **FR-07 (Audit Trail & Logging)**: Perekaman otomatis setiap aksi pencarian, pembukaan PDF, pengunduhan, dan mutasi metadata arsip.
 
 ### 3.3.2 Kebutuhan Non-Fungsional (Non-Functional Requirements)
-- **Usability**: Antarmuka responsif (Tailwind CSS v4) yang dapat diakses nyaman melalui ponsel pintar (375px) dan komputer desktop (1440px) tanpa *horizontal overflow*.
-- **Reliability & Availability**: Berjalan pada arsitektur serverless (TiDB Cloud & Cloudflare R2) dengan garansi uptime 99.9% tanpa ketergantungan pada server PC kantor yang harus menyala 24 jam.
-- **Performance**: Waktu muat halaman pertama < 1.5 detik, dan transmisi streaming dokumen PDF < 2 detik pada jaringan 4G/WiFi standar.
-- **Security**: Kepatuhan OWASP Top 10 (Password hash Bcrypt salt 12, parameterized SQL queries, sanitasi XSS, token sesi HttpOnly Secure, dan proteksi anti path traversal).
+- **Responsivitas**: Desain antarmuka fleksibel (Tailwind CSS v4) yang bebas dari horizontal scrollbar overflow pada resolusi ponsel (375px) dan desktop (1440px).
+- **Keandalan Cloud-Native**: Sistem berjalan di atas TiDB Cloud Serverless dan Cloudflare R2 tanpa memerlukan komputer server kantor menyala 24 jam.
+- **Keamanan OWASP**: Proteksi SQL Injection via parameterized queries, proteksi XSS, cookie sesi HttpOnly Secure, dan validasi berkas PDF.
 
 ---
 
-## 3.4 Perancangan Pemodelan UML (Unified Modeling Language)
+## 3.4 Pemodelan Diagram UML (Unified Modeling Language)
 
-Perancangan berorientasi objek dimodelkan menggunakan 4 diagram standar rekayasa perangkat lunak:
-*(Detail spesifikasi dan skrip PlantUML lengkap terdokumentasi pada `docs/UML_DIAGRAMS.md`)*.
+*(Mengacu pada spesifikasi lengkap dan script PlantUML pada `docs/UML_DIAGRAMS.md`)*:
 
-1. **Use Case Diagram**: Menggambarkan 12 fungsi use case utama yang dihubungkan dengan 4 aktor sistem (Super Admin, Pimpinan, Petugas Agenda, dan Kepala Bidang).
-2. **Activity Diagram**: Memodelkan 2 alur aktivitas bisnis utama:
-   - Alur Penerimaan Surat Masuk dan Penerbitan Lembar Disposisi Digital.
-   - Alur Booking Nomor Registrasi Surat Keluar (Anti-Nomor Dobel).
-3. **Sequence Diagram**: Memetakan interaksi kronologis antara User Interface, Controller Server Actions, Database TiDB, dan Audit Logger pada saat pimpinan mendisposisikan surat.
-4. **Class Diagram**: Menggambarkan struktur kelas perangkat lunak, atribut tipe data, method operasi, serta relasi kardinalitas (User, BidangDispora, KlasifikasiSurat, SuratMasuk, Disposisi, SuratKeluar, BukuEkspedisi, AuditLog).
-
----
-
-## 3.5 Perancangan Basis Data & Normalisasi
-
-### 3.5.1 Tahapan Normalisasi Basis Data
-1. **Bentuk Tidak Normal (Unnormalized Form - UNF)**:
-   Data buku agenda fisik dicatat dalam satu lembar buku besar yang mencampuradukkan data surat, data bidang, arahan disposisi berulang, dan data kurir dalam kolom tak beraturan.
-2. **Bentuk Normal Pertama (1NF)**:
-   Menghilangkan perulangan grup data (*repeating groups*). Setiap kolom bernilai atomik (satu nilai tunggal) dan menetapkan Primary Key unik pada setiap entitas.
-3. **Bentuk Normal Kedua (2NF)**:
-   Memastikan seluruh atribut non-kunci bergantung secara fungsional penuh pada Primary Key (*Full Functional Dependency*). Atribut bidang dipisahkan ke tabel `bidang_dispora`, dan kode klasifikasi dipisahkan ke `klasifikasi_surat`.
-4. **Bentuk Normal Ketiga (3NF)**:
-   Menghilangkan ketergantungan transitif (*Transitive Dependency*), di mana atribut non-kunci tidak boleh bergantung pada atribut non-kunci lainnya. Data pencatat surat dan data pimpinan yang mendisposisikan merujuk ke relasi tabel induk `users`.
-
-### 3.5.2 Struktur Relasi Tabel Fisik
-*(Lihat naskah SQL DDL lengkap pada `docs/DATABASE_SCHEMA.md`)*:
-- `users` (Manajemen akun, NIP, jabatan, password hash, role).
-- `bidang_dispora` (Unit kerja: Sekretariat, Pora, Prestasi, Pemuda, Sapras).
-- `klasifikasi_surat` (Kode surat: 005, 426, 427, 800, 045, 900).
-- `surat_masuk` (Agenda masuk, nomor surat, tanggal, asal, perihal, sifat, file_key R2).
-- `disposisi` (Relasi 1:N dari surat masuk, pimpinan, bidang tujuan, batas waktu, instruksi).
-- `surat_keluar` (Nomor tergenerate otomatis, nomor urut, tahun, instansi tujuan).
-- `buku_ekspedisi` (Relasi 1:1 surat keluar, kurir, tanggal serah, bukti terima).
-- `audit_logs` (Forensik keamanan: user_id, action, resource, IP address, user_agent).
+1. **Use Case Diagram E-Arsip**:
+   - Aktor: Super Admin, Petugas Arsip (TU), Pimpinan, Kepala Bidang.
+   - Use Cases: Login, Cari Arsip Surat, Pratinjau Streaming PDF, Indeks Metadata Baru, Catat Riwayat Disposisi, Cetak Salinan Disposisi, Ekspor Agenda Excel, dan Monitoring Statistik Volume Arsip.
+2. **Activity Diagram**:
+   - Aktivitas Pengindeksan Berkas Pindaian Scan PDF ke Repositori Cloud.
+   - Aktivitas Temu-Kembali Dokumen & Pratinjau PDF di Peramban.
+3. **Sequence Diagram**:
+   - Alur temu-kembali data arsip: Interaksi User Interface $\rightarrow$ Query Database TiDB $\rightarrow$ Generate Presigned Streaming URL Cloudflare R2 $\rightarrow$ Tampilan Layar.
+4. **Class Diagram**:
+   - Relasi entitas: User, BidangDispora, KlasifikasiArsip, ArsipSuratMasuk, RiwayatDisposisi, ArsipSuratKeluar, BukuEkspedisi, AuditLog.
 
 ---
 
-## 3.6 Perancangan Antarmuka Pengguna (UI/UX Wireframes)
+## 3.5 Perancangan Basis Data & Normalisasi 3NF
 
-Antarmuka SIPASD dirancang dengan filosofi tata letak modern berwibawa:
-
-1. **Tata Letak Dashboard Eksekutif**:
-   - Bagian Atas: Header salam dinas, status koneksi database, dan profil pengguna aktif.
-   - Bagian Tengah: 4 Kartu KPI Utama (Total Surat Masuk, Surat Keluar, Disposisi Aktif, Disposisi Selesai).
-   - Bagian Bawah: Grafik tren korespondensi bulanan (Jan–Des) bersanding dengan diagram beban kerja per bidang dinas.
-2. **Antarmuka E-Agenda Surat Masuk (Split-Screen Viewer)**:
-   - Panel Kiri: Tabel daftar surat masuk dengan filter pencarian instan dan penanda warna sifat surat (*badge* merah untuk Kilat, kuning untuk Segera, hijau untuk Biasa).
-   - Panel Kanan: Pemutar dokumen PDF bawaan (*built-in streaming PDF viewer*) sehingga pimpinan dapat langsung membaca surat tanpa membuka tab baru.
-3. **Modal Lembar Disposisi Digital**:
-   - Dropdown pemilihan bidang tujuan (otomatis memuat 5 bidang Dispora).
-   - Input tanggal batas waktu tindak lanjut (*due date picker*).
-   - Kotak centang instruksi baku standar kedinasan Pemprov Kalsel.
-   - Kolom teks catatan instruksi khusus dari pimpinan.
-4. **Halaman Format Cetak Disposisi (Standar Pemprov Kalsel)**:
-   - Didesain pas pada satu lembar kertas ukuran A4 atau F4 (Folio).
-   - Memuat Kop Surat Resmi Pemerintah Provinsi Kalimantan Selatan - Dinas Kepemudaan dan Olahraga, garis ganda pembatas, tabel disposisi resmi, dan kotak tanda tangan pejabat.
+Basis data dirancang memenuhi kaidah **Third Normal Form (3NF)**:
+- **Tabel `users`**: Menampung kredensial akun, NIP, jabatan, dan level peran.
+- **Tabel `bidang_dispora`**: Master referensi unit kerja di lingkungan Dispora Kalsel.
+- **Tabel `klasifikasi_arsip`**: Master kode klasifikasi surat Permendagri/Pergub (005, 426, 427, 800, 045, 900) beserta masa retensi aktif dan inaktif.
+- **Tabel `arsip_surat_masuk`**: Katalog metadata 171 dokumen surat masuk beserta tautan berkas PDF di Cloudflare R2.
+- **Tabel `riwayat_disposisi`**: Dokumentasi arahan fisik lembar disposisi pimpinan (relasi 1:N dari surat masuk).
+- **Tabel `arsip_surat_keluar`**: Katalog metadata 249 dokumen surat keluar beserta nomor registrasi dan kode klasifikasi dinas.
+- **Tabel `buku_ekspedisi`**: Catatan tanda terima distribusi fisik surat keluar oleh kurir dinas.
+- **Tabel `audit_logs`**: Jejak rekam forensik akses dokumen dan keamanan operasional sistem.

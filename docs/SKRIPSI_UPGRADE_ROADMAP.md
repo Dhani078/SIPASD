@@ -4,68 +4,66 @@
 
 ---
 
-## 🎯 Mengapa SIPASD Sangat Siap Naik ke Skripsi S1?
+## 🎯 Mengapa Berkas Arsip Pindaian PDF Dispora Adalah "Tambang Emas" untuk Skripsi S1?
 
-Standar kelulusan Skripsi S1 Teknik Informatika di UNISKA mensyaratkan adanya **metode ilmiah / algoritma komputasi**. Sistem informasi web murni (CRUD biasa) yang dibuat pada masa Kerja Praktik (KP) dapat langsung ditingkatkan menjadi skripsi bernilai A dengan mengimplementasikan satu lapisan kecerdasan buatan (*intelligence layer*) di atasnya.
+Dalam sidang Kerja Praktik (KP) semester 7, fokus pengujian adalah **rekayasa perangkat lunak sistem informasi** (bagaimana web responsif SIPASD berhasil memecahkan masalah Google Drive yang berantakan dan lambat).
 
-Keuntungan strategis bagi mahasiswa:
-1. **Lokasi Riset Sudah Ada**: Dispora Prov. Kalsel (izin penelitian dan surat keterangan selesai magang sudah di tangan).
-2. **Dataset Riil Melimpah**: 420+ dokumen surat dinas TA 2026 (171 surat masuk dan 249 surat keluar) siap dijadikan data latih (*training data*) dan data uji (*testing data*).
-3. **Pondasi Arsitektur Web Sudah Matang**: Sistem SIPASD (Next.js 15, TypeScript, TiDB, Cloudflare R2) sudah berjalan stabil.
+Namun, untuk **Skripsi S1 Teknik Informatika (Semester 8)**, dewan penguji UNISKA mewajibkan adanya **metode komputasi / algoritma kecerdasan buatan**. 
 
----
-
-## 💡 Pilihan 1: Klasifikasi Disposisi Otomatis Menggunakan Naive Bayes & TF-IDF (Paling Direkomendasikan)
-
-### Judul Skripsi yang Diusulkan:
-> **"Penerapan Algoritma Multinomial Naive Bayes Berbasis TF-IDF untuk Klasifikasi Otomatis Disposisi Surat Masuk pada Dinas Kepemudaan dan Olahraga Provinsi Kalimantan Selatan"**
-
-### Permasalahan Ilmiah:
-Ketika puluhan surat masuk dalam satu hari, staf TU sering ragu menentukan bidang mana yang paling tepat menangani surat tersebut (apakah *Pembudayaan Olahraga*, *Prestasi Olahraga*, atau *Sarana Prasarana*).
-
-### Solusi Algoritma:
-Sistem secara cerdas menganalisis kata-kata dalam judul perihal surat dan ringkasan isi, lalu merekomendasikan bidang tujuan disposisi secara otomatis.
-
-### Tahapan Komputasi & Rumus Matematis:
-1. **Text Preprocessing**:
-   - *Case Folding*: Mengubah seluruh huruf menjadi huruf kecil.
-   - *Tokenizing*: Memecah kalimat menjadi token kata individual.
-   - *Filtering / Stopwords Removal*: Menghilangkan kata umum bahasa Indonesia yang tidak bernilai informasi (seperti: *yang, di, dari, kepada, untuk*).
-   - *Stemming*: Mengubah kata berimbuhan ke kata dasar menggunakan algoritma Nazief-Adriani atau Sastrawi.
-2. **Pembobotan Kata TF-IDF (Term Frequency - Inverse Document Frequency)**:
-   $$\text{TF-IDF}(t, d, D) = \text{TF}(t, d) \times \log\left(\frac{N}{\text{DF}(t)}\right)$$
-   * $N$ = Total seluruh surat masuk pada dataset.
-   * $\text{DF}(t)$ = Jumlah surat yang memuat kata $t$.
-3. **Klasifikasi Multinomial Naive Bayes**:
-   $$P(C_k \mid D) \propto P(C_k) \prod_{i=1}^{n} P(w_i \mid C_k)$$
-   Dengan *Laplace Smoothing*:
-   $$P(w_i \mid C_k) = \frac{\text{count}(w_i, C_k) + 1}{\sum_{w \in V} \text{count}(w, C_k) + |V|}$$
-   * $C_k$ = Kategori Bidang Dispora (PORA, PRESTASI, PEMUDA, SAPRAS, SEKR).
-   * $|V|$ = Jumlah kosakata unik dalam korpus.
-4. **Evaluasi Model (Confusion Matrix)**:
-   - Pengujian K-Fold Cross Validation ($K=5$ atau $K=10$).
-   - Pengukuran metrik: *Accuracy*, *Precision*, *Recall*, dan *F1-Score*. Target akurasi: $\ge 85\%$.
+Kondisi arsip Dispora Kalsel (berkas pindaian scan PDF yang teksnya terkunci dalam bentuk gambar dokumen di Google Drive `arsipdispora2026`) merupakan **objek penelitian (*dataset*) yang paling ideal di bidang Informatika**, karena:
+1. **Bukan Data Dummy**: Merupakan 420 dokumen nyata instansi pemerintah daerah.
+2. **Izin Riset Sudah Dimiliki**: Mahasiswa telah menyelesaikan magang di Dispora Kalsel, sehingga surat permohonan penelitian lanjutan dan pengambilan data skripsi sangat mudah diterbitkan.
+3. **Pondasi Sistem Sudah Jadi**: Arsitektur SIPASD (Next.js 15, TiDB, Cloudflare R2) sudah siap; mahasiswa tinggal menaruh modul algoritma cerdas di atasnya.
 
 ---
 
-## 💡 Pilihan 2: Ekstraksi Otomatis Metadata Surat Menggunakan OCR (Optical Character Recognition)
+## 💡 Pilihan Riset Skripsi A: Ekstraksi Otomatis Metadata Surat Menggunakan OCR (Optical Character Recognition)
 
 ### Judul Skripsi yang Diusulkan:
-> **"Implementasi Optical Character Recognition (OCR) Menggunakan Tesseract Engine untuk Ekstraksi Otomatis Metadata Surat Masuk Berbasis Web pada Dispora Kalsel"**
+> **"Implementasi Optical Character Recognition (OCR) Menggunakan Tesseract Engine Berbasis Web untuk Ekstraksi Otomatis Metadata Arsip Surat Masuk pada Dinas Kepemudaan dan Olahraga Provinsi Kalimantan Selatan"**
 
-### Permasalahan Ilmiah:
-Staf TU masih harus mengetik manual Nomor Surat, Tanggal Surat, dan Instansi Pengirim dari berkas scan kertas, yang rentan salah ketik (*human typo*) dan memakan waktu.
+### Masalah Ilmiah:
+Staf tata usaha saat ini harus membaca berkas scan PDF dengan mata telanjang, lalu mengetikkan satu per satu Nomor Surat, Tanggal, dan Asal Instansi ke dalam form web. Hal ini rawan salah ketik (*human typo*) dan memakan waktu sekitar 3–5 menit per surat.
 
-### Solusi Algoritma:
-Staf cukup mengunggah pindaian berkas PDF / gambar. Mesin OCR otomatis mengenali teks, menerapkan *Regex Pattern Matching* untuk mengekstrak entitas nomor surat, tanggal, serta pengirim, dan mengisi formulir secara otomatis (*auto-fill*).
+### Solusi Komputasi:
+Sistem dilengkapi modul OCR. Saat petugas mengunggah berkas scan PDF dari Google Drive, mesin OCR mengekstrak lapisan teks gambar, lalu menerapkan *Regular Expression (Regex)* untuk mengisi kolom formulir secara otomatis (*auto-fill*).
 
-### Tahapan Komputasi:
-1. **Image Preprocessing**: Grayscale conversion, Otsu Thresholding (Binarisasi), Deskewing (pelurusan sudut kemiringan pindaian kertas), dan Noise Reduction.
-2. **Text Extraction**: Tesseract OCR engine (bahasa Indonesia).
-3. **Information Extraction via Regular Expressions (Regex)**:
+### Tahapan Algoritma:
+1. **Konversi Dokumen**: Mengubah halaman pertama berkas PDF menjadi citra resolusi tinggi (PNG/TIFF, 300 DPI).
+2. **Image Preprocessing**:
+   - *Grayscale Conversion*: Mengubah citra warna ke derajat keabuan (0–255).
+   - *Otsu Thresholding (Binarisasi)*: Memisahkan teks hitam dari latar belakang kertas putih berdasarkan nilai ambang optimal.
+   - *Deskewing*: Mendeteksi dan memperbaiki kemiringan sudut kertas hasil pemindaian scanner.
+3. **OCR Engine**: Tesseract OCR (Traineddata: Bahasa Indonesia `ind.traineddata`).
+4. **Pattern Recognition (Regex)**:
    - Pola Nomor Surat: `/(Nomor|No)\s*:\s*([0-9A-Za-z\.\/\-]+)/i`
    - Pola Tanggal: `/\b(\d{1,2})\s+(Januari|Februari|Maret|April|Mei|Juni|Juli|Agustus|September|Oktober|November|Desember)\s+(\d{4})\b/i`
-4. **Pengukuran Akurasi**: Character Error Rate (CER) dan Word Error Rate (WER).
+5. **Evaluasi Pengujian**:
+   - Pengukuran *Character Error Rate* (CER) dan *Word Error Rate* (WER).
+   - Uji akurasi ekstraksi pada 171 berkas riil surat masuk Dispora.
+
+---
+
+## 💡 Pilihan Riset Skripsi B: Klasifikasi Otomatis Kode Arsip & Bidang Menggunakan Naive Bayes & TF-IDF
+
+### Judul Skripsi yang Diusulkan:
+> **"Penerapan Algoritma Multinomial Naive Bayes Berbasis TF-IDF untuk Klasifikasi Otomatis Kode Klasifikasi dan Rekomendasi Disposisi Surat pada Dispora Provinsi Kalimantan Selatan"**
+
+### Masalah Ilmiah:
+Penentuan kode klasifikasi dinas (misal: apakah surat masuk termasuk urusan `426` Keolahragaan, `427` Kepemudaan, atau `005` Undangan) sering membingungkan staf baru, sehingga arsip sering salah kategori.
+
+### Solusi Komputasi:
+Sistem menganalisis kata-kata dalam judul perihal dan ringkasan surat menggunakan pembobotan kata TF-IDF dan memprediksi kode klasifikasi dinas serta bidang tujuan disposisi secara otomatis.
+
+### Tahapan Algoritma & Rumus:
+1. **Text Preprocessing**:
+   - *Case Folding* $\rightarrow$ *Tokenizing* $\rightarrow$ *Stopwords Removal* (Kamus Tala) $\rightarrow$ *Stemming* (Algoritma Nazief-Adriani).
+2. **Pembobotan TF-IDF**:
+   $$\text{TF-IDF}(t, d, D) = \text{TF}(t, d) \times \log\left(\frac{N}{\text{DF}(t)}\right)$$
+3. **Multinomial Naive Bayes dengan Laplace Smoothing**:
+   $$P(C_k \mid D) \propto P(C_k) \prod_{i=1}^{n} \frac{\text{count}(w_i, C_k) + 1}{\sum_{w \in V} \text{count}(w, C_k) + |V|}$$
+4. **Evaluasi Model**:
+   - *Confusion Matrix*: Menghitung Accuracy, Precision, Recall, dan F1-Score menggunakan 10-Fold Cross Validation.
 
 ---
 
@@ -73,9 +71,9 @@ Staf cukup mengunggah pindaian berkas PDF / gambar. Mesin OCR otomatis mengenali
 
 | Bulan | Target Luaran Akademik | Aksi Teknis pada Repositori SIPASD |
 | :--- | :--- | :--- |
-| **Bulan 1** | Penyusunan Proposal Skripsi (Bab I, II, III). | Labeling dataset 171 Surat Masuk ke 5 kategori bidang Dispora. |
-| **Bulan 2** | Seminar Proposal Skripsi & Izin Riset Lanjutan. | Pembuatan modul machine learning / worker (Python FastAPI atau Node NLP). |
-| **Bulan 3** | Implementasi Algoritma & Pelatihan Model. | Integrasi API model klasifikasi ke antarmuka Next.js 15 SIPASD. |
-| **Bulan 4** | Pengujian Model, K-Fold Validation, & Uji Ahli. | Pengambilan metrik Confusion Matrix & pengujian usability UAT instansi. |
-| **Bulan 5** | Penyusunan Bab IV (Hasil & Pembahasan) & Bab V. | Finalisasi naskah skripsi lengkap dan draf jurnal ilmiah nasional (SINTA). |
+| **Bulan 1** | Penyusunan Proposal Skripsi (Bab I, II, III). | Labeling dataset 420 arsip surat Google Drive menjadi dataset CSV. |
+| **Bulan 2** | Seminar Proposal Skripsi di UNISKA. | Pembuatan modul machine learning / worker (Python FastAPI atau Node.js OCR). |
+| **Bulan 3** | Implementasi Algoritma & Pelatihan Model. | Integrasi modul algoritma ke antarmuka Next.js 15 SIPASD. |
+| **Bulan 4** | Pengujian Model, Cross Validation & Uji Lapangan. | Pengambilan metrik evaluasi (CER/WER untuk OCR, F1-Score untuk Naive Bayes). |
+| **Bulan 5** | Penyusunan Naskah Lengkap Bab IV & Bab V. | Finalisasi naskah skripsi dan draf artikel jurnal ilmiah nasional (SINTA). |
 | **Bulan 6** | Sidang Munaqasyah / Pendadaran Skripsi S1. | Demo aplikasi SIPASD berbobot AI di depan dewan penguji UNISKA. |

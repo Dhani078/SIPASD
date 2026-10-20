@@ -1,46 +1,45 @@
 # SPESIFIKASI DIAGRAM UML SISTEM SIPASD
 **Materi Lengkap Bab III Analisis dan Perancangan — Laporan Magang TI UNISKA**  
-*Mencakup skenario Use Case, Activity Diagram, Sequence Diagram, dan Class Diagram (Dilengkapi Kode PlantUML)*
+*Mencakup skenario Use Case, Activity Diagram, Sequence Diagram, dan Class Diagram E-Arsip Digital (Dilengkapi Kode PlantUML)*
 
 ---
 
-## 1. Use Case Diagram
+## 1. Use Case Diagram E-Arsip
 
 ### A. Matriks Aktor dan Use Case
 
 | Aktor | Deskripsi Peran | Use Case yang Dapat Diakses |
 | :--- | :--- | :--- |
-| **Super Admin** | Administrator Teknis IT Dispora | Kelola Data Pengguna, Kelola Master Dinas, Lihat Audit Trail, Akses Seluruh Modul. |
-| **Pimpinan** | Kepala Dinas / Sekretaris Dinas | Telaah Surat Masuk, Pratinjau PDF, Terbitkan Disposisi, Monitoring Dashboard, Ekspor Laporan. |
-| **Petugas Agenda** | Staf Subbag Umum & Kepegawaian (TU) | Rekam Surat Masuk, Unggah PDF, Booking Nomor Surat Keluar, Cetak Buku Ekspedisi & Agenda. |
-| **Kepala Bidang** | Pimpinan Unit Kerja Pelaksana | Lihat Disposisi Masuk, Unduh PDF Lampiran, Perbarui Status Tindak Lanjut, Ambil Nomor Surat Keluar Bidang. |
+| **Super Admin** | Administrator Teknis IT Dispora | Kelola Akun Pengguna, Kelola Master Klasifikasi, Lihat Audit Trail, Akses Seluruh Arsip. |
+| **Petugas Arsip (TU)** | Staf Subbag Umum & Kepegawaian (Tata Usaha) | Pengindeksan Berkas Pindaian PDF, Catat Riwayat Disposisi Fisik, Ekspor Agenda Excel. |
+| **Pimpinan** | Kepala Dinas / Sekretaris Dinas | Temu-Kembali Arsip (< 2 Detik), Pratinjau Streaming PDF, Pantau Statistik Volume Arsip. |
+| **Kepala Bidang** | Pimpinan Unit Kerja Pelaksana | Cari & Lihat Arsip Surat Masuk/Keluar Bidang, Unduh Dokumen PDF, Cetak Salinan Disposisi. |
 
 ### B. Deskripsi Tekstual Use Case Utama
 
-#### Use Case: Menerbitkan Disposisi Surat Masuk
-- **Aktor**: Pimpinan (Kepala Dinas / Sekretaris).
-- **Prasyarat**: Pengguna telah terautentikasi dengan hak akses `PIMPINAN` dan terdapat surat masuk berstatus `MENUNGGU`.
+#### Use Case: Temu-Kembali Dokumen & Pratinjau Streaming PDF (< 2 Detik)
+- **Aktor**: Pimpinan / Kepala Bidang / Petugas Arsip.
+- **Prasyarat**: Pengguna telah terautentikasi ke sistem web SIPASD.
 - **Skenario Normal**:
-  1. Pimpinan membuka modul Surat Masuk dan memilih surat yang akan ditelaah.
-  2. Sistem menampilkan ringkasan metadata surat dan pratinjau PDF berkas fisik.
-  3. Pimpinan menekan tombol **"Beri Disposisi"**.
-  4. Sistem memunculkan jendela modal lembar disposisi.
-  5. Pimpinan memilih Bidang Tujuan (misal: *Bidang Pembudayaan Olahraga*), menentukan tanggal batas waktu tindak lanjut, mencentang instruksi standar (*Tindak lanjuti / Koordinasikan / Hadiri*), dan mengetikkan catatan khusus.
-  6. Pimpinan menekan tombol **"Kirim Disposisi"**.
-  7. Sistem memvalidasi input, menyimpan data ke tabel `disposisi`, memperbarui status surat masuk menjadi `DIDISPOSISIKAN`, mencatat jejak di `audit_logs`, dan mengirim notifikasi visual ke akun Kepala Bidang.
-- **Kondisi Akhir**: Disposisi tersimpan dan langsung muncul pada dashboard Kepala Bidang tujuan.
+  1. Pengguna membuka menu Katalog Arsip Surat Masuk atau Surat Keluar.
+  2. Pengguna mengetikkan kata kunci pencarian (misal: `Kejuaraan Daerah` atau `0973`) pada kolom pencarian instan.
+  3. Sistem melakukan kueri pencarian berindeks pada database TiDB Cloud dan menampilkan daftar arsip yang cocok dalam waktu kurang dari 1 detik.
+  4. Pengguna menekan baris arsip atau tombol **"Pratinjau PDF"**.
+  5. Sistem meminta presigned stream URL terenkripsi dari Cloudflare R2 dan memuat berkas PDF langsung pada panel pemutar dokumen (*built-in streaming PDF viewer*) di samping tabel.
+  6. Pengguna membaca dokumen PDF secara lengkap tanpa perlu mengunduh file fisik ke memori laptop/ponsel.
+- **Kondisi Akhir**: Dokumen terbuka lancar di browser dan riwayat pencarian terekam di tabel `audit_logs`.
 
-#### Use Case: Booking Nomor Surat Keluar (Anti-Nomor Dobel)
-- **Aktor**: Petugas Agenda (TU) / Staf Bidang.
-- **Prasyarat**: Pengguna terautentikasi dan memiliki draf surat dinas yang siap diberi nomor.
+#### Use Case: Pengindeksan Berkas Pindaian PDF & Catat Disposisi Fisik
+- **Aktor**: Petugas Arsip (TU).
+- **Prasyarat**: Petugas memiliki berkas fisik surat yang telah dipindai menjadi PDF dari Google Drive.
 - **Skenario Normal**:
-  1. Pengguna membuka modul Surat Keluar dan menekan tombol **"Ambil Nomor Surat Baru"**.
-  2. Pengguna memilih Kode Klasifikasi (misal: `426` Keolahragaan), Bidang Pemrakarsa, tanggal surat, instansi tujuan, dan perihal surat.
-  3. Pengguna menekan tombol **"Generate Nomor"**.
-  4. Sistem memulai transaksi atomik database (`BEGIN TRANSACTION ... FOR UPDATE`).
-  5. Sistem menghitung nomor urut tertinggi pada tahun berjalan untuk bidang tersebut (`MAX(nomor_urut) + 1`), menyusun format resmi: `426/0412-Sekr/DISPORA/2026`, dan menyimpan status sebagai `NOMOR_DIAMBIL`.
-  6. Sistem melakukan `COMMIT` transaksi dan menampilkan nomor resmi di layar.
-- **Kondisi Akhir**: Nomor surat resmi terkunci dan tidak dapat diambil oleh pengguna lain.
+  1. Petugas membuka menu **Pengindeksan Arsip Baru**.
+  2. Petugas mengunggah berkas PDF pindaian (otomatis terkirim ke Cloudflare R2).
+  3. Petugas menginputkan Nomor Surat, Tanggal Surat, Tanggal Diterima, Asal Instansi, Kode Klasifikasi, Perihal, dan Ringkasan Isi.
+  4. Petugas mencatat dokumentasi coretan pimpinan yang tertera pada lembar kertas fisik: nama pejabat pendisposisi, tanggal disposisi, bidang tujuan, instruksi yang dicentang, dan arahan tertulis.
+  5. Petugas menekan tombol **Simpan Indeks Arsip**.
+  6. Sistem menerbitkan Nomor Agenda Tahunan otomatis dan menyimpan seluruh metadata ke basis data TiDB.
+- **Kondisi Akhir**: Arsip terindeks sempurna dan siap ditemukan oleh seluruh pegawai berhak akses.
 
 ### C. Kode PlantUML: Use Case Diagram
 ```plantuml
@@ -51,23 +50,21 @@ skinparam handwritten false
 skinparam monochrome true
 
 actor "Super Admin" as Admin
+actor "Petugas Arsip (TU)" as TU
 actor "Pimpinan (Kadis/Sekr)" as Pimpinan
-actor "Petugas Agenda (TU)" as TU
 actor "Kepala Bidang" as Kabid
 
-rectangle "Sistem Informasi SIPASD" {
+rectangle "Repositori E-Arsip SIPASD" {
   usecase "Autentikasi Login & Logout" as UC_Auth
-  usecase "Kelola Master Dinas & Pegawai" as UC_Master
-  usecase "Rekam Agenda Surat Masuk" as UC_SM_Input
-  usecase "Pratinjau Berkas PDF" as UC_Viewer
-  usecase "Terbitkan Lembar Disposisi" as UC_Disp_Create
-  usecase "Tindak Lanjut Disposisi" as UC_Disp_Update
-  usecase "Cetak Lembar Disposisi" as UC_Disp_Print
-  usecase "Booking Nomor Surat Keluar" as UC_SK_Booking
-  usecase "Rekam Buku Ekspedisi" as UC_Ekspedisi
-  usecase "Monitoring Dashboard & Statistik" as UC_Dashboard
-  usecase "Ekspor Rekapitulasi Excel" as UC_Excel
-  usecase "Audit Trail & Keamanan" as UC_Audit
+  usecase "Kelola Master Klasifikasi & User" as UC_Master
+  usecase "Pencarian Multi-Filter (< 2 Detik)" as UC_Search
+  usecase "Pratinjau In-Browser Streaming PDF" as UC_Viewer
+  usecase "Indeks Berkas Pindaian Scan PDF" as UC_Indeks
+  usecase "Perekaman Riwayat Disposisi Fisik" as UC_Disp_Record
+  usecase "Cetak Salinan Lembar Disposisi" as UC_Disp_Print
+  usecase "Ekspor Rekapitulasi Agenda Excel" as UC_Excel
+  usecase "Monitoring Statistik Volume Arsip" as UC_Dashboard
+  usecase "Audit Trail Akses Dokumen" as UC_Audit
 }
 
 Admin --> UC_Auth
@@ -75,262 +72,93 @@ Admin --> UC_Master
 Admin --> UC_Audit
 Admin --> UC_Dashboard
 
+TU --> UC_Auth
+TU --> UC_Search
+TU --> UC_Viewer
+TU --> UC_Indeks
+TU --> UC_Disp_Record
+TU --> UC_Disp_Print
+TU --> UC_Excel
+
 Pimpinan --> UC_Auth
+Pimpinan --> UC_Search
 Pimpinan --> UC_Viewer
-Pimpinan --> UC_Disp_Create
 Pimpinan --> UC_Disp_Print
 Pimpinan --> UC_Dashboard
 Pimpinan --> UC_Excel
 
-TU --> UC_Auth
-TU --> UC_SM_Input
-TU --> UC_Viewer
-TU --> UC_Disp_Print
-TU --> UC_SK_Booking
-TU --> UC_Ekspedisi
-TU --> UC_Excel
-
 Kabid --> UC_Auth
+Kabid --> UC_Search
 Kabid --> UC_Viewer
-Kabid --> UC_Disp_Update
-Kabid --> UC_SK_Booking
-Kabid --> UC_Dashboard
+Kabid --> UC_Disp_Print
 @enduml
 ```
 
 ---
 
-## 2. Activity Diagram
+## 2. Activity Diagram: Temu-Kembali Dokumen & Pratinjau PDF
 
-### A. Alur Penerimaan Surat Masuk dan Disposisi Pimpinan
 ```plantuml
 @startuml
-|Petugas Agenda (TU)|
+|Pengguna (Pimpinan / Staf)|
 start
-:Menerima berkas fisik surat masuk;
-:Pindai (scan) berkas menjadi format PDF;
-:Input metadata surat pada formulir SIPASD;
-:Unggah berkas PDF;
-:Simpan data agenda masuk;
-|Sistem SIPASD|
-:Generate Nomor Agenda otomatis;
-:Simpan berkas ke Cloudflare R2;
-:Simpan metadata ke TiDB Cloud;
-:Ubah status menjadi 'MENUNGGU DISPOSISI';
-|Pimpinan (Kadis/Sekr)|
-:Buka menu Surat Masuk;
-:Buka pratinjau PDF surat;
-:Telaah pokok surat dan tentukan arahan;
-:Pilih Bidang Tujuan disposisi;
-:Pilih instruksi standar & catatan;
-:Kirim lembar disposisi digital;
-|Sistem SIPASD|
-:Simpan lembar disposisi;
-:Ubah status surat menjadi 'DIDISPOSISIKAN';
-|Kepala Bidang|
-:Menerima notifikasi disposisi baru;
-:Buka lembar disposisi dan unduh PDF;
-:Tugaskan staf untuk tindak lanjut;
-:Isi catatan hasil tindak lanjut pada SIPASD;
-:Tandai status 'SELESAI';
-stop
-@enduml
-```
-
-### B. Alur Permintaan Nomor Surat Keluar (Anti-Nomor Dobel)
-```plantuml
-@startuml
-|Pemohon (Staf / TU)|
-start
-:Buka menu Surat Keluar;
-:Klik 'Ambil Nomor Surat Baru';
-:Pilih Kode Klasifikasi (Permendagri);
-:Pilih Bidang Pemrakarsa;
-:Isi tanggal, tujuan, dan perihal surat;
-:Klik 'Booking Nomor';
-|Sistem SIPASD (Database TiDB)|
-:Kunci tabel penomoran (SELECT FOR UPDATE);
-:Hitung nomor urut terakhir tahun berjalan;
-:Nomor Urut Baru = Max(No_Urut) + 1;
-:Susun format nomor surat resmi;
-:Insert data surat keluar (Status: NOMOR_DIAMBIL);
-:Bebaskan kunci transaksi (COMMIT);
-|Pemohon (Staf / TU)|
-:Salin nomor surat ke dokumen fisik/Word;
-:Cetak dan proses tanda tangan basah pimpinan;
-:Pindai surat bertanda tangan jadi PDF;
-:Unggah PDF final ke sistem SIPASD;
-:Catat data ekspedisi pengiriman kurir;
+:Buka menu Katalog E-Arsip;
+:Ketik kata kunci pencarian (Nomor/Perihal/Instansi);
+:Pilih filter sifat surat atau kode klasifikasi;
+|Sistem SIPASD (Next.js & TiDB)|
+:Eksekusi kueri pencarian berindeks pada TiDB Cloud;
+:Ambil daftar metadata arsip yang cocok (< 1 detik);
+|Pengguna (Pimpinan / Staf)|
+:Pilih dokumen surat dari tabel katalog;
+:Klik 'Pratinjau PDF';
+|Sistem SIPASD & Cloudflare R2|
+:Minta presigned streaming URL ke Cloudflare R2;
+:Alirkan data PDF ke built-in PDF viewer di layar;
+:Catat aksi buka berkas ke tabel audit_logs;
+|Pengguna (Pimpinan / Staf)|
+:Membaca dokumen PDF pindaian langsung di layar;
 stop
 @enduml
 ```
 
 ---
 
-## 3. Sequence Diagram
+## 3. Sequence Diagram: Streaming Viewer Berkas PDF
 
-### Sequence Diagram: Penerbitan Disposisi oleh Pimpinan
 ```plantuml
 @startuml
 autonumber
-actor Pimpinan
-boundary "UI: Modal Disposisi" as UI
-control "DisposisiAction" as Action
+actor Pengguna
+boundary "UI: Katalog E-Arsip" as UI
+control "ArsipController" as Action
 entity "TiDB Database" as DB
+entity "Cloudflare R2" as R2
 entity "AuditLogger" as Audit
 
-Pimpinan -> UI : Buka modal disposisi & input arahan
+Pengguna -> UI : Klik "Pratinjau PDF" pada baris surat
 activate UI
-Pimpinan -> UI : Klik "Kirim Disposisi"
-UI -> Action : createDisposisi(formData)
+UI -> Action : getStreamingUrl(fileId)
 activate Action
 
-Action -> Action : Validasi Zod schema & session role
-alt Validasi Gagal
-    Action --> UI : Return { success: false, error: "Data tidak valid" }
-else Validasi Sukses
-    Action -> DB : INSERT INTO disposisi (id, surat_id, bidang_id, ...)
-    activate DB
-    DB --> Action : Sukses Insert
-    deactivate DB
+Action -> DB : Cari metadata file_key berdasarkan fileId
+activate DB
+DB --> Action : Return file_key
+deactivate DB
 
-    Action -> DB : UPDATE surat_masuk SET status_disposisi = 'DIDISPOSISIKAN'
-    activate DB
-    DB --> Action : Sukses Update
-    deactivate DB
+Action -> R2 : Generate presigned GET URL (Masa aktif 15 menit)
+activate R2
+R2 --> Action : Return presignedUrl
+deactivate R2
 
-    Action -> Audit : logAction('DISPOSISI', 'surat_masuk', surat_id)
-    activate Audit
-    Audit -> DB : INSERT INTO audit_logs (...)
-    Audit --> Action : OK
-    deactivate Audit
+Action -> Audit : logAction('LIHAT_PDF', 'arsip_surat', fileId)
+activate Audit
+Audit -> DB : INSERT INTO audit_logs (...)
+Audit --> Action : OK
+deactivate Audit
 
-    Action --> UI : Return { success: true, message: "Disposisi terkirim" }
-end
-
-UI --> Pimpinan : Tampilkan notifikasi sukses & perbarui tabel
+Action --> UI : Return { success: true, url: presignedUrl }
+UI --> Pengguna : Tampilkan dokumen PDF di panel in-browser viewer
 deactivate Action
 deactivate UI
-@enduml
-```
-
----
-
-## 4. Class Diagram
-
-```plantuml
-@startuml
-skinparam classAttributeIconSize 0
-
-class User {
-  - id: String (UUID)
-  - nip: String
-  - namaLengkap: String
-  - username: String
-  - email: String
-  - passwordHash: String
-  - role: RoleEnum
-  - jabatan: String
-  - unitKerja: String
-  + authenticate(password: String): Boolean
-  + hasPermission(requiredRole: RoleEnum): Boolean
-}
-
-class BidangDispora {
-  - id: Integer
-  - kodeBidang: String
-  - namaBidang: String
-  - namaKepala: String
-  - nipKepala: String
-  + getDaftarDisposisiAktif(): List
-}
-
-class KlasifikasiSurat {
-  - id: Integer
-  - kode: String
-  - namaKlasifikasi: String
-  - uraian: String
-  - retensiAktifTahun: Integer
-  - retensiInaktifTahun: Integer
-}
-
-class SuratMasuk {
-  - id: String (UUID)
-  - nomorAgenda: String
-  - nomorSurat: String
-  - tanggalSurat: Date
-  - tanggalDiterima: Date
-  - asalInstansi: String
-  - perihal: String
-  - ringkasanIsi: String
-  - sifatSurat: SifatEnum
-  - statusDisposisi: StatusDisposisiEnum
-  - fileUrl: String
-  - fileSize: Long
-  + create(data: SuratMasukInput): SuratMasuk
-  + generateNomorAgenda(): String
-  + updateStatus(status: StatusDisposisiEnum): Void
-}
-
-class Disposisi {
-  - id: String (UUID)
-  - suratMasukId: String
-  - dariUserId: String
-  - kepadaBidangId: Integer
-  - batasWaktu: Date
-  - instruksiStandar: String
-  - catatanKhusus: String
-  - status: StatusTindakLanjutEnum
-  - catatanTindakLanjut: String
-  - tanggalSelesai: DateTime
-  + submitTindakLanjut(catatan: String): Void
-}
-
-class SuratKeluar {
-  - id: String (UUID)
-  - nomorAgenda: String
-  - nomorSurat: String
-  - nomorUrut: Integer
-  - tahun: Integer
-  - tanggalSurat: Date
-  - tujuanInstansi: String
-  - perihal: String
-  - fileUrl: String
-  - statusKirim: StatusKirimEnum
-  + generateNomorSurat(kodeId: Integer, bidangId: Integer): String
-}
-
-class BukuEkspedisi {
-  - id: String (UUID)
-  - suratKeluarId: String
-  - tanggalKirim: Date
-  - kurirPengirim: String
-  - penerimaNama: String
-  - buktiTerimaUrl: String
-}
-
-class AuditLog {
-  - id: Long
-  - userId: String
-  - action: String
-  - resource: String
-  - resourceId: String
-  - ipAddress: String
-  - userAgent: String
-  - createdAt: DateTime
-  + record(action: String, res: String, id: String): Void
-}
-
-User "1" -- "0..*" SuratMasuk : mencatat >
-User "1" -- "0..*" Disposisi : menerbitkan >
-User "1" -- "0..*" SuratKeluar : membuat >
-User "1" -- "0..*" AuditLog : menghasilkan >
-
-SuratMasuk "1" *-- "0..*" Disposisi : memiliki >
-BidangDispora "1" -- "0..*" Disposisi : menerima >
-BidangDispora "1" -- "0..*" SuratKeluar : memprakarsai >
-
-KlasifikasiSurat "1" -- "0..*" SuratKeluar : mengklasifikasikan >
-SuratKeluar "1" -- "0..1" BukuEkspedisi : dicatat pada >
 @enduml
 ```

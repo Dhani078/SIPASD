@@ -1,5 +1,5 @@
 # API & SERVER ACTIONS SPECIFICATION: SIPASD
-**Sistem Informasi Pengelolaan Arsip dan Surat Dispora**  
+**Sistem Informasi Pengelolaan Arsip Surat Dispora (Repositori E-Arsip Digital)**  
 *Arsitektur: Next.js 15 App Router (Route Handlers & Server Actions)*
 
 ---
@@ -8,11 +8,10 @@
 
 ### `POST /api/auth/login`
 - **Tujuan**: Memvalidasi kredensial pengguna dan menerbitkan cookie sesi terenkripsi.
-- **Hak Akses**: Publik (tanpa login).
 - **Request Body**:
   ```json
   {
-    "username": "admin",
+    "username": "tu_umum",
     "password": "Password123!"
   }
   ```
@@ -22,25 +21,29 @@
     "success": true,
     "user": {
       "id": "usr_99812",
-      "nama": "Administrator Dispora",
-      "role": "SUPER_ADMIN",
-      "unitKerja": "Sekretariat"
+      "nama": "Staf Pengelola Arsip TU",
+      "role": "PETUGAS_ARSIP",
+      "unitKerja": "Subbag Umum & Kepegawaian"
     }
   }
   ```
 - **Set-Cookie**: `sipasd_session=<JWT_TOKEN>; HttpOnly; Secure; SameSite=Strict; Path=/`
 
-### `POST /api/auth/logout`
-- **Tujuan**: Menghapus token sesi aktif dan mencatat log aktivitas logout.
-- **Hak Akses**: Terautentikasi (Semua Role).
-
 ---
 
-## 📥 2. Modul Surat Masuk (Server Actions & Routes)
+## 📥 2. Modul E-Arsip Surat Masuk
 
-### Server Action: `createSuratMasukAction(formData)`
-- **Tujuan**: Merekam surat masuk baru, upload berkas PDF ke Cloudflare R2, dan generate No. Agenda.
-- **Hak Akses**: `SUPER_ADMIN`, `TU_UMUM`.
+### `GET /api/arsip-masuk`
+- **Tujuan**: Mengambil daftar arsip surat masuk dengan filter pencarian instan (< 2 detik) dan paginasi.
+- **Query Params**:
+  - `q`: Kata kunci pencarian (Nomor Surat, Agenda, Instansi, Perihal)
+  - `sifat`: Filter sifat surat (`BIASA`, `PENTING`, `SEGERA`, `KILAT`)
+  - `tgl_awal` & `tgl_akhir`: Filter rentang tanggal
+  - `page`: Nomor halaman (default: 1)
+  - `limit`: Jumlah data per halaman (default: 15)
+
+### `POST /api/arsip-masuk/indeks` (Server Action)
+- **Tujuan**: Mengindeks metadata berkas surat masuk pindaian baru dari Google Drive ke database TiDB.
 - **Payload Form**:
   - `nomorSurat` (string)
   - `tanggalSurat` (YYYY-MM-DD)
@@ -48,104 +51,43 @@
   - `asalInstansi` (string)
   - `perihal` (string)
   - `ringkasanIsi` (string, opsional)
-  - `sifatSurat` (enum: `BIASA`, `PENTING`, `SEGERA`, `KILAT`)
-  - `filePdf` (File, max 25MB, application/pdf)
+  - `sifatSurat` (enum)
+  - `filePdf` (File pindaian PDF)
 
-### `GET /api/surat-masuk`
-- **Tujuan**: Mengambil daftar surat masuk dengan filter pencarian dan paginasi.
-- **Query Params**:
-  - `q`: Kata kunci (nomor, instansi, perihal)
-  - `sifat`: Filter sifat surat
-  - `status`: Filter status disposisi
-  - `page`: Nomor halaman (default: 1)
-  - `limit`: Jumlah data per halaman (default: 15)
-
-### `GET /api/surat-masuk/[id]/stream`
-- **Tujuan**: Menghasilkan presigned stream URL untuk membaca berkas PDF di browser secara chunked.
-- **Hak Akses**: Terautentikasi (Semua Role).
+### `GET /api/arsip-masuk/[id]/stream`
+- **Tujuan**: Menghasilkan presigned URL untuk streaming dokumen PDF pindaian langsung di panel viewer peramban.
 
 ---
 
-## 🔀 3. Modul Disposisi Elektronik
+## 📝 3. Modul Riwayat Disposisi Fisik
 
-### Server Action: `createDisposisiAction(formData)`
-- **Tujuan**: Menerbitkan lembar disposisi digital oleh pimpinan dinas ke bidang tertentu.
-- **Hak Akses**: `SUPER_ADMIN`, `PIMPINAN` (Kepala Dinas / Sekretaris).
+### `POST /api/riwayat-disposisi/catat` (Server Action)
+- **Tujuan**: Merekam dokumentasi coretan arahan lembar disposisi fisik yang tertera pada naskah surat pindaian.
 - **Payload Form**:
   - `suratMasukId` (string UUID)
+  - `pejabatPendisposisi` (string: contoh *Pebriadin Hapiz, AP, M.Si*)
+  - `tanggalDisposisi` (YYYY-MM-DD)
   - `kepadaBidangId` (integer)
-  - `batasWaktu` (YYYY-MM-DD)
-  - `instruksiStandar` (array string: *Tindak lanjuti, Hadiri, Pelajari, dll*)
-  - `catatanKhusus` (string)
-
-### Server Action: `updateTindakLanjutAction(formData)`
-- **Tujuan**: Bidang pengolah memperbarui status disposisi dan mengisi keterangan hasil pelaksanaan.
-- **Hak Akses**: `SUPER_ADMIN`, `BIDANG`.
-- **Payload Form**:
-  - `disposisiId` (string UUID)
-  - `status` (enum: `SEDANG_DIPROSES`, `SELESAI`)
-  - `catatanTindakLanjut` (string)
+  - `instruksiTercatat` (string: *Tindak lanjuti / Pelajari / Hadiri / Koordinasikan*)
+  - `catatanTertulis` (string: arahan tulisan tangan pimpinan)
+  - `statusPenyelesaian` (enum: `BELUM_DIPROSES`, `PROSES`, `SELESAI`)
 
 ---
 
-## 📤 4. Modul Surat Keluar & Penomoran
+## 📤 4. Modul E-Arsip Surat Keluar
 
-### Server Action: `bookingNomorSuratAction(payload)`
-- **Tujuan**: Mengambil dan mengunci nomor surat keluar berikutnya secara atomik (mencegah nomor dobel).
-- **Hak Akses**: `SUPER_ADMIN`, `TU_UMUM`, `BIDANG`.
-- **Payload**:
-  ```json
-  {
-    "kodeKlasifikasiId": 1,
-    "bidangPemrakarsaId": 2,
-    "perihal": "Undangan Rakor Pembinaan Atlet Daerah",
-    "tujuanInstansi": "KONI Provinsi Kalimantan Selatan"
-  }
-  ```
-- **Response**:
-  ```json
-  {
-    "success": true,
-    "nomorSurat": "426/0412-Sekr/DISPORA/2026",
-    "tanggalBooking": "2026-10-20"
-  }
-  ```
+### `GET /api/arsip-keluar`
+- **Tujuan**: Mengambil daftar arsip surat keluar dengan filter kode klasifikasi (005, 426, 427, 800, 045, 900) dan pencarian instan.
 
-### Server Action: `uploadFinalSuratKeluarAction(formData)`
-- **Tujuan**: Mengunggah berkas scan PDF surat keluar yang sudah ditandatangani dan distempel basah.
-- **Hak Akses**: `SUPER_ADMIN`, `TU_UMUM`.
+### `POST /api/arsip-keluar/indeks` (Server Action)
+- **Tujuan**: Mengindeks metadata berkas pindaian surat keluar resmi yang telah ditandatangani dan distempel basah.
 
 ---
 
-## 📊 5. Modul Dashboard & Laporan
+## 📊 5. Modul Dashboard & Ekspor Agenda Excel
 
 ### `GET /api/dashboard/stats`
-- **Tujuan**: Mengambil matriks agregasi angka untuk kartu ringkasan KPI dan grafik statistik.
-- **Hak Akses**: Terautentikasi.
-- **Response**:
-  ```json
-  {
-    "totalSuratMasuk": 171,
-    "totalSuratKeluar": 249,
-    "disposisiAktif": 14,
-    "disposisiSelesai": 157,
-    "trenBulanan": [
-      { "bulan": "Mei", "masuk": 12, "keluar": 35 },
-      { "bulan": "Juni", "masuk": 24, "keluar": 52 },
-      { "bulan": "Juli", "masuk": 38, "keluar": 48 },
-      { "bulan": "Agustus", "masuk": 45, "keluar": 55 },
-      { "bulan": "September", "masuk": 32, "keluar": 41 },
-      { "bulan": "Oktober", "masuk": 20, "keluar": 18 }
-    ],
-    "bebanBidang": [
-      { "bidang": "Sekretariat", "total": 42 },
-      { "bidang": "Pembudayaan Olahraga", "total": 38 },
-      { "bidang": "Peningkatan Prestasi", "total": 51 },
-      { "bidang": "Sarana & Prasarana", "total": 40 }
-    ]
-  }
-  ```
+- **Tujuan**: Mengambil ringkasan volume arsip digital (171 Surat Masuk, 249 Surat Keluar), grafik bulanan, dan persentase unit kerja.
 
 ### `GET /api/laporan/export-excel?jenis=surat-masuk&tahun=2026`
 - **Tujuan**: Mengunduh berkas spreadsheet `.xlsx` Buku Agenda Surat Masuk / Keluar resmi kedinasan.
-- **Hak Akses**: `SUPER_ADMIN`, `PIMPINAN`, `TU_UMUM`.

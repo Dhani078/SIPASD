@@ -4,48 +4,38 @@
 
 ---
 
-## 1. Analisis Berkas Riil (Folder `C:\xampp\htdocs\Laporan Magang`)
+## 1. Analisis Sumber Berkas Riil: Google Drive Akun `arsipdispora2026`
 
-Dari pemeriksaan langsung terhadap data arsip magang di komputer lokal, ditemukan inventaris berkas nyata sebagai berikut:
+Berdasarkan pemeriksaan langsung pada penyimpanan awan resmi instansi (Google Drive akun `arsipdispora2026`, folder `sistem magang`):
 
-### A. Berkas Surat Masuk (`Surat Masuk 2026/`)
-- **Total Berkas**: 171 file PDF.
-- **Rentang Nomor Agenda**: Mulai nomor `0897` (3 Agustus 2026) hingga `1238` (7 Oktober 2026).
-- **Pola Penamaan Berkas**: `[NoSurat]([Tanggal]).pdf` (contoh: `0973(14 Agustus 2026).pdf`, `1181(28 September 2026).pdf`, `1208(02 Oktober 2026).pdf`).
-- **Instansi Pengirim Riil**: Kemenpora RI, KONI Kalsel, Bappeda Kalsel, BPKAD Kalsel, Dispora Kabupaten/Kota se-Kalsel, Pengurus Provinsi Cabang Olahraga, Ormas Pemuda (KNPI), dan Panitia Pelaksana Kejurda/Kejurnas.
-- **Topik Dominan Surat Masuk**:
-  1. Permohonan izin penggunaan venue/fasilitas olahraga (GOR Hasanuddin HM, Kolam Renang Mulawarman, Stadion 17 Mei).
-  2. Undangan Rapat Koordinasi dan Konsultasi Teknis dari Kemenpora dan Sekda Kalsel.
-  3. Permohonan bantuan dana hibah atau fasilitas pembinaan atlet berprestasi.
-  4. Pengiriman kontingen kejuaraan daerah / pekan olahraga pelajar (POPDA).
-
-### B. Berkas Surat Keluar (`Surat Keluar 2026/`)
-- **Total Berkas**: 249 file PDF.
-- **Rentang Nomor Surat**: Mulai nomor `3802` (Mei 2026) hingga `8757` (Oktober 2026).
-- **Pola Penamaan Berkas**: Berisi kode penomoran resmi dinas, tanggal scan, dan keterangan perihal (contoh: `3868 S Pengantar Lap Arsip.pdf`, `3971 Teknis WFH Dispora.pdf`, `4065 workshop pengembangan budaya kerja.pdf`, `7480-82, 3 surat_20260902_0001.pdf`).
-- **Temuan Masalah di Lapangan**: Terdapat penomoran dengan akhiran huruf atau tanda kurung tambahan akibat pencatatan manual berulang oleh staf yang berbeda. Hal ini membuktikan tingginya kebutuhan akan generator nomor otomatis dengan transaksi terkunci (*atomic concurrency locking*).
-
-### C. Berkas Keuangan & Retribusi Venue (`Excel/` & `TBP/`)
-- **Total Berkas**: 5 file Excel (.xlsx) dan 39 berkas PDF TBP.
-- **Daftar 11 Fasilitas Olahraga (Venue) yang Dikelola Dispora Kalsel**:
-  1. Kolam Renang GOR Hasanuddin HM
-  2. GOR Hasanuddin HM (Gelanggang Olahraga Remaja)
-  3. Kolam Renang Mulawarman
-  4. Lapangan Sepak Bola Mulawarman
-  5. Lapangan Tenis Mulawarman
-  6. Lapangan Tenis Dharma Praja
-  7. Lapangan Sepak Bola Kayu Tangi
-  8. Lapangan Golf Swargaloka (Landasan Ulin)
-  9. Lapangan Volley Pasir
-  10. Lapangan Voli Indoor SKB (Sentra Kepemudaan & Keolahragaan)
-  11. Lapangan Sepak Bola 17 Mei Banjarmasin
-- **Identifikasi Masalah Kerahasiaan TBP**: Dokumen TBP memuat nomor rekening bank pihak ketiga, rincian SPJ belanja internal, dan kwitansi yang bersifat tertutup untuk laporan magang publik. Oleh karena itu, pengalihan fokus ke modul **Persuratan & Disposisi (SIPASD)** merupakan keputusan strategis yang tepat dan aman secara etika kedinasan.
+- **Kapasitas Terpakai**: 101,51 GB dari total kuota 5 TB.
+- **Dua Subfolder Utama**:
+  1. `Surat Masuk 2026` (171 Berkas PDF)
+  2. `Surat Keluar 2026` (249 Berkas PDF)
+- **Status Berkas**: Berkas merupakan **dokumen arsip statis (selesai diproses)**. Seluruh dokumen telah ditandatangani basah oleh pimpinan, distempel cap resmi instansi, terdapat coretan/catatan disposisi fisik pada kertas aslinya, lalu dipindai (*scan*) menjadi berkas digital PDF.
 
 ---
 
-## 2. Struktur Organisasi & Pejabat Riil Dispora Prov. Kalsel
+## 2. Identifikasi Masalah pada Penggunaan Google Drive Manual
 
-Berdasarkan dokumen resmi BKU TA 2026 dan surat pengantar Dispora Kalsel:
+Meskipun berkas fisik telah dipindai dan disimpan di Google Drive, tata kelola saat ini menimbulkan masalah operasional yang nyata bagi pegawai Dispora:
+
+1. **Penamaan Berkas yang Tidak Konsisten & Acak**:
+   - Berkas Surat Masuk dinamai berdasarkan format nomor dan tanggal: `0973(14 Agustus 2026).pdf`, `1181(28 September 2026).pdf`, `1208(02 Oktober 2026).pdf`.
+   - Berkas Surat Keluar dinamai campuran antara nomor, perihal singkat, dan nama kegiatan: `3868 S Pengantar Lap Arsip.pdf`, `3971 Teknis WFH Dispora.pdf`, `4065 workshop pengembangan budaya kerja.pdf`, `7480-82, 3 surat_20260902_0001.pdf`.
+2. **Ketiadaan Metadata Terstruktur**:
+   - Google Drive hanya membaca nama file dan teks terbatas jika tidak ter-OCR sempurna.
+   - Tidak ada kolom untuk Instansi Pengirim, Tanggal Terima, Kode Klasifikasi Arsip, Ringkasan Isi, dan Catatan Disposisi Fisik.
+3. **Pencarian Dokumen yang Lambat (15–30 Menit)**:
+   - Staf yang membutuhkan arsip surat tertentu harus menggulir ratusan file PDF di browser, membuka dan menutup file satu per satu untuk memastikan isi surat.
+4. **Tidak Ada Rekapitulasi Buku Agenda Kedinasan**:
+   - Google Drive tidak dapat menghasilkan lembaran register Buku Agenda format Microsoft Excel yang diwajibkan untuk keperluan laporan pertanggungjawaban (LPJ/SPJ) kearsipan daerah.
+
+---
+
+## 3. Struktur Kedinasan & Pejabat Sah Dispora Kalsel
+
+Berdasarkan dokumen resmi BKU TA 2026 dan berkas surat pengantar:
 
 - **Pengguna Anggaran (Kepala Dinas)**:  
   **Pebriadin Hapiz, AP, M.Si** (NIP. 19780214 199612 1 001)
@@ -56,50 +46,23 @@ Berdasarkan dokumen resmi BKU TA 2026 dan surat pengantar Dispora Kalsel:
 - **Staf Subbag Keuangan / Pembimbing Lapangan**:  
   **Ibu Nur Dispora**
 
-### Unit Kerja / Bidang di Lingkungan Dispora Kalsel:
-1. **Sekretariat**:
-   - Subbagian Perencanaan dan Pelaporan
-   - Subbagian Keuangan (Tempat Mahasiswa Magang)
-   - Subbagian Umum dan Kepegawaian (Pusat Tata Usaha & Pengendali Surat Masuk/Keluar)
-2. **Bidang Pembudayaan Olahraga**: Olahraga rekreasi, tradisional, dan olahraga masyarakat.
-3. **Bidang Peningkatan Prestasi Olahraga**: Pembinaan atlet, PPLP, kejuaraan resmi, dan koordinasi cabor.
-4. **Bidang Pengembangan Pemuda**: Kepemimpinan, kepeloporan, wirausaha muda, dan organisasi kepemudaan.
-5. **Bidang Pemberdayaan Pemuda**: Pelatihan pemuda, wawasan kebangsaan, dan paskibraka.
-6. **Bidang Sarana dan Prasarana**: Pemeliharaan dan sewa 11 venue olahraga daerah.
+### Unit Kerja / Bidang yang Sering Dituju Disposisi:
+1. **Sekretariat** (Subbag Perencanaan & Pelaporan, Subbag Keuangan, Subbag Umum & Kepegawaian).
+2. **Bidang Pembudayaan Olahraga** (Olahraga rekreasi, tradisional, dan olahraga masyarakat).
+3. **Bidang Peningkatan Prestasi Olahraga** (Pembinaan atlet, PPLP, kejuaraan daerah).
+4. **Bidang Pengembangan Pemuda** (Kepemudaan, kewirausahaan pemuda).
+5. **Bidang Pemberdayaan Pemuda** (Pelatihan, wawasan kebangsaan, Paskibraka).
+6. **Bidang Sarana dan Prasarana** (Pengelolaan 11 venue olahraga daerah).
 
 ---
 
-## 3. Alur Kerja Eksisting (Sistem Berjalan) vs Sistem Usulan SIPASD
+## 4. Evaluasi Kelayakan: Laporan Magang vs Skripsi S1 TI UNISKA
 
-| Parameter Alur | Sistem Berjalan (Manual) | Sistem Usulan (SIPASD Web) |
+Keputusan menjadikan sistem ini sebagai **E-Arsip Digital Persuratan (Katalog Repositori Terindeks)** memiliki landasan akademik yang sangat kuat:
+
+| Parameter | Posisi pada Laporan Magang (Semester 7) | Peluang Peningkatan ke Skripsi S1 (Semester 8) |
 | :--- | :--- | :--- |
-| **Penerimaan Surat Masuk** | Ditulis tangan pada buku register besar bergaris oleh staf TU. | Diinput via form web digital dengan generate otomatis No. Agenda. |
-| **Penyimpanan Berkas** | Scan PDF disimpan terpisah di komputer lokal acak tanpa keterkaitan database. | PDF diunggah langsung ke Cloudflare R2 dan terikat dengan ID surat di TiDB. |
-| **Lembar Disposisi** | Mengetik manual / mencoret di kertas lembar disposisi fotokopi, rawan tercecer. | Pimpinan menelaah PDF di browser dan klik instruksi digital langsung terdistribusi ke akun Kabid. |
-| **Monitoring Status** | TU harus menanyakan langsung via telepon atau tatap muka ke staf bidang. | Dashboard menampilkan status real-time (`Menunggu`, `Diproses`, `Selesai`) dan alert overdue. |
-| **Penomoran Surat Keluar** | Booking nomor melalui catatan kertas atau chat WhatsApp, rawan nomor dobel. | Generator nomor otomatis berbasis kode urusan (Permendagri) mengunci nomor berikutnya. |
-| **Pencarian Dokumen** | Membuka lemari ordner dan memeriksa lembar demi lembar (15–30 menit). | Mesin cari kata kunci instan (< 2 detik). |
-
----
-
-## 4. Analisis Kode Klasifikasi Surat Dinas Standar Permendagri
-
-Dari 249 berkas surat keluar riil, berikut pemetaan kode klasifikasi yang dominan digunakan di Dispora Kalsel:
-1. `005` — Undangan rapat koordinasi, seminar, dan sosialisasi dinas.
-2. `426` — Urusan Keolahragaan (pembinaan cabor, izin penggunaan GOR/lapangan, pengiriman atlet).
-3. `427` — Urusan Kepemudaan (kegiatan jambore pemuda, paskibraka daerah, wirausaha muda).
-4. `800` — Urusan Kepegawaian (Surat Perintah Tugas / SPT, perjalanan dinas luar kota, izin cuti).
-5. `045` — Kearsipan (pengantar pengiriman laporan fisik ke Dinas Perpustakaan dan Kearsipan Daerah).
-6. `900` — Keuangan (pengantar berkas SPJ, verifikasi pertanggungjawaban retribusi venue).
-
----
-
-## 5. Komparasi Kelayakan Akademik: Laporan Magang vs Skripsi TI UNISKA
-
-| Komponen Evaluasi | Kebutuhan Laporan Magang (KP) | Kebutuhan Skripsi S1 (Tugas Akhir) |
-| :--- | :--- | :--- |
-| **Fokus Utama** | Digitalisasi proses bisnis nyata & pemecahan masalah instansi. | Implementasi metode ilmiah / algoritma komputasi. |
-| **Peran Sistem SIPASD** | Sistem operasional utama yang diuji black box. | Objek penelitian (*testbed*) penerapan kecerdasan buatan. |
-| **Algoritma Tambahan** | Cukup logika bisnis (CRUD, RBAC, Auto-Numbering). | Wajib: Klasifikasi Teks Naive Bayes / OCR Tesseract. |
-| **Data yang Digunakan** | 420 berkas riil surat sebagai arsip sistem. | 420 berkas riil sebagai dataset training & testing model AI. |
-| **Kesiapan** | **100% Terpenuhi oleh SIPASD**. | **Sangat Mudah Ditingkatkan di Semester 8**. |
+| **Objek Penelitian** | Pemecahan masalah temu-kembali 420 berkas scan Google Drive Dispora Kalsel. | Eksplorasi metode kecerdasan buatan (*AI & Machine Learning*) pada 420 berkas teks PDF. |
+| **Metode Rekayasa** | Waterfall / Agile rekayasa perangkat lunak web responsif (Next.js 15 + TiDB + R2). | Algoritma **OCR Tesseract** (ekstraksi teks otomatis) atau **Multinomial Naive Bayes TF-IDF** (klasifikasi kategori otomatis). |
+| **Data Penelitian** | 420 berkas riil sebagai basis data arsip sistem. | 420 berkas riil sebagai korpus data latih (*training*) dan data uji (*testing*). |
+| **Kesiapan** | **100% Siap Diujikan pada Sidang Magang**. | **Tinggal menambahkan 1 modul algoritma di semester 8**. |

@@ -12,27 +12,32 @@ Dari pemeriksaan langsung terhadap data arsip magang di komputer lokal, ditemuka
 - **Total Berkas**: 171 file PDF.
 - **Rentang Nomor Agenda**: Mulai nomor `0897` (3 Agustus 2026) hingga `1238` (7 Oktober 2026).
 - **Pola Penamaan Berkas**: `[NoSurat]([Tanggal]).pdf` (contoh: `0973(14 Agustus 2026).pdf`, `1181(28 September 2026).pdf`, `1208(02 Oktober 2026).pdf`).
-- **Instansi Pengirim Riil**: Kemenpora RI, KONI Kalsel, Bappeda Kalsel, BPKAD Kalsel, Dispora Kabupaten/Kota, Pengurus Cabang Olahraga, Ormas Pemuda, dan Panitia Kejuaraan Daerah.
+- **Instansi Pengirim Riil**: Kemenpora RI, KONI Kalsel, Bappeda Kalsel, BPKAD Kalsel, Dispora Kabupaten/Kota se-Kalsel, Pengurus Provinsi Cabang Olahraga, Ormas Pemuda (KNPI), dan Panitia Pelaksana Kejurda/Kejurnas.
+- **Topik Dominan Surat Masuk**:
+  1. Permohonan izin penggunaan venue/fasilitas olahraga (GOR Hasanuddin HM, Kolam Renang Mulawarman, Stadion 17 Mei).
+  2. Undangan Rapat Koordinasi dan Konsultasi Teknis dari Kemenpora dan Sekda Kalsel.
+  3. Permohonan bantuan dana hibah atau fasilitas pembinaan atlet berprestasi.
+  4. Pengiriman kontingen kejuaraan daerah / pekan olahraga pelajar (POPDA).
 
 ### B. Berkas Surat Keluar (`Surat Keluar 2026/`)
 - **Total Berkas**: 249 file PDF.
 - **Rentang Nomor Surat**: Mulai nomor `3802` (Mei 2026) hingga `8757` (Oktober 2026).
 - **Pola Penamaan Berkas**: Berisi kode penomoran resmi dinas, tanggal scan, dan keterangan perihal (contoh: `3868 S Pengantar Lap Arsip.pdf`, `3971 Teknis WFH Dispora.pdf`, `4065 workshop pengembangan budaya kerja.pdf`, `7480-82, 3 surat_20260902_0001.pdf`).
-- **Temuan Masalah**: Terdapat nomor-nomor surat yang disisipkan tanda kurung dan tanggal karena pencatatan manual berulang, membuktikan tingginya kebutuhan akan generator nomor otomatis anti-dobel.
+- **Temuan Masalah di Lapangan**: Terdapat penomoran dengan akhiran huruf atau tanda kurung tambahan akibat pencatatan manual berulang oleh staf yang berbeda. Hal ini membuktikan tingginya kebutuhan akan generator nomor otomatis dengan transaksi terkunci (*atomic concurrency locking*).
 
 ### C. Berkas Keuangan & Retribusi Venue (`Excel/` & `TBP/`)
 - **Total Berkas**: 5 file Excel (.xlsx) dan 39 berkas PDF TBP.
 - **Daftar 11 Fasilitas Olahraga (Venue) yang Dikelola Dispora Kalsel**:
   1. Kolam Renang GOR Hasanuddin HM
-  2. GOR Hasanuddin HM
+  2. GOR Hasanuddin HM (Gelanggang Olahraga Remaja)
   3. Kolam Renang Mulawarman
   4. Lapangan Sepak Bola Mulawarman
   5. Lapangan Tenis Mulawarman
   6. Lapangan Tenis Dharma Praja
   7. Lapangan Sepak Bola Kayu Tangi
-  8. Lapangan Golf Swargaloka
+  8. Lapangan Golf Swargaloka (Landasan Ulin)
   9. Lapangan Volley Pasir
-  10. Lapangan Voli Indoor SKB
+  10. Lapangan Voli Indoor SKB (Sentra Kepemudaan & Keolahragaan)
   11. Lapangan Sepak Bola 17 Mei Banjarmasin
 - **Identifikasi Masalah Kerahasiaan TBP**: Dokumen TBP memuat nomor rekening bank pihak ketiga, rincian SPJ belanja internal, dan kwitansi yang bersifat tertutup untuk laporan magang publik. Oleh karena itu, pengalihan fokus ke modul **Persuratan & Disposisi (SIPASD)** merupakan keputusan strategis yang tepat dan aman secara etika kedinasan.
 
@@ -56,11 +61,11 @@ Berdasarkan dokumen resmi BKU TA 2026 dan surat pengantar Dispora Kalsel:
    - Subbagian Perencanaan dan Pelaporan
    - Subbagian Keuangan (Tempat Mahasiswa Magang)
    - Subbagian Umum dan Kepegawaian (Pusat Tata Usaha & Pengendali Surat Masuk/Keluar)
-2. **Bidang Pembudayaan Olahraga**
-3. **Bidang Peningkatan Prestasi Olahraga**
-4. **Bidang Pengembangan Pemuda**
-5. **Bidang Pemberdayaan Pemuda**
-6. **Bidang Sarana dan Prasarana**
+2. **Bidang Pembudayaan Olahraga**: Olahraga rekreasi, tradisional, dan olahraga masyarakat.
+3. **Bidang Peningkatan Prestasi Olahraga**: Pembinaan atlet, PPLP, kejuaraan resmi, dan koordinasi cabor.
+4. **Bidang Pengembangan Pemuda**: Kepemimpinan, kepeloporan, wirausaha muda, dan organisasi kepemudaan.
+5. **Bidang Pemberdayaan Pemuda**: Pelatihan pemuda, wawasan kebangsaan, dan paskibraka.
+6. **Bidang Sarana dan Prasarana**: Pemeliharaan dan sewa 11 venue olahraga daerah.
 
 ---
 
@@ -74,3 +79,27 @@ Berdasarkan dokumen resmi BKU TA 2026 dan surat pengantar Dispora Kalsel:
 | **Monitoring Status** | TU harus menanyakan langsung via telepon atau tatap muka ke staf bidang. | Dashboard menampilkan status real-time (`Menunggu`, `Diproses`, `Selesai`) dan alert overdue. |
 | **Penomoran Surat Keluar** | Booking nomor melalui catatan kertas atau chat WhatsApp, rawan nomor dobel. | Generator nomor otomatis berbasis kode urusan (Permendagri) mengunci nomor berikutnya. |
 | **Pencarian Dokumen** | Membuka lemari ordner dan memeriksa lembar demi lembar (15–30 menit). | Mesin cari kata kunci instan (< 2 detik). |
+
+---
+
+## 4. Analisis Kode Klasifikasi Surat Dinas Standar Permendagri
+
+Dari 249 berkas surat keluar riil, berikut pemetaan kode klasifikasi yang dominan digunakan di Dispora Kalsel:
+1. `005` — Undangan rapat koordinasi, seminar, dan sosialisasi dinas.
+2. `426` — Urusan Keolahragaan (pembinaan cabor, izin penggunaan GOR/lapangan, pengiriman atlet).
+3. `427` — Urusan Kepemudaan (kegiatan jambore pemuda, paskibraka daerah, wirausaha muda).
+4. `800` — Urusan Kepegawaian (Surat Perintah Tugas / SPT, perjalanan dinas luar kota, izin cuti).
+5. `045` — Kearsipan (pengantar pengiriman laporan fisik ke Dinas Perpustakaan dan Kearsipan Daerah).
+6. `900` — Keuangan (pengantar berkas SPJ, verifikasi pertanggungjawaban retribusi venue).
+
+---
+
+## 5. Komparasi Kelayakan Akademik: Laporan Magang vs Skripsi TI UNISKA
+
+| Komponen Evaluasi | Kebutuhan Laporan Magang (KP) | Kebutuhan Skripsi S1 (Tugas Akhir) |
+| :--- | :--- | :--- |
+| **Fokus Utama** | Digitalisasi proses bisnis nyata & pemecahan masalah instansi. | Implementasi metode ilmiah / algoritma komputasi. |
+| **Peran Sistem SIPASD** | Sistem operasional utama yang diuji black box. | Objek penelitian (*testbed*) penerapan kecerdasan buatan. |
+| **Algoritma Tambahan** | Cukup logika bisnis (CRUD, RBAC, Auto-Numbering). | Wajib: Klasifikasi Teks Naive Bayes / OCR Tesseract. |
+| **Data yang Digunakan** | 420 berkas riil surat sebagai arsip sistem. | 420 berkas riil sebagai dataset training & testing model AI. |
+| **Kesiapan** | **100% Terpenuhi oleh SIPASD**. | **Sangat Mudah Ditingkatkan di Semester 8**. |

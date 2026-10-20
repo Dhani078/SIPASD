@@ -4,7 +4,7 @@
 Membangun aplikasi sistem informasi persuratan dan disposisi berbasis web responsif (Next.js 15, TypeScript, Tailwind CSS, TiDB Serverless, Cloudflare R2) untuk Sekretariat Dispora Provinsi Kalimantan Selatan, lengkap dengan migrasi 420 berkas PDF riil dan keselarasan dokumen Laporan Magang UNISKA.
 
 ## Current Phase
-Phase 1: Dokumen Spesifikasi, Arsitektur & State Awal (In Progress -> Complete)
+Phase 1: Dokumen Spesifikasi, Arsitektur & State Awal (Complete)
 
 ---
 
@@ -16,10 +16,14 @@ Phase 1: Dokumen Spesifikasi, Arsitektur & State Awal (In Progress -> Complete)
 - [x] Susun `SPEC.md` spesifikasi teknis Spec-Driven Development.
 - [x] Susun `task_plan.md`, `findings.md`, `progress.md`.
 - [x] Susun dokumentasi pelengkap di `docs/`:
-  - [x] `docs/HANDOFF.md`
-  - [x] `docs/DATABASE_SCHEMA.md`
-  - [x] `docs/API_ROUTES.md`
-  - [x] `docs/LAPORAN_MAGANG_MAPPING.md`
+  - [x] `docs/HANDOFF.md` (Panduan operasional sesi)
+  - [x] `docs/DATABASE_SCHEMA.md` (ERD, Kamus Data & DDL SQL TiDB)
+  - [x] `docs/API_ROUTES.md` (Spesifikasi Server Actions & Route Handlers)
+  - [x] `docs/LAPORAN_MAGANG_MAPPING.md` (Pemetaan Bab I - Bab V UNISKA)
+  - [x] `docs/UML_DIAGRAMS.md` (Use Case, Activity, Sequence, Class Diagram + PlantUML)
+  - [x] `docs/SECURITY_AUDIT.md` (Matriks mitigasi kerentanan OWASP Top 10)
+  - [x] `docs/SOP_KEDINASAN.md` (Standar Operasional Prosedur 5 alur dinas)
+  - [x] `docs/SKRIPSI_UPGRADE_ROADMAP.md` (Blueprint peningkatan ke Skripsi S1)
 - [x] Siapkan konfigurasi repositori GitHub:
   - [x] `.github/workflows/ci.yml`
   - [x] `.github/ISSUE_TEMPLATE/`

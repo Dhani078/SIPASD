@@ -1,5 +1,5 @@
 # SPESIFIKASI DIAGRAM UML SISTEM SIPASD
-**Materi Lengkap Bab III Analisis dan Perancangan — Laporan Magang TI UNISKA**  
+**Materi Lengkap Bab III Analisis dan Perancangan - Laporan Magang TI UNISKA**  
 *Mencakup skenario Use Case, Activity Diagram, Sequence Diagram, dan Class Diagram E-Arsip Digital (Dilengkapi Kode PlantUML)*
 
 ---

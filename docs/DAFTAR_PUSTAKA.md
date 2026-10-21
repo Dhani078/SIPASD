@@ -1,5 +1,5 @@
 # DAFTAR PUSTAKA ACADEMIC CITATION
-**Format Standar APA 7th Edition — Laporan Magang & Skripsi S1 Teknik Informatika**  
+**Format Standar APA 7th Edition - Laporan Magang & Skripsi S1 Teknik Informatika**  
 *Universitas Islam Kalimantan (UNISKA) Muhammad Arsyad Al Banjari Banjarmasin*
 
 ---

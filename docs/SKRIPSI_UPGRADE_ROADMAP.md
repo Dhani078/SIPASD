@@ -1,6 +1,6 @@
 # BLUEPRINT PENINGKATAN KE SKRIPSI S1 TEKNIK INFORMATIKA
 **Roadmap Akademik Upgrade SIPASD dari Kerja Praktik (KP) ke Tugas Akhir / Skripsi (Semester 8)**  
-*Fakultas Teknologi Informasi — Universitas Islam Kalimantan (UNISKA) Muhammad Arsyad Al Banjari Banjarmasin*
+*Fakultas Teknologi Informasi - Universitas Islam Kalimantan (UNISKA) Muhammad Arsyad Al Banjari Banjarmasin*
 
 ---
 

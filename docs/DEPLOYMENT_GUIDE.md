@@ -27,7 +27,7 @@ Sistem SIPASD dirancang secara *Cloud-Native* sehingga tidak memerlukan server k
 
 1. Buka situs resmi **[https://tidbcloud.com](https://tidbcloud.com)** dan masuk menggunakan akun Google.
 2. Buat klaster baru dengan memilih paket **Serverless (Free Tier)**.
-   - Region: `ap-southeast-1` (Singapore) — untuk menjamin latensi paling rendah ke Kalimantan Selatan (< 35 ms).
+   - Region: `ap-southeast-1` (Singapore) - untuk menjamin latensi paling rendah ke Kalimantan Selatan (< 35 ms).
    - Cluster Name: `cluster-sipasd-dispora`.
 3. Setelah klaster siap (sekitar 30 detik), klik tombol **Connect**:
    - Pilih opsi **Prisma** atau **General MySQL**.

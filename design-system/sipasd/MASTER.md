@@ -45,7 +45,7 @@
 
 ---
 
-## 3. Spacing Scale (Density 8/10 — Dense Dashboard)
+## 3. Spacing Scale (Density 8/10 - Dense Dashboard)
 
 | Token | Nilai | Penggunaan |
 | :--- | :--- | :--- |
@@ -61,7 +61,7 @@
 
 1. **Dilarang Menggunakan Gradien Ungu / Neon AI**: Tidak ada tombol ungu `bg-purple-600` atau gradien mesh neon. Wajib menggunakan palet hijau zamrud dinas (`#047857`) dan slate formal.
 2. **Dilarang Menggunakan 3 Kartu Berukuran Sama**: Susun kartu secara asimetris dengan ritme informasi hierarkis.
-3. **Dilarang Menggunakan Em-Dash (`—`)**: Gunakan tanda hubung biasa (`-`), tanda kurung, atau titik koma pada seluruh antarmuka dan label.
+3. **Dilarang Menggunakan Em-Dash (` - `)**: Gunakan tanda hubung biasa (`-`), tanda kurung, atau titik koma pada seluruh antarmuka dan label.
 4. **Dilarang Menggunakan Emoji Sebagai Ikon**: Seluruh ikon wajib menggunakan SVG resmi dari **Lucide React** (`lucide-react`) atau Phosphor Icons.
 5. **Dilarang Menggunakan Placeholder sebagai Label**: Seluruh input formulir wajib memiliki `<label>` eksplisit di atas bidang isian.
 6. **Zero Horizontal Overflow**: Lebar layar 375px ponsel hingga 1440px desktop wajib bebas dari scrollbar horizontal.

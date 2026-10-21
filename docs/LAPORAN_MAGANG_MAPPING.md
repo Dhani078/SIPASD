@@ -1,5 +1,5 @@
 # PEMETAAN MATERI SISTEM SIPASD KE LAPORAN MAGANG
-**Panduan Penyusunan Naskah Kerja Praktik / Magang — Teknik Informatika UNISKA Semester 7**  
+**Panduan Penyusunan Naskah Kerja Praktik / Magang - Teknik Informatika UNISKA Semester 7**  
 *Mahasiswa: Muhammad Rizki Ramadhani (NPM: 2310010406)*  
 *Lokasi Magang: Sekretariat Dinas Kepemudaan dan Olahraga Provinsi Kalimantan Selatan*
 

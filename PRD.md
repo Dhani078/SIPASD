@@ -4,7 +4,7 @@
 **Target Instansi: Sekretariat Dinas Kepemudaan dan Olahraga Provinsi Kalimantan Selatan**  
 **Afiliasi Akademik: Program Studi S1 Teknik Informatika, Fakultas Teknologi Informasi, UNISKA MAB Banjarmasin**  
 **Penyusun: Muhammad Rizki Ramadhani (NPM: 2310010406)**  
-**Versi Dokumen: 2.0.0-PROD (Final Release Baseline — 100/100 Maxx Mode)**  
+**Versi Dokumen: 2.0.0-PROD (Final Release Baseline - 100/100 Maxx Mode)**  
 **Status: Disetujui untuk Implementasi Produksi & Naskah Laporan Magang**
 
 ---
@@ -237,12 +237,12 @@ SIPASD memberikan kapabilitas bagi aparatur Sekretariat Dispora Kalsel untuk mel
 - **Spesifikasi**:
   - Rute `/arsip-keluar` menampilkan katalog 249 berkas pindaian surat keluar dinas TA 2026.
   - Pengelompokan berdasarkan 6 Kode Klasifikasi Baku Permendagri / Pergub Kalsel:
-    * `005` — Undangan Rapat & Pertemuan Dinas.
-    * `426` — Urusan Keolahragaan & Venue Daerah.
-    * `427` — Urusan Kepemudaan & Paskibraka.
-    * `800` — Urusan Kepegawaian & Surat Perintah Tugas (SPT).
-    * `045` — Urusan Kearsipan & Perpustakaan.
-    * `900` — Urusan Keuangan, Retribusi & SPJ.
+    * `005` - Undangan Rapat & Pertemuan Dinas.
+    * `426` - Urusan Keolahragaan & Venue Daerah.
+    * `427` - Urusan Kepemudaan & Paskibraka.
+    * `800` - Urusan Kepegawaian & Surat Perintah Tugas (SPT).
+    * `045` - Urusan Kearsipan & Perpustakaan.
+    * `900` - Urusan Keuangan, Retribusi & SPJ.
   - Filter berdasarkan unit kerja pemrakarsa surat.
   - Penampil berkas PDF pindaian bertanda tangan dan cap basah.
 
@@ -435,7 +435,7 @@ Dataset yang dikelola oleh SIPASD bersumber dari data arsip asli instansi:
 ### 9.1 Berkas Surat Masuk TA 2026 (171 Berkas PDF / 205,96 MB)
 - **Rentang Nomor Agenda**: Nomor `0897` (3 Agustus 2026) s/d `1238` (7 Oktober 2026).
 - **Contoh Berkas Riil**:
-  * `0907(4agustus).pdf` (9,77 MB — Berkas terbesar)
+  * `0907(4agustus).pdf` (9,77 MB - Berkas terbesar)
   * `0905(4agustus).pdf` (8,70 MB)
   * `0973(14 Agustus 2026).pdf` (804 KB)
   * `1181(28 September 2026).pdf` (1,2 MB)

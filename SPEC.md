@@ -1,7 +1,7 @@
 # SPEC: SIPASD (Sistem Informasi Pengelolaan Arsip Surat Dispora)
 **Spesifikasi Rekayasa Perangkat Lunak Repositori E-Arsip Digital**  
 *Instansi: Dinas Kepemudaan dan Olahraga Provinsi Kalimantan Selatan*  
-*Pengembang: Muhammad Rizki Ramadhani (2310010406) — S1 TI UNISKA Banjarmasin*
+*Pengembang: Muhammad Rizki Ramadhani (2310010406) - S1 TI UNISKA Banjarmasin*
 
 ---
 

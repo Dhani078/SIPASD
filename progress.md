@@ -28,7 +28,7 @@
 4. **Audit & Penyelarasan Prototipe Desain Figma Make V2**:
    - Mengaudit hasil refactor Figma Make di direktori `C:\xampp\htdocs\Laporan Magang\SIPASD Web Application UI (1)`.
    - Mengonfirmasi modularisasi 18 komponen di `src/components/`, data realistis 36 transaksi Dispora Kalsel di `mockLetters.ts`, pemutar PDF dinamis `pdf.ts` (`jspdf` + `pdfjs-dist`), dan generator spreadsheet `exportExcel.ts` (`exceljs`).
-   - Memastikan tidak ada karakter em-dash (`—`) dan bebas dari teks penampung placeholder.
+   - Memastikan tidak ada karakter em-dash (` - `) dan bebas dari teks penampung placeholder.
 5. **Verifikasi Git & Repositori**:
    - Seluruh perubahan di-commit atas nama `Dhani078 <dhanisepeda@gmail.com>` dan disinkronkan ke remote GitHub `https://github.com/Dhani078/SIPASD`.
 

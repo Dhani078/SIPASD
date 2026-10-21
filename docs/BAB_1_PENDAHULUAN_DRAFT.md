@@ -1,5 +1,5 @@
 # DRAF NASKAH LAPORAN MAGANG: BAB I PENDAHULUAN
-**Program Studi S1 Teknik Informatika — Fakultas Teknologi Informasi UNISKA MAB Banjarmasin**  
+**Program Studi S1 Teknik Informatika - Fakultas Teknologi Informasi UNISKA MAB Banjarmasin**  
 *Penulis: Muhammad Rizki Ramadhani (NPM: 2310010406)*  
 *Lokasi Magang: Sekretariat Dinas Kepemudaan dan Olahraga Provinsi Kalimantan Selatan*
 

@@ -1,5 +1,5 @@
 # DRAF NASKAH LAPORAN MAGANG: BAB V PENUTUP
-**Program Studi S1 Teknik Informatika — Fakultas Teknologi Informasi UNISKA MAB Banjarmasin**  
+**Program Studi S1 Teknik Informatika - Fakultas Teknologi Informasi UNISKA MAB Banjarmasin**  
 *Sistem: SIPASD (Sistem Informasi Pengelolaan Arsip Surat Dispora)*
 
 ---

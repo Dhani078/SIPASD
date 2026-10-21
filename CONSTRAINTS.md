@@ -1,11 +1,11 @@
 # CONSTRAINTS: SIPASD QUALITY & ARCHITECTURE CONTRACT
 **Kontrak Standar Kualitas Rekayasa Perangkat Lunak & Batasan Sistem**  
 *Instansi: Dinas Kepemudaan dan Olahraga Provinsi Kalimantan Selatan*  
-*Pengembang: Muhammad Rizki Ramadhani (2310010406) — S1 TI UNISKA MAB Banjarmasin*
+*Pengembang: Muhammad Rizki Ramadhani (2310010406) - S1 TI UNISKA MAB Banjarmasin*
 
 ---
 
-## 1. The Floor (Ambang Batas Kualitas Mutlak — Non-Negotiable)
+## 1. The Floor (Ambang Batas Kualitas Mutlak - Non-Negotiable)
 
 1. **Zero Suppression Comments**:
    - Dilarang menambahkan komentar penekan kesalahan: `@ts-ignore`, `@ts-nocheck`, `eslint-disable`, `# noqa`, `# type: ignore`.
@@ -26,8 +26,8 @@
      git config user.email "dhanisepeda@gmail.com"
      ```
    - Menggunakan email asli ini adalah syarat mutlak agar kotak hijau kontribusi GitHub aktif. Dilarang memakai dummy email / noreply.
-6. **Zero Em-Dashes (`—`)**:
-   - Dilarang menggunakan karakter em-dash (`—`) pada seluruh teks antarmuka, judul, lencana, maupun dokumentasi. Gunakan tanda hubung biasa (`-`), tanda kurung, atau titik koma.
+6. **Zero Em-Dashes (` - `)**:
+   - Dilarang menggunakan karakter em-dash (` - `) pada seluruh teks antarmuka, judul, lencana, maupun dokumentasi. Gunakan tanda hubung biasa (`-`), tanda kurung, atau titik koma.
 
 ---
 
@@ -51,24 +51,24 @@ Prototipe antarmuka resmi telah dimodularisasi di direktori referensi:
 `C:\xampp\htdocs\Laporan Magang\SIPASD Web Application UI (1)`
 
 Daftar 18 Komponen Modular:
-1. `src/components/LandingPage.tsx` — Halaman depan publik & lacak nomor agenda
-2. `src/components/LoginPage.tsx` — Login dengan tombol tester 1-klik 5 role
-3. `src/components/Sidebar.tsx` — Bilah navigasi kiri (#064E3B) & profil Kadis
-4. `src/components/TopNavbar.tsx` — Bilah atas dengan pencarian global & jam WITA
-5. `src/components/DashboardView.tsx` — 4 kartu KPI, grafik bulanan & donut beban bidang
-6. `src/components/ArchiveTable.tsx` — Tabel data padat dengan paginasi 15 baris
-7. `src/components/ArchiveWorkspace.tsx` — Panel kerja split-screen arsip surat
-8. `src/components/PdfPreviewPanel.tsx` / `DocumentPreview.tsx` — Penampil PDF bawaan peramban
-9. `src/components/PrintDisposisiModal.tsx` — Format cetak lembar disposisi A4/F4 Pemprov Kalsel
-10. `src/components/NewLetterModal.tsx` — Modal rekam indeks surat baru
-11. `src/components/Modal.tsx` — Komponen dialog generik aksesibel
-12. `src/components/Badge.tsx` — Lencana status sifat surat berwarna
-13. `src/components/Crest.tsx` — Lambang resmi Pemerintah Provinsi Kalimantan Selatan
-14. `src/components/CorrespondenceChart.tsx` — Komponen grafik batang korespondensi bulanan
-15. `src/components/Icon.tsx` — Koleksi ikon SVG terstandardisasi
-16. `src/components/Letter.tsx` — Representasi visual naskah surat fisik kedinasan
-17. `src/components/ReferenceViews.tsx` — Tampilan referensi klasifikasi & akun
-18. `src/data/mockLetters.ts` — 36 rekaman transaksi nyata Dispora Kalsel
+1. `src/components/LandingPage.tsx` - Halaman depan publik & lacak nomor agenda
+2. `src/components/LoginPage.tsx` - Login dengan tombol tester 1-klik 5 role
+3. `src/components/Sidebar.tsx` - Bilah navigasi kiri (#064E3B) & profil Kadis
+4. `src/components/TopNavbar.tsx` - Bilah atas dengan pencarian global & jam WITA
+5. `src/components/DashboardView.tsx` - 4 kartu KPI, grafik bulanan & donut beban bidang
+6. `src/components/ArchiveTable.tsx` - Tabel data padat dengan paginasi 15 baris
+7. `src/components/ArchiveWorkspace.tsx` - Panel kerja split-screen arsip surat
+8. `src/components/PdfPreviewPanel.tsx` / `DocumentPreview.tsx` - Penampil PDF bawaan peramban
+9. `src/components/PrintDisposisiModal.tsx` - Format cetak lembar disposisi A4/F4 Pemprov Kalsel
+10. `src/components/NewLetterModal.tsx` - Modal rekam indeks surat baru
+11. `src/components/Modal.tsx` - Komponen dialog generik aksesibel
+12. `src/components/Badge.tsx` - Lencana status sifat surat berwarna
+13. `src/components/Crest.tsx` - Lambang resmi Pemerintah Provinsi Kalimantan Selatan
+14. `src/components/CorrespondenceChart.tsx` - Komponen grafik batang korespondensi bulanan
+15. `src/components/Icon.tsx` - Koleksi ikon SVG terstandardisasi
+16. `src/components/Letter.tsx` - Representasi visual naskah surat fisik kedinasan
+17. `src/components/ReferenceViews.tsx` - Tampilan referensi klasifikasi & akun
+18. `src/data/mockLetters.ts` - 36 rekaman transaksi nyata Dispora Kalsel
 
 ---
 

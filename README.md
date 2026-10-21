@@ -1,6 +1,6 @@
-# SIPASD — Sistem Informasi Pengelolaan Arsip Surat Dispora
+# SIPASD - Sistem Informasi Pengelolaan Arsip Surat Dispora
 **Dinas Kepemudaan dan Olahraga Provinsi Kalimantan Selatan**  
-*Klasifikasi: Repositori E-Arsip Surat Digital Berbasis Web Responsif — Kerja Praktik TI UNISKA*
+*Klasifikasi: Repositori E-Arsip Surat Digital Berbasis Web Responsif - Kerja Praktik TI UNISKA*
 
 [![CI Status](https://github.com/Dhani078/SIPASD/actions/workflows/ci.yml/badge.svg)](https://github.com/Dhani078/SIPASD/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -105,7 +105,7 @@ SIPASD/
 ## 👤 Informasi Mahasiswa
 - **Nama**: Muhammad Rizki Ramadhani
 - **NPM**: 2310010406
-- **Program Studi**: S1 Teknik Informatika — Fakultas Teknologi Informasi
+- **Program Studi**: S1 Teknik Informatika - Fakultas Teknologi Informasi
 - **Perguruan Tinggi**: Universitas Islam Kalimantan (UNISKA) MAB Banjarmasin
 - **Instansi Magang**: Sekretariat Dinas Kepemudaan dan Olahraga Provinsi Kalimantan Selatan
 - **Tahun**: 2026

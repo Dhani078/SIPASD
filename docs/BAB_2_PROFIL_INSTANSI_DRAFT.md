@@ -1,5 +1,5 @@
 # DRAF NASKAH LAPORAN MAGANG: BAB II TINJAUAN UMUM INSTANSI
-**Program Studi S1 Teknik Informatika — Fakultas Teknologi Informasi UNISKA MAB Banjarmasin**  
+**Program Studi S1 Teknik Informatika - Fakultas Teknologi Informasi UNISKA MAB Banjarmasin**  
 *Instansi: Dinas Kepemudaan dan Olahraga Provinsi Kalimantan Selatan*
 
 ---
@@ -84,7 +84,7 @@ Selama pelaksanaan kegiatan magang di lingkungan Sekretariat Dispora Kalsel, koo
 
 ## 2.5 Tugas dan Fungsi Unit Kerja Tempat Magang (Sekretariat & Subbag Keuangan)
 
-Mahasiswa ditempatkan pada unit kerja **Sekretariat — Subbagian Keuangan**, dengan tugas pokok dan fungsi yang bersinggungan langsung dengan tata kelola administrasi dokumen:
+Mahasiswa ditempatkan pada unit kerja **Sekretariat - Subbagian Keuangan**, dengan tugas pokok dan fungsi yang bersinggungan langsung dengan tata kelola administrasi dokumen:
 
 1. **Tugas Pokok Sekretariat**:
    Sekretariat mempunyai tugas merencanakan, merumuskan kebijakan teknis, mengoordinasikan pembinaan, administrasi persuratan, kepegawaian, keuangan, perlengkapan, serta perencanaan dan pelaporan seluruh bidang di lingkungan dinas.

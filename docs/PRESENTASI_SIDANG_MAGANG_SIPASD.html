@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Presentasi Sidang Magang - SIPASD Dispora Kalsel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --emerald-dark: #064e3b;
+      --emerald-light: #10b981;
+      --gold: #d97706;
+      --bg-canvas: #f8fafc;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      background: #022c22;
+      color: var(--text-main);
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .slide-container {
+      width: 100vw;
+      height: 100vh;
+      max-width: 1333px;
+      max-height: 750px;
+      background: var(--bg-canvas);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .slide {
+      display: none;
+      width: 100%;
+      height: 100%;
+      padding: 40px 60px;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .slide.active { display: flex; }
+    .slide.dark {
+      background: var(--emerald-dark);
+      color: #ffffff;
+    }
+    .top-strip {
+      height: 6px;
+      background: var(--gold);
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+    }
+    .category {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .title {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--emerald-dark);
+      line-height: 1.25;
+      margin-bottom: 24px;
+    }
+    .slide.dark .title { color: #ffffff; }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      flex: 1;
+    }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      flex: 1;
+    }
+    .card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+    }
+    .card h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--emerald-dark);
+      margin-bottom: 8px;
+    }
+    .card .badge {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .card p, .card li {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .card ul { list-style: none; }
+    .card ul li { margin-bottom: 8px; }
+    .card ul li::before {
+      content: "- ";
+      color: var(--gold);
+      font-weight: bold;
+    }
+    .nav-bar {
+      position: absolute;
+      bottom: 16px;
+      right: 24px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 6px 12px;
+      border-radius: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--emerald-dark);
+    }
+    .nav-btn {
+      background: var(--emerald-dark);
+      color: white;
+      border: none;
+      padding: 4px 10px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide-container">
+    <div class="top-strip"></div>
+
+    <!-- Slide 1: Cover -->
+    <div class="slide dark active">
+      <div>
+        <div class="category">PEMERINTAH PROVINSI KALIMANTAN SELATAN | DISPORA KALSEL</div>
+        <h1 class="title" style="font-size: 34px; margin-top: 16px; max-width: 900px;">
+          SIPASD: Rancang Bangun Sistem Informasi Pengelolaan Arsip Surat Berbasis Repositori Digital Terindeks
+        </h1>
+        <p style="font-size: 16px; color: #a7f3d0; margin-top: 12px;">
+          Studi Kasus: Pengelolaan 420 Dokumen Korespondensi Fisik TA 2026 Sekretariat Dispora Kalsel
+        </p>
+      </div>
+      <div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px;">
+        <p style="font-size: 14px; font-weight: 700;">MUHAMMAD RIZKI RAMADHANI (NPM: 2310010406)</p>
+        <p style="font-size: 12px; opacity: 0.85;">Program Studi S1 Teknik Informatika - Fakultas Teknologi Informasi</p>
+        <p style="font-size: 12px; opacity: 0.85;">Universitas Islam Kalimantan (UNISKA) Muhammad Arsyad Al Banjari Banjarmasin | 2026</p>
+      </div>
+    </div>
+
+    <!-- Slide 2: Latar Belakang -->
+    <div class="slide">
+      <div>
+        <div class="category">ANALISIS MASALAH</div>
+        <h2 class="title">Latar Belakang & Masalah Riil Google Drive</h2>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Kondisi Eksisting di Dispora Kalsel:</h3>
+          <ul>
+            <li>420 berkas fisik scan PDF tersimpan di Google Drive dinas tanpa metadata terstruktur.</li>
+            <li>Penamaan file manual acak (contoh: '0973(14 Agustus 2026).pdf', '4302(1).pdf').</li>
+            <li>Waktu temu-kembali arsip memakan waktu 15 hingga 30 menit.</li>
+            <li>Ketiadaan pencatatan riwayat disposisi fisik pimpinan dan buku agenda dinas.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 style="color: var(--gold);">Solusi Melalui Sistem SIPASD:</h3>
+          <ul>
+            <li>Katalog digital terindeks: Temu-kembali arsip dipangkas menjadi &lt; 2 detik.</li>
+            <li>Penampil PDF bawaan (Built-in Viewer): Telaah dokumen langsung di browser.</li>
+            <li>Digitalisasi Disposisi: Perekaman instruksi pimpinan & cetak lembar standar Pemprov (A4/F4).</li>
+            <li>Ekspor Buku Agenda Excel: Generator otomatis format spreadsheet resmi via exceljs.</li>
+            <li>Zero Cost Guarantee: Biaya Rp 0,- pada TiDB Cloud Serverless & Vercel Edge.</li>
+          </ul>
+        </div>
+      </div>
+      <div style="font-size: 11px; color: var(--text-muted);">Dispora Prov. Kalsel & UNISKA Banjarmasin</div>
+    </div>
+
+    <!-- Slide 3: Arsitektur Cloud -->
+    <div class="slide">
+      <div>
+        <div class="category">ARSITEKTUR & TEKNOLOGI</div>
+        <h2 class="title">Arsitektur Sistem Cloud Serverless Zero Cost</h2>
+      </div>
+      <div class="grid-4">
+        <div class="card">
+          <h3>Frontend & Edge</h3>
+          <div class="badge">Vercel Edge Network</div>
+          <p>Next.js 15 App Router, Tailwind CSS v4, TypeScript 5, Domain resmi sipasd.my.id.</p>
+        </div>
+        <div class="card">
+          <h3>Basis Data</h3>
+          <div class="badge">TiDB Cloud Serverless</div>
+          <p>8 Tabel Relasional 3NF, Region Singapore, Latensi &lt; 35 ms, Kuota Gratis 25 GB, Zero Dummy Data.</p>
+        </div>
+        <div class="card">
+          <h3>Storage Ganda</h3>
+          <div class="badge">Cloudinary & Drive</div>
+          <p>Primer: Cloudinary CDN (Streaming signed URL &lt; 2s). Sekunder: Google Drive resmi dinas.</p>
+        </div>
+        <div class="card">
+          <h3>Keamanan</h3>
+          <div class="badge">RBAC 4 Tingkat</div>
+          <p>JWT Cookie HttpOnly, Bcrypt Hash, 4 Aktor Kedinasan, Audit Trail Logging, OWASP Top 10.</p>
+        </div>
+      </div>
+      <div style="font-size: 11px; color: var(--text-muted);">Dispora Prov. Kalsel & UNISKA Banjarmasin</div>
+    </div>
+
+    <!-- Slide 4: Fitur & Blackbox -->
+    <div class="slide">
+      <div>
+        <div class="category">IMPLEMENTASI & PENGUJIAN</div>
+        <h2 class="title">Evaluasi Kinerja & 15 Uji Black Box Testing</h2>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>4 Fitur Utama Sistem:</h3>
+          <ul>
+            <li>Portal Publik & Pelacak Agenda (/landing): Visualisasi aset 11 venue Banua.</li>
+            <li>Split-Screen View (/arsip-masuk): Tabel arsip bersebelahan dengan streaming PDF.</li>
+            <li>Cetak Lembar Disposisi: Format presisi F4 dan A4 standar dinas Pemprov Kalsel.</li>
+            <li>Ekspor Buku Agenda Excel: Generator berkas .xlsx resmi untuk pelaporan SPJ.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Hasil Pengujian Fungsional:</h3>
+          <ul>
+            <li>15 Skenario Uji Black Box Testing: 100% Valid dan Berhasil tanpa galat.</li>
+            <li>Kecepatan Temu-Kembali: Terpangkas dari 15-30 menit menjadi rata-rata 1,2 detik.</li>
+            <li>Integritas Data: 411 berkas riil TA 2026 terhubung live tanpa data tiruan.</li>
+            <li>Kepatuhan Kompilasi: npx tsc lolos 0 error, build Next.js 100% bersih.</li>
+          </ul>
+        </div>
+      </div>
+      <div style="font-size: 11px; color: var(--text-muted);">Dispora Prov. Kalsel & UNISKA Banjarmasin</div>
+    </div>
+
+    <!-- Slide 5: Penutup -->
+    <div class="slide dark">
+      <div>
+        <div class="category">PENUTUP & DEMONSTRASI</div>
+        <h2 class="title" style="color: white; font-size: 32px;">Kesimpulan & Demonstrasi Sistem</h2>
+        <ul style="list-style: none; margin-top: 24px; font-size: 15px; line-height: 2;">
+          <li>[V] Repositori E-Arsip SIPASD sukses diimplementasikan dan live di <b>https://www.sipasd.my.id</b>.</li>
+          <li>[V] 411 berkas riil tersimpan aman di TiDB Cloud Serverless & Cloudinary CDN.</li>
+          <li>[V] Waktu temu-kembali terpangkas menjadi &lt; 2 detik, mendukung efisiensi birokrasi SPBE.</li>
+          <li>[V] Naskah akademik Word (44 KB, format resmi UNISKA) dan dokumen panduan lengkap 100%.</li>
+        </ul>
+      </div>
+      <div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 16px; display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 13px; font-weight: 700; color: var(--gold);">Live System: https://www.sipasd.my.id</span>
+        <span style="font-size: 12px; opacity: 0.85;">Dinas Kepemudaan dan Olahraga Provinsi Kalimantan Selatan & FTI UNISKA 2026</span>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-bar">
+      <button class="nav-btn" onclick="prevSlide()">&larr; Prev</button>
+      <span id="slideIndicator">1 / 5</span>
+      <button class="nav-btn" onclick="nextSlide()">Next &rarr;</button>
+    </div>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    let current = 0;
+    function show(index) {
+      slides[current].classList.remove('active');
+      current = (index + slides.length) % slides.length;
+      slides[current].classList.add('active');
+      document.getElementById('slideIndicator').innerText = (current + 1) + ' / ' + slides.length;
+    }
+    function prevSlide() { show(current - 1); }
+    function nextSlide() { show(current + 1); }
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+      if (e.key === 'ArrowLeft') prevSlide();
+    });
+  </script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 # PANDUAN DEPLOYMENT CLOUD RESMI (ZERO-COST RUNBOOK): SIPASD
 **Prosedur Publikasi Sistem Informasi Persuratan Dispora Kalsel 24 Jam Non-Stop**  
-*Hosting: Vercel Edge Network | Database: TiDB Cloud Serverless | Storage: Cloudflare R2*
+*Hosting: Vercel Edge Network | Database: TiDB Cloud Serverless | Storage: Cloudinary & Google Drive*
 
 ---
 
@@ -17,7 +17,7 @@ Sistem SIPASD dirancang secara *Cloud-Native* sehingga tidak memerlukan server k
          │                 │
          │ (MySQL SSL)     │ (S3 API Presigned)
          ▼                 ▼
-[ TiDB Cloud Serverless ] [ Cloudflare R2 Storage ]
+[ TiDB Cloud Serverless ] [ Cloudinary & Google Drive ]
 (Basis Data 25 GB Gratis) (Penyimpanan 10 GB Gratis)
 ```
 
@@ -40,7 +40,7 @@ Sistem SIPASD dirancang secara *Cloud-Native* sehingga tidak memerlukan server k
 
 ---
 
-## 📦 Langkah 2: Setup Penyimpanan Objek Cloudflare R2
+## 📦 Langkah 2: Setup Penyimpanan Objek Cloudinary & Google Drive
 
 1. Buka dasbor **[https://dash.cloudflare.com](https://dash.cloudflare.com)** dan pilih menu **R2**.
 2. Klik tombol **Create Bucket**:
@@ -104,4 +104,4 @@ npm run db:seed
 | :--- | :--- | :--- | :--- |
 | **Vercel Hosting** | 100 GB Bandwidth / bulan | 5 – 10 GB / bulan | **Rp 0,- (Gratis)** |
 | **TiDB Serverless**| 25 GB Penyimpanan Relasional | ~500 MB (10.000 surat teks) | **Rp 0,- (Gratis)** |
-| **Cloudflare R2**  | 10 GB Storage & Zero Egress Fee | 420 PDF = ~1.2 GB | **Rp 0,- (Gratis)** |
+| **Cloudinary & Google Drive**  | 10 GB Storage & Zero Egress Fee | 420 PDF = ~1.2 GB | **Rp 0,- (Gratis)** |

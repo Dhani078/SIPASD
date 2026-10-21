@@ -25,7 +25,7 @@
   2. Pengguna mengetikkan kata kunci pencarian (misal: `Kejuaraan Daerah` atau `0973`) pada kolom pencarian instan.
   3. Sistem melakukan kueri pencarian berindeks pada database TiDB Cloud dan menampilkan daftar arsip yang cocok dalam waktu kurang dari 1 detik.
   4. Pengguna menekan baris arsip atau tombol **"Pratinjau PDF"**.
-  5. Sistem meminta presigned stream URL terenkripsi dari Cloudflare R2 dan memuat berkas PDF langsung pada panel pemutar dokumen (*built-in streaming PDF viewer*) di samping tabel.
+  5. Sistem meminta presigned stream URL terenkripsi dari Cloudinary & Google Drive dan memuat berkas PDF langsung pada panel pemutar dokumen (*built-in streaming PDF viewer*) di samping tabel.
   6. Pengguna membaca dokumen PDF secara lengkap tanpa perlu mengunduh file fisik ke memori laptop/ponsel.
 - **Kondisi Akhir**: Dokumen terbuka lancar di browser dan riwayat pencarian terekam di tabel `audit_logs`.
 
@@ -34,7 +34,7 @@
 - **Prasyarat**: Petugas memiliki berkas fisik surat yang telah dipindai menjadi PDF dari Google Drive.
 - **Skenario Normal**:
   1. Petugas membuka menu **Pengindeksan Arsip Baru**.
-  2. Petugas mengunggah berkas PDF pindaian (otomatis terkirim ke Cloudflare R2).
+  2. Petugas mengunggah berkas PDF pindaian (otomatis terkirim ke Cloudinary & Google Drive).
   3. Petugas menginputkan Nomor Surat, Tanggal Surat, Tanggal Diterima, Asal Instansi, Kode Klasifikasi, Perihal, dan Ringkasan Isi.
   4. Petugas mencatat dokumentasi coretan pimpinan yang tertera pada lembar kertas fisik: nama pejabat pendisposisi, tanggal disposisi, bidang tujuan, instruksi yang dicentang, dan arahan tertulis.
   5. Petugas menekan tombol **Simpan Indeks Arsip**.
@@ -111,8 +111,8 @@ start
 |Pengguna (Pimpinan / Staf)|
 :Pilih dokumen surat dari tabel katalog;
 :Klik 'Pratinjau PDF';
-|Sistem SIPASD & Cloudflare R2|
-:Minta presigned streaming URL ke Cloudflare R2;
+|Sistem SIPASD & Cloudinary & Google Drive|
+:Minta presigned streaming URL ke Cloudinary & Google Drive;
 :Alirkan data PDF ke built-in PDF viewer di layar;
 :Catat aksi buka berkas ke tabel audit_logs;
 |Pengguna (Pimpinan / Staf)|
@@ -132,7 +132,7 @@ actor Pengguna
 boundary "UI: Katalog E-Arsip" as UI
 control "ArsipController" as Action
 entity "TiDB Database" as DB
-entity "Cloudflare R2" as R2
+entity "Cloudinary & Google Drive" as R2
 entity "AuditLogger" as Audit
 
 Pengguna -> UI : Klik "Pratinjau PDF" pada baris surat
@@ -140,9 +140,9 @@ activate UI
 UI -> Action : getStreamingUrl(fileId)
 activate Action
 
-Action -> DB : Cari metadata file_key berdasarkan fileId
+Action -> DB : Cari metadata cloudinary_public_id berdasarkan fileId
 activate DB
-DB --> Action : Return file_key
+DB --> Action : Return cloudinary_public_id
 deactivate DB
 
 Action -> R2 : Generate presigned GET URL (Masa aktif 15 menit)

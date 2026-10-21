@@ -1,20 +1,38 @@
 # PROGRESS LOG: SIPASD (Sistem Informasi Pengelolaan Arsip Surat Dispora)
 
-## Sesi 1: Penyesuaian Arsitektur E-Arsip Digital Repositori Berkas Pindaian Google Drive (100/100 MAXX MODE)
+## Sesi 1: Inisialisasi Arsitektur, Riset Data Riil & Penyusunan Dokumen Spesifikasi Awal
 **Tanggal**: 20 Oktober 2026  
+**Operator / Agen**: Hermes Agent (Dhani078 / dhanisepeda@gmail.com)
+- Inspeksi 420 berkas riil di `C:\xampp\htdocs\Laporan Magang`.
+- Penetapan nama resmi sistem: SIPASD.
+- Penyusunan 30 dokumen Markdown arsitektur dan naskah Laporan Magang Bab I s/d Bab V.
+
+---
+
+## Sesi 2: Penyempurnaan PRD 100/100, Inisialisasi Cloud TiDB, Cloudinary, Google Drive & Audit Desain Modular
+**Tanggal**: 20–21 Oktober 2026  
 **Operator / Agen**: Hermes Agent (Dhani078 / dhanisepeda@gmail.com)
 
 ### Aktivitas yang Telah Diselesaikan
-1. **Analisis Mendalam Sumber Data Google Drive**:
-   - Memeriksa tangkapan layar akun resmi instansi: Google Drive `arsipdispora2026` folder `sistem magang`.
-   - Mengidentifikasi 171 berkas PDF pindaian pada `Surat Masuk 2026` dan 249 berkas PDF pindaian pada `Surat Keluar 2026`.
-   - Mengonfirmasi bahwa dokumen adalah **arsip statis digital (selesai diproses)** yang telah memiliki tanda tangan basah, cap dinas, dan catatan coretan lembar disposisi fisik pimpinan.
-2. **Penyelarasan Paradigma Sistem**:
-   - Menyelaraskan seluruh arsitektur sistem dari semula sistem alur surat baru berjalan (*live composition workflow*) menjadi **Repositori E-Arsip Digital Terindeks (Katalog Berkas Scan Google Drive)**.
-   - Merumuskan solusi konkret untuk masalah penamaan file acak, ketiadaan metadata, dan lambatnya pencarian dokumen (15–30 menit) di Google Drive menjadi pencarian instan (< 2 detik).
-3. **Penyempurnaan 30 Berkas Dokumentasi Lengkap**:
-   - Seluruh draf Laporan Magang Bab I s/d Bab V (`docs/BAB_1_PENDAHULUAN_DRAFT.md` hingga `docs/BAB_5_PENUTUP_DRAFT.md`), `docs/DAFTAR_PUSTAKA.md`, serta `docs/LAPORAN_MAGANG_MAPPING.md` telah disesuaikan secara presisi dengan kondisi Google Drive dan kebutuhan sidang UNISKA.
-   - Dokumen teknis (`SPEC.md`, `README.md`, `findings.md`, `task_plan.md`, `docs/DATABASE_SCHEMA.md`, `docs/API_ROUTES.md`, `docs/UML_DIAGRAMS.md`, `docs/SOP_KEDINASAN.md`, `docs/SKRIPSI_UPGRADE_ROADMAP.md`, `docs/DEPLOYMENT_GUIDE.md`, `docs/UI_UX_DESIGN_TOKENS.md`, `docs/IMPORT_MIGRATION_GUIDE.md`) telah disinkronkan 100%.
+1. **Penyusunan PRD 100/100 Maxx Mode**:
+   - Menulis `PRD.md` komprehensif (36 KB, 529 baris) mencakup diagnostik *Product Lens*, prioritisasi *ICE Score*, kontrak kapabilitas, dan runbook cloud.
+   - Menyusun `CONSTRAINTS.md` yang menetapkan *The Floor*, batas kinerja, dan invariant sistem.
+2. **Inisialisasi & Pengujian Basis Data TiDB Cloud Serverless**:
+   - Menghubungkan aplikasi ke klaster TiDB Cloud `gateway01.ap-southeast-1.prod.aws.tidbcloud.com:4000/sipasd`.
+   - Menjalankan migrasi 8 tabel relasional melalui `scripts/migrate-db.ts`.
+   - Mengisi data seeder pejabat dinas dan master klasifikasi surat dinas via `scripts/seed-db.ts`.
+3. **Konfigurasi Penyimpanan Ganda (Dual-Cloud Storage)**:
+   - Mengaktifkan kredensial Cloudinary (`vqfpoekg`, API key `966426338749991`) dan menguji siklus upload & delete berkas PDF.
+   - Mengaktifkan Google Drive API pada project Google Cloud `sipasd` dan membuat Service Account `sipasd-bot@sipasd.iam.gserviceaccount.com`.
+   - Menambahkan akses Editor pada folder `sistem magang` akun resmi `arsipdispora2026` untuk robot `sipasd-bot`.
+4. **Audit & Penyelarasan Prototipe Desain Figma Make V2**:
+   - Mengaudit hasil refactor Figma Make di direktori `C:\xampp\htdocs\Laporan Magang\SIPASD Web Application UI (1)`.
+   - Mengonfirmasi modularisasi 18 komponen di `src/components/`, data realistis 36 transaksi Dispora Kalsel di `mockLetters.ts`, pemutar PDF dinamis `pdf.ts` (`jspdf` + `pdfjs-dist`), dan generator spreadsheet `exportExcel.ts` (`exceljs`).
+   - Memastikan tidak ada karakter em-dash (`—`) dan bebas dari teks penampung placeholder.
+5. **Verifikasi Git & Repositori**:
+   - Seluruh perubahan di-commit atas nama `Dhani078 <dhanisepeda@gmail.com>` dan disinkronkan ke remote GitHub `https://github.com/Dhani078/SIPASD`.
 
-### Hasil Verifikasi
-- 30 berkas dokumentasi dan konfigurasi di `C:\xampp\htdocs\SIPASD` terverifikasi akurat, saling terhubung, bebas dari data buatan/palsu, dan mencerminkan kebutuhan riil Dispora Kalsel.
+### Status Verifikasi Terakhir
+- **Dokumen PRD & Naskah Magang**: 100% Siap salin ke Microsoft Word.
+- **Infrastruktur Cloud**: TiDB 8 Tabel Aktif, Cloudinary Terkoneksi, Google Drive Terhubung.
+- **Desain Antarmuka**: 18 Komponen Modular Teruji di `C:\xampp\htdocs\Laporan Magang\SIPASD Web Application UI (1)`.

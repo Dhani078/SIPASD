@@ -1,10 +1,10 @@
 # TASK PLAN: SIPASD (Sistem Informasi Pengelolaan Arsip Surat Dispora)
 
 ## Goal
-Membangun aplikasi repositori e-arsip persuratan berbasis web responsif (Next.js 15, TypeScript, Tailwind CSS, TiDB Serverless, Cloudflare R2) untuk Sekretariat Dispora Provinsi Kalimantan Selatan, menggantikan penyimpanan manual Google Drive (171 Surat Masuk & 249 Surat Keluar TA 2026) dengan katalog berindeks cepat, viewer PDF bawaan, pencatatan disposisi fisik, dan ekspor agenda Excel.
+Membangun aplikasi repositori e-arsip persuratan berbasis web responsif (Next.js 15, TypeScript, Tailwind CSS, TiDB Serverless, Cloudinary & Google Drive) untuk Sekretariat Dispora Provinsi Kalimantan Selatan, menggantikan penyimpanan manual Google Drive (171 Surat Masuk & 249 Surat Keluar TA 2026) dengan katalog berindeks cepat, viewer PDF bawaan, pencatatan disposisi fisik, dan ekspor agenda Excel.
 
 ## Current Phase
-Phase 1: Dokumen Spesifikasi, Arsitektur & Naskah Akademik (100% COMPLETE - E-ARSIP MODEL)
+Phase 2: Inisialisasi Proyek, Basis Data TiDB & Storage Cloud (In Progress -> Complete)
 
 ---
 
@@ -14,6 +14,8 @@ Phase 1: Dokumen Spesifikasi, Arsitektur & Naskah Akademik (100% COMPLETE - E-AR
 - [x] Susun `README.md` berstandar instansi Pemprov Kalsel & UNISKA (Model E-Arsip).
 - [x] Susun `AGENT.md` direktif autonomous agent loop & zero-slop.
 - [x] Susun `SPEC.md` spesifikasi teknis Spec-Driven Development.
+- [x] Susun `CONSTRAINTS.md` kontrak kualitas mutlak (The Floor, budgets, invariant).
+- [x] Susun `PRD.md` Product Requirements Document 100/100 Maxx Mode.
 - [x] Susun `task_plan.md`, `findings.md`, `progress.md`.
 - [x] Susun dokumentasi teknis di `docs/`:
   - [x] `docs/HANDOFF.md` (Panduan operasional sesi)
@@ -24,7 +26,7 @@ Phase 1: Dokumen Spesifikasi, Arsitektur & Naskah Akademik (100% COMPLETE - E-AR
   - [x] `docs/SOP_KEDINASAN.md` (Standar Operasional Prosedur 5 alur dinas)
   - [x] `docs/SKRIPSI_UPGRADE_ROADMAP.md` (Blueprint peningkatan ke Skripsi S1)
   - [x] `docs/UI_UX_DESIGN_TOKENS.md` (Palet warna dinas, tipografi, 0 overflow mobile)
-  - [x] `docs/DEPLOYMENT_GUIDE.md` (Zero-cost runbook: Vercel, TiDB, Cloudflare R2)
+  - [x] `docs/DEPLOYMENT_GUIDE.md` (Zero-cost runbook: Vercel, TiDB, Cloudinary, Drive)
   - [x] `docs/IMPORT_MIGRATION_GUIDE.md` (Skrip ekstraksi 420 berkas riil PDF ke SQL)
 - [x] Susun draf lengkap naskah Laporan Magang (UNISKA Ready):
   - [x] `docs/BAB_1_PENDAHULUAN_DRAFT.md` (Latar Belakang Google Drive, Rumusan, Batasan, Tujuan, Manfaat)
@@ -41,52 +43,49 @@ Phase 1: Dokumen Spesifikasi, Arsitektur & Naskah Akademik (100% COMPLETE - E-AR
   - [x] `.github/dependabot.yml`
   - [x] `CONTRIBUTING.md`
   - [x] `CHANGELOG.md`
-- *Status: Complete (100/100 MAXX MODE - E-ARSIP)*
+- *Status: Complete (100/100 MAXX MODE)*
 
-### [ ] Phase 2: Inisialisasi Proyek & Basis Data (TiDB / Prisma)
-- [ ] Inisialisasi package.json Next.js 15 + TypeScript + Tailwind CSS v4.
-- [ ] Buat skema Prisma (`prisma/schema.prisma`) untuk tabel users, arsip_surat_masuk, arsip_surat_keluar, riwayat_disposisi, klasifikasi_arsip, bidang_dispora, audit_logs.
-- [ ] Buat modul database client singleton (`src/lib/db.ts`).
-- [ ] Buat seeder data dinas (`prisma/seed.ts`): akun pejabat (Kadis, Sekr, PPTK, Bendahara, TU) & kode klasifikasi baku Kalsel.
+### [x] Phase 2: Inisialisasi Proyek, Basis Data TiDB & Storage Cloud
+- [x] Inisialisasi `package.json` Next.js 15 + TypeScript + Tailwind CSS v4 dan pasang dependensi.
+- [x] Buat skrip migrasi database `scripts/migrate-db.ts` dan eksekusi pembentukan 8 tabel di TiDB Cloud Serverless.
+- [x] Buat skrip seeder `scripts/seed-db.ts` untuk akun resmi pejabat Dispora & master kode klasifikasi arsip.
+- [x] Konfigurasi penyimpanan primer Cloudinary (`vqfpoekg`, API key `966426338749991`) dan uji upload/delete.
+- [x] Konfigurasi penyimpanan sekunder Google Drive (`sistem magang`) via Service Account `sipasd-bot@sipasd.iam.gserviceaccount.com`.
+- [x] Verifikasi dan audit prototipe antarmuka di `C:\xampp\htdocs\Laporan Magang\SIPASD Web Application UI (1)` (18 komponen modular).
+- *Status: Complete*
+
+### [ ] Phase 3: Modul Autentikasi & RBAC 4 Tingkat
+- [ ] Buat utilitas verifikasi JWT sesi cookie HttpOnly di `src/lib/auth.ts`.
+- [ ] Buat route handler `/api/auth/login` dan `/api/auth/logout`.
+- [ ] Pasang antarmuka Login (`src/app/login/page.tsx`) dengan tombol tester 1-klik 5 peran.
+- [ ] Buat proteksi middleware rute (`middleware.ts`).
 - *Status: Pending*
 
-### [ ] Phase 3: Modul Autentikasi & RBAC
-- [ ] Buat modul hashing password (bcrypt) & sesi terenkripsi (Jose / JWT HttpOnly cookie).
-- [ ] Buat middleware rute (`middleware.ts`) untuk proteksi akses Admin, Pimpinan, TU, dan Bidang.
-- [ ] Buat antarmuka Login (`src/app/(auth)/login/page.tsx`) dengan tombol akun cepat pengujian.
+### [ ] Phase 4: Porting Komponen Modular ke Next.js 15 App Router & TiDB
+- [ ] Pindahkan komponen dari `C:\xampp\htdocs\Laporan Magang\SIPASD Web Application UI (1)` ke `src/components/`.
+- [ ] Hubungkan katalog surat masuk (`/arsip-masuk`) ke kueri database TiDB Cloud Serverless secara real-time.
+- [ ] Hubungkan katalog surat keluar (`/arsip-keluar`) ke kueri database TiDB Cloud Serverless.
+- [ ] Pasang penampil dokumen PDF bawaan (*streaming viewer*) dengan tombol cadangan Google Drive.
+- [ ] Buat modal rekam indeks surat baru yang menyimpan metadata ke TiDB dan berkas ke Cloudinary.
 - *Status: Pending*
 
-### [ ] Phase 4: Modul E-Arsip Surat Masuk & Integrasi PDF Viewer
-- [ ] Buat halaman katalog surat masuk dengan filter pencarian instan (< 2 detik), filter sifat surat, dan paginasi.
-- [ ] Buat formulir pengindeksan surat masuk baru + validasi Zod.
-- [ ] Buat komponen PDF Streaming Viewer bawaan browser (membaca 171 PDF Surat Masuk Google Drive).
+### [ ] Phase 5: Modul Cetak Disposisi & Ekspor Buku Agenda Excel
+- [ ] Pasang halaman cetak disposisi standar Pemprov Kalsel ukuran F4/A4 (`@media print`).
+- [ ] Pasang endpoint API ekspor Buku Agenda Surat Masuk dan Keluar ke format spreadsheet Excel (.xlsx) via `exceljs`.
 - *Status: Pending*
 
-### [ ] Phase 5: Modul Pencatatan Riwayat Disposisi Fisik
-- [ ] Buat modal pencatatan riwayat disposisi fisik pimpinan (pejabat, tanggal, instruksi, catatan tertulis).
-- [ ] Buat fitur cetak ulang salinan Lembar Disposisi standar Pemprov Kalsel (tampilan siap cetak A4/F4).
-- *Status: Pending*
-
-### [ ] Phase 6: Modul E-Arsip Surat Keluar & Pengindeksan Klasifikasi
-- [ ] Buat halaman katalog surat keluar dengan filter kode klasifikasi (005, 426, 427, 800, 045, 900).
-- [ ] Buat formulir pengindeksan surat keluar + tautan berkas PDF (249 PDF Surat Keluar).
-- *Status: Pending*
-
-### [ ] Phase 7: Dashboard Statistik Arsip & Ekspor Buku Agenda
-- [ ] Bangun komponen kartu KPI (Volume total arsip, rasio masuk/keluar, arsip per bidang).
-- [ ] Bangun grafik tren volume arsip bulanan (Chart.js / SVG).
-- [ ] Buat fitur ekspor Buku Agenda Surat Masuk & Keluar ke format Microsoft Excel (.xlsx).
-- *Status: Pending*
-
-### [ ] Phase 8: Batch Ingestion 420 Berkas Riil PDF & Verifikasi Akhir
-- [ ] Buat script importer otomatis membaca 171 file PDF Surat Masuk dan 249 file PDF Surat Keluar.
-- [ ] Jalankan audit pengujian antarmuka mobile (375px) dan desktop (1440px).
-- [ ] Verifikasi seluruh alur blackbox testing untuk Bab IV Laporan Magang.
+### [ ] Phase 6: Verifikasi Akhir & Deploy Publik Vercel
+- [ ] Jalankan audit typecheck `npx tsc --noEmit` (0 error).
+- [ ] Jalankan audit build produksi `npm run build` (0 error).
+- [ ] Verifikasi antarmuka mobile (375px) dan desktop (1440px) bebas horizontal scroll overflow.
+- [ ] Lakukan commit akhir dan deploy ke Vercel via GitHub `Dhani078/SIPASD`.
 - *Status: Pending*
 
 ---
 
-## Key Decisions
-1. **Model Sistem E-Arsip Murni**: Menetapkan fokus sistem sebagai repositori katalog digital berindeks untuk menggantikan penumpukan manual di Google Drive (`arsipdispora2026`), bukan simulasi alur kantor aktif.
-2. **Relevansi Akademik Penuh**: Sangat solid untuk Laporan Magang TI UNISKA semester 7 dan memiliki jalur upgrade teruji ke Skripsi S1 semester 8 (OCR Tesseract & Text Mining Naive Bayes).
-3. **Arsitektur Cloud Zero-Cost**: TiDB Serverless (25 GB) + Cloudflare R2 (10 GB) + Vercel Edge.
+## Key Decisions & Locations
+1. **Lokasi Prototipe Desain**: `C:\xampp\htdocs\Laporan Magang\SIPASD Web Application UI (1)` (18 file komponen modular, teruji E2E).
+2. **Arsitektur Penyimpanan Ganda**:
+   - Primer: Cloudinary (`vqfpoekg`, 25 kredit gratis per bulan) untuk streaming instan < 2 detik.
+   - Sekunder: Google Drive folder `sistem magang` resmi instansi via Service Account robot `sipasd-bot@sipasd.iam.gserviceaccount.com`.
+3. **Database**: TiDB Cloud Serverless (`gateway01.ap-southeast-1.prod.aws.tidbcloud.com:4000/sipasd`, 25 GB gratis, 8 tabel aktif).

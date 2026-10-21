@@ -9,7 +9,7 @@
 Berdasarkan seluruh tahapan analisis, perancangan, implementasi, dan pengujian sistem repositori e-arsip yang telah dilaksanakan selama kegiatan Kerja Praktik (Magang) pada Sekretariat Dinas Kepemudaan dan Olahraga Provinsi Kalimantan Selatan, dapat ditarik kesimpulan sebagai berikut:
 
 1. **Digitalisasi Repositori E-Arsip Terindeks**:
-   Aplikasi web responsif **SIPASD (Sistem Informasi Pengelolaan Arsip Surat Dispora)** telah berhasil dibangun menggunakan tumpukan teknologi modern *Next.js 15, TypeScript, Tailwind CSS v4, TiDB Cloud Serverless, dan Cloudflare R2*. Sistem ini sukses menjadi solusi pengganti penyimpanan manual Google Drive (`arsipdispora2026`), mengorganisasi 420 berkas PDF riil TA 2026 (171 Surat Masuk dan 249 Surat Keluar) ke dalam basis data terindeks.
+   Aplikasi web responsif **SIPASD (Sistem Informasi Pengelolaan Arsip Surat Dispora)** telah berhasil dibangun menggunakan tumpukan teknologi modern *Next.js 15, TypeScript, Tailwind CSS v4, TiDB Cloud Serverless, dan Cloudinary & Google Drive*. Sistem ini sukses menjadi solusi pengganti penyimpanan manual Google Drive (`arsipdispora2026`), mengorganisasi 420 berkas PDF riil TA 2026 (171 Surat Masuk dan 249 Surat Keluar) ke dalam basis data terindeks.
 2. **Peningkatan Drastis Kecepatan Temu-Kembali Arsip**:
    Pengujian fungsional membuktikan bahwa SIPASD memangkas waktu pencarian dokumen arsip surat dari sebelumnya **15 hingga 30 menit** di Google Drive menjadi **kurang dari 2 detik** melalui mesin pencari multi-filter berbasis nomor, tanggal, instansi, perihal, dan kode klasifikasi dinas.
 3. **Kemudahan Akses Dokumen via In-Browser Streaming Viewer**:
@@ -29,7 +29,7 @@ Demi pengembangan sistem yang berkelanjutan, penulis menyampaikan sejumlah saran
 1. **Pemeliharaan Pengindeksan Berkas Secara Berkala**:
    Disarankan agar staf tata usaha melakukan pengindeksan metadata secara konsisten setiap kali selesai memindai berkas surat fisik baru, sehingga repositori e-arsip selalu mutakhir (*up-to-date*).
 2. **Optimalisasi Tata Letak Penyimpanan Cloud**:
-   Disarankan memanfaatkan kuota gratis Cloudflare R2 (10 GB) dan TiDB Cloud Serverless (25 GB) secara optimal dengan melakukan kompresi berkas PDF sebelum diunggah agar kapasitas penyimpanan awan dapat bertahan untuk pemakaian bertahun-tahun tanpa biaya.
+   Disarankan memanfaatkan kuota gratis Cloudinary & Google Drive (10 GB) dan TiDB Cloud Serverless (25 GB) secara optimal dengan melakukan kompresi berkas PDF sebelum diunggah agar kapasitas penyimpanan awan dapat bertahan untuk pemakaian bertahun-tahun tanpa biaya.
 
 ### 5.2.2 Saran Pengembangan Akademis (Peningkatan ke Skripsi S1)
 Karakteristik data 420 berkas pindaian scan PDF yang tersimpan pada SIPASD merupakan objek data penelitian (*dataset testbed*) yang sangat sempurna untuk ditingkatkan menjadi Skripsi S1 Teknik Informatika di UNISKA Banjarmasin pada semester 8:

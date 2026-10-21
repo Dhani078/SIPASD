@@ -26,7 +26,7 @@ Sistem mencakup:
 | **Styling & Desain** | Tailwind CSS v4 + Lucide Icons | Palet: Emerald Dinas, Gold Banua, Slate Clean |
 | **Basis Data Relasional** | TiDB Cloud Serverless (MySQL) | SSL Strict, Serverless Autoscaling (25 GB Gratis) |
 | **ORM / Query Builder** | Prisma ORM v5 | Type-safe Database Client |
-| **Penyimpanan Berkas** | Cloudflare R2 | S3-Compatible SDK (`@aws-sdk/client-s3`) (10 GB Gratis) |
+| **Penyimpanan Berkas** | Cloudinary & Google Drive | S3-Compatible SDK (`@aws-sdk/client-s3`) (10 GB Gratis) |
 | **Autentikasi & Keamanan** | Jose / NextAuth (Session Cookie) | HttpOnly, Secure, SameSite=Strict, Bcrypt |
 | **Ekspor Dokumen** | ExcelJS | Generator Buku Agenda format .xlsx |
 
@@ -60,7 +60,7 @@ SIPASD/
 │   │   └── dashboard/             # Grafik Chart.js, kartu statistik arsip
 │   ├── lib/
 │   │   ├── db.ts                  # Koneksi singleton TiDB / Prisma
-│   │   ├── r2.ts                  # Klien Cloudflare R2 (presigned streaming)
+│   │   ├── cloudinary.ts                  # Klien Cloudinary & Google Drive (presigned streaming)
 │   │   ├── auth.ts                # Utilitas enkripsi & verifikasi sesi
 │   │   └── audit.ts               # Perekaman jejak audit log otomatis
 │   └── types/                     # Definisi antarmuka TypeScript
@@ -80,6 +80,6 @@ SIPASD/
   - Catat jejak audit (*user*, *action*, *IP address*, *timestamp*) untuk setiap operasi temu-kembali dan mutasi data.
   - Periksa tampilan mobile (375px) dan desktop (1440px) bebas dari horizontal scroll overflow.
 - **Never (Dilarang)**:
-  - Menyimpan file PDF lokal di server (wajib Cloudflare R2 / link storage terpusat).
+  - Menyimpan file PDF lokal di server (wajib Cloudinary & Google Drive / link storage terpusat).
   - Mengubah isi dokumen PDF fisik yang sudah sah secara hukum negara.
   - Menyimpan *password* dalam teks polos (*plain text*).

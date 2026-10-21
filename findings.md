@@ -1,6 +1,6 @@
 # FINDINGS & RECONNAISSANCE: SIPASD
 **Catatan Hasil Riset, Analisis Berkas Riil & Struktur Kedinasan Dispora Kalsel**  
-*Tanggal Analisis: 20 Oktober 2026*
+*Tanggal Analisis: 20–21 Oktober 2026*
 
 ---
 
@@ -10,8 +10,9 @@ Berdasarkan pemeriksaan langsung pada penyimpanan awan resmi instansi (Google Dr
 
 - **Kapasitas Terpakai**: 101,51 GB dari total kuota 5 TB.
 - **Dua Subfolder Utama**:
-  1. `Surat Masuk 2026` (171 Berkas PDF)
-  2. `Surat Keluar 2026` (249 Berkas PDF)
+  1. `Surat Masuk 2026` (171 Berkas PDF / 205,96 MB)
+  2. `Surat Keluar 2026` (249 Berkas PDF / 167,19 MB)
+  3. Total Berkas Riil: **420 Berkas PDF seberat 373,15 MB**. Seluruh berkas berukuran di bawah 10 MB (file terbesar `0907(4agustus).pdf` berukuran 9,77 MB).
 - **Status Berkas**: Berkas merupakan **dokumen arsip statis (selesai diproses)**. Seluruh dokumen telah ditandatangani basah oleh pimpinan, distempel cap resmi instansi, terdapat coretan/catatan disposisi fisik pada kertas aslinya, lalu dipindai (*scan*) menjadi berkas digital PDF.
 
 ---
@@ -56,13 +57,39 @@ Berdasarkan dokumen resmi BKU TA 2026 dan berkas surat pengantar:
 
 ---
 
-## 4. Evaluasi Kelayakan: Laporan Magang vs Skripsi S1 TI UNISKA
+## 4. Evaluasi Prototipe Desain Antarmuka (Figma Make V2)
 
-Keputusan menjadikan sistem ini sebagai **E-Arsip Digital Persuratan (Katalog Repositori Terindeks)** memiliki landasan akademik yang sangat kuat:
+Prototipe antarmuka resmi telah dibangun dan disimpan pada:  
+`C:\xampp\htdocs\Laporan Magang\SIPASD Web Application UI (1)`
+
+Temuan audit desain:
+- **Modularitas Tinggi (18 Komponen)**: Tidak ada lagi file monolitik 1.700 baris. Komponen utama terisolasi rapi: `LandingPage.tsx`, `LoginPage.tsx`, `Sidebar.tsx`, `TopNavbar.tsx`, `DashboardView.tsx`, `ArchiveTable.tsx`, `ArchiveWorkspace.tsx`, `PdfPreviewPanel.tsx`, `PrintDisposisiModal.tsx`, `NewLetterModal.tsx`.
+- **Pengujian E2E Otomatis**: Dilengkapi test runner Playwright (`tests/interactions.cjs`) yang memverifikasi navigasi publik, tester login 5 role, filter tabel per venue, pembukaan modal, dan ekspor spreadsheet.
+- **Ekspor Excel Asli**: Menggunakan pustaka `exceljs` untuk menghasilkan berkas `.xlsx` dengan kop dinas dan garis batas tabel penuh.
+- **Penampil Dokumen PDF Nyata**: Menggunakan `jspdf` dan `pdfjs-dist` untuk streaming dokumen langsung di layar peramban.
+
+---
+
+## 5. Status Infrastruktur Cloud Terverifikasi Aktif
+
+1. **TiDB Cloud Serverless (MySQL Protocol)**:
+   - Host: `gateway01.ap-southeast-1.prod.aws.tidbcloud.com:4000`
+   - Database: `sipasd` (8 tabel relasional telah terbentuk dan terindeks).
+   - Akun Pengguna & Master Klasifikasi telah ter-seed.
+2. **Penyimpanan Primer Cloudinary**:
+   - Cloud Name: `vqfpoekg`, API Key: `966426338749991`.
+   - Kuota 25 kredit gratis/bulan. Pengunggahan dan penghapusan uji coba terbukti berhasil 100%.
+3. **Penyimpanan Sekunder Google Drive**:
+   - Folder: `sistem magang` resmi instansi.
+   - Hak akses Editor telah diberikan kepada robot Service Account: `sipasd-bot@sipasd.iam.gserviceaccount.com`.
+
+---
+
+## 6. Evaluasi Kelayakan: Laporan Magang vs Skripsi S1 TI UNISKA
 
 | Parameter | Posisi pada Laporan Magang (Semester 7) | Peluang Peningkatan ke Skripsi S1 (Semester 8) |
 | :--- | :--- | :--- |
 | **Objek Penelitian** | Pemecahan masalah temu-kembali 420 berkas scan Google Drive Dispora Kalsel. | Eksplorasi metode kecerdasan buatan (*AI & Machine Learning*) pada 420 berkas teks PDF. |
-| **Metode Rekayasa** | Waterfall / Agile rekayasa perangkat lunak web responsif (Next.js 15 + TiDB + R2). | Algoritma **OCR Tesseract** (ekstraksi teks otomatis) atau **Multinomial Naive Bayes TF-IDF** (klasifikasi kategori otomatis). |
+| **Metode Rekayasa** | Waterfall / Agile rekayasa web responsif (Next.js 15 + TiDB + Cloudinary). | Algoritma **OCR Tesseract** (ekstraksi teks otomatis) atau **Multinomial Naive Bayes TF-IDF** (klasifikasi kategori otomatis). |
 | **Data Penelitian** | 420 berkas riil sebagai basis data arsip sistem. | 420 berkas riil sebagai korpus data latih (*training*) dan data uji (*testing*). |
 | **Kesiapan** | **100% Siap Diujikan pada Sidang Magang**. | **Tinggal menambahkan 1 modul algoritma di semester 8**. |

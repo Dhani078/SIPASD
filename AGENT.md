@@ -30,7 +30,7 @@
 - **Bahasa**: TypeScript (Strict mode, no `any`, type safety menyeluruh).
 - **Gaya Visual**: Tailwind CSS v4 (Desain formal birokrasi berwibawa, palet hijau zamrud / emerald khas Dispora & Pemprov Kalsel, slate, putih bersih).
 - **Basis Data**: TiDB Cloud Serverless (MySQL Driver, Prisma ORM atau Kysely/Drizzle, SSL strict).
-- **Penyimpanan Berkas**: Cloudflare R2 via `@aws-sdk/client-s3` (Presigned URLs untuk streaming PDF aman).
+- **Penyimpanan Berkas**: Cloudinary & Google Drive via `@aws-sdk/client-s3` (Presigned URLs untuk streaming PDF aman).
 - **Keamanan**: OWASP Top 10 (CSRF protection, XSS escaping, parameter binding PDO/Prisma, MIME validation pada berkas unggahan).
 
 ---

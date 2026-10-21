@@ -6,11 +6,27 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ## [Unreleased]
 
-### Planned (Phase 2 - Phase 8)
-- Inisialisasi struktur Next.js 15 App Router + TypeScript di `C:\xampp\htdocs\SIPASD`.
-- Integrasi skema tabel Prisma ORM ke basis data TiDB Cloud Serverless.
-- Pembuatan komponen antarmuka responsif Tailwind CSS v4 untuk mobile dan desktop.
-- Script migrasi batch membaca 171 PDF Surat Masuk dan 249 PDF Surat Keluar.
+### Planned (Phase 3 - Phase 6)
+- Integrasi 18 komponen modular dari `C:\xampp\htdocs\Laporan Magang\SIPASD Web Application UI (1)` ke rute Next.js 15 App Router.
+- Penyambungan kueri real-time database TiDB Cloud Serverless ke antarmuka katalog surat masuk dan keluar.
+- Implementasi ekspor Buku Agenda Excel (.xlsx) dinas via endpoint `/api/laporan/export-excel`.
+- Pengujian akhir blackbox testing dan deployment produksi ke Vercel.
+
+---
+
+## [2.0.0-prod] - 2026-10-21
+
+### Added
+- **`PRD.md` (Product Requirements Document)**: Dokumen spesifikasi produk 100/100 Maxx Mode (36 KB, 529 baris) memuat analisis *Product Lens*, prioritisasi *ICE Score*, kontrak kapabilitas, kamus data 8 tabel, dan 15 matriks uji black box.
+- **`CONSTRAINTS.md` (Quality Contract)**: Kontrak kualitas mutlak *The Floor*, batas kinerja kuantitatif, dan aturan invariant *Dual-Cloud Storage*.
+- **Infrastruktur Database TiDB Cloud Serverless**: 8 tabel relasional berhasil dimigrasikan via `scripts/migrate-db.ts` dan diisi data awal via `scripts/seed-db.ts`.
+- **Integrasi Penyimpanan Ganda (Dual-Cloud)**:
+  * Primer: Cloudinary (`cloud_name: vqfpoekg`, API key `966426338749991`) untuk penampil dokumen PDF instan.
+  * Sekunder: Google Drive folder `sistem magang` akun resmi `arsipdispora2026` via robot Service Account `sipasd-bot@sipasd.iam.gserviceaccount.com`.
+- **Audit & Penyelarasan Prototipe UI Modular**: Memverifikasi 18 komponen modular hasil refactor Figma Make di `C:\xampp\htdocs\Laporan Magang\SIPASD Web Application UI (1)`, lengkap dengan 36 data transaksi riil Dispora Kalsel, pemutar PDF dinamis `pdf.ts` (`jspdf` + `pdfjs-dist`), dan generator spreadsheet `exportExcel.ts` (`exceljs`).
+
+### Changed
+- **Penyelarasan Seluruh Naskah Laporan Magang**: Harmonisasi Bab I s/d Bab V, Daftar Pustaka APA 7th Edition, Deployment Guide, dan Security Audit dengan arsitektur Dual-Cloud (Cloudinary + Google Drive) tanpa kartu kredit.
 
 ---
 

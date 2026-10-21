@@ -63,12 +63,12 @@
 
 ### 3.2 Analisis Sistem yang Diusulkan (Proposed System)
 - Arsitektur Web Responsif (dapat diakses nyaman melalui HP maupun laptop/PC).
-- Penyimpanan awan hibrida: TiDB Serverless (metadata relasional) dan Cloudflare R2 (420 berkas PDF).
+- Penyimpanan awan hibrida: TiDB Serverless (metadata relasional) dan Cloudinary & Google Drive (420 berkas PDF).
 
 ### 3.3 Pemodelan Diagram UML (Unified Modeling Language)
 1. **Use Case Diagram**: Aktor (Super Admin, Petugas Arsip, Pimpinan, Kabid) dan 10 Use Cases inti e-arsip.
 2. **Activity Diagram**: Alur Pengindeksan Berkas Scan PDF & Alur Temu-Kembali Dokumen.
-3. **Sequence Diagram**: Interaksi streaming PDF presigned URL antara UI, Server Actions, TiDB, dan Cloudflare R2.
+3. **Sequence Diagram**: Interaksi streaming PDF presigned URL antara UI, Server Actions, TiDB, dan Cloudinary & Google Drive.
 4. **Class Diagram & Entity Relationship Diagram (ERD)**: Mengacu pada model 3NF di `docs/DATABASE_SCHEMA.md`.
 
 ### 3.4 Perancangan Antarmuka Pengguna (UI/UX Design)
@@ -84,11 +84,11 @@
 
 ### 4.1 Implementasi Perangkat Keras dan Lunak
 - **Perangkat Keras**: Laptop pengembang (RAM 16 GB, SSD NVMe) dan perangkat uji seluler (layar 375px–414px).
-- **Perangkat Lunak**: Next.js 15, TypeScript, Tailwind CSS v4, Node.js 20, TiDB Cloud Serverless, Cloudflare R2, Git & VS Code.
+- **Perangkat Lunak**: Next.js 15, TypeScript, Tailwind CSS v4, Node.js 20, TiDB Cloud Serverless, Cloudinary & Google Drive, Git & VS Code.
 
 ### 4.2 Implementasi Kode Kunci
 - Kueri pencarian multi-filter cepat (< 2 detik) berbasis indexed fields.
-- Helper streaming PDF presigned URL Cloudflare R2 via AWS S3 SDK.
+- Helper streaming PDF presigned URL Cloudinary & Google Drive via AWS S3 SDK.
 
 ### 4.3 Pengujian Sistem (Black Box Testing)
 Tabel matriks pengujian fungsional 15 skenario (Login, Filter Nomor, Filter Perihal, Filter Sifat, In-Browser Streaming Viewer, Rekam Indeks, Validasi Non-PDF, Catat Disposisi Fisik, Cetak Salinan, Filter Klasifikasi, Ekspor Excel, Audit Trail, Responsivitas Mobile 0 Overflow).

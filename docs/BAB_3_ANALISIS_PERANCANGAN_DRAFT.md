@@ -41,7 +41,7 @@
 
 ### 3.3.2 Kebutuhan Non-Fungsional (Non-Functional Requirements)
 - **Responsivitas**: Desain antarmuka fleksibel (Tailwind CSS v4) yang bebas dari horizontal scrollbar overflow pada resolusi ponsel (375px) dan desktop (1440px).
-- **Keandalan Cloud-Native**: Sistem berjalan di atas TiDB Cloud Serverless dan Cloudflare R2 tanpa memerlukan komputer server kantor menyala 24 jam.
+- **Keandalan Cloud-Native**: Sistem berjalan di atas TiDB Cloud Serverless dan Cloudinary & Google Drive tanpa memerlukan komputer server kantor menyala 24 jam.
 - **Keamanan OWASP**: Proteksi SQL Injection via parameterized queries, proteksi XSS, cookie sesi HttpOnly Secure, dan validasi berkas PDF.
 
 ---
@@ -57,7 +57,7 @@
    - Aktivitas Pengindeksan Berkas Pindaian Scan PDF ke Repositori Cloud.
    - Aktivitas Temu-Kembali Dokumen & Pratinjau PDF di Peramban.
 3. **Sequence Diagram**:
-   - Alur temu-kembali data arsip: Interaksi User Interface $\rightarrow$ Query Database TiDB $\rightarrow$ Generate Presigned Streaming URL Cloudflare R2 $\rightarrow$ Tampilan Layar.
+   - Alur temu-kembali data arsip: Interaksi User Interface $\rightarrow$ Query Database TiDB $\rightarrow$ Generate Presigned Streaming URL Cloudinary & Google Drive $\rightarrow$ Tampilan Layar.
 4. **Class Diagram**:
    - Relasi entitas: User, BidangDispora, KlasifikasiArsip, ArsipSuratMasuk, RiwayatDisposisi, ArsipSuratKeluar, BukuEkspedisi, AuditLog.
 
@@ -69,7 +69,7 @@ Basis data dirancang memenuhi kaidah **Third Normal Form (3NF)**:
 - **Tabel `users`**: Menampung kredensial akun, NIP, jabatan, dan level peran.
 - **Tabel `bidang_dispora`**: Master referensi unit kerja di lingkungan Dispora Kalsel.
 - **Tabel `klasifikasi_arsip`**: Master kode klasifikasi surat Permendagri/Pergub (005, 426, 427, 800, 045, 900) beserta masa retensi aktif dan inaktif.
-- **Tabel `arsip_surat_masuk`**: Katalog metadata 171 dokumen surat masuk beserta tautan berkas PDF di Cloudflare R2.
+- **Tabel `arsip_surat_masuk`**: Katalog metadata 171 dokumen surat masuk beserta tautan berkas PDF di Cloudinary & Google Drive.
 - **Tabel `riwayat_disposisi`**: Dokumentasi arahan fisik lembar disposisi pimpinan (relasi 1:N dari surat masuk).
 - **Tabel `arsip_surat_keluar`**: Katalog metadata 249 dokumen surat keluar beserta nomor registrasi dan kode klasifikasi dinas.
 - **Tabel `buku_ekspedisi`**: Catatan tanda terima distribusi fisik surat keluar oleh kurir dinas.

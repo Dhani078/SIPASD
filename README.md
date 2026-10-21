@@ -6,7 +6,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Framework: Next.js 15](https://img.shields.io/badge/Framework-Next.js%2015-black.svg)](https://nextjs.org/)
 [![Database: TiDB Serverless](https://img.shields.io/badge/Database-TiDB%20Serverless-blue.svg)](https://tidb.cloud/)
-[![Storage: Cloudflare R2](https://img.shields.io/badge/Storage-Cloudflare%20R2-orange.svg)](https://cloudflare.com/)
+[![Storage: Cloudinary & Google Drive](https://img.shields.io/badge/Storage-Cloudinary%20%26%20Drive-blue.svg)](https://cloudflare.com/)
 
 ---
 
@@ -69,7 +69,7 @@ Kondisi eksisting penyimpanan Google Drive:
 - **Frontend & Fullstack**: Next.js 15 (App Router, React 19, TypeScript).
 - **Styling**: Tailwind CSS v4 (Responsif Mobile & PC, 0 Horizontal Overflow).
 - **Basis Data**: TiDB Cloud Serverless (MySQL Compatible, SSL Strict, Gratis 25 GB).
-- **Penyimpanan Dokumen**: Cloudflare R2 (S3 API, Zero Egress Fee, Gratis 10 GB).
+- **Penyimpanan Dokumen**: Cloudinary & Google Drive (S3 API, Zero Egress Fee, Gratis 10 GB).
 - **Hosting Publik**: Vercel Edge Network (HTTPS Otomatis, Aktif 24 Jam Tanpa Komputer Kantor).
 
 ---

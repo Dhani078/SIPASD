@@ -23,7 +23,7 @@ Namun, berdasarkan hasil observasi dan keterlibatan langsung penulis selama mela
 4. **Ketiadaan Fitur Rekapitulasi Buku Agenda Kedinasan**:
    Google Drive tidak dapat menghasilkan lembaran register Buku Agenda resmi berformat spreadsheet (*Microsoft Excel*) yang sesuai dengan format tata naskah dinas baku Pemerintah Provinsi Kalimantan Selatan untuk lampiran Laporan Pertanggungjawaban (LPJ/SPJ).
 
-Melihat permasalahan di atas, diperlukan sebuah sistem repositori e-arsip berbasis web responsif yang mampu mengorganisasi, mengindeks, dan menampilkan kembali 420+ berkas PDF pindaian tersebut secara instan. Oleh karena itu, penulis merancang dan membangun **"Sistem Informasi Pengelolaan Arsip Surat Dispora (SIPASD)"** berbasis web responsif menggunakan *Next.js 15, TypeScript, Tailwind CSS, TiDB Cloud Serverless, dan Cloudflare R2*. Sistem ini memangkas waktu pencarian dokumen dari belasan menit menjadi kurang dari 2 detik serta dapat diakses secara fleksibel melalui komputer kerja maupun ponsel pintar (*smartphone*).
+Melihat permasalahan di atas, diperlukan sebuah sistem repositori e-arsip berbasis web responsif yang mampu mengorganisasi, mengindeks, dan menampilkan kembali 420+ berkas PDF pindaian tersebut secara instan. Oleh karena itu, penulis merancang dan membangun **"Sistem Informasi Pengelolaan Arsip Surat Dispora (SIPASD)"** berbasis web responsif menggunakan *Next.js 15, TypeScript, Tailwind CSS, TiDB Cloud Serverless, dan Cloudinary & Google Drive*. Sistem ini memangkas waktu pencarian dokumen dari belasan menit menjadi kurang dari 2 detik serta dapat diakses secara fleksibel melalui komputer kerja maupun ponsel pintar (*smartphone*).
 
 ---
 

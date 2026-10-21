@@ -7,6 +7,9 @@
 [![Framework: Next.js 15](https://img.shields.io/badge/Framework-Next.js%2015-black.svg)](https://nextjs.org/)
 [![Database: TiDB Serverless](https://img.shields.io/badge/Database-TiDB%20Serverless-blue.svg)](https://tidb.cloud/)
 [![Storage: Cloudinary & Google Drive](https://img.shields.io/badge/Storage-Cloudinary%20%26%20Drive-blue.svg)](https://cloudflare.com/)
+[![Live URL: sipasd.my.id](https://img.shields.io/badge/Live-sipasd.my.id-047857.svg)](https://www.sipasd.my.id)
+
+> **Live Production**: [https://www.sipasd.my.id](https://www.sipasd.my.id) *(Mirror: [https://sipasd.vercel.app](https://sipasd.vercel.app))*
 
 ---
 

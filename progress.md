@@ -63,8 +63,13 @@
    - `/arsip-keluar` -> Katalog Surat Keluar Terhubung TiDB
    - `/api/auth/login` & `/api/auth/logout` -> Autentikasi sesi cookie HttpOnly
    - `/api/letters` -> API mutasi dan penarikan arsip
-4. **Verifikasi Kontrak Kualitas**:
+   - `/api/upload` -> API upload berkas PDF ke Cloudinary SDK
+   - `/api/pdf` -> API streaming signed download URL PDF mengatasi 401 ACL deny
+4. **Deploy Produksi & Domain Resmi Dinas**:
+   - Menghubungkan domain kustom `sipasd.my.id` dan `www.sipasd.my.id` via DataByte Anycast DNS ke Vercel Edge Network dengan sertifikat SSL aktif otomatis.
+   - Mengintegrasikan pemantauan performa `@vercel/analytics` dan `@vercel/speed-insights`.
+5. **Verifikasi Kontrak Kualitas**:
    - **Typecheck**: `npx tsc --noEmit` lolos 0 error.
    - **Build**: `npm run build` sukses 100% dan menghasilkan bundle optimal.
-   - **Modularitas**: Seluruh 45 file di `src/` berukuran <= 200 baris kode (200 LOC).
-   - **Zero Em-Dash**: 0 em-dash (-) di seluruh kode dan dokumen.
+   - **Modularitas**: Seluruh 47 file di `src/` berukuran <= 200 baris kode (200 LOC).
+   - **Zero Em-Dash**: 0 em-dash (-) di seluruh repositori (kode & dokumentasi).

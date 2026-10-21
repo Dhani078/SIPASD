@@ -11,13 +11,15 @@
   * **Phase 3: Modul Autentikasi & RBAC 4 Tingkat (SELESAI 100%)**.
   * **Phase 4: Porting Komponen Modular ke Next.js 15 App Router & Database Real-time (SELESAI 100%)**.
   * **Phase 5: Modul Cetak Disposisi & Ekspor Buku Agenda Excel (SELESAI 100%)**.
-  * **Phase 6: Verifikasi Akhir & Deploy Publik Vercel (DALAM PROSES)**.
+  * **Phase 6: Verifikasi Akhir & Deploy Publik Vercel (SELESAI 100% - LIVE PRODUCTION)**.
 - **Hasil Kompilasi & Pengujian**:
   * `npx tsc --noEmit`: 0 error.
-  * `npm run build`: 100% sukses (6 rute dinamis / landing, login, dashboard, arsip-masuk, arsip-keluar, api).
-  * Batas Modularitas: Seluruh 45 berkas di `src/` berukuran <= 200 LOC per file.
+  * `npm run build`: 100% sukses (8 rute dinamis teroptimasi).
+  * Batas Modularitas: Seluruh 47 berkas di `src/` berukuran <= 200 LOC per file.
   * Zero Dummy Data: 411 arsip riil (170 surat masuk & 241 surat keluar) ditarik live dari TiDB Cloud via `mysql2`.
   * Zero Em-Dash: Bebas dari em-dash (-) di seluruh kode dan dokumen.
+  * Domain Resmi: `https://www.sipasd.my.id` (dengan SSL aktif dan redirect 308).
+  * Telemetri: Terintegrasi `@vercel/analytics` dan `@vercel/speed-insights`.
 
 ---
 
@@ -55,6 +57,7 @@
 - `format.ts` (39 LOC) - Format penanggalan zona waktu WITA (Asia/Makassar)
 - `download.ts` (11 LOC) - Utilitas pengunduhan blob berkas di peramban
 - `exportExcel.ts` (49 LOC) - Generator berkas spreadsheet Excel (.xlsx) dinas (`exceljs`)
+- `cloudinary.ts` (39 LOC) - Utilitas integrasi upload Cloudinary SDK
 
 ### 3. Rute Halaman & REST API (`src/app/`)
 - `src/app/page.tsx` - Halaman beranda utama terhubung data riil
@@ -66,6 +69,8 @@
 - `src/app/api/auth/login/route.ts` - Endpoint autentikasi kredensial pengguna TiDB
 - `src/app/api/auth/logout/route.ts` - Endpoint penghapusan sesi cookie
 - `src/app/api/letters/route.ts` - Endpoint REST GET & POST arsip surat
+- `src/app/api/upload/route.ts` - Endpoint REST unggah berkas fisik ke Cloudinary CDN
+- `src/app/api/pdf/route.ts` - Endpoint REST streaming signed URL PDF Cloudinary anti-401
 
 ---
 

@@ -12,7 +12,9 @@ interface Props {
 
 export default function PdfPreviewPanel({ letter, onClose, onPrint }: Props) {
   const [zoom, setZoom] = useState(1);
-  const pdfUrl = letter.fileUrl || '/placeholder-surat.pdf';
+  const pdfUrl = letter.fileUrl
+    ? `/api/pdf?url=${encodeURIComponent(letter.fileUrl)}`
+    : '/placeholder-surat.pdf';
   const driveUrl = letter.driveUrl || 'https://drive.google.com';
 
   return (

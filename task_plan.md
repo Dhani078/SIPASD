@@ -69,6 +69,7 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Hubungkan katalog surat keluar (`/arsip-keluar`) ke kueri database TiDB Cloud Serverless secara real-time (241 surat keluar riil).
 - [x] Pasang penampil dokumen PDF bawaan (*streaming viewer*) dengan URL Cloudinary CDN aktif dan tombol cadangan Google Drive dinas.
 - [x] Buat modal rekam indeks surat baru (`NewLetterModal.tsx` & `NewLetterDisposisiFields.tsx`) terhubung API `/api/letters` yang mengeksekusi INSERT nyata ke TiDB.
+- [x] Pasang endpoint `/api/upload` dan utilitas Cloudinary (`src/lib/cloudinary.ts`) untuk upload langsung berkas PDF fisik baru ke Cloudinary CDN.
 - *Status: Complete*
 
 ### [x] Phase 5: Modul Cetak Disposisi & Ekspor Buku Agenda Excel

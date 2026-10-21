@@ -24,6 +24,7 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
   * `/arsip-masuk`: Katalog surat masuk terintegrasi panel pemutar PDF bawaan peramban berbasis URL Cloudinary dan tautan cadangan Google Drive dinas.
   * `/arsip-keluar`: Katalog surat keluar terindeks klasifikasi dinas.
   * `/api/letters`: REST API penarikan dan penambahan arsip baru dengan mutasi SQL riil.
+  * `/api/upload`: REST API unggah berkas PDF fisik langsung ke Cloudinary SDK (`multipart/form-data`) dengan validasi magic bytes `%PDF-` dan batasan ukuran 20 MB.
 - **Modul Cetak Disposisi Standar Pemprov Kalsel**: Format cetak lembar disposisi ukuran F4 dan A4 sesuai format kedinasan Dispora Kalsel (`@media print`).
 - **Modul Ekspor Spreadsheet Excel (.xlsx)**: Pembuatan buku agenda persuratan dinas secara otomatis menggunakan pustaka `exceljs`.
 

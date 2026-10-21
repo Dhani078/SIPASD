@@ -54,6 +54,7 @@
    - Membuat `src/lib/letters.ts` yang menarik 411 data arsip surat riil (170 Surat Masuk & 241 Surat Keluar) langsung dari TiDB Cloud melalui `mysql2`.
    - Mengaitkan URL streaming dokumen ke Cloudinary CDN aktif (`https://res.cloudinary.com/vqfpoekg/...`).
    - Membuat endpoint `/api/letters` untuk mutasi penambahan surat baru yang mengeksekusi INSERT nyata ke tabel `arsip_surat_masuk`, `arsip_surat_keluar`, dan `riwayat_disposisi`.
+   - Membuat endpoint `/api/upload` dan modul `src/lib/cloudinary.ts` untuk mengunggah berkas PDF baru secara langsung ke folder Cloudinary (`sipasd/surat_masuk` & `sipasd/surat_keluar`) serta mengaitkan URL CDN-nya saat penyimpanan indeks surat.
 3. **Penyusunan Rute Next.js 15 App Router**:
    - `/` dan `/landing` -> Portal Publik
    - `/login` -> Halaman Login Terproteksi

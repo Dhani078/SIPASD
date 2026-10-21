@@ -1,7 +1,6 @@
 'use client';
 
 import ArchiveTable from './ArchiveTable';
-import DocumentPreview from './DocumentPreview';
 import Icon from './Icon';
 import { classifications, venues, divisions } from '@/data/constants';
 import type { LetterRecord, ArchiveFilters } from '@/types';
@@ -117,26 +116,15 @@ export default function ArchiveWorkspace({
         )}
       </div>
 
-      <div className={`workspace-split ${selected ? 'has-preview' : ''}`}>
-        <div className="table-pane">
-          <ArchiveTable
-            letters={letters}
-            selectedId={selected?.id}
-            onSelect={onSelect}
-            onPrint={onPrint}
-            page={page}
-            onPage={onPage}
-          />
-        </div>
-        {selected && (
-          <div className="preview-pane">
-            <DocumentPreview
-              letter={selected}
-              onClose={() => onSelect(null)}
-              onPrint={() => onPrint(selected)}
-            />
-          </div>
-        )}
+      <div className="table-pane">
+        <ArchiveTable
+          letters={letters}
+          selectedId={selected?.id}
+          onSelect={onSelect}
+          onPrint={onPrint}
+          page={page}
+          onPage={onPage}
+        />
       </div>
     </section>
   );

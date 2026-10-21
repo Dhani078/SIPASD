@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Modal from './Modal';
 import Icon from './Icon';
 import type { LetterRecord } from '@/types';
 
@@ -18,23 +19,19 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint }: Props) {
   const driveUrl = letter.driveUrl || 'https://drive.google.com';
 
   return (
-    <aside
-      className="inline-preview"
-      aria-label={`Pratinjau PDF surat ${letter.id}`}
+    <Modal
+      title={`Pratinjau Berkas Fisik: No. Agenda ${letter.id}/${letter.direction === 'in' ? 'SM' : 'SK'}/2026`}
+      onClose={onClose}
+      className="pdf-modal-popup"
+      overlayClassName="pdf-overlay-popup"
     >
-      <div className="preview-toolbar">
-        <strong className="mono">{letter.id}.pdf</strong>
-        <div className="flex items-center gap-2">
-          <button
-            className="icon-btn"
-            aria-label="Tutup pratinjau"
-            onClick={onClose}
-          >
-            <Icon name="close" />
-          </button>
-        </div>
+      <div className="pdf-modal-meta">
+        <b>{letter.origin}</b>
+        <span> - </span>
+        <span>{letter.subject}</span>
       </div>
-      <div className="document-tools">
+
+      <div className="document-tools my-2">
         <button
           aria-label="Perkecil tampilan"
           disabled={zoom <= 0.7}
@@ -71,17 +68,17 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint }: Props) {
           <Icon name="download" size={14} /> Unduh
         </button>
         <button className="btn primary" onClick={onPrint}>
-          <Icon name="print" size={14} /> Disposisi
+          <Icon name="print" size={14} /> Cetak Disposisi
         </button>
       </div>
 
-      <div className="preview-canvas-wrap" style={{ flex: 1, minHeight: '400px' }}>
+      <div className="pdf-frame-wrap" style={{ flex: 1, minHeight: '520px', width: '100%' }}>
         {letter.fileUrl ? (
           <iframe
             src={`${pdfUrl}#toolbar=1&navpanes=0`}
             title={`Dokumen PDF ${letter.id}`}
-            className="w-full h-full border-0 rounded bg-white shadow-inner"
-            style={{ minHeight: '520px', width: '100%', transform: `scale(${zoom})`, transformOrigin: 'top center' }}
+            className="w-full h-full border rounded bg-white shadow-inner"
+            style={{ width: '100%', height: '100%', minHeight: '520px', transform: `scale(${zoom})`, transformOrigin: 'top center' }}
           />
         ) : (
           <div className="empty p-8 text-center text-slate-500">
@@ -92,7 +89,7 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint }: Props) {
         )}
       </div>
 
-      <div className="preview-foot">
+      <div className="preview-foot mt-3 pt-2 border-t flex items-center justify-between">
         <span className="tag green">Cloudinary CDN Aktif</span>
         <a
           href={driveUrl}
@@ -104,6 +101,6 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint }: Props) {
           <Icon name="shield" size={12} /> Buka Cadangan Google Drive
         </a>
       </div>
-    </aside>
+    </Modal>
   );
 }

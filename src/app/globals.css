@@ -3748,3 +3748,39 @@ td .icon-btn {
     font-size: 7px;
   }
 }
+
+/* PDF Preview Modal Popup */
+.pdf-overlay-popup {
+  z-index: 150 !important;
+}
+.pdf-modal-popup {
+  width: 1040px !important;
+  max-width: 95vw !important;
+  height: 92vh !important;
+  max-height: 92vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 16px 20px !important;
+  border-radius: 10px !important;
+}
+.pdf-modal-popup .modal-header {
+  padding: 0 0 10px 0 !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+.pdf-modal-meta {
+  padding: 8px 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 11px;
+  color: #334155;
+  margin-top: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pdf-frame-wrap {
+  flex: 1 !important;
+  min-height: 480px !important;
+  margin-top: 4px;
+}

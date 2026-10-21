@@ -9,6 +9,7 @@ import SipasdMainView from './SipasdMainView';
 import { emptyFilters } from './ArchiveWorkspace';
 import NewLetterModal from './NewLetterModal';
 import PrintDisposisiModal from './PrintDisposisiModal';
+import DocumentPreview from './DocumentPreview';
 import { HelpModal } from './ReferenceViews';
 import { groups } from '@/data/navigation';
 import { demoUsers } from '@/data/users';
@@ -65,10 +66,7 @@ export default function SipasdApp({
     (l) =>
       ((page !== 'in' && page !== 'out') || l.direction === page) &&
       matchesSearch(l, filters.query) &&
-      (!filters.urgency ||
-        (filters.urgency === 'Urgent'
-          ? ['Kilat', 'Segera'].includes(l.type)
-          : l.type === filters.urgency)) &&
+      (!filters.urgency || (filters.urgency === 'Urgent' ? ['Kilat', 'Segera'].includes(l.type) : l.type === filters.urgency)) &&
       (!filters.classification || l.classification === filters.classification) &&
       (!filters.venue || l.venue === filters.venue) &&
       (!filters.division || l.division === filters.division)
@@ -169,6 +167,17 @@ export default function SipasdApp({
         />
       </div>
 
+      {selected && (
+        <DocumentPreview
+          letter={selected}
+          onClose={() => setSelected(null)}
+          onPrint={() => {
+            const item = selected;
+            setSelected(null);
+            setPrintLetter(item);
+          }}
+        />
+      )}
       {modal === 'new' && (
         <NewLetterModal
           direction={page === 'out' ? 'out' : 'in'}

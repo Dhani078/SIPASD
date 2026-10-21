@@ -61,7 +61,8 @@
 - `classifier.ts` (98 LOC) - Mesin klasifikasi cerdas Naive Bayes untuk rekomendasi kode kearsipan dan bidang tujuan otomatis
 
 ### 4. Naskah Akademik Resmi UNISKA (`docs/`)
-- `docs/SIPASD_BERKAS_MAGANG_LENGKAP_2026.zip` (151 KB) - Paket softcopy arsip digital lengkap (Laporan, Slide, SQL Dump, dan Panduan) untuk CD-ROM / Flashdisk pengumpulan ke kampus.
+- `docs/SIPASD_SOURCE_CODE_2026.zip` (376 KB) - Arsip berkas kode sumber bersih (Next.js 15, TypeScript, Tailwind v4, scripts) tanpa node_modules dan rahasia, siap burn ke CD pengumpulan kampus.
+- `docs/SIPASD_BERKAS_MAGANG_LENGKAP_2026.zip` (151 KB) - Paket softcopy dokumen lengkap (Laporan, Slide, SQL Dump, dan Panduan) untuk CD-ROM / Flashdisk pengumpulan ke kampus.
 - `docs/DATABASE_SIPASD_BACKUP_2026.sql` (256 KB) - Cadangan basis data mandiri SQL DDL + data riil 411 berkas dan 8 tabel siap impor di MySQL/MariaDB lokal.
 - `docs/LAPORAN_MAGANG_SIPASD_DISPORA_KALSEL.docx` (44 KB, 123 paragraf) - Naskah resmi Microsoft Word lengkap siap cetak / jilid (Format A4, Margin 4-3-3-3 cm, Times New Roman 12 pt, Spasi 1.5, 0 em-dash).
 - `docs/PRESENTASI_SIDANG_MAGANG_SIPASD.pptx` (38 KB, 12 slide) - Slide presentasi resmi sidang magang 16:9 widescreen.

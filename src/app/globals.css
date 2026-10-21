@@ -94,6 +94,13 @@
   display: flex;
   flex-direction: column;
   z-index: 40;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.sidebar::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }
 .sidebar-brand {
   display: flex;
@@ -157,10 +164,18 @@
 }
 .side-nav {
   padding: 0 12px;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.side-nav::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }
 .nav-group {
-  margin: 15px 0 23px;
+  margin: 8px 0 14px;
 }
 .nav-label {
   font-size: 8px;
@@ -174,11 +189,11 @@
   width: 100%;
   gap: 11px;
   align-items: center;
-  padding: 11px 12px;
+  padding: 8px 12px;
   font-size: 11px;
   font-weight: 500;
   border-radius: 5px;
-  margin: 3px 0;
+  margin: 2px 0;
   border-left: 3px solid transparent;
   color: #c0d8cc;
 }

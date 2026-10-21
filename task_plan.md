@@ -10,7 +10,7 @@ Phase 2: Inisialisasi Proyek, Basis Data TiDB & Storage Cloud (In Progress -> Co
 
 ## Phases
 
-### [x] Phase 1: Dokumen Spesifikasi, Arsitektur & Naskah Akademik
+### [x] Phase 1: Dokumen Spesifikasi, Arsitektur & Naskah Akademik (100% COMPLETE - MAXX MODE)
 - [x] Susun `README.md` berstandar instansi Pemprov Kalsel & UNISKA (Model E-Arsip).
 - [x] Susun `AGENT.md` direktif autonomous agent loop & zero-slop.
 - [x] Susun `SPEC.md` spesifikasi teknis Spec-Driven Development.
@@ -19,6 +19,8 @@ Phase 2: Inisialisasi Proyek, Basis Data TiDB & Storage Cloud (In Progress -> Co
 - [x] Susun `task_plan.md`, `findings.md`, `progress.md`.
 - [x] Susun dokumentasi teknis di `docs/`:
   - [x] `docs/HANDOFF.md` (Panduan operasional sesi)
+  - [x] `docs/PANDUAN_PENGGUNA.md` (User Manual operasional pegawai & pimpinan dinas)
+  - [x] `docs/TESTING_REPORT.md` (Laporan pengujian Black Box 15 skenario & Playwright E2E)
   - [x] `docs/DATABASE_SCHEMA.md` (ERD, Kamus Data & DDL SQL TiDB)
   - [x] `docs/API_ROUTES.md` (Spesifikasi Server Actions & Route Handlers)
   - [x] `docs/UML_DIAGRAMS.md` (Use Case, Activity, Sequence, Class Diagram + PlantUML)

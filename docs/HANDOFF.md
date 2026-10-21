@@ -6,13 +6,13 @@
 - **Lokasi Direktori Prototipe UI (18 Komponen Modular)**: `C:\xampp\htdocs\Laporan Magang\SIPASD Web Application UI (1)`
 - **Target Instansi**: Sekretariat Dinas Kepemudaan dan Olahraga Provinsi Kalimantan Selatan
 - **Status Fase Kerja**:
-  * **Phase 1: Dokumen Spesifikasi, Arsitektur & Naskah Laporan Magang (SELESAI 100% - MAXX MODE)**.
+  * **Phase 1: Dokumen Spesifikasi, Arsitektur, Panduan Pengguna & Naskah Magang (SELESAI 100% - MAXX MODE)**.
   * **Phase 2: Inisialisasi Proyek, Database TiDB & Storage Cloud (SELESAI 100%)**.
 - **Fase Berikutnya**: **Phase 3: Modul Autentikasi & RBAC 4 Tingkat** dilanjutkan **Phase 4: Porting Komponen Modular ke Next.js 15 App Router & Database Real-time**.
 
 ---
 
-## 📂 Inventaris Berkas Dokumentasi & Konfigurasi (32 Berkas Terverifikasi)
+## 📂 Inventaris Berkas Dokumentasi & Konfigurasi (34 Berkas Terverifikasi)
 
 ### 1. Dokumen Inti Repositori
 - `README.md` — Ringkasan eksekutif e-arsip, masalah Google Drive, RBAC, dan panduan instalasi.
@@ -35,8 +35,10 @@
 - `docs/DAFTAR_PUSTAKA.md` — 21 rujukan akademik format APA 7th Edition.
 - `docs/LAPORAN_MAGANG_MAPPING.md` — Matriks panduan pemetaan bab.
 
-### 3. Dokumen Teknis, Desain & Operasional (`docs/`)
+### 3. Dokumen Teknis, Pengujian, Panduan & Desain (`docs/`)
 - `docs/HANDOFF.md` — Berkas status operasional sesi ini.
+- `docs/PANDUAN_PENGGUNA.md` — Buku Panduan Pengguna resmi (*User Manual*) untuk pimpinan dan staf Dispora Kalsel.
+- `docs/TESTING_REPORT.md` — Laporan Pengujian Mutu (15 skenario Black Box Testing & hasil uji Playwright E2E).
 - `docs/DATABASE_SCHEMA.md` — Kamus data e-arsip dan naskah SQL DDL 8 tabel TiDB/MySQL siap eksekusi.
 - `docs/API_ROUTES.md` — Spesifikasi endpoint REST dan Server Actions untuk katalog e-arsip dan streaming PDF.
 - `docs/UML_DIAGRAMS.md` — Diagram Use Case berskenario, Activity Diagram, Sequence Diagram, Class Diagram, dan script PlantUML.
@@ -52,7 +54,7 @@
 
 ## 🧭 Panduan Lanjutan untuk Eksekusi Berikutnya
 Jika memulai sesi baru atau menjalankan perintah *"start loop"*:
-1. Baca berkas ini (`docs/HANDOFF.md`), `CONSTRAINTS.md`, dan `task_plan.md`.
+1. Baca berkas ini (`docs/HANDOFF.md`), `CONSTRAINTS.md`, `docs/PANDUAN_PENGGUNA.md`, dan `task_plan.md`.
 2. Jangan mengulang perancangan spesifikasi atau PRD karena seluruh dokumen telah terverifikasi 100/100 Maxx Mode.
 3. Mulai eksekusi **Phase 3 & Phase 4**:
    - Salin dan adaptasi 18 komponen modular dari `C:\xampp\htdocs\Laporan Magang\SIPASD Web Application UI (1)\src\components\` ke dalam struktur Next.js 15 App Router di `C:\xampp\htdocs\SIPASD\src\components\`.

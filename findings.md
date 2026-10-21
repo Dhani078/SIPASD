@@ -70,6 +70,26 @@ Temuan audit desain:
 
 ---
 
+## 5. Temuan Analisis Byte-Level 420 Berkas PDF (PyMuPDF Inspection)
+
+Berdasarkan analisis byte-level langsung terhadap seluruh 420 berkas di `C:\xampp\htdocs\Laporan Magang`:
+
+1. **Rasio Lapisan Teks vs Gambar Pindaian (Raster)**:
+   - **Surat Masuk**: 143 dari 171 berkas (83,6%) adalah murni citra pemindaian fisik tanpa lapisan teks digital (0 karakter). Hanya 28 berkas yang memiliki text-layer.
+   - **Surat Keluar**: 144 dari 249 berkas (57,8%) adalah murni citra pemindaian fisik, sementara 105 berkas memiliki lapisan teks digital (dihasilkan dari ekspor naskah dinas Word).
+   - **Total**: Sebanyak **287 dari 420 berkas (68,3%)** tidak dapat dicari teksnya menggunakan pencarian standar Google Drive. Temuan ini menjadi dasar kuat urgensi repositori terindeks SIPASD dan roadmap skripsi AI OCR Tesseract.
+2. **Jejak Perangkat Pemindai (Scanner Footprint)**:
+   - Mesin Scanner Kantor TU: `Canon SC1011` / `IJ Scan Utility` (~300 DPI, resolusi rata-rata $2102 \times 3000$ px).
+   - Aplikasi Mobile Lapangan: `ClearScanner` dan `CamScanner (intsig.com)`.
+   - Perangkat Mobile Pejabat: `iOS Quartz PDFContext`.
+   - Alat Kompresi & Gabung: `iLovePDF`.
+3. **Anomali Berkas Multi-Surat Kolektif**:
+   - Ditemukan 14 berkas Surat Keluar yang menggabungkan beberapa surat sekaligus dalam satu PDF (misal: `8035-43, 9 surat.pdf`, `7480-82, 3 surat.pdf`).
+4. **Laporan Investigasi Lengkap**:
+   - Analisis mendalam per berkas telah didokumentasikan pada: `docs/ANALISIS_MENDALAM_420_ARSIP_DISPORA.md`.
+
+---
+
 ## 5. Status Infrastruktur Cloud Terverifikasi Aktif
 
 1. **TiDB Cloud Serverless (MySQL Protocol)**:

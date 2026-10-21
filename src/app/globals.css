@@ -3749,40 +3749,79 @@ td .icon-btn {
   }
 }
 
+
 /* PDF Preview Modal Popup */
 .pdf-overlay-popup {
   z-index: 150 !important;
+  padding: 16px !important;
 }
+
 .pdf-modal-popup {
-  width: 1040px !important;
-  max-width: 95vw !important;
-  height: 92vh !important;
-  max-height: 92vh !important;
+  width: 1080px !important;
+  max-width: 96vw !important;
+  height: 88vh !important;
+  max-height: 88vh !important;
   display: flex !important;
   flex-direction: column !important;
+  overflow: hidden !important;
   padding: 16px 20px !important;
-  border-radius: 10px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.35) !important;
 }
+
 .pdf-modal-popup .modal-header {
   padding: 0 0 10px 0 !important;
   border-bottom: 1px solid #e2e8f0 !important;
+  flex-shrink: 0 !important;
 }
+
 .pdf-modal-meta {
-  padding: 8px 12px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  font-size: 11px;
-  color: #334155;
-  margin-top: 6px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  padding: 7px 12px !important;
+  background: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 6px !important;
+  font-size: 11px !important;
+  color: #334155 !important;
+  margin-top: 6px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  flex-shrink: 0 !important;
 }
+
+.pdf-modal-popup .document-tools {
+  flex-shrink: 0 !important;
+}
+
 .pdf-frame-wrap {
-  flex: 1 !important;
-  min-height: 480px !important;
-  margin-top: 4px;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  width: 100% !important;
+  position: relative !important;
+}
+
+.pdf-frame-wrap iframe {
+  width: 100% !important;
+  height: 100% !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 6px !important;
+}
+
+.preview-foot {
+  flex-shrink: 0 !important;
+}
+
+/* Table Column Padding & Right Edge Clearance */
+.table-wrap th:last-child,
+.table-wrap td:last-child {
+  padding-right: 28px !important;
+  text-align: right !important;
+}
+
+.table-wrap {
+  width: 100% !important;
+  overflow-x: auto !important;
+  padding-bottom: 8px !important;
 }
 
 /* Table Action Buttons Enhancement */

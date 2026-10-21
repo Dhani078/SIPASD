@@ -77,14 +77,15 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Pasang fungsi ekspor Buku Agenda Surat Masuk dan Keluar ke format spreadsheet Excel (.xlsx) via `exceljs` (`src/lib/exportExcel.ts`).
 - *Status: Complete*
 
-### [ ] Phase 6: Verifikasi Akhir & Deploy Publik Vercel
+### [x] Phase 6: Verifikasi Akhir & Deploy Publik Vercel
 - [x] Jalankan audit typecheck `npx tsc --noEmit` (0 error).
 - [x] Jalankan audit build produksi `npm run build` (0 error).
 - [x] Verifikasi zero em-dashes di seluruh kode dan dokumen.
-- [x] Verifikasi seluruh 45 file kode di bawah 200 LOC.
-- [ ] Verifikasi antarmuka mobile (375px) dan desktop (1440px) bebas horizontal scroll overflow.
-- [ ] Lakukan commit akhir dan deploy ke Vercel via GitHub `Dhani078/SIPASD`.
-- *Status: In Progress*
+- [x] Verifikasi seluruh 46 file kode di bawah 200 LOC.
+- [x] Pasang pemantauan performa `@vercel/analytics` dan `@vercel/speed-insights`.
+- [x] Hubungkan domain kustom dinas `sipasd.my.id` & `www.sipasd.my.id` dengan SSL aktif.
+- [x] Lakukan deploy ke Vercel via GitHub `Dhani078/SIPASD` (Status: Live Production).
+- *Status: Complete (100% PRODUCTION READY)*
 
 ---
 

@@ -7,26 +7,40 @@
 
 ## 1. The Floor (Ambang Batas Kualitas Mutlak - Non-Negotiable)
 
-1. **Zero Suppression Comments**:
+1. **ATURAN MUTLAK KONEKSI DATABASE NYATA & PEMBERANTASAN DATA DUMMY (ZERO DUMMY DATA INVARIANT)**:
+   - **Dilarang Keras Menggunakan Data Tiruan (Dummy Data)**: Dilarang menampilkan data tiruan statis yang di-hardcode di memori browser (seperti `const letters = Array.from(...)` atau array dummy tiruan di komponen React).
+   - **Koneksi Basis Data Nyata Wajib (100% Real Database Connected)**: Seluruh tabel katalog, kartu metrik KPI, grafik volume korespondensi, dropdown filter unit kerja, pencarian kata kunci, dan riwayat disposisi **wajib terhubung dan mengambil data secara real-time dari basis data TiDB Cloud Serverless (`sipasd`)**.
+   - **420 Dokumen Arsip Riil TA 2026 sebagai Sumber Kebenaran Tunggal**:
+     * 171 Surat Masuk pindaian riil TA 2026 di tabel `arsip_surat_masuk`.
+     * 249 Surat Keluar pindaian riil TA 2026 di tabel `arsip_surat_keluar`.
+     * Seluruh dokumen pindaian PDF tertaut langsung ke URL penyimpanan Cloudinary aktif (`cloud_name: vqfpoekg`) dengan tombol cadangan ke Google Drive resmi instansi (`sipasd-bot@sipasd.iam.gserviceaccount.com`).
+   - **Mutasi Data Nyata**: Operasi tambah surat baru (*indeks arsip*) wajib mengeksekusi `INSERT` nyata ke tabel TiDB Cloud dan mengunggah berkas asli ke Cloudinary. Operasi pencatatan disposisi wajib mengeksekusi `INSERT` ke tabel `riwayat_disposisi`.
+
+2. **Zero Suppression Comments**:
    - Dilarang menambahkan komentar penekan kesalahan: `@ts-ignore`, `@ts-nocheck`, `eslint-disable`, `# noqa`, `# type: ignore`.
    - Kode harus lolos *typecheck* murni melalui `npx tsc --noEmit`.
-2. **Zero Unimplemented Stubs & Empty Handlers**:
+
+3. **Zero Unimplemented Stubs & Empty Handlers**:
    - Dilarang membuat fungsi pura-pura yang melempar kesalahan: `throw new Error("Not implemented")`.
    - Dilarang membuat blok tangkapan kosong yang menelan galat secara diam-diam: `catch (e) {}`. Setiap error wajib dicatat atau ditangani dengan baik.
-3. **Modularitas Maksimal (Maks 200 LOC per File)**:
+
+4. **Modularitas Maksimal (Maks 200 LOC per File)**:
    - Tidak ada satu file komponen UI atau Server Action yang melebihi batas 200 baris kode (kecuali file skema kamus data atau seeder data migrasi).
-   - Seluruh prototipe antarmuka di `C:\xampp\htdocs\Laporan Magang\SIPASD Web Application UI (1)` telah dipecah menjadi 18 komponen modular.
-4. **Zero Secrets in Git Repository**:
+   - Seluruh prototipe antarmuka di `C:\xampp\htdocs\Laporan Magang\SIPASD Web Application UI (1)` telah dipecah menjadi 18 komponen modular dan wajib dipertahankan modularitasnya saat dihubungkan ke Next.js 15 App Router.
+
+5. **Zero Secrets in Git Repository**:
    - Tidak boleh ada password database, token Cloudinary, atau kunci JWT di-hardcode dalam kode yang di-commit ke repositori Git publik.
    - Seluruh rahasia wajib diisolasi di `.env.local` dan dilindungi oleh `.gitignore`.
-5. **Identitas Git Wajib**:
+
+6. **Identitas Git Wajib**:
    - Seluruh komit wajib menggunakan akun pengembang resmi:
      ```bash
      git config user.name "Dhani078"
      git config user.email "dhanisepeda@gmail.com"
      ```
    - Menggunakan email asli ini adalah syarat mutlak agar kotak hijau kontribusi GitHub aktif. Dilarang memakai dummy email / noreply.
-6. **Zero Em-Dashes (` - `)**:
+
+7. **Zero Em-Dashes (` - `)**:
    - Dilarang menggunakan karakter em-dash (` - `) pada seluruh teks antarmuka, judul, lencana, maupun dokumentasi. Gunakan tanda hubung biasa (`-`), tanda kurung, atau titik koma.
 
 ---
@@ -35,6 +49,7 @@
 
 | Dimensi Kualitas | Aturan & Ambang Batas | Diperiksa Menggunakan | Waktu Eksekusi |
 | :--- | :--- | :--- | :--- |
+| **Koneksi Database** | 100% Data ditarik dari TiDB Cloud (0 Dummy Data) | Kueri SQL langsung via `mysql2` | Setiap pemanggilan halaman |
 | **Kesesuaian Tipe Data** | 0 Error kompilasi TypeScript | `npx tsc --noEmit` | Setiap perubahan kode |
 | **Linter Kerapian Kode** | 0 Error kritis ESLint | `npm run lint` | Sebelum commit |
 | **Kerahasiaan Berkas** | Berkas `.env.local` tidak terlacak Git | `git status --ignored` | Setiap commit |
@@ -68,7 +83,7 @@ Daftar 18 Komponen Modular:
 15. `src/components/Icon.tsx` - Koleksi ikon SVG terstandardisasi
 16. `src/components/Letter.tsx` - Representasi visual naskah surat fisik kedinasan
 17. `src/components/ReferenceViews.tsx` - Tampilan referensi klasifikasi & akun
-18. `src/data/mockLetters.ts` - 36 rekaman transaksi nyata Dispora Kalsel
+18. `src/data/mockLetters.ts` - 36 rekaman transaksi nyata Dispora Kalsel (sebagai basis acuan UI sebelum koneksi live TiDB)
 
 ---
 

@@ -10,11 +10,11 @@ export async function insertNewLetter(
   const year = 2026;
 
   if (data.direction === 'in') {
-    const maxRow = await queryOne<{ maxAgenda: number }>(`
+    const maxRow = await queryOne<{ maxAgenda: any }>(`
       SELECT COALESCE(MAX(CAST(SUBSTRING_INDEX(nomor_agenda, '/', 1) AS UNSIGNED)), 1250) as maxAgenda
       FROM arsip_surat_masuk
     `);
-    const nextAgendaNum = (maxRow?.maxAgenda || 1250) + 1;
+    const nextAgendaNum = Number(maxRow?.maxAgenda || 1250) + 1;
     const nomorAgenda = `${nextAgendaNum}/SM/DISPORA/${year}`;
 
     await query(
@@ -62,13 +62,13 @@ export async function insertNewLetter(
 
     return nomorAgenda;
   } else {
-    const maxRow = await queryOne<{ maxAgenda: number; maxUrut: number }>(`
+    const maxRow = await queryOne<{ maxAgenda: any; maxUrut: any }>(`
       SELECT COALESCE(MAX(CAST(SUBSTRING_INDEX(nomor_agenda, '/', 1) AS UNSIGNED)), 7500) as maxAgenda,
              COALESCE(MAX(nomor_urut), 250) as maxUrut
       FROM arsip_surat_keluar
     `);
-    const nextAgendaNum = (maxRow?.maxAgenda || 7500) + 1;
-    const nextUrut = (maxRow?.maxUrut || 250) + 1;
+    const nextAgendaNum = Number(maxRow?.maxAgenda || 7500) + 1;
+    const nextUrut = Number(maxRow?.maxUrut || 250) + 1;
     const nomorAgenda = `${nextAgendaNum}/SK/DISPORA/${year}`;
 
     await query(

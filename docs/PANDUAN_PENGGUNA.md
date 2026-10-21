@@ -168,7 +168,7 @@ Untuk keperluan penyusunan Laporan Pertanggungjawaban (LPJ/SPJ) kearsipan tahuna
    - **Buku Agenda Surat Masuk (TA 2026)**
    - **Buku Agenda Surat Keluar (TA 2026)**
 3. Klik tombol hijau **"Unduh Berkas Excel (.xlsx)"**.
-4. Dalam waktu 1–2 detik, berkas spreadsheet resmi dengan nama `Buku-Agenda-Surat-Masuk-Dispora-2026.xlsx` akan terunduh otomatis ke komputer Anda.
+4. Dalam waktu 1-2 detik, berkas spreadsheet resmi dengan nama `Buku-Agenda-Surat-Masuk-Dispora-2026.xlsx` akan terunduh otomatis ke komputer Anda.
 5. Buka berkas tersebut di Microsoft Excel atau Google Sheets. Seluruh data telah tertata rapi lengkap dengan Kop Dinas resmi, baris judul tabel berwarna hijau zamrud, garis batas sel (*border*), dan kolom yang terkunci (*freeze panes*).
 
 ---

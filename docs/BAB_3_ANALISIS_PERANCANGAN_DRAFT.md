@@ -19,7 +19,7 @@
 
 | Dimensi PIECES | Kelemahan pada Google Drive Manual | Solusi pada Repositori Web SIPASD |
 | :--- | :--- | :--- |
-| **Performance (Kinerja)** | Pencarian lambat (15–30 menit) karena harus membuka file PDF satu per satu. File berukuran besar lambat dimuat. | Mesin cari cepat multi-filter menemukan berkas dalam waktu **< 2 detik**. Didukung *chunked streaming viewer*. |
+| **Performance (Kinerja)** | Pencarian lambat (15-30 menit) karena harus membuka file PDF satu per satu. File berukuran besar lambat dimuat. | Mesin cari cepat multi-filter menemukan berkas dalam waktu **< 2 detik**. Didukung *chunked streaming viewer*. |
 | **Information (Informasi)** | Tidak memiliki metadata terstruktur (asal instansi, tanggal diterima, ringkasan perihal, dan catatan disposisi tidak tercatat). | Metadata tersimpan rapi dalam basis data relasional TiDB Cloud dengan relasi kode klasifikasi resmi dinas. |
 | **Economy (Ekonomi)** | Penyimpanan Google Drive manual tidak memberikan nilai tambah data dan menyulitkan pembuatan rekapitulasi SPJ/LPJ dinas. | Menghemat waktu kerja aparatur secara signifikan dan menyediakan ekspor Buku Agenda otomatis tanpa biaya lisensi. |
 | **Control (Pengendalian / Keamanan)** | Tidak ada jejak rekam akses (*audit trail*); tidak diketahui siapa saja yang melihat atau mengunduh arsip dokumen negara. | Hak akses RBAC 4 tingkat terproteksi dan setiap aktivitas temu-kembali dokumen tercatat di tabel `audit_logs`. |

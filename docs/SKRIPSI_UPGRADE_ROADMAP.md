@@ -23,7 +23,7 @@ Kondisi arsip Dispora Kalsel (berkas pindaian scan PDF yang teksnya terkunci dal
 > **"Implementasi Optical Character Recognition (OCR) Menggunakan Tesseract Engine Berbasis Web untuk Ekstraksi Otomatis Metadata Arsip Surat Masuk pada Dinas Kepemudaan dan Olahraga Provinsi Kalimantan Selatan"**
 
 ### Masalah Ilmiah:
-Staf tata usaha saat ini harus membaca berkas scan PDF dengan mata telanjang, lalu mengetikkan satu per satu Nomor Surat, Tanggal, dan Asal Instansi ke dalam form web. Hal ini rawan salah ketik (*human typo*) dan memakan waktu sekitar 3–5 menit per surat.
+Staf tata usaha saat ini harus membaca berkas scan PDF dengan mata telanjang, lalu mengetikkan satu per satu Nomor Surat, Tanggal, dan Asal Instansi ke dalam form web. Hal ini rawan salah ketik (*human typo*) dan memakan waktu sekitar 3-5 menit per surat.
 
 ### Solusi Komputasi:
 Sistem dilengkapi modul OCR. Saat petugas mengunggah berkas scan PDF dari Google Drive, mesin OCR mengekstrak lapisan teks gambar, lalu menerapkan *Regular Expression (Regex)* untuk mengisi kolom formulir secara otomatis (*auto-fill*).
@@ -31,7 +31,7 @@ Sistem dilengkapi modul OCR. Saat petugas mengunggah berkas scan PDF dari Google
 ### Tahapan Algoritma:
 1. **Konversi Dokumen**: Mengubah halaman pertama berkas PDF menjadi citra resolusi tinggi (PNG/TIFF, 300 DPI).
 2. **Image Preprocessing**:
-   - *Grayscale Conversion*: Mengubah citra warna ke derajat keabuan (0–255).
+   - *Grayscale Conversion*: Mengubah citra warna ke derajat keabuan (0-255).
    - *Otsu Thresholding (Binarisasi)*: Memisahkan teks hitam dari latar belakang kertas putih berdasarkan nilai ambang optimal.
    - *Deskewing*: Mendeteksi dan memperbaiki kemiringan sudut kertas hasil pemindaian scanner.
 3. **OCR Engine**: Tesseract OCR (Traineddata: Bahasa Indonesia `ind.traineddata`).

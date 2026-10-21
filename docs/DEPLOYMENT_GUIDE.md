@@ -102,6 +102,6 @@ npm run db:seed
 
 | Layanan Cloud | Batas Kuota Gratis Bulanan | Estimasi Pemakaian SIPASD Dispora | Status Biaya |
 | :--- | :--- | :--- | :--- |
-| **Vercel Hosting** | 100 GB Bandwidth / bulan | 5 – 10 GB / bulan | **Rp 0,- (Gratis)** |
+| **Vercel Hosting** | 100 GB Bandwidth / bulan | 5 - 10 GB / bulan | **Rp 0,- (Gratis)** |
 | **TiDB Serverless**| 25 GB Penyimpanan Relasional | ~500 MB (10.000 surat teks) | **Rp 0,- (Gratis)** |
 | **Cloudinary & Google Drive**  | 10 GB Storage & Zero Egress Fee | 420 PDF = ~1.2 GB | **Rp 0,- (Gratis)** |

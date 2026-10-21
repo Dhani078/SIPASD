@@ -45,9 +45,9 @@ Aplikasi wajib diuji dan terbebas dari kesalahan gulir horizontal (*0 horizontal
 
 | Device Target | Lebar Layar | Strategi Tata Letak Antarmuka |
 | :--- | :--- | :--- |
-| **Ponsel Kecil** | `375px – 414px` (`sm`) | Mode kartu tumpuk vertikal (*stacked cards*), tombol aksi penuh lebar (*full-width*), floating bottom navigation, modal fullscreen. |
-| **Tablet / iPad** | `768px – 1023px` (`md`) | Sidebar melipat menjadi ikon ringkas (*collapsed sidebar*), tabel 2 kolom prioritas, drawer sliding untuk detail surat. |
-| **Laptop Standar**| `1024px – 1439px` (`lg`) | Sidebar terbuka penuh (lebar 260px), tabel multi-kolom dengan sticky actions, viewer PDF dialog modal. |
+| **Ponsel Kecil** | `375px - 414px` (`sm`) | Mode kartu tumpuk vertikal (*stacked cards*), tombol aksi penuh lebar (*full-width*), floating bottom navigation, modal fullscreen. |
+| **Tablet / iPad** | `768px - 1023px` (`md`) | Sidebar melipat menjadi ikon ringkas (*collapsed sidebar*), tabel 2 kolom prioritas, drawer sliding untuk detail surat. |
+| **Laptop Standar**| `1024px - 1439px` (`lg`) | Sidebar terbuka penuh (lebar 260px), tabel multi-kolom dengan sticky actions, viewer PDF dialog modal. |
 | **Desktop / Layar Lebar** | `1440px+` (`xl`) | Layout *Split-Screen* (kiri: tabel agenda 60%, kanan: viewer streaming PDF 40% berdampingan). |
 
 ### Aturan Khusus Tabel Responsif:

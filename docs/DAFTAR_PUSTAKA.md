@@ -34,7 +34,7 @@
 ---
 
 ## 4. Jurnal Ilmiah Terkait Persuratan, Disposisi & Klasifikasi Teks
-18. Pratama, A., & Hidayat, T. (2022). Rancang Bangun Sistem Informasi Pengelolaan Surat Masuk dan Surat Keluar Berbasis Web. *Jurnal Teknologi Informasi dan Rekayasa Komputer (JTIRK)*, 3(2), 112–120.
-19. Rahmawati, E., & Ramadhani, S. (2023). Penerapan Algoritma Naive Bayes untuk Klasifikasi Disposisi Surat Masuk pada Kantor Instansi Pemerintah Daerah. *Jurnal Komputer Terapan (JKT)*, 9(1), 45–54.
-20. Santoso, B., & Setiawan, A. (2021). Analisis dan Perancangan Sistem Informasi Disposisi Elektronik Berbasis Web Menggunakan Metode Waterfall. *Jurnal Manajemen Informatika (JAMIKA)*, 11(2), 89–101.
-21. Wijaya, D., & Kusuma, H. (2022). Implementasi Optical Character Recognition (OCR) pada Sistem Pengarsipan Dokumen Naskah Dinas Elektronik. *Jurnal Sistem Informasi Bisnis (JSINBIS)*, 12(3), 205–214.
+18. Pratama, A., & Hidayat, T. (2022). Rancang Bangun Sistem Informasi Pengelolaan Surat Masuk dan Surat Keluar Berbasis Web. *Jurnal Teknologi Informasi dan Rekayasa Komputer (JTIRK)*, 3(2), 112-120.
+19. Rahmawati, E., & Ramadhani, S. (2023). Penerapan Algoritma Naive Bayes untuk Klasifikasi Disposisi Surat Masuk pada Kantor Instansi Pemerintah Daerah. *Jurnal Komputer Terapan (JKT)*, 9(1), 45-54.
+20. Santoso, B., & Setiawan, A. (2021). Analisis dan Perancangan Sistem Informasi Disposisi Elektronik Berbasis Web Menggunakan Metode Waterfall. *Jurnal Manajemen Informatika (JAMIKA)*, 11(2), 89-101.
+21. Wijaya, D., & Kusuma, H. (2022). Implementasi Optical Character Recognition (OCR) pada Sistem Pengarsipan Dokumen Naskah Dinas Elektronik. *Jurnal Sistem Informasi Bisnis (JSINBIS)*, 12(3), 205-214.

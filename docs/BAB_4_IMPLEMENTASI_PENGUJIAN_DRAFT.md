@@ -13,7 +13,7 @@ Untuk menjamin keandalan akses repositori e-arsip secara publik tanpa bergantung
   - Processor: AMD Ryzen 5 / Intel Core i5.
   - RAM: 16 GB DDR4.
   - Penyimpanan: 512 GB NVMe PCIe SSD.
-  - Perangkat Uji Responsif Bergerak: Smartphone Android / iPhone (Resolusi Layar 375px – 414px).
+  - Perangkat Uji Responsif Bergerak: Smartphone Android / iPhone (Resolusi Layar 375px - 414px).
 - **Infrastruktur Cloud Serverless (Zero-Cost Production)**:
   - Web Hosting: Vercel Global Edge Network (Node.js 20 Runtime, HTTPS Otomatis).
   - Database Host: TiDB Cloud Serverless (Region Singapore `ap-southeast-1`, Latensi < 35 ms, Kuota Gratis 25 GB).
@@ -125,7 +125,7 @@ Hasil perbandingan langsung antara penyimpanan manual di Google Drive (`arsipdis
 
 | Parameter Evaluasi | Google Drive Eksisting | Repositori Web SIPASD | Tingkat Efisiensi |
 | :--- | :--- | :--- | :--- |
-| **Waktu Temu-Kembali Arsip** | 15 – 30 Menit (Buka file PDF satu per satu) | **< 2 Detik** (Pencarian multi-kriteria instan) | **Efisiensi Waktu 93.3%** |
+| **Waktu Temu-Kembali Arsip** | 15 - 30 Menit (Buka file PDF satu per satu) | **< 2 Detik** (Pencarian multi-kriteria instan) | **Efisiensi Waktu 93.3%** |
 | **Kelengkapan Metadata** | 0% (Hanya nama file acak) | **100% Terstruktur** (No, tgl, instansi, perihal, kode) | **Peningkatan 100%** |
 | **Dokumentasi Disposisi Fisik**| Tidak Tercatat (Hanya ada di kertas fisik) | **Terekam Digital** & dapat dicetak salinan resminya | **Mencegah Hilang Jejak** |
 | **Kesiapan Rekapitulasi SPJ/LPJ**| Harus Diketik Manual ke Excel (Berhari-hari) | **Ekspor 1-Klik** ke format Microsoft Excel (.xlsx) | **Otomatisasi Penuh** |

@@ -14,7 +14,7 @@
 ### 1.1 Visi Produk
 SIPASD (*Sistem Informasi Pengelolaan Arsip Surat Dispora*) adalah repositori e-arsip digital terindeks berbasis web responsif (*Progressive Web App-ready*) yang dirancang khusus untuk mengorganisasi, mengindeks, menelusuri, dan menyajikan 420+ dokumen fisik pindaian (*scan*) Surat Masuk dan Surat Keluar Tahun Anggaran 2026 di lingkungan Sekretariat Dispora Provinsi Kalimantan Selatan. 
 
-Aplikasi ini memecahkan masalah mendasar tata kelola manual di Google Drive (`arsipdispora2026`), memangkas waktu temu-kembali (*information retrieval time*) dokumen dari **15–30 menit menjadi < 2 detik**, menyediakan *in-browser streaming PDF viewer* tanpa kewajiban mengunduh berkas mentah, merekam dokumentasi riwayat lembar disposisi fisik pimpinan, serta menghasilkan rekapitulasi Buku Agenda dinas resmi berformat spreadsheet Microsoft Excel (.xlsx) secara otomatis.
+Aplikasi ini memecahkan masalah mendasar tata kelola manual di Google Drive (`arsipdispora2026`), memangkas waktu temu-kembali (*information retrieval time*) dokumen dari **15-30 menit menjadi < 2 detik**, menyediakan *in-browser streaming PDF viewer* tanpa kewajiban mengunduh berkas mentah, merekam dokumentasi riwayat lembar disposisi fisik pimpinan, serta menghasilkan rekapitulasi Buku Agenda dinas resmi berformat spreadsheet Microsoft Excel (.xlsx) secara otomatis.
 
 ### 1.2 Masalah Bisnis & Realitas Lapangan (Problem Statement)
 Pemeriksaan langsung pada akun Google Drive resmi instansi (`arsipdispora2026` folder `sistem magang`) dan folder lokal (`C:\xampp\htdocs\Laporan Magang`) membuktikan realitas operasional berikut:
@@ -22,7 +22,7 @@ Pemeriksaan langsung pada akun Google Drive resmi instansi (`arsipdispora2026` f
    Sebanyak **420 berkas pindaian scan PDF** (171 Surat Masuk seberat 205,96 MB dan 249 Surat Keluar seberat 167,19 MB) hanya ditaruh di dalam direktori Google Drive tanpa atribut metadata baku: Asal Instansi Pengirim, Tanggal Diterima, Kode Klasifikasi Arsip, Ringkasan Isi Pokok, maupun Catatan Disposisi Fisik pimpinan.
 2. **Pola Penamaan Berkas Acak & Bervariasi**:
    Nama berkas tersimpan secara tidak beraturan akibat pengetikan manual oleh staf yang berganti-ganti (contoh: `0973(14 Agustus 2026).pdf`, `1181(28 September 2026).pdf`, `3868 S Pengantar Lap Arsip.pdf`, `7480-82, 3 surat_20260902_0001.pdf`). Kondisi ini menggagalkan fungsi pencarian teks standar.
-3. **Temu-Kembali Arsip yang Sangat Lambat (15–30 Menit)**:
+3. **Temu-Kembali Arsip yang Sangat Lambat (15-30 Menit)**:
    Ketika pimpinan dinas, staf teknis bidang, atau tim auditor (Inspektorat Daerah Kalsel / BPK) memerlukan pembuktian arsip naskah dinas lampau, staf tata usaha harus membuka dan membaca file PDF satu per satu di Google Drive.
 4. **Terputusnya Jejak Disposisi Fisik Pimpinan**:
    Coretan instruksi pimpinan (Kepala Dinas / Sekretaris) hanya ada pada lembaran kertas fisik yang rentan rusak, tercecer di meja bidang, atau hilang saat berkas dipinjam. Tidak ada rekaman digital mengenai siapa yang mendisposisikan, tanggal instruksi, dan bidang yang ditugaskan.
@@ -43,7 +43,7 @@ Pemeriksaan langsung pada akun Google Drive resmi instansi (`arsipdispora2026` f
 6. **Apa yang Menjadi Anti-Goal (Apa yang TIDAK Dibangun)?**
    Sistem ini BUKAN aplikasi pembuat surat baru (*no live drafting*), BUKAN gateway TTE bersertifikasi BSrE, dan BUKAN pembukuan SPJ keuangan internal.
 7. **Bagaimana Mengetahui Sistem Ini Berhasil (Metrik Kuantitatif)?**
-   Waktu pencarian turun dari 15–30 menit menjadi < 2 detik; 420 dokumen 100% terindeks; biaya operasional Rp 0,-; dan 0 horizontal scroll overflow di layar ponsel (375px) dan desktop (1440px).
+   Waktu pencarian turun dari 15-30 menit menjadi < 2 detik; 420 dokumen 100% terindeks; biaya operasional Rp 0,-; dan 0 horizontal scroll overflow di layar ponsel (375px) dan desktop (1440px).
 
 ---
 
@@ -131,7 +131,7 @@ SIPASD memberikan kapabilitas bagi aparatur Sekretariat Dispora Kalsel untuk mel
 ```
 [ Berkas Fisik Selesai Diproses ] 
                │
-               ▼ Pemindaian Scanner (Resolusi 200–300 DPI)
+               ▼ Pemindaian Scanner (Resolusi 200-300 DPI)
 [ Berkas Digital PDF Terbentuk ]
                │
                ▼ Pengindeksan & Upload Cloudinary / Google Drive
@@ -280,11 +280,11 @@ SIPASD memberikan kapabilitas bagi aparatur Sekretariat Dispora Kalsel untuk mel
 
 ## 6. PRIORITISASI FITUR MENGGUNAKAN METODE ICE (ICE PRIORITIZATION)
 
-Metode ICE (*Impact, Confidence, Effort*) dengan skala 1–10 digunakan untuk menentukan urutan implementasi modul:
+Metode ICE (*Impact, Confidence, Effort*) dengan skala 1-10 digunakan untuk menentukan urutan implementasi modul:
 
 $$\text{ICE Score} = \frac{\text{Impact} \times \text{Confidence}}{\text{Effort}}$$
 
-| Modul | Nama Modul / Fitur | Impact (1–10) | Confidence (1–10) | Effort (1–10) | ICE Score | Peringkat Prioritas |
+| Modul | Nama Modul / Fitur | Impact (1-10) | Confidence (1-10) | Effort (1-10) | ICE Score | Peringkat Prioritas |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: |
 | **FR-03** | Katalog & Pencarian Multi-Filter (< 2s) | 10 | 10 | 3 | **33.3** | **Peringkat 1 (Critical)** |
 | **FR-04** | In-Browser PDF Streaming Viewer | 10 | 9 | 3 | **30.0** | **Peringkat 2 (Critical)** |

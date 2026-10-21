@@ -17,7 +17,7 @@ Kondisi eksisting penyimpanan Google Drive:
 1. Berkas PDF hanya ditumpuk dalam folder `Surat Masuk 2026` (171 file) dan `Surat Keluar 2026` (249 file) tanpa metadata terstruktur.
 2. Penamaan file manual acak (contoh: `0973(14 Agustus 2026).pdf`, `4302(1).pdf`, `7480-82, 3 surat_20260902_0001.pdf`).
 3. Google Drive tidak memiliki filter klasifikasi dinas (Permendagri/Pergub), tidak ada pencatatan riwayat disposisi fisik pimpinan, dan tidak bisa mengekspor buku agenda resmi kedinasan.
-4. Temu-kembali dokumen memakan waktu **15–30 menit** karena staf harus membuka satu per satu file PDF untuk mengetahui isinya.
+4. Temu-kembali dokumen memakan waktu **15-30 menit** karena staf harus membuka satu per satu file PDF untuk mengetahui isinya.
 
 **SIPASD** hadir sebagai **Katalog Repositori E-Arsip Digital Terindeks**. Sistem mengintegrasikan seluruh 420+ arsip riil TA 2026 ke dalam basis data cloud berindeks, memotong waktu temu-kembali dokumen menjadi **< 2 detik** via peramban HP dan PC.
 

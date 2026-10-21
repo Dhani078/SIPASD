@@ -15,7 +15,7 @@ Menstandarkan proses digitalisasi naskah dinas fisik yang telah selesai diproses
 ### Langkah Operasional
 1. Petugas mengumpulkan seluruh berkas naskah dinas yang telah tuntas diproses pimpinan.
 2. Memeriksa keabsahan berkas: stempel dinas, tanda tangan pejabat, dan kelengkapan lembar disposisi fisik.
-3. Melakukan pemindaian dokumen menggunakan scanner resolusi optimal 200–300 DPI dengan format warna hitam-putih atau grayscale (format PDF).
+3. Melakukan pemindaian dokumen menggunakan scanner resolusi optimal 200-300 DPI dengan format warna hitam-putih atau grayscale (format PDF).
 4. Memastikan hasil pindaian tegak lurus, tidak buram, dan seluruh tulisan tangan disposisi terbaca jelas.
 
 ---

@@ -12,7 +12,7 @@
 - Realitas operasional pada Sekretariat Dispora Kalsel: dokumen surat yang telah selesai diproses (ditandatangani pimpinan, dicap basah, dan bertoreh disposisi fisik) telah dipindai dan disimpan di Google Drive (`arsipdispora2026 / sistem magang`), namun penumpukannya tidak terstruktur (171 Surat Masuk & 249 Surat Keluar TA 2026).
 - Identifikasi 4 kendala utama:
   1. Penamaan file acak dan ketiadaan metadata terstruktur.
-  2. Waktu temu-kembali dokumen sangat lambat (15–30 menit membuka file satu per satu).
+  2. Waktu temu-kembali dokumen sangat lambat (15-30 menit membuka file satu per satu).
   3. Catatan disposisi fisik pimpinan tidak terdata secara sistematis.
   4. Google Drive tidak dapat menghasilkan rekapitulasi Buku Agenda resmi berformat Excel untuk SPJ/LPJ dinas.
 - Urgensi pembangunan aplikasi web repositori e-arsip **SIPASD** (*Sistem Informasi Pengelolaan Arsip Surat Dispora*).
@@ -83,7 +83,7 @@
 ## 💻 BAB IV: IMPLEMENTASI DAN PENGUJIAN
 
 ### 4.1 Implementasi Perangkat Keras dan Lunak
-- **Perangkat Keras**: Laptop pengembang (RAM 16 GB, SSD NVMe) dan perangkat uji seluler (layar 375px–414px).
+- **Perangkat Keras**: Laptop pengembang (RAM 16 GB, SSD NVMe) dan perangkat uji seluler (layar 375px-414px).
 - **Perangkat Lunak**: Next.js 15, TypeScript, Tailwind CSS v4, Node.js 20, TiDB Cloud Serverless, Cloudinary & Google Drive, Git & VS Code.
 
 ### 4.2 Implementasi Kode Kunci
@@ -99,7 +99,7 @@ Tabel matriks pengujian fungsional 15 skenario (Login, Filter Nomor, Filter Peri
 
 ### 5.1 Kesimpulan
 1. Aplikasi SIPASD berhasil menjadi repositori e-arsip digital terindeks untuk 420 dokumen riil TA 2026.
-2. Waktu temu-kembali berkas fisik dipangkas dari 15–30 menit menjadi < 2 detik.
+2. Waktu temu-kembali berkas fisik dipangkas dari 15-30 menit menjadi < 2 detik.
 3. Dokumen pindaian dapat dibaca langsung di browser HP maupun PC tanpa unduh manual.
 4. Lembar disposisi fisik terdokumentasi dan Buku Agenda dapat diekspor otomatis ke format Excel.
 5. 15 skenario Black Box testing terbukti 100% valid.

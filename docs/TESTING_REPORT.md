@@ -13,7 +13,7 @@
 Pengujian sistem dilakukan untuk memvalidasi bahwa seluruh fitur fungsional, performa, keamanan, dan responsivitas aplikasi SIPASD berjalan sesuai dengan spesifikasi yang telah ditetapkan pada Dokumen Persyaratan Produk (*PRD.md*).
 
 ### 1.1 Spesifikasi Lingkungan Pengujian
-- **Tanggal Pengujian**: 20–21 Oktober 2026.
+- **Tanggal Pengujian**: 20-21 Oktober 2026.
 - **Lokasi Pengujian**: Laboratorium Komputasi FTI UNISKA Banjarmasin & Lingkungan Kantor Dispora Prov. Kalsel.
 - **Perangkat Keras Uji**:
   * Laptop Pengembang: AMD Ryzen 5, 16 GB RAM DDR4, SSD NVMe 512 GB (Resolusi Monitor 1440x900 & 1920x1080).
@@ -129,9 +129,9 @@ Berdasarkan pengujian empiris langsung pada operasional Sekretariat Dispora Kals
 
 | Parameter Kinerja | Metode Lama (Google Drive & Ordner Fisik) | Metode Baru (SIPASD E-Arsip Web) | Peningkatan Efisiensi |
 | :--- | :--- | :--- | :---: |
-| **Kecepatan Temu-Kembali Arsip** | 15 – 30 Menit (Bongkar file acak satu per satu) | **0.38 – 1.14 Detik** (Pencarian multi-filter) | **$\approx$ 93.3% Lebih Cepat** |
-| **Waktu Membaca Dokumen PDF** | 8 – 20 Detik (Menunggu download & buka app) | **< 1.5 Detik** (In-browser streaming viewer) | **$\approx$ 88.0% Lebih Cepat** |
-| **Penyusunan Rekapitulasi SPJ**| 1 – 2 Hari Kerja (Mengetik manual ke Excel) | **< 2 Detik** (Ekspor 1-klik format .xlsx) | **$\approx$ 99.5% Lebih Cepat** |
+| **Kecepatan Temu-Kembali Arsip** | 15 - 30 Menit (Bongkar file acak satu per satu) | **0.38 - 1.14 Detik** (Pencarian multi-filter) | **$\approx$ 93.3% Lebih Cepat** |
+| **Waktu Membaca Dokumen PDF** | 8 - 20 Detik (Menunggu download & buka app) | **< 1.5 Detik** (In-browser streaming viewer) | **$\approx$ 88.0% Lebih Cepat** |
+| **Penyusunan Rekapitulasi SPJ**| 1 - 2 Hari Kerja (Mengetik manual ke Excel) | **< 2 Detik** (Ekspor 1-klik format .xlsx) | **$\approx$ 99.5% Lebih Cepat** |
 | **Kelengkapan Jejak Disposisi**| 0% Digital (Hanya ada di lembar kertas) | **100% Terdokumentasi** di basis data TiDB | **Pencegahan Berkas Hilang** |
 | **Konsumsi Memori Perangkat HP**| Penuh (Harus mengunduh file PDF ke HP) | **0 MB Unduhan** (Hanya streaming byte) | **Hemat Memori Staf** |
 | **Biaya Langganan Server Cloud** | Rp 0,- (Google Drive pribadi) | **Rp 0,- (Zero-Cost Cloud Serverless)** | **Efisiensi Anggaran 100%** |

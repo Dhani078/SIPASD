@@ -1,6 +1,6 @@
 # FINDINGS & RECONNAISSANCE: SIPASD
 **Catatan Hasil Riset, Analisis Berkas Riil & Struktur Kedinasan Dispora Kalsel**  
-*Tanggal Analisis: 20–21 Oktober 2026*
+*Tanggal Analisis: 20-21 Oktober 2026*
 
 ---
 
@@ -27,7 +27,7 @@ Meskipun berkas fisik telah dipindai dan disimpan di Google Drive, tata kelola s
 2. **Ketiadaan Metadata Terstruktur**:
    - Google Drive hanya membaca nama file dan teks terbatas jika tidak ter-OCR sempurna.
    - Tidak ada kolom untuk Instansi Pengirim, Tanggal Terima, Kode Klasifikasi Arsip, Ringkasan Isi, dan Catatan Disposisi Fisik.
-3. **Pencarian Dokumen yang Lambat (15–30 Menit)**:
+3. **Pencarian Dokumen yang Lambat (15-30 Menit)**:
    - Staf yang membutuhkan arsip surat tertentu harus menggulir ratusan file PDF di browser, membuka dan menutup file satu per satu untuk memastikan isi surat.
 4. **Tidak Ada Rekapitulasi Buku Agenda Kedinasan**:
    - Google Drive tidak dapat menghasilkan lembaran register Buku Agenda format Microsoft Excel yang diwajibkan untuk keperluan laporan pertanggungjawaban (LPJ/SPJ) kearsipan daerah.

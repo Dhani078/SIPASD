@@ -17,7 +17,7 @@
   * `npm run build`: 100% sukses (6 rute dinamis / landing, login, dashboard, arsip-masuk, arsip-keluar, api).
   * Batas Modularitas: Seluruh 45 berkas di `src/` berukuran <= 200 LOC per file.
   * Zero Dummy Data: 411 arsip riil (170 surat masuk & 241 surat keluar) ditarik live dari TiDB Cloud via `mysql2`.
-  * Zero Em-Dash: Bebas dari em-dash (—) di seluruh kode dan dokumen.
+  * Zero Em-Dash: Bebas dari em-dash (-) di seluruh kode dan dokumen.
 
 ---
 

@@ -67,4 +67,4 @@
    - **Typecheck**: `npx tsc --noEmit` lolos 0 error.
    - **Build**: `npm run build` sukses 100% dan menghasilkan bundle optimal.
    - **Modularitas**: Seluruh 45 file di `src/` berukuran <= 200 baris kode (200 LOC).
-   - **Zero Em-Dash**: 0 em-dash (—) di seluruh kode dan dokumen.
+   - **Zero Em-Dash**: 0 em-dash (-) di seluruh kode dan dokumen.

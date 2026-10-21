@@ -26,6 +26,8 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
   * `/api/letters`: REST API penarikan dan penambahan arsip baru dengan mutasi SQL riil.
   * `/api/pdf`: REST API penampil dokumen PDF bertanda-tangan digital (*signed URL stream*) yang mengatasi galat 401 ACL deny Cloudinary.
   * `/api/upload`: REST API unggah berkas PDF fisik langsung ke Cloudinary SDK (`multipart/form-data`) dengan validasi magic bytes `%PDF-` dan batasan ukuran 20 MB.
+  * `/api/ai/suggest`: REST API rekomendasi otomatis kode klasifikasi kearsipan dan unit kerja bidang tujuan berbasis algoritma Multinomial Naive Bayes.
+- **Modul Rekomendasi Cerdas AI (Skripsi S1 Preview)**: Integrasi mesin klasifikasi teks Naive Bayes di form perekaman surat baru (`NewLetterModal.tsx`) yang secara otomatis mendeteksi kode klasifikasi (005, 426, 427, 800, 045, 900) dan bidang tujuan disposisi secara real-time berdasarkan kata kunci perihal surat.
 - **Modul Cetak Disposisi Standar Pemprov Kalsel**: Format cetak lembar disposisi ukuran F4 dan A4 sesuai format kedinasan Dispora Kalsel (`@media print`).
 - **Modul Ekspor Spreadsheet Excel (.xlsx)**: Pembuatan buku agenda persuratan dinas secara otomatis menggunakan pustaka `exceljs`.
 

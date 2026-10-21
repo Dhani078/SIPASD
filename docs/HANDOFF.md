@@ -58,6 +58,7 @@
 - `download.ts` (11 LOC) - Utilitas pengunduhan blob berkas di peramban
 - `exportExcel.ts` (49 LOC) - Generator berkas spreadsheet Excel (.xlsx) dinas (`exceljs`)
 - `cloudinary.ts` (39 LOC) - Utilitas integrasi upload Cloudinary SDK
+- `classifier.ts` (98 LOC) - Mesin klasifikasi cerdas Naive Bayes untuk rekomendasi kode kearsipan dan bidang tujuan otomatis
 
 ### 4. Naskah Akademik Resmi UNISKA (`docs/`)
 - `docs/SIPASD_BERKAS_MAGANG_LENGKAP_2026.zip` (151 KB) - Paket softcopy arsip digital lengkap (Laporan, Slide, SQL Dump, dan Panduan) untuk CD-ROM / Flashdisk pengumpulan ke kampus.
@@ -68,6 +69,8 @@
 - `docs/PANDUAN_SIDANG_DAN_TANYA_JAWAB_PENGUJI.md` - Skenario demo 5 menit & bedah 5 jawaban pertanyaan kritis dewan penguji.
 - `docs/BAB_1_PENDAHULUAN_DRAFT.md` s/d `docs/BAB_5_PENUTUP_DRAFT.md` - Draf Markdown per bab.
 - `docs/DAFTAR_PUSTAKA.md` - 21 Rujukan format APA 7th Edition.
+
+### 5. Rute Halaman & REST API (`src/app/`)
 - `src/app/page.tsx` - Halaman beranda utama terhubung data riil
 - `src/app/landing/page.tsx` - Rute portal publik mandiri
 - `src/app/login/page.tsx` - Rute login terproteksi mandiri
@@ -79,6 +82,7 @@
 - `src/app/api/letters/route.ts` - Endpoint REST GET & POST arsip surat
 - `src/app/api/upload/route.ts` - Endpoint REST unggah berkas fisik ke Cloudinary CDN
 - `src/app/api/pdf/route.ts` - Endpoint REST streaming signed URL PDF Cloudinary anti-401
+- `src/app/api/ai/suggest/route.ts` - Endpoint REST klasifikasi cerdas Naive Bayes untuk rekomendasi klasifikasi arsip dinas otomatis
 
 ---
 

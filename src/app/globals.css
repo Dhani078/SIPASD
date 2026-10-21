@@ -3784,3 +3784,69 @@ td .icon-btn {
   min-height: 480px !important;
   margin-top: 4px;
 }
+
+/* Table Action Buttons Enhancement */
+.row-actions {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 8px !important;
+}
+
+.table-action-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 6px 11px !important;
+  border-radius: 6px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.18s ease-in-out !important;
+  min-height: 32px !important;
+  white-space: nowrap !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.table-action-btn svg {
+  flex-shrink: 0 !important;
+}
+
+.table-action-btn.action-view {
+  background: #ecfdf5 !important;
+  color: #064e3b !important;
+  border: 1px solid #a7f3d0 !important;
+}
+
+.table-action-btn.action-view:hover {
+  background: #047857 !important;
+  color: #ffffff !important;
+  border-color: #047857 !important;
+  box-shadow: 0 3px 8px rgba(4, 120, 87, 0.28) !important;
+  transform: translateY(-1px) !important;
+}
+
+.table-action-btn.action-print {
+  background: #f8fafc !important;
+  color: #334155 !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
+.table-action-btn.action-print:hover {
+  background: #0f172a !important;
+  color: #ffffff !important;
+  border-color: #0f172a !important;
+  box-shadow: 0 3px 8px rgba(15, 23, 42, 0.22) !important;
+  transform: translateY(-1px) !important;
+}
+
+@media (max-width: 900px) {
+  .table-action-btn span {
+    display: none !important;
+  }
+  .table-action-btn {
+    padding: 6px 8px !important;
+    min-width: 32px !important;
+    justify-content: center !important;
+  }
+}

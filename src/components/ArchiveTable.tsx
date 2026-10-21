@@ -44,8 +44,8 @@ export default function ArchiveTable({
                 TANGGAL <Icon name="down" size={11} />
               </th>
               <th scope="col">SIFAT</th>
-              <th scope="col">
-                <span className="sr-only">Aksi</span>
+              <th scope="col" style={{ textAlign: 'right', paddingRight: '16px' }}>
+                AKSI DOKUMEN
               </th>
             </tr>
           </thead>
@@ -85,26 +85,31 @@ export default function ArchiveTable({
                 <td>
                   <div className="row-actions">
                     <button
-                      className="icon-btn"
-                      aria-label={`Lihat PDF ${letter.id}`}
+                      type="button"
+                      className="table-action-btn action-view"
+                      aria-label={`Buka PDF ${letter.id}`}
+                      title={`Buka Dokumen PDF ${letter.id}`}
                       onClick={(e) => {
                         e.stopPropagation();
                         onSelect(letter);
                       }}
                     >
                       <Icon name="eye" size={15} />
+                      {!compact && <span>Lihat PDF</span>}
                     </button>
                     {!compact && onPrint && (
                       <button
-                        className="icon-btn"
+                        type="button"
+                        className="table-action-btn action-print"
                         aria-label={`Cetak Disposisi ${letter.id}`}
-                        title="Cetak Disposisi"
+                        title={`Cetak Lembar Disposisi ${letter.id}`}
                         onClick={(e) => {
                           e.stopPropagation();
                           onPrint(letter);
                         }}
                       >
-                        <Icon name="print" size={15} />
+                        <Icon name="print" size={14} />
+                        <span>Disposisi</span>
                       </button>
                     )}
                   </div>

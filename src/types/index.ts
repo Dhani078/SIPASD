@@ -2,6 +2,10 @@ export type UserRole = 'SUPER_ADMIN' | 'PETUGAS_ARSIP' | 'PIMPINAN' | 'BIDANG';
 
 export type SifatSurat = 'BIASA' | 'PENTING' | 'SEGERA' | 'KILAT';
 
+export type Urgency = 'Kilat' | 'Segera' | 'Penting' | 'Biasa';
+
+export type Direction = 'in' | 'out';
+
 export interface UserSession {
   id: string;
   nip: string;
@@ -11,6 +15,47 @@ export interface UserSession {
   role: UserRole;
   jabatan: string;
   unitKerja: string;
+}
+
+export interface DemoUser {
+  username: string;
+  name: string;
+  role: string;
+  label: string;
+  initials: string;
+}
+
+export interface Disposition {
+  official: string;
+  date: string;
+  division: string;
+  instructions: string[];
+  notes: string;
+}
+
+export interface LetterRecord {
+  id: string; // Nomor Agenda
+  number: string; // Nomor Surat
+  origin: string; // Asal atau Tujuan Instansi
+  subject: string; // Perihal
+  date: string; // Tanggal Surat YYYY-MM-DD
+  type: Urgency; // Sifat Surat
+  direction: Direction; // in | out
+  classification: string; // Kode Klasifikasi
+  venue: string; // Venue Olahraga
+  division: string; // Bidang
+  disposition: Disposition;
+  fileUrl?: string; // Cloudinary CDN streaming URL
+  driveUrl?: string; // Google Drive backup URL
+  rawId?: string; // Database UUID
+}
+
+export interface ArchiveFilters {
+  query: string;
+  urgency: string;
+  classification: string;
+  venue: string;
+  division: string;
 }
 
 export interface ArsipSuratMasuk {

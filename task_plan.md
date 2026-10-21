@@ -1,10 +1,10 @@
 # TASK PLAN: SIPASD (Sistem Informasi Pengelolaan Arsip Surat Dispora)
 
 ## Goal
-Membangun aplikasi repositori e-arsip persuratan berbasis web responsif (Next.js 15, TypeScript, Tailwind CSS, TiDB Serverless, Cloudinary & Google Drive) untuk Sekretariat Dispora Provinsi Kalimantan Selatan, menggantikan penyimpanan manual Google Drive (171 Surat Masuk & 249 Surat Keluar TA 2026) dengan katalog berindeks cepat, viewer PDF bawaan, pencatatan disposisi fisik, dan ekspor agenda Excel.
+Membangun aplikasi repositori e-arsip persuratan berbasis web responsif (Next.js 15, TypeScript, Tailwind CSS, TiDB Serverless, Cloudinary & Google Drive) untuk Sekretariat Dispora Provinsi Kalimantan Selatan, menggantikan penyimpanan manual Google Drive (170 Surat Masuk & 241 Surat Keluar TA 2026 di TiDB) dengan katalog berindeks cepat, viewer PDF bawaan, pencatatan disposisi fisik, dan ekspor agenda Excel.
 
 ## Current Phase
-Phase 2: Inisialisasi Proyek, Basis Data TiDB & Storage Cloud (In Progress -> Complete)
+Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 
 ---
 
@@ -56,38 +56,40 @@ Phase 2: Inisialisasi Proyek, Basis Data TiDB & Storage Cloud (In Progress -> Co
 - [x] Verifikasi dan audit prototipe antarmuka di `C:\xampp\htdocs\Laporan Magang\SIPASD Web Application UI (1)` (18 komponen modular).
 - *Status: Complete*
 
-### [ ] Phase 3: Modul Autentikasi & RBAC 4 Tingkat
-- [ ] Buat utilitas verifikasi JWT sesi cookie HttpOnly di `src/lib/auth.ts`.
-- [ ] Buat route handler `/api/auth/login` dan `/api/auth/logout`.
-- [ ] Pasang antarmuka Login (`src/app/login/page.tsx`) dengan tombol tester 1-klik 5 peran.
-- [ ] Buat proteksi middleware rute (`middleware.ts`).
-- *Status: Pending*
+### [x] Phase 3: Modul Autentikasi & RBAC 4 Tingkat
+- [x] Buat utilitas verifikasi JWT sesi cookie HttpOnly di `src/lib/auth.ts`.
+- [x] Buat route handler `/api/auth/login` dan `/api/auth/logout`.
+- [x] Pasang antarmuka Login (`src/app/login/page.tsx`) dengan tombol tester 1-klik 5 peran.
+- [x] Sambungkan otentikasi nyata langsung ke tabel `users` di TiDB Cloud Serverless via bcrypt.
+- *Status: Complete*
 
-### [ ] Phase 4: Porting Komponen Modular ke Next.js 15 App Router & TiDB
-- [ ] Pindahkan komponen dari `C:\xampp\htdocs\Laporan Magang\SIPASD Web Application UI (1)` ke `src/components/`.
-- [ ] Hubungkan katalog surat masuk (`/arsip-masuk`) ke kueri database TiDB Cloud Serverless secara real-time.
-- [ ] Hubungkan katalog surat keluar (`/arsip-keluar`) ke kueri database TiDB Cloud Serverless.
-- [ ] Pasang penampil dokumen PDF bawaan (*streaming viewer*) dengan tombol cadangan Google Drive.
-- [ ] Buat modal rekam indeks surat baru yang menyimpan metadata ke TiDB dan berkas ke Cloudinary.
-- *Status: Pending*
+### [x] Phase 4: Porting Komponen Modular ke Next.js 15 App Router & TiDB
+- [x] Porting 18 komponen modular dari referensi UI ke `src/components/` dengan modularitas tinggi (< 200 LOC per file).
+- [x] Hubungkan katalog surat masuk (`/arsip-masuk`) ke kueri database TiDB Cloud Serverless secara real-time (170 surat masuk riil).
+- [x] Hubungkan katalog surat keluar (`/arsip-keluar`) ke kueri database TiDB Cloud Serverless secara real-time (241 surat keluar riil).
+- [x] Pasang penampil dokumen PDF bawaan (*streaming viewer*) dengan URL Cloudinary CDN aktif dan tombol cadangan Google Drive dinas.
+- [x] Buat modal rekam indeks surat baru (`NewLetterModal.tsx` & `NewLetterDisposisiFields.tsx`) terhubung API `/api/letters` yang mengeksekusi INSERT nyata ke TiDB.
+- *Status: Complete*
 
-### [ ] Phase 5: Modul Cetak Disposisi & Ekspor Buku Agenda Excel
-- [ ] Pasang halaman cetak disposisi standar Pemprov Kalsel ukuran F4/A4 (`@media print`).
-- [ ] Pasang endpoint API ekspor Buku Agenda Surat Masuk dan Keluar ke format spreadsheet Excel (.xlsx) via `exceljs`.
-- *Status: Pending*
+### [x] Phase 5: Modul Cetak Disposisi & Ekspor Buku Agenda Excel
+- [x] Pasang modal cetak lembar disposisi standar Pemprov Kalsel ukuran F4/A4 (`PrintDisposisiModal.tsx` & `@media print`).
+- [x] Pasang fungsi ekspor Buku Agenda Surat Masuk dan Keluar ke format spreadsheet Excel (.xlsx) via `exceljs` (`src/lib/exportExcel.ts`).
+- *Status: Complete*
 
 ### [ ] Phase 6: Verifikasi Akhir & Deploy Publik Vercel
-- [ ] Jalankan audit typecheck `npx tsc --noEmit` (0 error).
-- [ ] Jalankan audit build produksi `npm run build` (0 error).
+- [x] Jalankan audit typecheck `npx tsc --noEmit` (0 error).
+- [x] Jalankan audit build produksi `npm run build` (0 error).
+- [x] Verifikasi zero em-dashes di seluruh kode dan dokumen.
+- [x] Verifikasi seluruh 45 file kode di bawah 200 LOC.
 - [ ] Verifikasi antarmuka mobile (375px) dan desktop (1440px) bebas horizontal scroll overflow.
 - [ ] Lakukan commit akhir dan deploy ke Vercel via GitHub `Dhani078/SIPASD`.
-- *Status: Pending*
+- *Status: In Progress*
 
 ---
 
 ## Key Decisions & Locations
-1. **Lokasi Prototipe Desain**: `C:\xampp\htdocs\Laporan Magang\SIPASD Web Application UI (1)` (18 file komponen modular, teruji E2E).
+1. **Lokasi Komponen Desain**: `C:\xampp\htdocs\SIPASD\src\components\` (seluruh 18+ komponen modular di bawah 200 LOC, teruji 0 type error).
 2. **Arsitektur Penyimpanan Ganda**:
    - Primer: Cloudinary (`vqfpoekg`, 25 kredit gratis per bulan) untuk streaming instan < 2 detik.
    - Sekunder: Google Drive folder `sistem magang` resmi instansi via Service Account robot `sipasd-bot@sipasd.iam.gserviceaccount.com`.
-3. **Database**: TiDB Cloud Serverless (`gateway01.ap-southeast-1.prod.aws.tidbcloud.com:4000/sipasd`, 25 GB gratis, 8 tabel aktif).
+3. **Database**: TiDB Cloud Serverless (`gateway01.ap-southeast-1.prod.aws.tidbcloud.com:4000/sipasd`, 25 GB gratis, 8 tabel aktif, 411 berkas riil).

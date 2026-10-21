@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'SIPASD — Sistem Informasi Pengelolaan Arsip Surat Dispora',
+  title: 'SIPASD - Sistem Informasi Pengelolaan Arsip Surat Dispora',
   description: 'Repositori E-Arsip Digital Terindeks Dinas Kepemudaan dan Olahraga Provinsi Kalimantan Selatan',
   icons: {
     icon: '/favicon.ico',

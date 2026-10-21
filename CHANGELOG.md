@@ -6,11 +6,30 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ## [Unreleased]
 
-### Planned (Phase 3 - Phase 6)
-- Integrasi 18 komponen modular dari `C:\xampp\htdocs\Laporan Magang\SIPASD Web Application UI (1)` ke rute Next.js 15 App Router.
-- Penyambungan kueri real-time database TiDB Cloud Serverless ke antarmuka katalog surat masuk dan keluar.
-- Implementasi ekspor Buku Agenda Excel (.xlsx) dinas via endpoint `/api/laporan/export-excel`.
-- Pengujian akhir blackbox testing dan deployment produksi ke Vercel.
+### Planned (Phase 6)
+- Pengujian antarmuka multi-resolusi (mobile 375px s/d desktop 1440px) bebas horizontal overflow.
+- Deployment produksi ke Vercel via repositori GitHub `Dhani078/SIPASD`.
+
+---
+
+## [2.1.0-app-router] - 2026-10-21
+
+### Added
+- **Integrasi Penuh Komponen Modular ke Next.js 15 App Router**: Porting 18 komponen modular dari direktori referensi ke `src/components/`, seluruhnya dipecah memenuhi batas maksimal 200 LOC per file.
+- **Koneksi TiDB Cloud Serverless Real-Time (Zero Dummy Data Invariant)**: Seluruh tabel katalog, kartu KPI, diagram korespondensi bulanan, dan filter unit kerja mengambil 411 berkas riil (170 Surat Masuk & 241 Surat Keluar) langsung dari basis data TiDB via `mysql2`.
+- **Rute Aplikasi Terpadu**:
+  * `/` & `/landing`: Portal publik dengan pencarian lacak nomor agenda dan visualisasi aset venue olahraga Banua.
+  * `/login`: Portal login terproteksi dilengkapi 1-klik uji 5 peran kedinasan dan autentikasi sesi cookie HttpOnly.
+  * `/dashboard`: Dasbor eksekutif dengan 4 metrik KPI riil, grafik korespondensi, dan sebaran beban kerja bidang.
+  * `/arsip-masuk`: Katalog surat masuk terintegrasi panel pemutar PDF bawaan peramban berbasis URL Cloudinary dan tautan cadangan Google Drive dinas.
+  * `/arsip-keluar`: Katalog surat keluar terindeks klasifikasi dinas.
+  * `/api/letters`: REST API penarikan dan penambahan arsip baru dengan mutasi SQL riil.
+- **Modul Cetak Disposisi Standar Pemprov Kalsel**: Format cetak lembar disposisi ukuran F4 dan A4 sesuai format kedinasan Dispora Kalsel (`@media print`).
+- **Modul Ekspor Spreadsheet Excel (.xlsx)**: Pembuatan buku agenda persuratan dinas secara otomatis menggunakan pustaka `exceljs`.
+
+### Changed
+- Refactor pemutar PDF dari kompilasi canvas berat menjadi pemutar PDF responsif berbasis streaming URL Cloudinary langsung, mencegah crash memori pada peramban mobile.
+- Pembersihan total karakter em-dash (` - `) menjadi tanda hubung standar (`-`) di seluruh berkas.
 
 ---
 
@@ -34,6 +53,6 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ### Changed
 - **Penyelarasan Paradigma Repositori E-Arsip Digital**: Menyelaraskan seluruh spesifikasi sistem dan naskah laporan dari sistem workflow surat baru menjadi Repositori E-Arsip Terindeks untuk 420 berkas pindaian scan PDF yang tersimpan di Google Drive instansi (`arsipdispora2026 / sistem magang`).
-- **Penyelarasan Draf Laporan Magang Bab I s/d Bab V**: Menyesuaikan latar belakang masalah, analisis PIECES, perancangan antarmuka, dan 15 skenario Black Box Testing agar fokus pada efisiensi temu-kembali arsip dari 15–30 menit menjadi < 2 detik.
+- **Penyelarasan Draf Laporan Magang Bab I s/d Bab V**: Menyesuaikan latar belakang masalah, analisis PIECES, perancangan antarmuka, dan 15 skenario Black Box Testing agar fokus pada efisiensi temu-kembali arsip dari 15-30 menit menjadi < 2 detik.
 - **Skema Database & DDL**: Mengubah struktur tabel menjadi fokus katalog arsip (`arsip_surat_masuk`, `arsip_surat_keluar`, `riwayat_disposisi`, `klasifikasi_arsip`, `buku_ekspedisi`, `audit_logs`).
 - **Roadmap Skripsi S1**: Menegaskan pemanfaatan dataset 420 berkas scan PDF Google Drive sebagai korpus penelitian komputasi kecerdasan buatan (OCR Tesseract & Klasifikasi Teks Naive Bayes TF-IDF).

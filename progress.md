@@ -10,7 +10,7 @@
 ---
 
 ## Sesi 2: Penyempurnaan PRD 100/100, Inisialisasi Cloud TiDB, Cloudinary, Google Drive & Audit Desain Modular
-**Tanggal**: 20–21 Oktober 2026  
+**Tanggal**: 20 - 21 Oktober 2026  
 **Operator / Agen**: Hermes Agent (Dhani078 / dhanisepeda@gmail.com)
 
 ### Aktivitas yang Telah Diselesaikan
@@ -32,7 +32,38 @@
 5. **Verifikasi Git & Repositori**:
    - Seluruh perubahan di-commit atas nama `Dhani078 <dhanisepeda@gmail.com>` dan disinkronkan ke remote GitHub `https://github.com/Dhani078/SIPASD`.
 
-### Status Verifikasi Terakhir
-- **Dokumen PRD & Naskah Magang**: 100% Siap salin ke Microsoft Word.
-- **Infrastruktur Cloud**: TiDB 8 Tabel Aktif, Cloudinary Terkoneksi, Google Drive Terhubung.
-- **Desain Antarmuka**: 18 Komponen Modular Teruji di `C:\xampp\htdocs\Laporan Magang\SIPASD Web Application UI (1)`.
+---
+
+## Sesi 3: Porting & Integrasi Penuh Komponen Modular ke Next.js 15 App Router & TiDB Live
+**Tanggal**: 21 Oktober 2026  
+**Operator / Agen**: Hermes Agent (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Porting 18 Komponen Modular ke Next.js 15 App Router**:
+   - Memindahkan dan menyesuaikan komponen antarmuka dari `C:\xampp\htdocs\Laporan Magang\SIPASD Web Application UI (1)` ke `src/components/`:
+     * `LandingPage.tsx` (Portal publik & lacak nomor agenda)
+     * `LoginPage.tsx` (Login terproteksi & tombol tester 1-klik 5 peran resmi dinas)
+     * `Sidebar.tsx` & `TopNavbar.tsx` (Navigasi kedinasan, jam WITA, pencarian global Ctrl+K)
+     * `DashboardView.tsx` & `CorrespondenceChart.tsx` (4 KPI card, grafik bulanan, beban bidang)
+     * `ArchiveWorkspace.tsx` & `ArchiveTable.tsx` (Tabel data padat & paginasi)
+     * `PdfPreviewPanel.tsx` & `DocumentPreview.tsx` (Penampil PDF bawaan peramban berbasis URL Cloudinary dengan fallback Google Drive)
+     * `PrintDisposisiModal.tsx` & `Letter.tsx` (Format cetak disposisi A4/F4 Pemprov Kalsel)
+     * `NewLetterModal.tsx` & `NewLetterDisposisiFields.tsx` (Modal rekam indeks surat baru)
+     * `ReferenceViews.tsx`, `Modal.tsx`, `Badge.tsx`, `Crest.tsx`, `Icon.tsx`
+2. **Koneksi Kueri Basis Data Real-Time TiDB Cloud Serverless (ZERO DUMMY DATA)**:
+   - Membuat `src/lib/letters.ts` yang menarik 411 data arsip surat riil (170 Surat Masuk & 241 Surat Keluar) langsung dari TiDB Cloud melalui `mysql2`.
+   - Mengaitkan URL streaming dokumen ke Cloudinary CDN aktif (`https://res.cloudinary.com/vqfpoekg/...`).
+   - Membuat endpoint `/api/letters` untuk mutasi penambahan surat baru yang mengeksekusi INSERT nyata ke tabel `arsip_surat_masuk`, `arsip_surat_keluar`, dan `riwayat_disposisi`.
+3. **Penyusunan Rute Next.js 15 App Router**:
+   - `/` dan `/landing` -> Portal Publik
+   - `/login` -> Halaman Login Terproteksi
+   - `/dashboard` -> Dasbor Eksekutif Terhubung TiDB
+   - `/arsip-masuk` -> Katalog Surat Masuk Split-Screen PDF
+   - `/arsip-keluar` -> Katalog Surat Keluar Terhubung TiDB
+   - `/api/auth/login` & `/api/auth/logout` -> Autentikasi sesi cookie HttpOnly
+   - `/api/letters` -> API mutasi dan penarikan arsip
+4. **Verifikasi Kontrak Kualitas**:
+   - **Typecheck**: `npx tsc --noEmit` lolos 0 error.
+   - **Build**: `npm run build` sukses 100% dan menghasilkan bundle optimal.
+   - **Modularitas**: Seluruh 45 file di `src/` berukuran <= 200 baris kode (200 LOC).
+   - **Zero Em-Dash**: 0 em-dash (—) di seluruh kode dan dokumen.

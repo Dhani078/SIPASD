@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
+    "test": "node --env-file=.env.local --import tsx scripts/verify-system.ts",
     "db:migrate": "tsx scripts/migrate-db.ts",
     "db:seed": "tsx scripts/seed-db.ts",
     "upload:real-pdf": "tsx scripts/upload-cloudinary.ts"

@@ -61,6 +61,9 @@
 
 ### 4. Naskah Akademik Resmi UNISKA (`docs/`)
 - `docs/LAPORAN_MAGANG_SIPASD_DISPORA_KALSEL.docx` (44 KB, 123 paragraf) - Naskah resmi Microsoft Word lengkap siap cetak / jilid (Format A4, Margin 4-3-3-3 cm, Times New Roman 12 pt, Spasi 1.5, 0 em-dash).
+- `docs/PRESENTASI_SIDANG_MAGANG_SIPASD.pptx` (38 KB, 12 slide) - Slide presentasi resmi sidang magang 16:9 widescreen.
+- `docs/PRESENTASI_SIDANG_MAGANG_SIPASD.html` - Presentasi web interaktif berbasis browser mandiri.
+- `docs/PANDUAN_SIDANG_DAN_TANYA_JAWAB_PENGUJI.md` - Skenario demo 5 menit & bedah 5 jawaban pertanyaan kritis dewan penguji.
 - `docs/BAB_1_PENDAHULUAN_DRAFT.md` s/d `docs/BAB_5_PENUTUP_DRAFT.md` - Draf Markdown per bab.
 - `docs/DAFTAR_PUSTAKA.md` - 21 Rujukan format APA 7th Edition.
 - `src/app/page.tsx` - Halaman beranda utama terhubung data riil

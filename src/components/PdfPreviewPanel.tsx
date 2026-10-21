@@ -8,9 +8,10 @@ interface Props {
   letter: LetterRecord;
   onClose: () => void;
   onPrint: () => void;
+  onDelete?: () => void;
 }
 
-export default function PdfPreviewPanel({ letter, onClose, onPrint }: Props) {
+export default function PdfPreviewPanel({ letter, onClose, onPrint, onDelete }: Props) {
   const pdfUrl = letter.fileUrl
     ? `/api/pdf?url=${encodeURIComponent(letter.fileUrl)}`
     : '/placeholder-surat.pdf';
@@ -54,9 +55,21 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint }: Props) {
             <Icon name="download" size={14} /> Unduh PDF
           </button>
         </div>
-        <button type="button" className="btn primary py-1 px-3 text-xs" onClick={onPrint}>
-          <Icon name="print" size={14} /> Cetak Disposisi
-        </button>
+        <div className="flex items-center gap-2">
+          {onDelete && (
+            <button
+              type="button"
+              className="btn outline py-1 px-3 text-xs text-red-600 border-red-200 hover:bg-red-50"
+              title="Hapus berkas arsip ini dari sistem"
+              onClick={onDelete}
+            >
+              <Icon name="close" size={13} /> Hapus
+            </button>
+          )}
+          <button type="button" className="btn primary py-1 px-3 text-xs" onClick={onPrint}>
+            <Icon name="print" size={14} /> Cetak Disposisi
+          </button>
+        </div>
       </div>
 
       <div className="pdf-frame-wrap" style={{ flex: 1, width: '100%', minHeight: '0', position: 'relative' }}>

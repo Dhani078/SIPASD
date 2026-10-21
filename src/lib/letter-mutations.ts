@@ -100,3 +100,25 @@ export async function insertNewLetter(
     return nomorAgenda;
   }
 }
+
+export async function deleteLetter(id: string, direction: 'in' | 'out'): Promise<boolean> {
+  if (direction === 'in') {
+    const sm = await queryOne<any>(
+      'SELECT id FROM arsip_surat_masuk WHERE id = ? OR nomor_agenda LIKE ?',
+      [id, `${id}/%`]
+    );
+    if (!sm) return false;
+    await query('DELETE FROM riwayat_disposisi WHERE surat_masuk_id = ?', [sm.id]);
+    await query('DELETE FROM arsip_surat_masuk WHERE id = ?', [sm.id]);
+    return true;
+  } else {
+    const sk = await queryOne<any>(
+      'SELECT id FROM arsip_surat_keluar WHERE id = ? OR nomor_agenda LIKE ?',
+      [id, `${id}/%`]
+    );
+    if (!sk) return false;
+    await query('DELETE FROM buku_ekspedisi WHERE surat_keluar_id = ?', [sk.id]);
+    await query('DELETE FROM arsip_surat_keluar WHERE id = ?', [sk.id]);
+    return true;
+  }
+}

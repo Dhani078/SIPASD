@@ -12,6 +12,7 @@ interface Props {
   selectedId?: string;
   onSelect: (letter: LetterRecord) => void;
   onPrint?: (letter: LetterRecord) => void;
+  onDelete?: (letter: LetterRecord) => void;
   page?: number;
   onPage?: (page: number) => void;
 }
@@ -22,6 +23,7 @@ export default function ArchiveTable({
   selectedId,
   onSelect,
   onPrint,
+  onDelete,
   page = 1,
   onPage,
 }: Props) {
@@ -110,6 +112,21 @@ export default function ArchiveTable({
                       >
                         <Icon name="print" size={14} />
                         <span>Disposisi</span>
+                      </button>
+                    )}
+                    {!compact && onDelete && (
+                      <button
+                        type="button"
+                        className="table-action-btn action-delete"
+                        aria-label={`Hapus Arsip ${letter.id}`}
+                        title={`Hapus Arsip ${letter.id}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onDelete(letter);
+                        }}
+                      >
+                        <Icon name="close" size={13} />
+                        <span>Hapus</span>
                       </button>
                     )}
                   </div>

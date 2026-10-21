@@ -19,6 +19,7 @@ interface Props {
   selected: LetterRecord | null;
   setSelected: (l: LetterRecord | null) => void;
   setPrintLetter: (l: LetterRecord | null) => void;
+  onDelete?: (l: LetterRecord) => void;
   setModal: (m: string) => void;
   pagination: number;
   setPagination: (p: number) => void;
@@ -37,6 +38,7 @@ export default function SipasdMainView({
   selected,
   setSelected,
   setPrintLetter,
+  onDelete,
   setModal,
   pagination,
   setPagination,
@@ -105,6 +107,7 @@ export default function SipasdMainView({
           selected={selected}
           onSelect={setSelected}
           onPrint={setPrintLetter}
+          onDelete={onDelete}
           onNew={() => setModal('new')}
           onExport={() => void exportExcel(visible)}
           page={pagination}

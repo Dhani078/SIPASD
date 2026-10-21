@@ -20,6 +20,7 @@ interface Props {
   selected: LetterRecord | null;
   onSelect: (letter: LetterRecord | null) => void;
   onPrint: (letter: LetterRecord) => void;
+  onDelete?: (letter: LetterRecord) => void;
   onNew: () => void;
   onExport: () => void;
   page: number;
@@ -33,6 +34,7 @@ export default function ArchiveWorkspace({
   selected,
   onSelect,
   onPrint,
+  onDelete,
   onNew,
   onExport,
   page,
@@ -122,6 +124,7 @@ export default function ArchiveWorkspace({
           selectedId={selected?.id}
           onSelect={onSelect}
           onPrint={onPrint}
+          onDelete={onDelete}
           page={page}
           onPage={onPage}
         />

@@ -10,7 +10,9 @@ import { emptyFilters } from './ArchiveWorkspace';
 import NewLetterModal from './NewLetterModal';
 import PrintDisposisiModal from './PrintDisposisiModal';
 import DocumentPreview from './DocumentPreview';
+import DeleteConfirmModal from './DeleteConfirmModal';
 import { HelpModal } from './ReferenceViews';
+import { useLetterActions } from '@/hooks/useLetterActions';
 import { groups } from '@/data/navigation';
 import { demoUsers } from '@/data/users';
 import { matchesSearch } from '@/lib/format';
@@ -44,6 +46,9 @@ export default function SipasdApp({
     setTimeout(() => setToast(''), 4000);
   };
 
+  const { deleteTarget, setDeleteTarget, deleting, handleSave, confirmDelete } =
+    useLetterActions(setLetters, tell);
+
   const go = (next: string) => {
     setSelected(null);
     setFilters(emptyFilters);
@@ -72,30 +77,10 @@ export default function SipasdApp({
       (!filters.division || l.division === filters.division)
   );
 
-  const handleSave = async (record: Omit<LetterRecord, 'id'>, file?: File) => {
-    let fileUrl = record.fileUrl;
-    if (file) {
-      const fd = new FormData();
-      fd.append('file', file);
-      fd.append('folder', record.direction === 'in' ? 'surat_masuk' : 'surat_keluar');
-      const upRes = await fetch('/api/upload', { method: 'POST', body: fd });
-      const upData = await upRes.json();
-      if (upRes.ok && upData.success) {
-        fileUrl = upData.url;
-      }
-    }
-    const res = await fetch('/api/letters', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...record, fileUrl }),
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || 'Gagal menyimpan arsip');
-    const newRecord: LetterRecord = { ...record, fileUrl, id: data.agendaNumber || 'BARU' };
-    setLetters((prev) => [newRecord, ...prev]);
+  const onSaveLetter = async (record: Omit<LetterRecord, 'id'>, file?: File) => {
+    const saved = await handleSave(record, file);
     setModal('');
-    archive(record.direction);
-    tell(`Arsip ${newRecord.id} berhasil dicatat ke TiDB Cloud Serverless.`);
+    archive(saved.direction);
   };
 
   if (page === 'landing') {
@@ -159,6 +144,7 @@ export default function SipasdApp({
           selected={selected}
           setSelected={setSelected}
           setPrintLetter={setPrintLetter}
+          onDelete={setDeleteTarget}
           setModal={setModal}
           pagination={pagination}
           setPagination={setPagination}
@@ -176,17 +162,30 @@ export default function SipasdApp({
             setSelected(null);
             setPrintLetter(item);
           }}
+          onDelete={() => {
+            const item = selected;
+            setSelected(null);
+            setDeleteTarget(item);
+          }}
         />
       )}
       {modal === 'new' && (
         <NewLetterModal
           direction={page === 'out' ? 'out' : 'in'}
           onClose={() => setModal('')}
-          onSave={handleSave}
+          onSave={onSaveLetter}
         />
       )}
       {printLetter && (
         <PrintDisposisiModal letter={printLetter} onClose={() => setPrintLetter(null)} />
+      )}
+      {deleteTarget && (
+        <DeleteConfirmModal
+          letter={deleteTarget}
+          deleting={deleting}
+          onClose={() => setDeleteTarget(null)}
+          onConfirm={confirmDelete}
+        />
       )}
       {['classification', 'sop'].includes(modal) && (
         <HelpModal kind={modal} onClose={() => setModal('')} />

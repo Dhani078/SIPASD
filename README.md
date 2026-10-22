@@ -59,6 +59,7 @@ Username login memakai identitas generik, sedangkan nama yang tampil di antarmuk
 
 ### 3. Dokumentasi Riwayat Disposisi Fisik
 - Mencatat dokumentasi lembar disposisi kertas yang sudah ditandatangani basah pimpinan: pejabat pendisposisi, tanggal disposisi, bidang tujuan, instruksi tertulis, dan catatan khusus.
+- Nama pejabat pendisposisi diisi dari isi berkas PDF asli (alamat tujuan dan badan surat), bukan nilai seragam. Rincian metode dan sebarannya ada di `docs/DISPOSISI_DARI_PDF.md`.
 - Fitur cetak ulang salinan Lembar Disposisi standar Pemprov Kalsel.
 
 ### 4. Manajemen Klasifikasi & Jadwal Retensi Arsip (JRA)

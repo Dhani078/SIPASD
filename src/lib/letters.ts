@@ -76,7 +76,7 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
       venue: detectVenue(combinedText, div, agendaNum),
       division: div,
       disposition: {
-        official: r.pejabat_pendisposisi || 'Pebriadin Hapiz, AP, M.Si',
+        official: r.pejabat_pendisposisi || '-',
         date: dispDate,
         division: div,
         instructions: (r.instruksi_tercatat || 'Tindak Lanjuti').split(/[;,]+/).map((s: string) => s.trim()).filter(Boolean),
@@ -109,7 +109,7 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
       venue: detectVenue(combinedText, div, agendaNum),
       division: div,
       disposition: {
-        official: 'Pebriadin Hapiz, AP, M.Si',
+        official: '-',
         date: dateStr,
         division: div,
         instructions: ['Arsipkan'],

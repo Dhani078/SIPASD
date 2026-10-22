@@ -25,7 +25,7 @@ export default function PrintDisposisiModal({
   const [paper, setPaper] = useState('A4');
   const [editMode, setEditMode] = useState(false);
   const [editData, setEditData] = useState({
-    official: letter.disposition?.official || 'Pebriadin Hapiz, AP, M.Si',
+    official: letter.disposition?.official || '-',
     division: letter.disposition?.division || divisions[0],
     instructions: letter.disposition?.instructions || [],
     notes: letter.disposition?.notes || '',

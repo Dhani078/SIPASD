@@ -143,7 +143,11 @@ export default function DispositionHistoryView({ letters, onSelect, onExport }: 
                     <p>{letter.subject}</p>
                   </td>
                   <td>
-                    <span className="text-sm">{letter.disposition?.official || '-'}</span>
+                    <span className="text-sm">
+                      {letter.disposition?.official && letter.disposition.official !== '-'
+                        ? letter.disposition.official
+                        : 'Belum terverifikasi'}
+                    </span>
                   </td>
                   <td>
                     <span className="text-sm font-semibold text-emerald-900">

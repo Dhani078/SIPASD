@@ -51,7 +51,7 @@ export async function insertNewLetter(
       [
         dispId,
         id,
-        data.disposition?.official || 'Pebriadin Hapiz, AP, M.Si',
+        data.disposition?.official || '-',
         data.disposition?.date || data.date,
         1,
         instStr,

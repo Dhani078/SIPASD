@@ -14,10 +14,12 @@ interface Props {
 
 export default function PdfPreviewPanel({ letter, onClose, onPrint, onDelete }: Props) {
   const [pdfLoading, setPdfLoading] = useState(true);
+  const [fitMode, setFitMode] = useState<'page' | 'width'>('page');
   const pdfUrl = letter.fileUrl
     ? `/api/pdf?url=${encodeURIComponent(letter.fileUrl)}`
     : '/placeholder-surat.pdf';
   const driveUrl = letter.driveUrl || 'https://drive.google.com';
+  const viewHash = fitMode === 'page' ? '#view=Fit&zoom=page-fit' : '#view=FitH';
 
   return (
     <Modal
@@ -37,10 +39,18 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onDelete }: 
           <button
             type="button"
             className="btn outline py-1 px-3 text-xs"
+            title="Ubah mode tampilan: Halaman Utuh atau Lebar Penuh"
+            onClick={() => setFitMode((m) => (m === 'page' ? 'width' : 'page'))}
+          >
+            <Icon name="eye" size={14} /> {fitMode === 'page' ? 'Tampilan: 1 Lembar Utuh' : 'Tampilan: Lebar Penuh'}
+          </button>
+          <button
+            type="button"
+            className="btn outline py-1 px-3 text-xs"
             title="Buka dokumen PDF di tab peramban baru"
             onClick={() => window.open(pdfUrl, '_blank', 'noopener,noreferrer')}
           >
-            <Icon name="eye" size={14} /> Buka Tab Baru
+            <Icon name="eye" size={14} /> Tab Baru
           </button>
           <button
             type="button"
@@ -84,7 +94,8 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onDelete }: 
               </div>
             )}
             <iframe
-              src={`${pdfUrl}#view=FitH&toolbar=1&navpanes=0`}
+              key={viewHash}
+              src={`${pdfUrl}${viewHash}&toolbar=1&navpanes=0`}
               title={`Dokumen PDF ${letter.id}`}
               className="w-full h-full border rounded bg-white shadow-inner"
               style={{ width: '100%', height: '100%', border: '1px solid #cbd5e1' }}

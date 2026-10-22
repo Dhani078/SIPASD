@@ -35,7 +35,9 @@ export async function GET(request: Request) {
       type: 'upload',
     });
 
-    return NextResponse.redirect(signedUrl, 307);
+    const response = NextResponse.redirect(signedUrl, 307);
+    response.headers.set('Cache-Control', 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400');
+    return response;
   } catch (error: any) {
     console.error('API PDF Proxy error:', error);
     return NextResponse.json(

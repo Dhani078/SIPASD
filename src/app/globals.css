@@ -3772,14 +3772,14 @@ td .icon-btn {
 }
 
 .pdf-modal-popup {
-  width: 1080px !important;
+  width: 960px !important;
   max-width: 96vw !important;
-  height: 88vh !important;
-  max-height: 88vh !important;
+  height: 92vh !important;
+  max-height: 92vh !important;
   display: flex !important;
   flex-direction: column !important;
   overflow: hidden !important;
-  padding: 16px 20px !important;
+  padding: 14px 18px !important;
   border-radius: 12px !important;
   box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.35) !important;
 }

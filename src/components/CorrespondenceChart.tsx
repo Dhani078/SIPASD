@@ -6,9 +6,11 @@ import type { LetterRecord } from '@/types';
 export default function CorrespondenceChart({
   letters,
   onExport,
+  selectedYear = '2026',
 }: {
   letters: LetterRecord[];
   onExport: () => void;
+  selectedYear?: string;
 }) {
   const [period, setPeriod] = useState(1);
   const [hover, setHover] = useState<number | null>(null);
@@ -42,7 +44,7 @@ export default function CorrespondenceChart({
       <div className="panel-heading">
         <div>
           <h2>Aktivitas Persuratan</h2>
-          <p>Distribusi arsip kedinasan riil sepanjang tahun 2026</p>
+          <p>Distribusi arsip kedinasan riil {selectedYear === 'Semua' ? 'seluruh periode' : `TA ${selectedYear}`}</p>
         </div>
         <select
           aria-label="Periode grafik"
@@ -66,7 +68,7 @@ export default function CorrespondenceChart({
           <i className="gold-key" />
           Surat Keluar
         </span>
-        <span className="chart-year">TA 2026</span>
+        <span className="chart-year">{selectedYear === 'Semua' ? 'Semua TA' : `TA ${selectedYear}`}</span>
       </div>
       <div className="bar-chart">
         <div className="y-labels">

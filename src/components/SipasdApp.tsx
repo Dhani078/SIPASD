@@ -71,6 +71,7 @@ export default function SipasdApp({
     (l) =>
       ((page !== 'in' && page !== 'out') || l.direction === page) &&
       matchesSearch(l, filters.query) &&
+      (!filters.year || l.date.startsWith(filters.year)) &&
       (!filters.urgency || (filters.urgency === 'Urgent' ? ['Kilat', 'Segera'].includes(l.type) : l.type === filters.urgency)) &&
       (!filters.classification || l.classification === filters.classification) &&
       (!filters.venue || l.venue === filters.venue) &&

@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Icon, { type IconName } from './Icon';
 import ArchiveTable from './ArchiveTable';
 import CorrespondenceChart from './CorrespondenceChart';
@@ -27,56 +28,60 @@ export default function DashboardView({
   onVenue,
   onDivision,
 }: Props) {
-  const incoming = letters.filter((l) => l.direction === 'in').length;
-  const urgent = letters.filter((l) => ['Kilat', 'Segera'].includes(l.type)).length;
+  const [year, setYear] = useState('2026');
+  const active = year === 'Semua' ? letters : letters.filter((l) => l.date.startsWith(year));
+  const incoming = active.filter((l) => l.direction === 'in').length;
+  const urgent = active.filter((l) => ['Kilat', 'Segera'].includes(l.type)).length;
   const stats: [IconName, string, number, string, string][] = [
     ['in', 'Surat Masuk', incoming, 'dokumen', 'green'],
-    ['out', 'Surat Keluar', letters.length - incoming, 'dokumen', 'gold'],
-    ['file', 'Total Dokumen Digital', letters.length, 'berkas', 'blue'],
+    ['out', 'Surat Keluar', active.length - incoming, 'dokumen', 'gold'],
+    ['file', 'Total Dokumen Digital', active.length, 'berkas', 'blue'],
     ['clock', 'Sifat Kilat & Segera', urgent, 'berkas', 'red'],
   ];
 
   let offset = 0;
-  const counts = divisions.map((d) => letters.filter((l) => l.division === d).length);
+  const counts = divisions.map((d) => active.filter((l) => l.division === d).length);
   const colors = ['#146c51', '#51977e', '#98bbaa', '#d6ab61', '#e4d3ae'];
   const segments = counts.map((count, i) => {
     const start = offset;
-    offset += letters.length ? (count / letters.length) * 100 : 0;
+    offset += active.length ? (count / active.length) * 100 : 0;
     return `${colors[i]} ${start}% ${offset}%`;
   });
 
   return (
     <>
+      <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-semibold text-slate-700">Filter Tahun:</span>
+          <div className="flex gap-1">
+            {['Semua', '2026', '2025', '2024'].map((y) => (
+              <button key={y} type="button" className={`btn py-0.5 px-2.5 text-xs ${year === y ? 'primary' : 'outline'}`} onClick={() => setYear(y)}>
+                {y === 'Semua' ? 'Semua Tahun' : `TA ${y}`}
+              </button>
+            ))}
+          </div>
+        </div>
+        <span className="text-xs text-slate-500">{active.length} arsip {year === 'Semua' ? 'seluruh periode' : `TA ${year}`}</span>
+      </div>
+
       <section className="metrics">
         {stats.map(([icon, title, total, unit, color], i) => (
-          <button
-            className={`metric ${color}`}
-            key={title}
-            onClick={() => {
-              go(i === 1 ? 'out' : 'in');
-              if (i === 3) setFilter('Urgent');
-            }}
-          >
+          <button className={`metric ${color}`} key={title} onClick={() => { go(i === 1 ? 'out' : 'in'); if (i === 3) setFilter('Urgent'); }}>
             <div className="metric-top">
-              <span className={`metric-icon ${color}`}>
-                <Icon name={icon} size={19} />
-              </span>
+              <span className={`metric-icon ${color}`}><Icon name={icon} size={19} /></span>
               <span>{title}</span>
               <Icon name="chevron" size={14} />
             </div>
             <div className="metric-value">
-              {total}
-              <small>{unit}</small>
+              {total}<small>{unit}</small>
               {i === 3 && <span className="urgent-dot" />}
             </div>
             <div className="metric-foot">
-              <b>{i === 2 ? '100%' : i === 3 ? 'Prioritas' : 'TA 2026'}</b>
+              <b>{i === 2 ? '100%' : i === 3 ? 'Prioritas' : year === 'Semua' ? 'Semua TA' : `TA ${year}`}</b>
               <span>{i === 2 ? 'terindeks TiDB' : i === 3 ? 'perlu tindak lanjut' : 'arsip dinas'}</span>
             </div>
             <div className="mini-bars">
-              {[3, 5, 4, 7, 5, 8, 6, 9, 7, 10, 9, 12].map((n, j) => (
-                <i key={j} style={{ height: n * 2 }} />
-              ))}
+              {[3, 5, 4, 7, 5, 8, 6, 9, 7, 10, 9, 12].map((n, j) => (<i key={j} style={{ height: n * 2 }} />))}
             </div>
           </button>
         ))}
@@ -84,7 +89,7 @@ export default function DashboardView({
 
       <div className="dashboard-columns">
         <div className="primary-column">
-          <CorrespondenceChart letters={letters} onExport={exportData} />
+          <CorrespondenceChart letters={active} onExport={exportData} selectedYear={year} />
           <section className="panel recent-panel">
             <div className="panel-heading">
               <div>

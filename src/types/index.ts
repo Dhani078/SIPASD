@@ -56,6 +56,7 @@ export interface ArchiveFilters {
   classification: string;
   venue: string;
   division: string;
+  year?: string;
 }
 
 export interface ArsipSuratMasuk {

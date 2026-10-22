@@ -11,6 +11,7 @@ export const emptyFilters: ArchiveFilters = {
   classification: '',
   venue: '',
   division: '',
+  year: '',
 };
 
 interface Props {
@@ -90,6 +91,16 @@ export default function ArchiveWorkspace({
         </button>
       </div>
       <div className="archive-filter-row">
+        <select
+          aria-label="Filter tahun anggaran"
+          value={filters.year || ''}
+          onChange={(e) => update('year', e.target.value)}
+        >
+          <option value="">Semua tahun</option>
+          <option value="2026">TA 2026</option>
+          <option value="2025">TA 2025</option>
+          <option value="2024">TA 2024</option>
+        </select>
         <select
           aria-label="Filter venue"
           value={filters.venue}

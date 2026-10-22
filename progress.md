@@ -73,3 +73,30 @@
    - **Build**: `npm run build` sukses 100% dan menghasilkan bundle optimal.
    - **Modularitas**: Seluruh 47 file di `src/` berukuran <= 200 baris kode (200 LOC).
    - **Zero Em-Dash**: 0 em-dash (-) di seluruh repositori (kode & dokumentasi).
+
+---
+
+## Sesi 4: Otomatisasi Dual-Upload Google Drive 5 TB & Sinkronisasi 420 Berkas Riil
+**Tanggal**: 22 Oktober 2026  
+**Operator / Agen**: Hermes Agent (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Otorisasi Google Drive OAuth 2.0 (Akun 5 TB)**:
+   - Mengonfigurasi kredensial OAuth Desktop App `credentials/oauth-client.json` dan menyelesaikan alur otorisasi untuk akun `dhanisepeda@gmail.com` (kuota 5 TB).
+   - Menghasilkan token permanen `credentials/token.json` yang diisolasi ketat dari git oleh `.gitignore`.
+2. **Unggah Batch 420 Berkas PDF Fisik Asli Dispora Kalsel**:
+   - Menjalankan skrip `scripts/upload_to_gdrive.py` dengan multi-threading (5 worker).
+   - Berhasil mengunggah 171 PDF Surat Masuk ke folder Google Drive `Surat Masuk` (`1deTFD7oICTXkkMs5HzS-bhtZzvCqfW9n`).
+   - Berhasil mengunggah 249 PDF Surat Keluar ke folder Google Drive `Surat Keluar` (`1rgWCFwULt8awBCVIuomy7cELKqEtbdkx`).
+   - Total 420 dari 420 berkas fisik (100%) tersimpan di Google Drive.
+3. **Penyelarasan Tautan Berkas TiDB Cloud Serverless**:
+   - Memperbarui kolom `drive_url` pada 170 baris Surat Masuk dan 241 baris Surat Keluar dengan tautan langsung berkas (`drive.google.com/file/d/...`).
+4. **Implementasi Fitur Dual-Upload Otomatis**:
+   - Membangun modul `src/lib/gdrive.ts` (119 LOC) untuk refresh token dan upload berkas via native fetch API tanpa dependensi eksternal berat.
+   - Mengintegrasikan `/api/upload` dan hook `useLetterActions.ts` sehingga setiap input surat manual baru di web otomatis terunggah ke Cloudinary DAN Google Drive secara bersamaan.
+5. **Verifikasi Kualitas**:
+   - `npm test`: 4/4 passed.
+   - `npm run lint`: 0 errors.
+   - `npm run build`: 100% lolos.
+   - 0 em-dash di seluruh basis kode dan dokumentasi.
+

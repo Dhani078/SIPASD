@@ -12,6 +12,19 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.2.0-gdrive-sync] - 2026-10-22
+
+### Added
+- **Otomatisasi Penuh Google Drive 5 TB (Dual-Upload)**:
+  * Unggah batch 420 berkas PDF fisik asli Dispora Kalsel (171 Surat Masuk & 249 Surat Keluar) ke subfolder resmi Google Drive dinas (`1deTFD7oICTXkkMs5HzS-bhtZzvCqfW9n` dan `1rgWCFwULt8awBCVIuomy7cELKqEtbdkx`).
+  * Sinkronisasi 100% tautan berkas individual `drive_url` (170 Surat Masuk & 241 Surat Keluar) pada basis data TiDB Cloud Serverless.
+  * Modul `src/lib/gdrive.ts` untuk pengunggahan otomatis berkas baru ke Google Drive via REST API multipart native tanpa dependensi tambahan.
+  * Fitur Dual-Upload simultan pada endpoint `/api/upload`: setiap berkas surat baru otomatis diunggah ke Cloudinary (untuk pratinjau instan) dan Google Drive (sebagai cadangan resmi 5 TB).
+- **Pengamanan Kredensial Kearsipan**:
+  * Pengisolasian berkas kunci OAuth `credentials/oauth-client.json` dan `credentials/token.json` dari repositori publik dengan proteksi ketat `.gitignore`.
+
+---
+
 ## [2.1.0-app-router] - 2026-10-21
 
 ### Added

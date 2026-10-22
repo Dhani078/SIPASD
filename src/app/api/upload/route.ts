@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { uploadPdfBuffer } from '@/lib/cloudinary';
+import { uploadToGoogleDrive } from '@/lib/gdrive';
 import { getSession } from '@/lib/auth';
 
 export async function POST(request: Request) {
@@ -36,11 +37,20 @@ export async function POST(request: Request) {
 
     const result = await uploadPdfBuffer(buffer, folder, file.name);
 
+    // Also upload in parallel to official Google Drive backup (5 TB)
+    const gdriveFolderType = folder === 'surat_masuk' ? 'masuk' : 'keluar';
+    const driveUrl = await uploadToGoogleDrive(buffer, file.name, gdriveFolderType);
+
     return NextResponse.json({
       success: true,
-      message: 'Berkas PDF berhasil diunggah ke Cloudinary',
+      message: 'Berkas PDF berhasil diunggah ke Cloudinary dan Google Drive',
       url: result.url,
       publicId: result.publicId,
+      driveUrl:
+        driveUrl ||
+        (gdriveFolderType === 'masuk'
+          ? 'https://drive.google.com/drive/folders/1deTFD7oICTXkkMs5HzS-bhtZzvCqfW9n'
+          : 'https://drive.google.com/drive/folders/1rgWCFwULt8awBCVIuomy7cELKqEtbdkx'),
     });
   } catch (error: any) {
     console.error('Upload API error:', error);

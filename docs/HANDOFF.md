@@ -81,9 +81,15 @@
 - `src/app/api/auth/login/route.ts` - Endpoint autentikasi kredensial pengguna TiDB
 - `src/app/api/auth/logout/route.ts` - Endpoint penghapusan sesi cookie
 - `src/app/api/letters/route.ts` - Endpoint REST GET & POST arsip surat
-- `src/app/api/upload/route.ts` - Endpoint REST unggah berkas fisik ke Cloudinary CDN
+- `src/app/api/upload/route.ts` - Endpoint REST unggah berkas fisik ganda (Cloudinary CDN + Google Drive 5 TB)
 - `src/app/api/pdf/route.ts` - Endpoint REST streaming signed URL PDF Cloudinary anti-401
 - `src/app/api/ai/suggest/route.ts` - Endpoint REST klasifikasi cerdas Naive Bayes untuk rekomendasi klasifikasi arsip dinas otomatis
+- `src/lib/gdrive.ts` - Modul upload native Google Drive dengan refresh token otomatis
+
+### 6. Integrasi Google Drive 5 TB & Keamanan Kredensial
+- Sebanyak 420 berkas fisik asli Dispora Kalsel (171 Surat Masuk & 249 Surat Keluar) 100% tersimpan di Google Drive resmi dinas.
+- 100% baris arsip di TiDB Cloud Serverless memiliki tautan berkas individual `drive_url` aktif.
+- Seluruh berkas kredensial (`credentials/`) dan file token/secret terisolasi ketat di `.gitignore` anti-bocor ke GitHub.
 
 ---
 

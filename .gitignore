@@ -43,3 +43,4 @@ credentials/
 *service*account*.json
 *sipasd*.json
 client_secret*.json
+*token*.json

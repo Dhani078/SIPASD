@@ -10,18 +10,22 @@ export function useLetterActions(
 
   const handleSave = async (record: Omit<LetterRecord, 'id'>, file?: File) => {
     let fileUrl = record.fileUrl;
+    let driveUrl = record.driveUrl;
     if (file) {
       const fd = new FormData();
       fd.append('file', file);
       fd.append('folder', record.direction === 'in' ? 'surat_masuk' : 'surat_keluar');
       const upRes = await fetch('/api/upload', { method: 'POST', body: fd });
       const upData = await upRes.json();
-      if (upRes.ok && upData.success) fileUrl = upData.url;
+      if (upRes.ok && upData.success) {
+        fileUrl = upData.url;
+        if (upData.driveUrl) driveUrl = upData.driveUrl;
+      }
     }
     const res = await fetch('/api/letters', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...record, fileUrl }),
+      body: JSON.stringify({ ...record, fileUrl, driveUrl }),
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || 'Gagal menyimpan arsip');

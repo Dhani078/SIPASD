@@ -87,6 +87,15 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Lakukan deploy ke Vercel via GitHub `Dhani078/SIPASD` (Status: Live Production).
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 7: Sinkronisasi Google Drive 5 TB & Dual-Upload Otomatis
+- [x] Otorisasi OAuth 2.0 Desktop Client untuk akun kuota 5 TB `dhanisepeda@gmail.com`.
+- [x] Unggah batch 420 berkas riil asli Dispora Kalsel ke folder Google Drive (171 Surat Masuk, 249 Surat Keluar).
+- [x] Sinkronisasi 100% tautan individual `drive_url` pada 411 arsip di basis data TiDB Cloud Serverless.
+- [x] Implementasi modul native `src/lib/gdrive.ts` untuk upload otomatis via refresh token.
+- [x] Integrasi fitur Dual-Upload simultan pada `/api/upload` dan `useLetterActions.ts` (Cloudinary + Google Drive).
+- [x] Isolasi penuh kredensial di `credentials/` dan proteksi `.gitignore` anti-leaked ke GitHub.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

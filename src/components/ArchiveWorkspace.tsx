@@ -20,6 +20,10 @@ interface Props {
   onFilters: (filters: ArchiveFilters) => void;
   selected: LetterRecord | null;
   onSelect: (letter: LetterRecord | null) => void;
+  selectedIds: string[];
+  onToggleSelect: (id: string) => void;
+  onToggleAll: () => void;
+  onBatchDelete: () => void;
   onPrint: (letter: LetterRecord) => void;
   onDelete?: (letter: LetterRecord) => void;
   onNew: () => void;
@@ -34,6 +38,10 @@ export default function ArchiveWorkspace({
   onFilters,
   selected,
   onSelect,
+  selectedIds,
+  onToggleSelect,
+  onToggleAll,
+  onBatchDelete,
   onPrint,
   onDelete,
   onNew,
@@ -89,6 +97,12 @@ export default function ArchiveWorkspace({
           <Icon name="download" size={16} />
           Ekspor Excel
         </button>
+        {selectedIds.length > 0 && (
+          <button className="btn danger" onClick={onBatchDelete}>
+            <Icon name="close" size={16} />
+            Hapus {selectedIds.length} Terpilih
+          </button>
+        )}
       </div>
       <div className="archive-filter-row">
         <select
@@ -133,7 +147,10 @@ export default function ArchiveWorkspace({
         <ArchiveTable
           letters={letters}
           selectedId={selected?.id}
+          selectedIds={selectedIds}
           onSelect={onSelect}
+          onToggleSelect={onToggleSelect}
+          onToggleAll={onToggleAll}
           onPrint={onPrint}
           onDelete={onDelete}
           page={page}

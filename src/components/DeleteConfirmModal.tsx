@@ -6,6 +6,7 @@ import type { LetterRecord } from '@/types';
 
 interface Props {
   letter: LetterRecord;
+  batch?: LetterRecord[];
   deleting: boolean;
   onClose: () => void;
   onConfirm: () => Promise<void> | void;
@@ -13,10 +14,13 @@ interface Props {
 
 export default function DeleteConfirmModal({
   letter,
+  batch,
   deleting,
   onClose,
   onConfirm,
 }: Props) {
+  const isBatch = batch && batch.length > 1;
+  const count = batch?.length || 1;
   return (
     <Modal title="Konfirmasi Penghapusan Arsip" onClose={onClose}>
       <div className="p-4">
@@ -26,11 +30,17 @@ export default function DeleteConfirmModal({
           </div>
           <div>
             <h3 className="font-bold text-slate-900 text-sm">
-              Hapus Arsip No. Agenda {letter.id}?
+              {isBatch ? `Hapus ${count} Arsip Terpilih?` : `Hapus Arsip No. Agenda ${letter.id}?`}
             </h3>
-            <p className="text-xs text-slate-600 mt-1">
-              Nomor Surat: <b>{letter.number}</b> &bull; Instansi: {letter.origin}
-            </p>
+            {isBatch ? (
+              <p className="text-xs text-slate-600 mt-1">
+                {count} arsip akan dihapus secara permanen dari TiDB Cloud.
+              </p>
+            ) : (
+              <p className="text-xs text-slate-600 mt-1">
+                Nomor Surat: <b>{letter.number}</b> &bull; Instansi: {letter.origin}
+              </p>
+            )}
             <p className="text-xs text-red-600 mt-2 font-medium bg-red-50 p-2 border border-red-200 rounded">
               Perhatian: Tindakan ini permanen. Data arsip dan riwayat disposisi akan dihapus dari TiDB Cloud Serverless.
             </p>
@@ -47,7 +57,7 @@ export default function DeleteConfirmModal({
             onClick={onConfirm}
             disabled={deleting}
           >
-            {deleting ? 'Menghapus...' : 'Ya, Hapus Arsip'}
+            {deleting ? 'Menghapus...' : isBatch ? `Ya, Hapus ${count} Arsip` : 'Ya, Hapus Arsip'}
           </button>
         </div>
       </div>

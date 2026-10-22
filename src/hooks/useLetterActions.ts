@@ -6,6 +6,7 @@ export function useLetterActions(
   tell: (msg: string, ok?: boolean) => void
 ) {
   const [deleteTarget, setDeleteTarget] = useState<LetterRecord | null>(null);
+  const [batchTargets, setBatchTargets] = useState<LetterRecord[]>([]);
   const [deleting, setDeleting] = useState(false);
 
   const handleSave = async (record: Omit<LetterRecord, 'id'>, file?: File) => {
@@ -56,11 +57,39 @@ export function useLetterActions(
     }
   };
 
+  const confirmBatchDelete = async () => {
+    if (!batchTargets.length) return;
+    setDeleting(true);
+    try {
+      const ids = batchTargets.map((b) => b.id);
+      const direction = batchTargets[0].direction;
+      const res = await fetch('/api/letters', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids, direction }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Gagal menghapus arsip massal');
+      const idSet = new Set(ids);
+      setLetters((prev) => prev.filter((l) => !idSet.has(l.id)));
+      const count = batchTargets.length;
+      setBatchTargets([]);
+      tell(`${count} arsip terpilih berhasil dihapus dari TiDB Cloud.`);
+    } catch (err: any) {
+      tell(err.message || 'Gagal menghapus arsip massal.', false);
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   return {
     deleteTarget,
     setDeleteTarget,
+    batchTargets,
+    setBatchTargets,
     deleting,
     handleSave,
     confirmDelete,
+    confirmBatchDelete,
   };
 }

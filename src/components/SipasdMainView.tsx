@@ -17,6 +17,10 @@ interface Props {
   setFilters: (f: ArchiveFilters) => void;
   selected: LetterRecord | null;
   setSelected: (l: LetterRecord | null) => void;
+  selectedIds: string[];
+  onToggleSelect: (id: string) => void;
+  onToggleAll: () => void;
+  onBatchDelete: () => void;
   setPrintLetter: (l: LetterRecord | null) => void;
   onDelete?: (l: LetterRecord) => void;
   setModal: (m: string) => void;
@@ -36,6 +40,10 @@ export default function SipasdMainView({
   setFilters,
   selected,
   setSelected,
+  selectedIds,
+  onToggleSelect,
+  onToggleAll,
+  onBatchDelete,
   setPrintLetter,
   onDelete,
   setModal,
@@ -105,6 +113,10 @@ export default function SipasdMainView({
           }}
           selected={selected}
           onSelect={setSelected}
+          selectedIds={selectedIds}
+          onToggleSelect={onToggleSelect}
+          onToggleAll={onToggleAll}
+          onBatchDelete={onBatchDelete}
           onPrint={setPrintLetter}
           onDelete={onDelete}
           onNew={() => setModal('new')}

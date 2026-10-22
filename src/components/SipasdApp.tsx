@@ -6,12 +6,8 @@ import LoginPage from './LoginPage';
 import Sidebar from './Sidebar';
 import TopNavbar from './TopNavbar';
 import SipasdMainView from './SipasdMainView';
+import AppModals from './AppModals';
 import { emptyFilters } from './ArchiveWorkspace';
-import NewLetterModal from './NewLetterModal';
-import PrintDisposisiModal from './PrintDisposisiModal';
-import DocumentPreview from './DocumentPreview';
-import DeleteConfirmModal from './DeleteConfirmModal';
-import { HelpModal } from './ReferenceViews';
 import { useLetterActions } from '@/hooks/useLetterActions';
 import { groups } from '@/data/navigation';
 import { demoUsers } from '@/data/users';
@@ -36,6 +32,7 @@ export default function SipasdApp({
   const [drawer, setDrawer] = useState(false);
   const [filters, setFilters] = useState<ArchiveFilters>(emptyFilters);
   const [selected, setSelected] = useState<LetterRecord | null>(null);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [printLetter, setPrintLetter] = useState<LetterRecord | null>(null);
   const [modal, setModal] = useState('');
   const [toast, setToast] = useState<{ msg: string; ok: boolean } | null>(null);
@@ -46,11 +43,12 @@ export default function SipasdApp({
     setTimeout(() => setToast(null), 4000);
   };
 
-  const { deleteTarget, setDeleteTarget, deleting, handleSave, confirmDelete } =
+  const { deleteTarget, setDeleteTarget, batchTargets, setBatchTargets, deleting, handleSave, confirmDelete, confirmBatchDelete } =
     useLetterActions(setLetters, tell);
 
   const go = (next: string) => {
     setSelected(null);
+    setSelectedIds([]);
     setFilters(emptyFilters);
     setPagination(1);
     setDrawer(false);
@@ -82,6 +80,21 @@ export default function SipasdApp({
     const saved = await handleSave(record, file);
     setModal('');
     archive(saved.direction);
+  };
+
+  const handleToggleSelect = (id: string) => {
+    setSelectedIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
+  };
+
+  const handleToggleAll = () => {
+    const visibleIds = visible.map((l) => l.id);
+    const allChecked = visibleIds.every((id) => selectedIds.includes(id));
+    setSelectedIds(allChecked ? selectedIds.filter((id) => !visibleIds.includes(id)) : [...new Set([...selectedIds, ...visibleIds])]);
+  };
+
+  const handleBatchDelete = () => {
+    const targets = letters.filter((l) => selectedIds.includes(l.id));
+    setBatchTargets(targets);
   };
 
   if (page === 'landing') {
@@ -144,6 +157,10 @@ export default function SipasdApp({
           setFilters={setFilters}
           selected={selected}
           setSelected={setSelected}
+          selectedIds={selectedIds}
+          onToggleSelect={handleToggleSelect}
+          onToggleAll={handleToggleAll}
+          onBatchDelete={handleBatchDelete}
           setPrintLetter={setPrintLetter}
           onDelete={setDeleteTarget}
           setModal={setModal}
@@ -154,41 +171,25 @@ export default function SipasdApp({
         />
       </div>
 
-      {selected && (
-        <DocumentPreview
-          letter={selected}
-          onClose={() => setSelected(null)}
-          onPrint={() => { const item = selected; setSelected(null); setPrintLetter(item); }}
-          onDelete={() => { const item = selected; setSelected(null); setDeleteTarget(item); }}
-        />
-      )}
-      {modal === 'new' && (
-        <NewLetterModal
-          direction={page === 'out' ? 'out' : 'in'}
-          onClose={() => setModal('')}
-          onSave={onSaveLetter}
-        />
-      )}
-      {printLetter && (
-        <PrintDisposisiModal letter={printLetter} onClose={() => setPrintLetter(null)} />
-      )}
-      {deleteTarget && (
-        <DeleteConfirmModal
-          letter={deleteTarget}
-          deleting={deleting}
-          onClose={() => setDeleteTarget(null)}
-          onConfirm={confirmDelete}
-        />
-      )}
-      {['classification', 'sop'].includes(modal) && (
-        <HelpModal kind={modal} onClose={() => setModal('')} />
-      )}
-      {toast && (
-        <div className="toast" role="status">
-          <span className={`toast-icon ${toast.ok ? 'success' : 'error'}`}>{toast.ok ? '✓' : '!'}</span>
-          {toast.msg}
-        </div>
-      )}
+      <AppModals
+        modal={modal}
+        selected={selected}
+        printLetter={printLetter}
+        deleteTarget={deleteTarget}
+        batchTargets={batchTargets}
+        deleting={deleting}
+        page={page}
+        toast={toast}
+        setModal={setModal}
+        setSelected={setSelected}
+        setPrintLetter={setPrintLetter}
+        setDeleteTarget={setDeleteTarget}
+        setBatchTargets={setBatchTargets}
+        setSelectedIds={setSelectedIds}
+        onSaveLetter={onSaveLetter}
+        confirmDelete={confirmDelete}
+        confirmBatchDelete={confirmBatchDelete}
+      />
     </div>
   );
 }

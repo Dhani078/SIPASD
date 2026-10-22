@@ -2,6 +2,7 @@
 
 import Icon from './Icon';
 import Badge from './Badge';
+import Pagination from './Pagination';
 import { shortDate } from '@/lib/format';
 import type { LetterRecord } from '@/types';
 
@@ -9,7 +10,10 @@ interface Props {
   letters: LetterRecord[];
   compact?: boolean;
   selectedId?: string;
+  selectedIds?: string[];
   onSelect: (letter: LetterRecord) => void;
+  onToggleSelect?: (id: string) => void;
+  onToggleAll?: () => void;
   onPrint?: (letter: LetterRecord) => void;
   onDelete?: (letter: LetterRecord) => void;
   page?: number;
@@ -20,7 +24,10 @@ export default function ArchiveTable({
   letters,
   compact = false,
   selectedId,
+  selectedIds = [],
   onSelect,
+  onToggleSelect,
+  onToggleAll,
   onPrint,
   onDelete,
   page = 1,
@@ -32,6 +39,9 @@ export default function ArchiveTable({
     compact ? 0 : (current - 1) * 15,
     compact ? 5 : current * 15
   );
+  const visibleIds = visible.map((l) => l.id);
+  const allChecked = visibleIds.length > 0 && visibleIds.every((id) => selectedIds.includes(id));
+  const someChecked = visibleIds.some((id) => selectedIds.includes(id)) && !allChecked;
 
   return (
     <>
@@ -39,6 +49,18 @@ export default function ArchiveTable({
         <table aria-label={compact ? 'Surat terbaru' : 'Daftar arsip surat'}>
           <thead>
             <tr>
+              {!compact && onToggleSelect && onToggleAll && (
+                <th scope="col" style={{ width: '40px', textAlign: 'center' }}>
+                  <input
+                    type="checkbox"
+                    checked={allChecked}
+                    ref={(el) => { if (el) el.indeterminate = someChecked; }}
+                    onChange={onToggleAll}
+                    aria-label="Pilih semua arsip di halaman ini"
+                    title="Pilih semua arsip di halaman ini"
+                  />
+                </th>
+              )}
               <th scope="col">NO. AGENDA</th>
               <th scope="col">ASAL / TUJUAN INSTANSI DAN PERIHAL</th>
               <th scope="col">
@@ -51,29 +73,42 @@ export default function ArchiveTable({
             </tr>
           </thead>
           <tbody>
-            {visible.map((letter) => (
-              <tr
-                key={letter.id}
-                className={selectedId === letter.id ? 'selected' : ''}
-                tabIndex={0}
-                aria-label={`Buka surat ${letter.id}: ${letter.subject}`}
-                onClick={() => onSelect(letter)}
-                onKeyDown={(e) => {
-                  if (
-                    e.target === e.currentTarget &&
-                    (e.key === 'Enter' || e.key === ' ')
-                  ) {
-                    e.preventDefault();
-                    onSelect(letter);
-                  }
-                }}
-              >
-                <td>
-                  <b className="mono agenda">
-                    {letter.id}
-                    <span>/{letter.direction === 'in' ? 'SM' : 'SK'}/2026</span>
-                  </b>
-                </td>
+            {visible.map((letter) => {
+              const isChecked = selectedIds.includes(letter.id);
+              return (
+                <tr
+                  key={letter.id}
+                  className={selectedId === letter.id ? 'selected' : ''}
+                  tabIndex={0}
+                  aria-label={`Buka surat ${letter.id}: ${letter.subject}`}
+                  onClick={() => onSelect(letter)}
+                  onKeyDown={(e) => {
+                    if (
+                      e.target === e.currentTarget &&
+                      (e.key === 'Enter' || e.key === ' ')
+                    ) {
+                      e.preventDefault();
+                      onSelect(letter);
+                    }
+                  }}
+                >
+                  {!compact && onToggleSelect && (
+                    <td style={{ textAlign: 'center' }}>
+                      <input
+                        type="checkbox"
+                        checked={isChecked}
+                        onChange={() => onToggleSelect(letter.id)}
+                        onClick={(e) => e.stopPropagation()}
+                        aria-label={`Pilih arsip ${letter.id}`}
+                      />
+                    </td>
+                  )}
+                  <td>
+                    <b className="mono agenda">
+                      {letter.id}
+                      <span>/{letter.direction === 'in' ? 'SM' : 'SK'}/2026</span>
+                    </b>
+                  </td>
                 <td>
                   <b>{letter.origin}</b>
                   <p title={letter.subject}>{letter.subject}</p>
@@ -131,7 +166,8 @@ export default function ArchiveTable({
                   </div>
                 </td>
               </tr>
-            ))}
+              );
+            })}
           </tbody>
         </table>
         {!visible.length && (
@@ -142,31 +178,12 @@ export default function ArchiveTable({
         )}
       </div>
       {!compact && onPage && (
-        <div className="pagination">
-          <span>
-            Menampilkan {letters.length ? (current - 1) * 15 + 1 : 0} -{' '}
-            {Math.min(current * 15, letters.length)} dari {letters.length} arsip
-          </span>
-          <div className="page-btns">
-            <button
-              disabled={current <= 1}
-              onClick={() => onPage(current - 1)}
-              aria-label="Halaman sebelumnya"
-            >
-              Sebelumnya
-            </button>
-            <span className="mono">
-              {current} / {pages}
-            </span>
-            <button
-              disabled={current >= pages}
-              onClick={() => onPage(current + 1)}
-              aria-label="Halaman berikutnya"
-            >
-              Berikutnya
-            </button>
-          </div>
-        </div>
+        <Pagination
+          current={current}
+          total={pages}
+          totalItems={letters.length}
+          onPage={onPage}
+        />
       )}
     </>
   );

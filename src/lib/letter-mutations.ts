@@ -122,3 +122,12 @@ export async function deleteLetter(id: string, direction: 'in' | 'out'): Promise
     return true;
   }
 }
+
+export async function deleteLettersBatch(ids: string[], direction: 'in' | 'out'): Promise<number> {
+  let count = 0;
+  for (const id of ids) {
+    const ok = await deleteLetter(id, direction);
+    if (ok) count++;
+  }
+  return count;
+}

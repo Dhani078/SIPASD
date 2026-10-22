@@ -60,7 +60,10 @@ export async function uploadToGoogleDrive(
   folderType: 'masuk' | 'keluar'
 ): Promise<string | null> {
   const token = await getAccessToken();
-  if (!token) return null;
+  if (!token) {
+    console.error('[GDrive] Token refresh failed - skipping upload');
+    return null;
+  }
 
   const folderId =
     folderType === 'masuk'
@@ -88,31 +91,47 @@ export async function uploadToGoogleDrive(
     Buffer.from(closeDelimiter),
   ]);
 
-  try {
-    const uploadRes = await fetch(
-      'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,webViewLink',
-      {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': `multipart/related; boundary=${boundary}`,
-        },
-        body: multipartRequestBody,
+  const maxRetries = 2;
+  let lastError: any = null;
+
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      const uploadRes = await fetch(
+        'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,webViewLink',
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': `multipart/related; boundary=${boundary}`,
+          },
+          body: multipartRequestBody,
+        }
+      );
+
+      if (!uploadRes.ok) {
+        const errText = await uploadRes.text();
+        console.error(`[GDrive] Upload failed (attempt ${attempt}/${maxRetries}):`, uploadRes.status, errText);
+        lastError = new Error(`HTTP ${uploadRes.status}: ${errText}`);
+        if (uploadRes.status === 429) {
+          await new Promise((r) => setTimeout(r, 2000 * attempt));
+          continue;
+        }
+        return null;
       }
-    );
 
-    if (!uploadRes.ok) {
-      console.error('Google Drive upload failed:', await uploadRes.text());
-      return null;
+      const fileData = (await uploadRes.json()) as GoogleFileResponse;
+      const url = fileData.webViewLink || `https://drive.google.com/file/d/${fileData.id}/view?usp=drivesdk`;
+      console.log(`[GDrive] Upload success: ${fileName} -> ${fileData.id}`);
+      return url;
+    } catch (err: any) {
+      console.error(`[GDrive] Upload exception (attempt ${attempt}/${maxRetries}):`, err.message);
+      lastError = err;
+      if (attempt < maxRetries) {
+        await new Promise((r) => setTimeout(r, 1000 * attempt));
+      }
     }
-
-    const fileData = (await uploadRes.json()) as GoogleFileResponse;
-    return (
-      fileData.webViewLink ||
-      `https://drive.google.com/file/d/${fileData.id}/view?usp=drivesdk`
-    );
-  } catch (err) {
-    console.error('Google Drive upload exception:', err);
-    return null;
   }
+
+  console.error(`[GDrive] Upload failed after ${maxRetries} retries:`, lastError?.message);
+  return null;
 }

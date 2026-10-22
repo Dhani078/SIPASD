@@ -1,6 +1,7 @@
 'use client';
 
 import ArchiveTable from './ArchiveTable';
+import DistributionView from './DistributionView';
 import Icon from './Icon';
 import Badge from './Badge';
 import Modal from './Modal';
@@ -72,6 +73,9 @@ export function ReferenceViews({
         </div>
       </section>
     );
+
+  if (page === 'distribution')
+    return <DistributionView letters={letters} onExport={onExport} />;
 
   return (
     <section className="panel">

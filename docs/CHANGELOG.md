@@ -5,6 +5,17 @@ Format: `[YYYY-MM-DD] Fitur/Perbaikan - Deskripsi`
 
 ---
 
+## [2026-10-22] Addendum: Akun Pengarsip (Rana Nur Syifa)
+
+- **Tabel `users`** ditambah 2 akun SUPER_ADMIN di TiDB production:
+  - `pengarsip` / `dispora2026` -> nama tampilan "Rana Nur Syifa" (pemberi tugas pembuatan web)
+  - `developer` / `dev2026` -> nama tampilan "Muhammad Rizki Ramadhani" (pengembang)
+- **Username login generik**, nama asli pegawai tetap tampil di antarmuka (login API mengembalikan `namaLengkap` dari kolom `nama_lengkap`).
+- **File**: `docs/sql/seed_users_pengarsip_developer.sql`, `scripts/seed-user-pengarsip.ts`.
+- **Verifikasi**: `POST /api/auth/login` production mengembalikan `success: true`, `namaLengkap: "Rana Nur Syifa"`.
+
+---
+
 ## [2026-10-22] Sesi Lengkap: Riwayat Disposisi, Distribusi Ekspedisi, Google Drive Fix & E2E Testing
 
 ### 🎯 Ringkasan Sesi

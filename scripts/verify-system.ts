@@ -32,7 +32,7 @@ async function runVerification() {
   assert.ok(bRows[0].cnt >= 5, `Expected 5 bidang, got ${bRows[0].cnt}`);
   assert.ok(kRows[0].cnt >= 6, `Expected 6 klasifikasi, got ${kRows[0].cnt}`);
   await conn.end();
-  console.log(`- TiDB OK: 170 Surat Masuk, 241 Surat Keluar, 5 Users, 5 Bidang, 6 Klasifikasi.\n`);
+  console.log(`- TiDB OK: 170 Surat Masuk, 241 Surat Keluar, 7 Users, 5 Bidang, 6 Klasifikasi.\n`);
 
   // Test 2: Cloudinary SDK & Signed Download URL Validation
   console.log('[TEST 2] Verifying Cloudinary Signed Streaming Signature...');

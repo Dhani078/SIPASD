@@ -28,7 +28,7 @@ Sistem SIPASD menerapkan **3 lapis testing** untuk memastikan kualitas produksi:
 | 1 | TiDB Connection | 170 SM + 241 SK + 5 Users + 5 Bidang + 6 Klasifikasi | Cloud DB accessible & seeded |
 | 2 | Cloudinary Signed URL | Valid signature generated | Anti-401 PDF streaming |
 | 3 | Code Modular Ratio | All 58 src/ files ≤ 200 LOC | Zero god objects, maintainability |
-| 4 | Zero Em-Dash Invariant | 0 em-dash in 108 files | Readability (no `—` confusion) |
+| 4 | Zero Em-Dash Invariant | 0 em-dash in 108 files | Readability (hindari karakter em-dash pada kode/dokumen) |
 | 5 | Security Headers | API auth guards active | Gateway & route-level protection |
 | 6 | Zero Hardcoded Secrets | Pure env var consumption | No credentials in src/ |
 

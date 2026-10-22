@@ -9,7 +9,7 @@
 1. **Zero AI Slop & Zero Dummy Data (Aturan Mutlak Koneksi Database Nyata)**:
    - Dilarang membuat kode mockup pura-pura, file pura-pura, fungsi setengah jadi, atau array data tiruan di memori frontend.
    - **Seluruh data tabel, kartu KPI, filter, dan modal WAJIB terkoneksi 100% secara real-time ke basis data TiDB Cloud Serverless (`sipasd`)**.
-   - Dokumen yang disajikan adalah **420 berkas arsip pindaian nyata TA 2026** (171 Surat Masuk & 249 Surat Keluar) yang tertaut ke penyimpanan Cloudinary (`vqfpoekg`) dan cadangan Google Drive resmi dinas.
+   - Dokumen yang disajikan adalah **420 berkas arsip pindaian nyata TA 2026** (171 Surat Masuk & 249 Surat Keluar) yang tertaut ke penyimpanan Cloudinary (`vqfpoekg`) dan cadangan resmi 100% di Google Drive akun dinas kuota 5 TB.
 2. **Modularitas Maksimal (Maks 200 LOC per File)**:
    - Tidak boleh ada satu file komponen atau controller melebihi 200 baris kode. Pecah menjadi sub-komponen, *hooks*, modul utilitas, atau *server actions* yang terisolasi.
    - Mengacu pada 18 komponen modular di `C:\xampp\htdocs\Laporan Magang\SIPASD Web Application UI (1)`.
@@ -26,6 +26,10 @@
 6. **Desain Kustom & Responsif (0 Horizontal Overflow)**:
    - Gunakan palet resmi Dispora Kalsel: Hijau Zamrud (`#064E3B`, `#047857`) dan Emas Banua (`#D97706`).
    - Antarmuka wajib diuji responsif pada resolusi Mobile (375px/390px) dan Desktop (1440px). Pastikan 0 horizontal scrollbar overflow pada tabel maupun layout dashboard.
+7. **Isolasi Kredensial & Anti-Bocor Git**:
+   - Seluruh berkas rahasia di direktori `credentials/` (`oauth-client.json`, `token.json`, `service_account.json`) dan `.env.local` wajib diisolasi mutlak dalam `.gitignore`. Dilarang keras melakukan commit berkas kredensial ke GitHub publik.
+8. **Zero Em-Dashes**:
+   - Seluruh teks antarmuka, notifikasi, dan dokumentasi dilarang menggunakan karakter em-dash. Gunakan tanda hubung biasa (`-`).
 
 ---
 
@@ -35,7 +39,7 @@
 - **Bahasa**: TypeScript (Strict mode, no `any`, type safety menyeluruh).
 - **Gaya Visual**: Tailwind CSS v4 (Desain formal birokrasi berwibawa, palet hijau zamrud / emerald khas Dispora & Pemprov Kalsel, slate, putih bersih).
 - **Basis Data**: TiDB Cloud Serverless (MySQL Driver, 8 Tabel Relasional, SSL strict).
-- **Penyimpanan Berkas**: Cloudinary (primer) & Google Drive (sekunder via Service Account `sipasd-bot@sipasd.iam.gserviceaccount.com`).
+- **Penyimpanan Berkas**: Cloudinary CDN (primer untuk streaming pratinjau instan) & Google Drive (sekunder via OAuth 2.0 akun dinas kuota 5 TB untuk cadangan permanen 420 berkas fisik).
 - **Keamanan**: OWASP Top 10 (CSRF protection, XSS escaping, parameter binding PDO/mysql2, MIME validation pada berkas unggahan).
 
 ---

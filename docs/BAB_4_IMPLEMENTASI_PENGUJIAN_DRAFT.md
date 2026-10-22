@@ -17,7 +17,7 @@ Untuk menjamin keandalan akses repositori e-arsip secara publik tanpa bergantung
 - **Infrastruktur Cloud Serverless (Zero-Cost Production)**:
   - Web Hosting: Vercel Global Edge Network (Node.js 20 Runtime, HTTPS Otomatis).
   - Database Host: TiDB Cloud Serverless (Region Singapore `ap-southeast-1`, Latensi < 35 ms, Kuota Gratis 25 GB).
-  - Object Storage: Cloudinary & Google Drive (S3-Compatible, *Zero Egress Fee*, Kuota Gratis 10 GB untuk 420+ file PDF).
+  - Object Storage: Cloudinary CDN (primer untuk streaming pratinjau cepat) & Google Drive dinas kuota 5 TB (sekunder untuk cadangan permanen 420 berkas pindaian riil).
 
 ### 4.1.2 Lingkungan Perangkat Lunak (Software Environment)
 - **Sistem Operasi**: Windows 11 Pro 64-bit.

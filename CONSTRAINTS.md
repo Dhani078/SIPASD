@@ -13,8 +13,8 @@
    - **420 Dokumen Arsip Riil TA 2026 sebagai Sumber Kebenaran Tunggal**:
      * 171 Surat Masuk pindaian riil TA 2026 di tabel `arsip_surat_masuk`.
      * 249 Surat Keluar pindaian riil TA 2026 di tabel `arsip_surat_keluar`.
-     * Seluruh dokumen pindaian PDF tertaut langsung ke URL penyimpanan Cloudinary aktif (`cloud_name: vqfpoekg`) dengan tombol cadangan ke Google Drive resmi instansi (`sipasd-bot@sipasd.iam.gserviceaccount.com`).
-   - **Mutasi Data Nyata**: Operasi tambah surat baru (*indeks arsip*) wajib mengeksekusi `INSERT` nyata ke tabel TiDB Cloud dan mengunggah berkas asli ke Cloudinary. Operasi pencatatan disposisi wajib mengeksekusi `INSERT` ke tabel `riwayat_disposisi`.
+     * Seluruh dokumen pindaian PDF tertaut langsung ke URL penyimpanan Cloudinary aktif (`cloud_name: vqfpoekg`) dengan cadangan resmi 100% tersimpan di Google Drive akun dinas kuota 5 TB (subfolder `Surat Masuk` ID: `1deTFD7oICTXkkMs5HzS-bhtZzvCqfW9n` & `Surat Keluar` ID: `1rgWCFwULt8awBCVIuomy7cELKqEtbdkx`).
+   - **Mutasi Data Nyata & Dual-Storage Otomatis**: Operasi tambah surat baru (*indeks arsip*) wajib mengeksekusi `INSERT` nyata ke tabel TiDB Cloud dan mengunggah berkas asli secara simultan ke Cloudinary (streaming pratinjau) dan Google Drive (cadangan resmi 5 TB). Operasi pencatatan disposisi wajib mengeksekusi `INSERT` ke tabel `riwayat_disposisi`.
 
 2. **Zero Suppression Comments**:
    - Dilarang menambahkan komentar penekan kesalahan: `@ts-ignore`, `@ts-nocheck`, `eslint-disable`, `# noqa`, `# type: ignore`.
@@ -28,9 +28,9 @@
    - Tidak ada satu file komponen UI atau Server Action yang melebihi batas 200 baris kode (kecuali file skema kamus data atau seeder data migrasi).
    - Seluruh prototipe antarmuka di `C:\xampp\htdocs\Laporan Magang\SIPASD Web Application UI (1)` telah dipecah menjadi 18 komponen modular dan wajib dipertahankan modularitasnya saat dihubungkan ke Next.js 15 App Router.
 
-5. **Zero Secrets in Git Repository**:
-   - Tidak boleh ada password database, token Cloudinary, atau kunci JWT di-hardcode dalam kode yang di-commit ke repositori Git publik.
-   - Seluruh rahasia wajib diisolasi di `.env.local` dan dilindungi oleh `.gitignore`.
+5. **Zero Secrets & Credentials Isolation in Git Repository**:
+   - Tidak boleh ada password database, token Cloudinary, kunci OAuth, refresh token, atau kunci JWT di-hardcode dalam kode yang di-commit ke repositori Git publik.
+   - Seluruh rahasia wajib diisolasi di `.env.local` dan direktori `credentials/` (termasuk `oauth-client.json`, `token.json`, `*service*account*.json`) serta dilindungi mutlak oleh `.gitignore`.
 
 6. **Identitas Git Wajib**:
    - Seluruh komit wajib menggunakan akun pengembang resmi:
@@ -40,8 +40,8 @@
      ```
    - Menggunakan email asli ini adalah syarat mutlak agar kotak hijau kontribusi GitHub aktif. Dilarang memakai dummy email / noreply.
 
-7. **Zero Em-Dashes (` - `)**:
-   - Dilarang menggunakan karakter em-dash (` - `) pada seluruh teks antarmuka, judul, lencana, maupun dokumentasi. Gunakan tanda hubung biasa (`-`), tanda kurung, atau titik koma.
+7. **Zero Em-Dashes**:
+   - Dilarang keras menggunakan karakter em-dash pada seluruh teks antarmuka, judul, lencana, maupun dokumentasi. Gunakan tanda hubung biasa (`-`), tanda kurung, atau titik koma.
 
 ---
 

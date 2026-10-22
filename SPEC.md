@@ -26,7 +26,7 @@ Sistem mencakup:
 | **Styling & Desain** | Tailwind CSS v4 + Lucide Icons | Palet: Emerald Dinas, Gold Banua, Slate Clean |
 | **Basis Data Relasional** | TiDB Cloud Serverless (MySQL) | SSL Strict, Serverless Autoscaling (25 GB Gratis) |
 | **ORM / Query Builder** | Prisma ORM v5 | Type-safe Database Client |
-| **Penyimpanan Berkas** | Cloudinary & Google Drive | S3-Compatible SDK (`@aws-sdk/client-s3`) (10 GB Gratis) |
+| **Penyimpanan Berkas** | Cloudinary & Google Drive | Cloudinary CDN (primer) + Google Drive OAuth 2.0 (sekunder, kuota 5 TB) |
 | **Autentikasi & Keamanan** | Jose / NextAuth (Session Cookie) | HttpOnly, Secure, SameSite=Strict, Bcrypt |
 | **Ekspor Dokumen** | ExcelJS | Generator Buku Agenda format .xlsx |
 

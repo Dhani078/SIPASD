@@ -55,9 +55,9 @@ SIPASD memberikan kapabilitas bagi aparatur Sekretariat Dispora Kalsel untuk mel
 ### 2.2 Aturan Bisnis & Invarian Mutlak (Invariants & Fixed Rules)
 1. **Invarian Integritas Dokumen**: Sistem dilarang memodifikasi atau menimpa berkas PDF asli yang sudah sah secara hukum (bertanda tangan basah dan berstempel cap dinas). Dokumen pindaian diperlakukan sebagai aset *read-only*.
 2. **Invarian Penomoran Agenda**: Setiap arsip surat masuk wajib memiliki Nomor Agenda unik tahunan dengan format baku: `[NoUrut4Digit]/SM/DISPORA/2026`.
-3. **Invarian Redundansi Ganda**: Berkas pindaian disimpan secara terpusat pada Cloudinary (penampil primer) dan memiliki cadangan folder pada Google Drive resmi instansi (`sipasd-bot@sipasd.iam.gserviceaccount.com`).
+3. **Invarian Redundansi Ganda**: Berkas pindaian disimpan secara terpusat pada Cloudinary (penampil primer) dan memiliki cadangan resmi pada Google Drive instansi akun 5 TB (subfolder `Surat Masuk` ID: `1deTFD7oICTXkkMs5HzS-bhtZzvCqfW9n` & `Surat Keluar` ID: `1rgWCFwULt8awBCVIuomy7cELKqEtbdkx`).
 4. **Invarian Batas Ukuran**: Seluruh berkas pindaian yang dikelola wajib berformat PDF dengan batas ukuran maksimal 10 MB per dokumen (total 420 dokumen riil saat ini hanya 373,15 MB, semuanya di bawah 10 MB).
-5. **Invarian Nol Biaya (Zero-Cost Invariant)**: Sistem tidak boleh menggunakan arsitektur yang menuntut kartu kredit atau langganan berbayar. Seluruh layanan berjalan pada tier gratis permanen (Vercel Edge, TiDB Cloud 25 GB, Cloudinary 25 kredit, Google Drive 15 GB).
+5. **Invarian Nol Biaya (Zero-Cost Invariant)**: Sistem tidak boleh menggunakan arsitektur yang menuntut kartu kredit atau langganan berbayar. Seluruh layanan berjalan pada kuota resmi kedinasan dan tier cloud permanen (Vercel Edge, TiDB Cloud 25 GB, Cloudinary 25 kredit, Google Drive 5 TB).
 
 ### 2.3 Batasan Kepercayaan (Trust Boundaries)
 ```
@@ -263,8 +263,8 @@ SIPASD memberikan kapabilitas bagi aparatur Sekretariat Dispora Kalsel untuk mel
 - **Tingkat Prioritas (ICE)**: Critical (Score: 9.0)
 - **Spesifikasi**:
   - **Penyimpanan Primer**: Cloudinary (`cloud_name: vqfpoekg`, folder `sipasd/surat_masuk` dan `sipasd/surat_keluar`) sebagai penyedia aset *fast in-browser streaming*.
-  - **Penyimpanan Sekunder**: Google Drive resmi instansi (`arsipdispora2026`, folder `sistem magang`).
-  - Dihubungkan menggunakan robot Google Cloud Service Account `sipasd-bot@sipasd.iam.gserviceaccount.com` yang telah diberi izin Editor pada folder Drive.
+  - **Penyimpanan Sekunder**: Google Drive resmi instansi akun 5 TB (folder `sistem magang`, subfolder `Surat Masuk` dan `Surat Keluar`). Sebanyak 420 dari 420 berkas pindaian asli tersimpan 100% dan terhubung ke setiap baris TiDB Cloud.
+  - **Dual-Upload Otomatis**: Endpoint `/api/upload` dan `src/lib/gdrive.ts` otomatis mengunggah setiap arsip baru secara simultan ke Cloudinary CDN dan Google Drive.
   - Di antarmuka pengguna: Tersedia tombol primer **"Pratinjau PDF (Cepat)"** dan tombol sekunder **"Buka Cadangan di Google Drive"**.
 
 ### 5.10 Modul FR-10: Perekaman Jejak Forensik (Audit Trail)

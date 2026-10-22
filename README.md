@@ -72,8 +72,8 @@ Kondisi eksisting penyimpanan Google Drive:
 - **Frontend & Fullstack**: Next.js 15 (App Router, React 19, TypeScript).
 - **Styling**: Tailwind CSS v4 (Responsif Mobile & PC, 0 Horizontal Overflow).
 - **Basis Data**: TiDB Cloud Serverless (MySQL Compatible, SSL Strict, Gratis 25 GB).
-- **Penyimpanan Dokumen**: Cloudinary & Google Drive (S3 API, Zero Egress Fee, Gratis 10 GB).
-- **Hosting Publik**: Vercel Edge Network (HTTPS Otomatis, Aktif 24 Jam Tanpa Komputer Kantor).
+- **Penyimpanan Dokumen**: Cloudinary CDN (primer untuk streaming pratinjau instan) & Google Drive (sekunder via OAuth 2.0 akun dinas kuota 5 TB, 420 berkas fisik tersimpan 100%).
+- **Hosting Publik**: Vercel Edge Network (HTTPS Otomatis, Domain Resmi https://www.sipasd.my.id).
 
 ---
 

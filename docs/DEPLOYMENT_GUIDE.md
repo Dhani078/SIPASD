@@ -72,16 +72,19 @@ Sistem SIPASD dirancang secara *Cloud-Native* sehingga tidak memerlukan server k
 2. Klik **Add New -> Project**, lalu pilih repositori **`Dhani078/SIPASD`**.
 3. Pada bagian **Environment Variables**, masukkan seluruh konfigurasi rahasia:
    ```env
-   DATABASE_URL="mysql://<user>:<pass>@gateway01.ap-southeast-1.prod.aws.tidbcloud.com:4000/sipasd?sslaccept=strict"
-   R2_ACCOUNT_ID="your_cloudflare_account_id"
-   R2_ACCESS_KEY_ID="your_r2_access_key_id"
-   R2_SECRET_ACCESS_KEY="your_r2_secret_access_key"
-   R2_BUCKET_NAME="sipasd-dispora-files"
-   NEXTAUTH_SECRET="generate_random_secret_string_32_chars"
-   NEXTAUTH_URL="https://sipasd.vercel.app"
+   DATABASE_URL="mysql://<user>:<password>@gateway01.ap-southeast-1.prod.aws.tidbcloud.com:4000/sipasd?ssl={"rejectUnauthorized":true}"
+   CLOUDINARY_CLOUD_NAME="vqfpoekg"
+   CLOUDINARY_API_KEY="966426338749991"
+   CLOUDINARY_API_SECRET="your_cloudinary_api_secret"
+   JWT_SECRET="your_jwt_secret_32_chars"
+   GOOGLE_CLIENT_ID="your_google_oauth_client_id.apps.googleusercontent.com"
+   GOOGLE_CLIENT_SECRET="your_google_oauth_client_secret"
+   GOOGLE_REFRESH_TOKEN="your_google_oauth_refresh_token"
+   GOOGLE_DRIVE_SM_FOLDER_ID="1deTFD7oICTXkkMs5HzS-bhtZzvCqfW9n"
+   GOOGLE_DRIVE_SK_FOLDER_ID="1rgWCFwULt8awBCVIuomy7cELKqEtbdkx"
    ```
 4. Klik tombol **Deploy**.
-5. Vercel akan otomatis melakukan kompilasi TypeScript, bundling aset Tailwind CSS, dan menghasilkan URL produksi HTTPS publik (misal: `https://sipasd.vercel.app`).
+5. Vercel akan otomatis melakukan kompilasi TypeScript, bundling aset Tailwind CSS, dan menghasilkan URL produksi HTTPS publik (misal: `https://www.sipasd.my.id`).
 
 ---
 

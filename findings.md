@@ -100,8 +100,11 @@ Berdasarkan analisis byte-level langsung terhadap seluruh 420 berkas di `C:\xamp
    - Cloud Name: `vqfpoekg`, API Key: `966426338749991`.
    - Kuota 25 kredit gratis/bulan. Pengunggahan dan penghapusan uji coba terbukti berhasil 100%.
 3. **Penyimpanan Sekunder Google Drive**:
-   - Folder: `sistem magang` resmi instansi.
-   - Hak akses Editor telah diberikan kepada robot Service Account: `sipasd-bot@sipasd.iam.gserviceaccount.com`.
+   - Folder: `sistem magang` resmi instansi (ID: `1QzW_9rFogegOhn--eLNb_rqu4jvz3oj0`).
+   - Subfolder: `Surat Masuk` (ID: `1deTFD7oICTXkkMs5HzS-bhtZzvCqfW9n`) dan `Surat Keluar` (ID: `1rgWCFwULt8awBCVIuomy7cELKqEtbdkx`).
+   - Sinkronisasi Berkas Fisik: Sebanyak 420 dari 420 berkas riil (171 Surat Masuk & 249 Surat Keluar) 100% tersimpan di Google Drive dinas via otorisasi OAuth 2.0 akun dinas berkuota 5 TB.
+   - Sinkronisasi Database: 100% baris arsip di TiDB Cloud Serverless memiliki tautan langsung berkas Google Drive (`drive.google.com/file/d/...`).
+   - Dual-Upload Real-Time: Integrasi `/api/upload` dan `src/lib/gdrive.ts` otomatis mengunggah setiap arsip baru secara simultan ke Cloudinary CDN dan Google Drive.
 
 ---
 

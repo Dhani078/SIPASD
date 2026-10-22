@@ -51,3 +51,15 @@ Konfigurasi atribut cookie autentikasi SIPASD:
   path: '/'
 }
 ```
+
+---
+
+## 🔑 Kebijakan Isolasi Kredensial & Kunci Rahasia (Zero-Leak Guarantee)
+
+1. **Isolasi Berkas Kunci OAuth 2.0 & Service Account**:
+   - Berkas kunci Google Cloud `credentials/oauth-client.json`, `credentials/token.json`, dan `credentials/sipasd-service-account.json` wajib berada di direktori lokal `credentials/`.
+   - Direktori `credentials/` dan seluruh pola `*service*account*.json`, `*token*.json`, `client_secret*.json` telah didaftarkan dalam `.gitignore` dan diverifikasi tidak akan pernah masuk ke repositori Git publik.
+2. **Keamanan Streaming PDF Cloudinary**:
+   - Seluruh akses dokumen fisik melewati endpoint `/api/pdf` yang menghasilkan URL bertanda-tangan privat secara server-side (*signed URL* berdurasi 1 jam), mencegah kebocoran kredensial API secret ke browser dan mengatasi galat 401 ACL Deny.
+3. **Penyimpanan Token OAuth Google Drive**:
+   - Nilai `GOOGLE_CLIENT_SECRET` dan `GOOGLE_REFRESH_TOKEN` hanya tersimpan di lingkungan aman `.env.local` (server-side runtime) dan tidak pernah diekspos ke antarmuka klien.

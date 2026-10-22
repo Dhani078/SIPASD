@@ -59,12 +59,22 @@ async function main() {
   console.log('BACKUP:', backupPath);
 
   let changed = 0;
+  let inserted = 0;
   for (const p of plan) {
     if (p.baru === p.lama) continue;
+    if (p.lama === null || p.lama === undefined) {
+      await query(
+        'INSERT INTO riwayat_disposisi (id, surat_masuk_id, pejabat_pendisposisi, tanggal_disposisi, kepada_bidang_id, batas_waktu, instruksi_tercatat, catatan_tertulis, status_penyelesaian) ' +
+        'VALUES (UUID(), ?, ?, CURDATE(), 1, NULL, ?, NULL, ?)',
+        [p.id, p.baru, 'Tindak Lanjut', 'BELUM_DIPROSES']
+      );
+      inserted++;
+      continue;
+    }
     await query('UPDATE riwayat_disposisi SET pejabat_pendisposisi = ? WHERE surat_masuk_id = ?', [p.baru, p.id]);
     changed++;
   }
-  console.log('UPDATED_ROWS:', changed);
+  console.log('UPDATED_ROWS:', changed, '| INSERTED_ROWS:', inserted);
 
   const cek = await query<any>('SELECT pejabat_pendisposisi, COUNT(*) AS n FROM riwayat_disposisi GROUP BY pejabat_pendisposisi ORDER BY n DESC');
   console.log('VERIFIKASI_DB:', JSON.stringify(cek));

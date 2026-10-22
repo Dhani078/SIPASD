@@ -8,8 +8,8 @@ Format: `[YYYY-MM-DD] Fitur/Perbaikan - Deskripsi`
 ## [2026-10-22] Addendum: Pejabat Pendisposisi Diisi Ulang dari Dataset PDF
 
 - **Temuan**: 172 baris `riwayat_disposisi` semuanya bernama `Pebriadin Hapiz, AP, M.Si` (nilai seed, bukan hasil berkas surat).
-- **Perbaikan**: 423 PDF dataset Dispora diunduh, 145 berkas scan di-OCR, 170 dari 171 surat masuk dicocokkan, **83 baris diperbarui** dari bukti alamat tujuan dan isi surat.
-- **Sebaran baru**: 91 Kepala Dinas, 16 Kasubbag Umum dan Kepegawaian, 3 Sekretaris, 3 Kepala Bidang, 59 belum terverifikasi.
+- **Perbaikan**: 423 PDF dataset Dispora diunduh, 145 berkas scan di-OCR, 170 dari 171 surat masuk dicocokkan, **83 baris diperbarui** dan **2 baris disposisi dibuat** dari bukti alamat tujuan dan isi surat.
+- **Sebaran baru**: 93 Kepala Dinas, 16 Kasubbag Umum dan Kepegawaian, 3 Sekretaris, 3 Kepala Bidang, 59 belum terverifikasi.
 - **Kode**: fallback nama keras di `letters.ts`, `letter-mutations.ts`, dan `PrintDisposisiModal.tsx` diganti `-` (tampil "Belum terverifikasi") supaya nama tidak lagi muncul tanpa data.
 - **Berkas**: `docs/DISPOSISI_DARI_PDF.md`, `docs/DISPOSISI_MAPPING_2026.csv`, `scripts/apply-pejabat-pendisposisi.ts`, `scripts/unduh-pdf-gdrive.mts`.
 

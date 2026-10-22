@@ -85,12 +85,14 @@ Pemetaan berkas ke baris basis data memakai nomor agenda pada nama berkas (conto
 | Baris surat masuk di basis data | 171 |
 | Berhasil dicocokkan ke berkas PDF | 170 |
 | Baris diubah | 83 |
+| Baris disposisi baru dibuat (surat belum punya catatan disposisi) | 2 |
+| Berkas PDF tidak ditemukan padanannya | 1 |
 
-Sebaran `pejabat_pendisposisi` setelah perubahan:
+Sebaran `pejabat_pendisposisi` setelah perubahan (174 baris, termasuk 1 baris catatan lama yang suratnya sudah tidak ada):
 
 | Pejabat Pendisposisi | Jumlah baris |
 |---|---|
-| Pebriadin Hapiz, AP, M.Si (Kepala Dinas) | 91 |
+| Pebriadin Hapiz, AP, M.Si (Kepala Dinas) | 93 |
 | Belum terverifikasi (`-`) | 59 |
 | Norika Fajriana, SH, MH (Kasubbag Umum dan Kepegawaian) | 16 |
 | Denny Saputra, S.STP (Sekretaris) | 3 |

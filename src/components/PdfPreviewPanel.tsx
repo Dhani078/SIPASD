@@ -18,7 +18,15 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onDelete }: 
   const pdfUrl = letter.fileUrl
     ? `/api/pdf?url=${encodeURIComponent(letter.fileUrl)}`
     : '/placeholder-surat.pdf';
-  const driveUrl = letter.driveUrl || 'https://drive.google.com';
+  
+  // Deteksi fallback URL folder → redirect ke folder spesifik Surat Masuk/Keluar
+  let driveUrl = letter.driveUrl || 'https://drive.google.com';
+  if (driveUrl.includes('folders/1deTFD7oICTXkkMs5HzS') || driveUrl.includes('folders/1rgWCFwULt8awBCVIuomy')) {
+    driveUrl = letter.direction === 'in'
+      ? 'https://drive.google.com/drive/folders/1deTFD7oICTXkkMs5HzS-bhtZzvCqfW9n'
+      : 'https://drive.google.com/drive/folders/1rgWCFwULt8awBCVIuomy7cELKqEtbdkx';
+  }
+  
   const viewHash = fitMode === 'page' ? '#view=Fit&zoom=page-fit' : '#view=FitH';
 
   return (

@@ -77,7 +77,7 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
         notes: r.catatan_tertulis || 'Disposisi tercatat di sistem.',
       },
       fileUrl: r.file_url,
-      driveUrl: r.drive_url || 'https://drive.google.com',
+      driveUrl: r.drive_url || 'https://drive.google.com/drive/folders/1deTFD7oICTXkkMs5HzS-bhtZzvCqfW9n',
     };
   });
 
@@ -105,7 +105,7 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
         notes: 'Arsip surat keluar resmi Dispora Kalsel.',
       },
       fileUrl: r.file_url,
-      driveUrl: r.drive_url || 'https://drive.google.com',
+      driveUrl: r.drive_url || 'https://drive.google.com/drive/folders/1rgWCFwULt8awBCVIuomy7cELKqEtbdkx',
     };
   });
 

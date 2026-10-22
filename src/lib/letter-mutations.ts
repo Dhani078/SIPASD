@@ -35,7 +35,7 @@ export async function insertNewLetter(
         data.type.toUpperCase(),
         data.fileUrl || '',
         null,
-        data.driveUrl || null,
+        data.driveUrl || 'https://drive.google.com/drive/folders/1deTFD7oICTXkkMs5HzS-bhtZzvCqfW9n',
         `${nomorAgenda.replace(/\//g, '_')}.pdf`,
         userId,
       ]
@@ -92,7 +92,7 @@ export async function insertNewLetter(
         data.subject,
         data.fileUrl || '',
         null,
-        data.driveUrl || null,
+        data.driveUrl || 'https://drive.google.com/drive/folders/1rgWCFwULt8awBCVIuomy7cELKqEtbdkx',
         userId,
       ]
     );

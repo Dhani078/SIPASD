@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import Icon from './Icon';
 import Badge from './Badge';
 import { shortDate } from '@/lib/format';

@@ -12,6 +12,24 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.3.0-security-audit] - 2026-10-22
+
+### Added
+- **Security Headers Standard Industri**: Konfigurasi `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, dan `Permissions-Policy` pada `next.config.ts`.
+- **Loading Skeleton & UI States**: Penambahan `src/app/loading.tsx` dengan animasi shimmer CSS untuk rendering transisi halus saat fetching TiDB Cloud.
+- **Error Boundary & 404 Pages**: Penambahan `src/app/error.tsx` dan `src/app/not-found.tsx` untuk penanganan kegagalan koneksi atau rute tak terdaftar secara elegan.
+- **PDF Viewer Loading Spinner**: State indikator visual saat streaming dokumen dari Cloudinary CDN pada `PdfPreviewPanel.tsx`.
+- **Toast Status Feedback**: Ikon visual status dan animasi slide-up pada pesan status `SipasdApp.tsx`.
+- **Expanded Test Suite (6 Skenario)**: Penambahan audit otomatis security headers, API route auth guards, dan zero secret invariant pada `scripts/verify-system.ts`.
+- **Deep Audit & Roadmap Document**: Panduan komprehensif `docs/DEEP_AUDIT_ROADMAP.md`.
+
+### Security
+- **Auth Guard Enforcement**: Pengamanan endpoint `POST` dan `DELETE` pada `/api/letters` wajib memiliki sesi aktif (`getSession()`), mencegah manipulasi atau penghapusan arsip tanpa otorisasi.
+- **Server-Side Input Sanitization**: Pembersihan tag HTML dan pemangkasan panjang karakter pada input nomor surat, instansi asal, dan perihal untuk menangkal serangan XSS.
+- **Zero Secrets In Code**: Menghapus seluruh hardcoded secret fallbacks di `src/lib/auth.ts`, `src/app/api/pdf/route.ts`, dan `src/lib/cloudinary.ts`.
+
+---
+
 ## [2.2.0-gdrive-sync] - 2026-10-22
 
 ### Added

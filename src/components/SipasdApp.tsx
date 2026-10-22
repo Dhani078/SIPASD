@@ -38,12 +38,12 @@ export default function SipasdApp({
   const [selected, setSelected] = useState<LetterRecord | null>(null);
   const [printLetter, setPrintLetter] = useState<LetterRecord | null>(null);
   const [modal, setModal] = useState('');
-  const [toast, setToast] = useState('');
+  const [toast, setToast] = useState<{ msg: string; ok: boolean } | null>(null);
   const [pagination, setPagination] = useState(1);
 
-  const tell = (msg: string) => {
-    setToast(msg);
-    setTimeout(() => setToast(''), 4000);
+  const tell = (msg: string, ok = true) => {
+    setToast({ msg, ok });
+    setTimeout(() => setToast(null), 4000);
   };
 
   const { deleteTarget, setDeleteTarget, deleting, handleSave, confirmDelete } =
@@ -157,16 +157,8 @@ export default function SipasdApp({
         <DocumentPreview
           letter={selected}
           onClose={() => setSelected(null)}
-          onPrint={() => {
-            const item = selected;
-            setSelected(null);
-            setPrintLetter(item);
-          }}
-          onDelete={() => {
-            const item = selected;
-            setSelected(null);
-            setDeleteTarget(item);
-          }}
+          onPrint={() => { const item = selected; setSelected(null); setPrintLetter(item); }}
+          onDelete={() => { const item = selected; setSelected(null); setDeleteTarget(item); }}
         />
       )}
       {modal === 'new' && (
@@ -190,7 +182,12 @@ export default function SipasdApp({
       {['classification', 'sop'].includes(modal) && (
         <HelpModal kind={modal} onClose={() => setModal('')} />
       )}
-      {toast && <div className="toast" role="status">{toast}</div>}
+      {toast && (
+        <div className="toast" role="status">
+          <span className={`toast-icon ${toast.ok ? 'success' : 'error'}`}>{toast.ok ? '✓' : '!'}</span>
+          {toast.msg}
+        </div>
+      )}
     </div>
   );
 }

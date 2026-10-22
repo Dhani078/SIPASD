@@ -3,7 +3,7 @@ import { cookies } from 'next/headers';
 import { UserSession } from '@/types';
 
 const SECRET_KEY = new TextEncoder().encode(
-  process.env.JWT_SECRET || '[REDACTED_JWT_SECRET]'
+  process.env.JWT_SECRET || (() => { throw new Error('JWT_SECRET environment variable is required'); })()
 );
 
 const COOKIE_NAME = 'sipasd_session';

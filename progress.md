@@ -98,5 +98,37 @@
    - `npm test`: 4/4 passed.
    - `npm run lint`: 0 errors.
    - `npm run build`: 100% lolos.
-   - 0 em-dash di seluruh basis kode dan dokumentasi.
+
+---
+
+## Sesi 5: Deep Audit Keamanan, UX/Performa, Loading Skeleton, Error Boundary & Pengujian Tambahan
+**Tanggal**: 22 Oktober 2026  
+**Operator / Agen**: Hermes Agent (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Audit & Remediasi Keamanan Ketat (P0 Security Hardening)**:
+   - Menambahkan pengaman otentikasi sesi `getSession()` pada endpoint `DELETE` dan `POST` di `src/app/api/letters/route.ts` (mencegah penghapusan/penambahan arsip liar oleh pihak tanpa izin).
+   - Menerapkan sanitasi input server-side pada field `number`, `origin`, dan `subject` untuk menangkal serangan XSS.
+   - Memasang Security Headers standar industri di `next.config.ts`: `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy`.
+   - Menghapus seluruh hardcoded secret fallbacks di `src/lib/auth.ts`, `src/app/api/pdf/route.ts`, dan `src/lib/cloudinary.ts`. Semua kredensial wajib dibaca dari environment variables.
+2. **Peningkatan UX & State Handling**:
+   - Membuat `src/app/loading.tsx` (Loading Skeleton dengan animasi shimmer responsif).
+   - Membuat `src/app/error.tsx` (Error Boundary dengan UI informatif dan tombol muat ulang).
+   - Membuat `src/app/not-found.tsx` (Halaman 404 dinas dengan tombol kembali ke beranda).
+   - Menambahkan spinner loading interaktif pada penampil berkas `src/components/PdfPreviewPanel.tsx` saat mengunduh dokumen dari Cloudinary CDN.
+   - Memperbarui toast notifikasi pada `src/components/SipasdApp.tsx` dengan ikon status berhasil (✓) dan gagal (!).
+3. **Ekspansi Test Suite Otomatis (6 Skenario)**:
+   - Memperluas `scripts/verify-system.ts` mencakup:
+     * TEST 1: Koneksi TiDB Cloud Serverless & 411 arsip riil.
+     * TEST 2: Validasi signature Cloudinary Signed Streaming URL.
+     * TEST 3: Audit rasio modularitas (seluruh 54 file `src/` <= 200 LOC).
+     * TEST 4: Audit kualitas zero em-dash across entire codebase.
+     * TEST 5: Audit security headers di `next.config.ts` dan auth guard di API routes.
+     * TEST 6: Audit zero hardcoded secret di seluruh file `src/`.
+4. **Verifikasi Kualitas Akhir**:
+   - `npm test`: 6/6 SUITES PASSED (100% HEALTHY).
+   - `npx tsc --noEmit`: 0 error.
+   - `npm run build`: 11 static/dynamic routes berhasil dikompilasi (125 kB first load JS).
+   - Seluruh 54 berkas di `src/` <= 200 baris kode (LOC invariant terpenuhi).
+   - Zero em-dash invariant terverifikasi (0 em-dash di seluruh repo).
 

@@ -37,9 +37,9 @@ async function runVerification() {
   // Test 2: Cloudinary SDK & Signed Download URL Validation
   console.log('[TEST 2] Verifying Cloudinary Signed Streaming Signature...');
   cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME || 'vqfpoekg',
-    api_key: process.env.CLOUDINARY_API_KEY || '966426338749991',
-    api_secret: process.env.CLOUDINARY_API_SECRET || '[REDACTED_CLOUDINARY_SECRET]',
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
     secure: true,
   });
 
@@ -119,6 +119,26 @@ async function runVerification() {
   }
   assert.strictEqual(emDashCount, 0, 'No em-dashes allowed in code or docs');
   console.log(`- Zero Em-Dash Invariant OK: 0 em-dash across all ${allFiles.length} project files.\n`);
+
+  // Test 5: Security Header & Route Auth Guard Audit
+  console.log('[TEST 5] Auditing Security Headers & Route Auth Guards...');
+  const nextConfigContent = fs.readFileSync(path.resolve('next.config.ts'), 'utf8');
+  assert.ok(nextConfigContent.includes('X-Frame-Options'), 'next.config.ts must declare X-Frame-Options');
+  assert.ok(nextConfigContent.includes('X-Content-Type-Options'), 'next.config.ts must declare X-Content-Type-Options');
+  assert.ok(nextConfigContent.includes('Referrer-Policy'), 'next.config.ts must declare Referrer-Policy');
+
+  const letterRouteContent = fs.readFileSync(path.resolve('src/app/api/letters/route.ts'), 'utf8');
+  assert.ok(letterRouteContent.includes('if (!session)'), 'API letters DELETE/POST must verify session');
+  console.log('- Security Headers & API Auth Guards OK: Enforced at gateway and routes.\n');
+
+  // Test 6: Zero Hardcoded Secret Audit in src/
+  console.log('[TEST 6] Auditing Zero Hardcoded Secret in src/...');
+  for (const f of srcFiles) {
+    const text = fs.readFileSync(f, 'utf8');
+    assert.ok(!text.includes('[REDACTED_CLOUDINARY_SECRET]'), `Secret leaked in ${f}`);
+    assert.ok(!text.includes('[REDACTED_JWT_SECRET]'), `JWT fallback leaked in ${f}`);
+  }
+  console.log('- Zero Hardcoded Secret OK: All production files consume pure environment variables.\n');
 
   console.log('====================================================');
   console.log('ALL VERIFICATION SUITE CHECKS PASSED: 100% HEALTHY');

@@ -3,7 +3,7 @@ import type { LetterRecord } from '@/types';
 
 export function useLetterActions(
   setLetters: React.Dispatch<React.SetStateAction<LetterRecord[]>>,
-  tell: (msg: string) => void
+  tell: (msg: string, ok?: boolean) => void
 ) {
   const [deleteTarget, setDeleteTarget] = useState<LetterRecord | null>(null);
   const [deleting, setDeleting] = useState(false);
@@ -50,7 +50,7 @@ export function useLetterActions(
       setDeleteTarget(null);
       tell(`Arsip No. Agenda ${deletedId} berhasil dihapus dari TiDB.`);
     } catch (err: any) {
-      tell(err.message || 'Gagal menghapus arsip.');
+      tell(err.message || 'Gagal menghapus arsip.', false);
     } finally {
       setDeleting(false);
     }

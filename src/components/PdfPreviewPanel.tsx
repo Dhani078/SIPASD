@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Modal from './Modal';
 import Icon from './Icon';
 import type { LetterRecord } from '@/types';
@@ -12,6 +13,7 @@ interface Props {
 }
 
 export default function PdfPreviewPanel({ letter, onClose, onPrint, onDelete }: Props) {
+  const [pdfLoading, setPdfLoading] = useState(true);
   const pdfUrl = letter.fileUrl
     ? `/api/pdf?url=${encodeURIComponent(letter.fileUrl)}`
     : '/placeholder-surat.pdf';
@@ -74,12 +76,21 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onDelete }: 
 
       <div className="pdf-frame-wrap" style={{ flex: 1, width: '100%', minHeight: '0', position: 'relative' }}>
         {letter.fileUrl ? (
-          <iframe
-            src={`${pdfUrl}#view=FitH&toolbar=1&navpanes=0`}
-            title={`Dokumen PDF ${letter.id}`}
-            className="w-full h-full border rounded bg-white shadow-inner"
-            style={{ width: '100%', height: '100%', border: '1px solid #cbd5e1' }}
-          />
+          <>
+            {pdfLoading && (
+              <div className="pdf-loading" style={{ position: 'absolute', inset: 0, zIndex: 2, background: '#fff' }}>
+                <div className="pdf-spinner" />
+                <span>Memuat dokumen PDF dari Cloudinary CDN...</span>
+              </div>
+            )}
+            <iframe
+              src={`${pdfUrl}#view=FitH&toolbar=1&navpanes=0`}
+              title={`Dokumen PDF ${letter.id}`}
+              className="w-full h-full border rounded bg-white shadow-inner"
+              style={{ width: '100%', height: '100%', border: '1px solid #cbd5e1' }}
+              onLoad={() => setPdfLoading(false)}
+            />
+          </>
         ) : (
           <div className="empty p-8 text-center text-slate-500">
             <Icon name="file" size={32} />

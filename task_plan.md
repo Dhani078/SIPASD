@@ -96,6 +96,18 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Isolasi penuh kredensial di `credentials/` dan proteksi `.gitignore` anti-leaked ke GitHub.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 8: Deep Audit Keamanan, UX/Performa & Pengujian Ekstensif (100% COMPLETE)
+- [x] Pasang security headers di `next.config.ts` (X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy).
+- [x] Pasang pengaman autentikasi sesi dan sanitasi input server-side pada route `/api/letters` (POST dan DELETE).
+- [x] Bersihkan seluruh hardcoded secrets dan fallback credentials di `src/lib/auth.ts`, `src/app/api/pdf/route.ts`, dan `src/lib/cloudinary.ts`.
+- [x] Buat komponen loading skeleton `src/app/loading.tsx` dengan animasi shimmer.
+- [x] Buat komponen error boundary `src/app/error.tsx` dan not-found `src/app/not-found.tsx`.
+- [x] Tambahkan state indikator spinner loading pada penampil PDF `src/components/PdfPreviewPanel.tsx`.
+- [x] Sempurnakan animasi masuk dan ikon status pada toast notifikasi di `src/components/SipasdApp.tsx`.
+- [x] Ekspansi test suite `scripts/verify-system.ts` menjadi 6 pengujian otomatis (TiDB, Cloudinary, Modular 200 LOC, Zero Em-Dash, Security Headers & Auth Guards, Zero Secrets).
+- [x] Buat dokumen laporan audit dan roadmap perbaikan di `docs/DEEP_AUDIT_ROADMAP.md`.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

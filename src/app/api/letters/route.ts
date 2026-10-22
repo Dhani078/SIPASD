@@ -19,8 +19,18 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ success: false, message: 'Akses ditolak. Sesi tidak ditemukan.' }, { status: 401 });
+    }
     const body = await request.json();
-    const agendaNumber = await insertNewLetter(body, session?.id || 'usr-admin-01');
+    if (!body.number || !body.origin || !body.subject) {
+      return NextResponse.json({ success: false, message: 'Nomor surat, instansi, dan perihal wajib diisi.' }, { status: 400 });
+    }
+    const sanitize = (s: string) => String(s).replace(/[<>]/g, '').trim().slice(0, 500);
+    body.number = sanitize(body.number);
+    body.origin = sanitize(body.origin);
+    body.subject = sanitize(body.subject);
+    const agendaNumber = await insertNewLetter(body, session.id);
     return NextResponse.json({
       success: true,
       message: 'Arsip berhasil disimpan',
@@ -37,6 +47,10 @@ export async function POST(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ success: false, message: 'Akses ditolak. Sesi tidak ditemukan.' }, { status: 401 });
+    }
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
     const direction = (searchParams.get('direction') as 'in' | 'out') || 'in';

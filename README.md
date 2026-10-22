@@ -30,10 +30,22 @@ Kondisi eksisting penyimpanan Google Drive:
 
 | Role | Identitas Akun | Peruntukan Jabatan | Hak Akses & Wewenang |
 | :--- | :--- | :--- | :--- |
-| **Super Admin** | `admin` | Administrator IT Dispora | Manajemen akun, master klasifikasi surat, konfigurasi sistem, audit trail. |
+| **Super Admin** | `admin` / `rana` / `developer` | Administrator IT Dispora / Pemberi Tugas / Developer | Manajemen akun, master klasifikasi surat, konfigurasi sistem, audit trail. |
 | **Petugas Arsip** | `tu_umum` | Staf Tata Usaha / Arsiparis | Pengindeksan arsip surat baru, input metadata disposisi fisik, ekspor buku agenda. |
 | **Pimpinan** | `kadis` / `sekretaris` | Kepala Dinas / Sekretaris | Pencarian cepat dokumen, monitoring volume arsip dinas, rekapitulasi agenda. |
 | **Bidang / Seksi** | `kabid_pora` / `subbag_keuangan` | Kepala Bidang / Kasubbag | Pencarian dan pratinjau arsip surat disposisi sesuai bidang tugasnya. |
+
+### Login Credentials (Development)
+
+| Username | Password | Nama Lengkap | Role | Jabatan |
+|----------|----------|--------------|------|---------|
+| `rana` | `rana2026` | Rana Nur Syifa | SUPER_ADMIN | Analis Anggaran - Ahli Pertama (Pemberi Tugas) |
+| `developer` | `dev2026` | Muhammad Rizki Ramadhani | SUPER_ADMIN | Mahasiswa Magang TI UNISKA (Developer) |
+| `admin` | `admin123` | Administrator | SUPER_ADMIN | Administrator IT Dispora |
+| `tu_umum` | `tu2026` | Petugas TU | PETUGAS_ARSIP | Staf Tata Usaha |
+| `kadis` | `kadis2026` | Kepala Dinas | PIMPINAN | Pebriadin Hapiz, AP, M.Si |
+
+**Note**: Credentials produksi akan diganti dengan NIP real pegawai Dispora setelah sidang magang.
 
 ---
 

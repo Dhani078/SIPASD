@@ -33,5 +33,10 @@ jobs:
       - name: Test Production Build
         run: npm run build
         env:
+          CI: true
           NEXT_TELEMETRY_DISABLED: 1
-          DATABASE_URL: "mysql://mock:mock@localhost:4000/sipasd"
+          DATABASE_URL: "mysql://mock:***@localhost:4000/sipasd"
+          JWT_SECRET: "ci_pipeline_jwt_secret_build_key_minimum_32_chars"
+          CLOUDINARY_CLOUD_NAME: "mock_cloud"
+          CLOUDINARY_API_KEY: "123456789"
+          CLOUDINARY_API_SECRET: "mock_secret"

@@ -2,7 +2,7 @@
 
 ## Sesi 1: Inisialisasi Arsitektur, Riset Data Riil & Penyusunan Dokumen Spesifikasi Awal
 **Tanggal**: 20 Oktober 2026  
-**Operator / Agen**: Hermes Agent (Dhani078 / dhanisepeda@gmail.com)
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
 - Inspeksi 420 berkas riil di `C:\xampp\htdocs\Laporan Magang`.
 - Penetapan nama resmi sistem: SIPASD.
 - Penyusunan 30 dokumen Markdown arsitektur dan naskah Laporan Magang Bab I s/d Bab V.
@@ -11,7 +11,7 @@
 
 ## Sesi 2: Penyempurnaan PRD 100/100, Inisialisasi Cloud TiDB, Cloudinary, Google Drive & Audit Desain Modular
 **Tanggal**: 20 - 21 Oktober 2026  
-**Operator / Agen**: Hermes Agent (Dhani078 / dhanisepeda@gmail.com)
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
 
 ### Aktivitas yang Telah Diselesaikan
 1. **Penyusunan PRD 100/100 Maxx Mode**:
@@ -36,7 +36,7 @@
 
 ## Sesi 3: Porting & Integrasi Penuh Komponen Modular ke Next.js 15 App Router & TiDB Live
 **Tanggal**: 21 Oktober 2026  
-**Operator / Agen**: Hermes Agent (Dhani078 / dhanisepeda@gmail.com)
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
 
 ### Aktivitas yang Telah Diselesaikan
 1. **Porting 18 Komponen Modular ke Next.js 15 App Router**:
@@ -78,7 +78,7 @@
 
 ## Sesi 4: Otomatisasi Dual-Upload Google Drive 5 TB & Sinkronisasi 420 Berkas Riil
 **Tanggal**: 22 Oktober 2026  
-**Operator / Agen**: Hermes Agent (Dhani078 / dhanisepeda@gmail.com)
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
 
 ### Aktivitas yang Telah Diselesaikan
 1. **Otorisasi Google Drive OAuth 2.0 (Akun 5 TB)**:
@@ -103,7 +103,7 @@
 
 ## Sesi 5: Deep Audit Keamanan, UX/Performa, Loading Skeleton, Error Boundary & Pengujian Tambahan
 **Tanggal**: 22 Oktober 2026  
-**Operator / Agen**: Hermes Agent (Dhani078 / dhanisepeda@gmail.com)
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
 
 ### Aktivitas yang Telah Diselesaikan
 1. **Audit & Remediasi Keamanan Ketat (P0 Security Hardening)**:

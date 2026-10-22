@@ -1,6 +1,6 @@
 # DEEP AUDIT & ROADMAP PERBAIKAN SIPASD
 **Tanggal**: 22 Oktober 2026
-**Auditor**: Hermes Agent (Senior Fullstack & Mobile Dev)
+**Auditor / Pengembang**: Muhammad Rizki Ramadhani (Dhani078)
 **Commit Awal**: `512278d` (branch: main)
 
 ---

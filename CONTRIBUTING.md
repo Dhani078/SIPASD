@@ -4,14 +4,20 @@ Pedoman standar kontribusi, tata kelola cabang git, dan format komit pada reposi
 
 ---
 
-## 👤 Identitas Komit Pengembang (Wajib)
+## 👤 Identitas Pengembang Tunggal (Sole Contributor Policy)
+
+Repositori ini merupakan karya individual Kerja Praktik (Magang) mahasiswa Teknik Informatika UNISKA Banjarmasin. Seluruh perancangan, penulisan kode, pengujian, dan pemeliharaan dokumentasi dilakukan secara mandiri oleh satu kontributor tunggal:
+
+* **Pengembang Tunggal**: Muhammad Rizki Ramadhani ([@Dhani078](https://github.com/Dhani078))
+* **Email Resmi**: `dhanisepeda@gmail.com`
+* **NPM**: 2310010406
 
 Seluruh komit harus dilakukan menggunakan kredensial resmi agar tercatat pada riwayat kontribusi GitHub:
 ```bash
 git config user.name "Dhani078"
 git config user.email "dhanisepeda@gmail.com"
 ```
-*Catatan: Dilarang menggunakan email anonim / dummy agar indikator kontribusi (kotak hijau) aktif.*
+*Catatan: Dilarang menggunakan email anonim / akun lain agar indikator kontribusi (kotak hijau) aktif dan kepemilikan kode sumber terverifikasi.*
 
 ---
 

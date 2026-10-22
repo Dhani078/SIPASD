@@ -105,6 +105,23 @@ SIPASD/
 
 ---
 
+## 👨‍💻 Kontributor & Pengembang Tunggal (Sole Contributor)
+
+Proyek ini dirancang, dibangun, dan dipelihara secara mandiri (100% Solo Project) oleh satu-satunya pengembang:
+
+* **Nama Lengkap**: Muhammad Rizki Ramadhani
+* **NPM**: 2310010406
+* **Program Studi**: S1 Teknik Informatika, Fakultas Teknologi Informasi
+* **Perguruan Tinggi**: Universitas Islam Kalimantan (UNISKA) Muhammad Arsyad Al Banjari Banjarmasin
+* **Akun GitHub**: [@Dhani078](https://github.com/Dhani078)
+* **Email Resmi**: dhanisepeda@gmail.com
+* **Instansi Magang**: Sekretariat Dinas Kepemudaan dan Olahraga Provinsi Kalimantan Selatan
+* **Peran**: Lead Software Engineer, System Architect & Sole Contributor
+
+> **Catatan Integritas Akademik & Repositori**: Repositori ini dikembangkan secara individual sebagai produk Kerja Praktik (Magang). Seluruh komit, penulisan kode, perancangan basis data, integrasi cloud, dan naskah dokumentasi dibuat secara mandiri tanpa kontributor lain.
+
+---
+
 ## 👤 Informasi Mahasiswa
 - **Nama**: Muhammad Rizki Ramadhani
 - **NPM**: 2310010406

@@ -27,11 +27,29 @@ export function shortDate(date: string) {
 }
 
 export function matchesSearch(
-  letter: { id: string; number: string; subject: string; origin: string },
+  letter: {
+    id: string;
+    number: string;
+    subject: string;
+    origin: string;
+    summary?: string;
+    classification?: string;
+    venue?: string;
+    division?: string;
+  },
   query: string
 ) {
   if (!query) return true;
-  return [letter.id, letter.number, letter.subject, letter.origin]
+  return [
+    letter.id,
+    letter.number,
+    letter.subject,
+    letter.origin,
+    letter.summary || '',
+    letter.classification || '',
+    letter.venue || '',
+    letter.division || '',
+  ]
     .join(' ')
     .toLocaleLowerCase('id')
     .includes(query.trim().toLocaleLowerCase('id'));

@@ -55,7 +55,7 @@ export function classifyText(text: string): ClassificationResult {
     .filter((w) => w.length > 2);
 
   let bestCode = '005';
-  let bestScore = -1;
+  let bestScore = 0;
 
   for (const [code, cat] of Object.entries(CATEGORY_VOCAB)) {
     let score = 0;

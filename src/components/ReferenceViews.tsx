@@ -2,6 +2,7 @@
 
 import ArchiveTable from './ArchiveTable';
 import DistributionView from './DistributionView';
+import DispositionHistoryView from './DispositionHistoryView';
 import Icon from './Icon';
 import Badge from './Badge';
 import Modal from './Modal';
@@ -76,6 +77,9 @@ export function ReferenceViews({
 
   if (page === 'distribution')
     return <DistributionView letters={letters} onExport={onExport} />;
+
+  if (page === 'history')
+    return <DispositionHistoryView letters={letters} onSelect={onSelect} onExport={onExport} />;
 
   return (
     <section className="panel">

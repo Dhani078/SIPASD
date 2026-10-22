@@ -38,7 +38,7 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
              sm.asal_instansi, sm.perihal, sm.ringkasan_isi, sm.sifat_surat, sm.file_url,
              sm.cloudinary_public_id, sm.drive_url, sm.file_name_original,
              rd.pejabat_pendisposisi, rd.tanggal_disposisi, rd.instruksi_tercatat,
-             rd.catatan_tertulis, b.nama_bidang as nama_bidang_disposisi
+             rd.catatan_tertulis, rd.status_penyelesaian, b.nama_bidang as nama_bidang_disposisi
       FROM arsip_surat_masuk sm
       LEFT JOIN riwayat_disposisi rd ON sm.id = rd.surat_masuk_id
       LEFT JOIN bidang_dispora b ON rd.kepada_bidang_id = b.id
@@ -81,6 +81,7 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
         division: div,
         instructions: (r.instruksi_tercatat || 'Tindak Lanjuti').split(/[;,]+/).map((s: string) => s.trim()).filter(Boolean),
         notes: r.catatan_tertulis || 'Disposisi tercatat di sistem.',
+        status: r.status_penyelesaian || 'SELESAI',
       },
       fileUrl: r.file_url,
       driveUrl: r.drive_url || 'https://drive.google.com/drive/folders/1deTFD7oICTXkkMs5HzS-bhtZzvCqfW9n',

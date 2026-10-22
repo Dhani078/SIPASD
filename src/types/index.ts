@@ -31,6 +31,7 @@ export interface Disposition {
   division: string;
   instructions: string[];
   notes: string;
+  status?: 'BELUM_DIPROSES' | 'PROSES' | 'SELESAI';
 }
 
 export interface LetterRecord {

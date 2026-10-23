@@ -5,7 +5,13 @@ Format: `[YYYY-MM-DD] Fitur/Perbaikan - Deskripsi`
 
 ---
 
-## [2026-10-22] Addendum: Modal Info Fungsi Riwayat Disposisi Fisik
+## [2026-10-22] Addendum: Modal Info Fungsi Buku Ekspedisi Surat Keluar
+
+- **Penyederhanaan Tata Letak Ekspedisi**: banner biru besar penjelasan buku ekspedisi di `DistributionView.tsx` diganti menjadi tombol ringkas 'Info Fungsi' beraksen biru halus (#eff6ff / #1d4ed8) dan lencana hitungan 'Tercatat: X/Y' di samping judul panel.
+- **Komponen Baru (`ExpeditionInfoModal.tsx`)**: jendela dialog sembul yang menjelaskan tanda terima distribusi fisik surat keluar, peran kurir dinas pengantar, tanda tangan penerima resmi instansi tujuan, dan kepastian hukum penyampaian naskah dinas.
+- **Kepatuhan Modular**: `DistributionView.tsx` 178 baris dan `ExpeditionInfoModal.tsx` 45 baris (seluruh 66 berkas src/ tetap patuh <= 200 baris kode).
+
+---
 
 - **Penyederhanaan Tata Letak**: banner besar penjelasan fungsi disposisi di atas tabel riwayat disposisi diubah menjadi tombol kecil rapi berlabel 'Info Fungsi' di samping judul panel.
 - **Komponen Baru (`DispositionInfoModal.tsx`)**: tombol 'Info Fungsi' diklik membuka jendela sembul (modal dialog) berisi penjelasan lengkap fungsi pencatatan lembar disposisi fisik, pejabat pendisposisi, bidang pelaksana, dan monitoring status tindak lanjut.

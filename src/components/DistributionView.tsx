@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import Icon from './Icon';
 import ExpeditionFormModal from './ExpeditionFormModal';
+import ExpeditionInfoModal from './ExpeditionInfoModal';
 import { formatDate } from '@/lib/format';
 import type { LetterRecord } from '@/types';
 
@@ -23,6 +24,7 @@ interface Props {
 
 export default function DistributionView({ letters, onExport }: Props) {
   const [showForm, setShowForm] = useState(false);
+  const [showInfo, setShowInfo] = useState(false);
   const [selectedLetter, setSelectedLetter] = useState<LetterRecord | null>(null);
   const [records, setRecords] = useState<Record<string, ExpeditionRecord>>({});
   const [notice, setNotice] = useState<string | null>(null);
@@ -50,7 +52,21 @@ export default function DistributionView({ letters, onExport }: Props) {
     <section className="panel">
       <div className="panel-heading">
         <div>
-          <h2>Buku Ekspedisi Surat Keluar</h2>
+          <div className="flex items-center gap-2">
+            <h2>Buku Ekspedisi Surat Keluar</h2>
+            <button
+              type="button"
+              className="inline-flex items-center gap-1 text-[11px] font-medium text-blue-800 bg-blue-50 hover:bg-blue-100 border border-blue-200 px-2 py-0.5 rounded-full transition-colors cursor-pointer"
+              onClick={() => setShowInfo(true)}
+              title="Klik untuk melihat penjelasan fungsi buku ekspedisi"
+            >
+              <Icon name="shield" size={12} />
+              <span>Info Fungsi</span>
+            </button>
+            <span className="text-[11px] font-semibold text-slate-600 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded">
+              Tercatat: {tercatat}/{suratKeluar.length}
+            </span>
+          </div>
           <p>Catatan distribusi fisik & tanda terima penerima surat kedinasan</p>
         </div>
         <div className="flex gap-2">
@@ -62,20 +78,6 @@ export default function DistributionView({ letters, onExport }: Props) {
             <Icon name="plus" />
             Catat Distribusi
           </button>
-        </div>
-      </div>
-
-      <div className="p-4 bg-blue-50 border border-blue-200 rounded mb-4">
-        <div className="flex items-start gap-3">
-          <Icon name="shield" size={20} />
-          <div className="text-sm text-slate-700">
-            <b className="block mb-1">Fungsi Buku Ekspedisi</b>
-            <p>
-              Buku Ekspedisi mencatat tanda terima distribusi fisik surat keluar oleh kurir dinas.
-              Setiap entri merekam tanggal kirim, kurir pengirim, penerima beserta telepon, dan catatan serah terima.
-              Sudah tercatat: <b>{tercatat}</b> dari {suratKeluar.length} surat keluar.
-            </p>
-          </div>
         </div>
       </div>
 
@@ -162,6 +164,14 @@ export default function DistributionView({ letters, onExport }: Props) {
             await loadRecords();
             setNotice('Catatan distribusi berhasil disimpan ke TiDB.');
           }}
+        />
+      )}
+
+      {showInfo && (
+        <ExpeditionInfoModal
+          tercatat={tercatat}
+          total={suratKeluar.length}
+          onClose={() => setShowInfo(false)}
         />
       )}
     </section>

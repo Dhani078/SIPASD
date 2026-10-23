@@ -5,7 +5,8 @@ import Icon from './Icon';
 import Crest from './Crest';
 import Badge from './Badge';
 import Letter from './Letter';
-import { venues } from '@/data/constants';
+import LandingFeatures from './LandingFeatures';
+import { venues, defaultSampleLetter } from '@/data/constants';
 import type { LetterRecord } from '@/types';
 
 interface Props {
@@ -18,32 +19,14 @@ interface Props {
   totalSuratKeluar?: number;
 }
 
-const defaultSample: LetterRecord = {
-  id: '1099',
-  number: 'NOMOR/1099/DISPORA/2026',
-  origin: 'Instansi Pemerintah / Pengprov Cabang Olahraga Kalsel',
-  subject: 'Surat Masuk Terkait Agenda Dispora Prov. Kalsel',
-  date: '2026-09-08',
-  type: 'Kilat',
-  direction: 'in',
-  classification: '005',
-  venue: 'Lap. Tenis Dharma Praja',
-  division: 'Peningkatan Prestasi',
-  disposition: {
-    official: 'Pebriadin Hapiz, AP, M.Si',
-    date: '2026-09-08',
-    division: 'Peningkatan Prestasi',
-    instructions: ['Tindak Lanjuti', 'Koordinasikan'],
-    notes: 'Segera koordinasikan dengan panitia daerah.',
-  },
-};
+const QUICK_TAGS = ['0899', '1039', '3802', 'Dispora', 'Kejurprov', 'Sekda'];
 
 export default function LandingPage({
   go,
   onTrack,
   onVenue,
   setModal,
-  sampleLetter = defaultSample,
+  sampleLetter = defaultSampleLetter,
   totalSuratMasuk = 170,
   totalSuratKeluar = 241,
 }: Props) {
@@ -61,98 +44,130 @@ export default function LandingPage({
         </div>
         <nav>
           <a href="#beranda">Beranda</a>
-          <a href="#statistik">Statistik Arsip</a>
-          <button onClick={() => setModal('classification')}>
-            Kode Klasifikasi
-          </button>
-          <button onClick={() => setModal('sop')}>Panduan SOP</button>
+          <a href="#statistik">Statistik</a>
+          <a href="#fitur">Keunggulan</a>
+          <a href="#venue">Venue</a>
+          <button type="button" onClick={() => setModal('classification')}>Klasifikasi</button>
+          <button type="button" onClick={() => setModal('sop')}>SOP</button>
         </nav>
-        <button className="btn primary" onClick={() => go('login')}>
-          <Icon name="shield" />
-          Masuk ke Sistem <Icon name="arrow" />
+        <button type="button" className="btn primary flex items-center gap-1.5" onClick={() => go('login')}>
+          <Icon name="shield" size={15} />
+          <span>Masuk Sistem</span>
+          <Icon name="arrow" size={13} />
         </button>
       </header>
 
       <main className="landing-main" id="beranda">
         <section className="hero">
           <div>
-            <div className="official-pill">
-              TRANSFORMASI SPBE KALSEL MAJU - TA 2026
+            <div className="official-pill inline-flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>TRANSFORMASI SPBE KALSEL MAJU - TA 2026</span>
             </div>
-            <h1>
+            <h1 className="mt-4">
               Sistem Pengelolaan
               <br />
-              Arsip Surat &amp;<br />
+              Arsip Surat &amp;
+              <br />
               <em>Disposisi Terpadu.</em>
             </h1>
-            <p>
-              Repositori digital resmi Sekretariat Dispora Kalsel. Temu-kembali
-              410+ dokumen fisik pindaian dalam waktu &lt; 2 detik.
+            <p className="mt-3">
+              Repositori digital resmi Sekretariat Dispora Kalsel. Temu-kembali 411+ berkas fisik pindaian dalam waktu &lt; 2 detik via peramban HP dan PC.
             </p>
+
             <form
-              className="tracking"
+              className="tracking mt-6"
               onSubmit={(event) => {
                 event.preventDefault();
                 onTrack(query);
               }}
             >
-              <label htmlFor="archive-tracker">
-                Lacak Status Disposisi Berkas
+              <label htmlFor="archive-tracker" className="block text-xs font-semibold text-slate-800 mb-2">
+                Lacak Cepat Status Disposisi &amp; Berkas
               </label>
-              <div className="search">
-                <Icon name="search" />
+              <div className="search flex items-center">
+                <Icon name="search" size={16} />
                 <input
                   id="archive-tracker"
-                  placeholder="Masukkan nomor agenda / surat..."
+                  placeholder="Masukkan nomor agenda / instansi / perihal..."
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
+                  className="flex-1 text-xs"
                 />
-                <button className="btn primary" type="submit">
-                  Cari Arsip <Icon name="arrow" />
+                <button className="btn primary flex items-center gap-1 text-xs px-3.5 py-1.5" type="submit">
+                  <span>Cari Arsip</span>
+                  <Icon name="arrow" size={12} />
                 </button>
               </div>
             </form>
-            <small className="trust">
-              <Icon name="shield" size={16} /> {totalSuratMasuk} Surat Masuk -{' '}
-              {totalSuratKeluar} Surat Keluar - 11 Venue Olahraga
+
+            <div className="flex items-center gap-1.5 mt-3 flex-wrap text-[11px] text-slate-500">
+              <span className="text-slate-400">Pencarian cepat:</span>
+              {QUICK_TAGS.map((tag) => (
+                <button
+                  key={tag}
+                  type="button"
+                  className="px-2 py-0.5 bg-slate-100 hover:bg-emerald-50 hover:text-emerald-800 text-slate-600 rounded text-[10px] font-mono border border-slate-200 transition-colors"
+                  onClick={() => {
+                    setQuery(tag);
+                    onTrack(tag);
+                  }}
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+
+            <small className="trust mt-4 text-xs text-slate-500 flex items-center gap-2">
+              <Icon name="shield" size={15} />
+              <span>{totalSuratMasuk} Surat Masuk • {totalSuratKeluar} Surat Keluar • TiDB Cloud Serverless SSL</span>
             </small>
           </div>
 
           <div className="hero-document">
             <div className="doc-floating">
-              <Badge type="Kilat" /> Disposisi terverifikasi{' '}
-              <Icon name="check" />
+              <Badge type="Kilat" /> Disposisi Terverifikasi <Icon name="check" size={14} />
             </div>
             <Letter letter={sampleLetter} />
             <div className="verified">
-              <Icon name="shield" />
-              Arsip aman. Pelayanan lebih cepat.
+              <Icon name="shield" size={15} />
+              <span>Arsip resmi terlindungi • Pelayanan akuntabel</span>
             </div>
           </div>
         </section>
 
-        <section id="statistik" className="public-stats">
+        <section id="statistik" className="public-stats shadow-xs">
           {[
-            [String(totalSuratMasuk), 'Surat Masuk Terindeks'],
-            [String(totalSuratKeluar), 'Surat Keluar Terverifikasi'],
-            ['11', 'Venue Olahraga Terkelola'],
-            ['< 2s', 'Kecepatan Temu-Kembali'],
-          ].map(([n, t]) => (
-            <div key={t}>
-              <strong>{n}</strong>
-              <span>{t}</span>
+            [String(totalSuratMasuk), 'Surat Masuk Terindeks', 'TA 2026'],
+            [String(totalSuratKeluar), 'Surat Keluar Terverifikasi', 'Terdokumentasi'],
+            ['11', 'Venue Olahraga Banua', 'Aset Terkelola'],
+            ['< 2s', 'Kecepatan Temu-Kembali', 'Indeks Real-Time'],
+          ].map(([n, t, sub]) => (
+            <div key={t} className="p-4 text-center">
+              <strong className="text-3xl text-emerald-950 font-bold block">{n}</strong>
+              <span className="text-xs font-semibold text-slate-800 mt-1 block">{t}</span>
+              <small className="text-[10px] text-emerald-700 block mt-0.5">{sub}</small>
             </div>
           ))}
         </section>
 
-        <section className="public-venues">
-          <div className="eyebrow">ASET OLAHRAGA BANUA</div>
-          <h2>11 venue. Satu sistem pengelolaan.</h2>
-          <div className="venue-chips">
+        <div id="fitur">
+          <LandingFeatures />
+        </div>
+
+        <section id="venue" className="public-venues">
+          <div className="eyebrow text-xs font-bold text-emerald-800 tracking-wider">ASET OLAHRAGA BANUA</div>
+          <h2 className="text-2xl font-bold text-slate-900 mt-1 mb-4">11 venue olahraga. Satu sistem pengelolaan.</h2>
+          <div className="venue-chips flex flex-wrap gap-2">
             {venues.map((v) => (
-              <button onClick={() => onVenue(v)} key={v}>
-                <Icon name="pin" size={14} />
-                {v}
+              <button
+                type="button"
+                className="hover:border-emerald-500 hover:text-emerald-800 transition-colors flex items-center gap-1.5 px-3 py-2 text-xs rounded border border-slate-200 bg-white"
+                onClick={() => onVenue(v)}
+                key={v}
+              >
+                <Icon name="pin" size={13} />
+                <span>{v}</span>
               </button>
             ))}
           </div>
@@ -160,11 +175,12 @@ export default function LandingPage({
       </main>
 
       <footer className="public-footer">
-        <span>Jalan Pramuka No. 4 Banjarmasin, Kalimantan Selatan 70249</span>
-        <small>
-          (c) 2026 Dispora Prov. Kalsel &amp; UNISKA Banjarmasin - Muhammad Rizki
-          Ramadhani - 2310010406
-        </small>
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-3 w-full text-xs text-slate-500">
+          <span>Dinas Kepemudaan dan Olahraga Provinsi Kalimantan Selatan • Jl. Pramuka No. 4 Banjarmasin 70249</span>
+          <small className="text-[11px] text-slate-400">
+            © 2026 SIPASD Dispora Kalsel • Mahasiswa Magang TI UNISKA Banjarmasin (Dhani078)
+          </small>
+        </div>
       </footer>
     </div>
   );

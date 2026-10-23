@@ -28,3 +28,23 @@ export const classifications = [
   ['045', 'Kearsipan'],
   ['900', 'Keuangan'],
 ] as const;
+
+export const defaultSampleLetter = {
+  id: '0899',
+  number: '400.8.1/01549/Kesra/2026',
+  origin: 'Sekretariat Daerah Prov. Kalimantan Selatan',
+  subject: 'Pelaksanaan Kegiatan Bersih-Bersih Masjid dalam Rangka Hari Jadi ke-76 Provinsi Kalimantan Selatan',
+  date: '2026-07-31',
+  type: 'Kilat' as const,
+  direction: 'in' as const,
+  classification: '005',
+  venue: 'Lap. Tenis Dharma Praja',
+  division: 'Sekretariat',
+  disposition: {
+    official: 'Pebriadin Hapiz, AP, M.Si',
+    date: '2026-07-31',
+    division: 'Sekretariat',
+    instructions: ['Tindak Lanjuti', 'Koordinasikan'],
+    notes: 'Segera koordinasikan persiapan dengan panitia daerah.',
+  },
+};

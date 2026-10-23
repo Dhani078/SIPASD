@@ -5,7 +5,18 @@ Format: `[YYYY-MM-DD] Fitur/Perbaikan - Deskripsi`
 
 ---
 
-## [2026-10-22] Addendum: Modal Info Fungsi Buku Ekspedisi Surat Keluar
+## [2026-10-22] Addendum: Desain Ulang Landing Page Publik Menjadi Lebih Modern dan Berdaya Saing
+
+- **Peningkatan Tampilan Header & Hero**:
+  - Lencana status 'TRANSFORMASI SPBE KALSEL MAJU - TA 2026' dengan indikator denyut hijau hidup (live pulse dot).
+  - Penambahan tombol pintasan kata kunci pencarian cepat (`0899`, `1039`, `3802`, `Dispora`, `Kejurprov`, `Sekda`) di bawah kolom pelacak berkas, memungkinkan pelacakan instan sekali klik.
+  - Kartu dokumen percontohan memakai naskah autentik `0899/SM/DISPORA/2026` dengan pita verifikasi kedinasan resmi.
+- **Komponen Baru 3 Pilar Keunggulan (`LandingFeatures.tsx`)**:
+  - Menampilkan kartu keunggulan sistem: Pencarian Instan < 2 Detik, Streaming PDF In-Browser (Cloud CDN + GDrive 5 TB), serta Riwayat Disposisi & Ekspedisi berstandar SPBE Pemprov Kalsel.
+- **Kartu Statistik Interaktif**: 4 kartu statistik pencapaian dengan sub-label status real-time (170 Surat Masuk, 241 Surat Keluar, 11 Venue Olahraga Banua, Kecepatan Temu-Kembali < 2 Detik).
+- **Kepatuhan Modular**: `LandingPage.tsx` berukuran 186 baris dan `LandingFeatures.tsx` 62 baris (seluruh 67 berkas src/ tetap patuh <= 200 baris kode).
+
+---
 
 - **Penyederhanaan Tata Letak Ekspedisi**: banner biru besar penjelasan buku ekspedisi di `DistributionView.tsx` diganti menjadi tombol ringkas 'Info Fungsi' beraksen biru halus (#eff6ff / #1d4ed8) dan lencana hitungan 'Tercatat: X/Y' di samping judul panel.
 - **Komponen Baru (`ExpeditionInfoModal.tsx`)**: jendela dialog sembul yang menjelaskan tanda terima distribusi fisik surat keluar, peran kurir dinas pengantar, tanda tangan penerima resmi instansi tujuan, dan kepastian hukum penyampaian naskah dinas.

@@ -15,25 +15,27 @@ interface Props {
 export default function PdfPreviewPanel({ letter, onClose, onPrint, onDelete }: Props) {
   const [pdfLoading, setPdfLoading] = useState(true);
   const [fitMode, setFitMode] = useState<'page' | 'width'>('page');
+  const [maximized, setMaximized] = useState(false);
+
   const pdfUrl = letter.fileUrl
     ? `/api/pdf?url=${encodeURIComponent(letter.fileUrl)}`
     : '/placeholder-surat.pdf';
-  
-  // Deteksi fallback URL folder → redirect ke folder spesifik Surat Masuk/Keluar
+
   let driveUrl = letter.driveUrl || 'https://drive.google.com';
   if (driveUrl.includes('folders/1deTFD7oICTXkkMs5HzS') || driveUrl.includes('folders/1rgWCFwULt8awBCVIuomy')) {
     driveUrl = letter.direction === 'in'
       ? 'https://drive.google.com/drive/folders/1deTFD7oICTXkkMs5HzS-bhtZzvCqfW9n'
       : 'https://drive.google.com/drive/folders/1rgWCFwULt8awBCVIuomy7cELKqEtbdkx';
   }
-  
+
   const viewHash = fitMode === 'page' ? '#view=Fit&zoom=page-fit' : '#view=FitH';
+  const cleanAgenda = letter.id.replace(/\/(SM|SK)\/.*$/i, '');
 
   return (
     <Modal
-      title={`Pratinjau Berkas Fisik: No. Agenda ${letter.id}/${letter.direction === 'in' ? 'SM' : 'SK'}/2026`}
+      title={`Pratinjau Berkas Fisik: No. Agenda ${cleanAgenda}/${letter.direction === 'in' ? 'SM' : 'SK'}/2026`}
       onClose={onClose}
-      className="pdf-modal-popup"
+      className={`pdf-modal-popup ${maximized ? 'pdf-modal-fullscreen' : ''}`}
       overlayClassName="pdf-overlay-popup"
     >
       <div className="pdf-modal-meta">
@@ -42,52 +44,76 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onDelete }: 
         <span className="text-slate-600">{letter.subject}</span>
       </div>
 
-      <div className="document-tools my-2 flex items-center justify-between flex-wrap gap-2">
-        <div className="flex items-center gap-2">
+      <div className="document-tools my-1.5 flex items-center justify-between flex-wrap gap-2">
+        <div className="flex items-center gap-1.5 flex-wrap">
           <button
             type="button"
-            className="btn outline py-1 px-3 text-xs"
-            title="Ubah mode tampilan: Halaman Utuh atau Lebar Penuh"
+            className="hover:border-emerald-500 hover:text-emerald-800 transition-colors"
+            title="Ubah skala halaman utuh atau lebar penuh"
             onClick={() => setFitMode((m) => (m === 'page' ? 'width' : 'page'))}
           >
-            <Icon name="eye" size={14} /> {fitMode === 'page' ? 'Tampilan: 1 Lembar Utuh' : 'Tampilan: Lebar Penuh'}
+            <Icon name="eye" size={13} />
+            <span>{fitMode === 'page' ? '1 Lembar Utuh' : 'Lebar Penuh'}</span>
           </button>
+
           <button
             type="button"
-            className="btn outline py-1 px-3 text-xs"
-            title="Buka dokumen PDF di tab peramban baru"
+            className="hover:border-emerald-500 hover:text-emerald-800 transition-colors"
+            title={maximized ? 'Kembalikan ukuran normal' : 'Perluas tampilan PDF layar penuh'}
+            onClick={() => setMaximized((v) => !v)}
+          >
+            <Icon name={maximized ? 'minimize' : 'maximize'} size={13} />
+            <span>{maximized ? 'Kecilkan' : 'Layar Penuh'}</span>
+          </button>
+
+          <button
+            type="button"
+            className="hover:border-emerald-500 hover:text-emerald-800 transition-colors"
+            title="Buka dokumen di tab peramban baru"
             onClick={() => window.open(pdfUrl, '_blank', 'noopener,noreferrer')}
           >
-            <Icon name="eye" size={14} /> Tab Baru
+            <Icon name="eye" size={13} />
+            <span>Tab Baru</span>
           </button>
+
           <button
             type="button"
-            className="btn outline py-1 px-3 text-xs"
-            title="Unduh dokumen fisik asli"
+            className="hover:border-emerald-500 hover:text-emerald-800 transition-colors"
+            title="Unduh dokumen asli"
             onClick={() => {
               const a = document.createElement('a');
               a.href = pdfUrl;
-              a.download = `${letter.id}.pdf`;
+              a.download = `${cleanAgenda}.pdf`;
               a.target = '_blank';
               a.click();
             }}
           >
-            <Icon name="download" size={14} /> Unduh PDF
+            <Icon name="download" size={13} />
+            <span>Unduh PDF</span>
           </button>
         </div>
+
         <div className="flex items-center gap-2">
           {onDelete && (
             <button
               type="button"
-              className="btn outline py-1 px-3 text-xs text-red-600 border-red-200 hover:bg-red-50"
+              className="btn-danger-outline transition-colors"
               title="Hapus berkas arsip ini dari sistem"
               onClick={onDelete}
             >
-              <Icon name="close" size={13} /> Hapus
+              <Icon name="close" size={13} />
+              <span>Hapus</span>
             </button>
           )}
-          <button type="button" className="btn primary py-1 px-3 text-xs" onClick={onPrint}>
-            <Icon name="print" size={14} /> Cetak Disposisi
+
+          <button
+            type="button"
+            className="btn-disposisi-primary transition-all active:scale-95"
+            title="Buka lembar cetak disposisi pimpinan"
+            onClick={onPrint}
+          >
+            <Icon name="print" size={14} />
+            <span>Cetak Disposisi</span>
           </button>
         </div>
       </div>
@@ -102,9 +128,9 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onDelete }: 
               </div>
             )}
             <iframe
-              key={viewHash}
+              key={`${viewHash}-${maximized}`}
               src={`${pdfUrl}${viewHash}&toolbar=1&navpanes=0`}
-              title={`Dokumen PDF ${letter.id}`}
+              title={`Dokumen PDF ${cleanAgenda}`}
               className="w-full h-full border rounded bg-white shadow-inner"
               style={{ width: '100%', height: '100%', border: '1px solid #cbd5e1' }}
               onLoad={() => setPdfLoading(false)}
@@ -128,7 +154,8 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onDelete }: 
           className="drive-link text-emerald-800 font-medium flex items-center gap-1"
           title="Buka cadangan di Google Drive dinas"
         >
-          <Icon name="shield" size={12} /> Buka Cadangan Google Drive
+          <Icon name="shield" size={12} />
+          <span>Buka Cadangan Google Drive</span>
         </a>
       </div>
     </Modal>

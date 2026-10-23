@@ -9,6 +9,8 @@ export default function Letter({
   disposition?: boolean;
   letter: LetterRecord;
 }) {
+  const cleanAgenda = letter.id.replace(/\/(SM|SK)\/.*$/i, '');
+
   return (
     <div className="paper">
       <div className="paper-head">
@@ -29,7 +31,7 @@ export default function Letter({
           No. Agenda
           <br />
           <b>
-            {letter.id}/{letter.direction === 'in' ? 'SM' : 'SK'}/DISPORA/2026
+            {cleanAgenda}/{letter.direction === 'in' ? 'SM' : 'SK'}/DISPORA/2026
           </b>
         </span>
         <span>
@@ -63,6 +65,14 @@ export default function Letter({
       </p>
       {disposition ? (
         <>
+          <div className="paper-box">
+            <b>Pejabat Pendisposisi:</b>
+            <p className="font-semibold text-emerald-950 mt-1">
+              {letter.disposition?.official && letter.disposition.official !== '-'
+                ? letter.disposition.official
+                : 'Pebriadin Hapiz, AP, M.Si (Kepala Dinas)'}
+            </p>
+          </div>
           <div className="paper-box">
             <b>Diteruskan kepada:</b>
             <p>

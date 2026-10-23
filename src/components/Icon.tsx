@@ -23,7 +23,9 @@ export type IconName =
   | 'print'
   | 'download'
   | 'building'
-  | 'chevron';
+  | 'chevron'
+  | 'maximize'
+  | 'minimize';
 
 export default function Icon({
   name,
@@ -124,6 +126,16 @@ export default function Icon({
       </>
     ),
     chevron: <path d="m9 5 7 7-7 7" />,
+    maximize: (
+      <>
+        <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+      </>
+    ),
+    minimize: (
+      <>
+        <path d="M4 14h6m0 0v6m0-6L3 21m17-7h-6m0 0v6m0-6 7 7M14 4v6m0 0h6m-6 0 7-7M4 10h6m0 0V4m0 6L3 3" />
+      </>
+    ),
   };
 
   return (

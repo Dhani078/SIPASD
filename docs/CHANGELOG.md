@@ -5,7 +5,15 @@ Format: `[YYYY-MM-DD] Fitur/Perbaikan - Deskripsi`
 
 ---
 
-## [2026-10-22] Addendum: Interaktivitas Profil Pengguna (Flyout Dropdown & Kartu Identitas Digital)
+## [2026-10-22] Addendum: Desain UI Viewer PDF Lebih Luas, Mode Layar Penuh, dan Perbaikan Warna Tombol Disposisi
+
+- **Tombol Cetak Disposisi**: styling diperbaiki dengan class eksplisit `btn-disposisi-primary` berlatar hijau tua (#047857) dan teks putih kontras. Mengatasi benturan CSS sebelumnya di mana selector `.document-tools button` menimpa background menjadi putih sehingga teks putih tak terlihat (tampak seperti kotak kosong).
+- **Perluasan Area Pratinjau PDF**: lebar default modal pratinjau diperbesar dari 960px menjadi 1200px (tinggi 94vh).
+- **Mode Layar Penuh (Fullscreen Mode)**: tombol toggle 'Layar Penuh' / 'Kecilkan' ditambahkan ke bilah alat pratinjau (menggunakan ikon maximize/minimize baru), memungkinkan pembacaan dokumen satu layar penuh (100vw x 100vh).
+- **Pembersihan Judul Agenda**: penghapusan duplikasi akhiran pada judul modal pratinjau dan lembar disposisi (dari `1213/SM/DISPORA/2026/SM/2026` menjadi `1213/SM/2026`).
+- **Lembar Disposisi Cetak**: nama pejabat pendisposisi kini tampil resmi di lembar fisik disposisi sebelum diteruskan ke bidang tujuan.
+
+---
 
 - **TopNavbar**: avatar pengguna diubah menjadi tombol interaktif beraksesibilitas keyboard (aria-expanded, active scale feedback). Klik membuka flyout menu profil lengkap (`ProfileDropdown.tsx`) berisi nama, NIP, unit kerja, status serverless TiDB, dan tautan aksi cepat.
 - **Sidebar**: kartu pengguna (`user-card`) diubah menjadi area interaktif yang dapat diklik langsung untuk membuka kartu profil, dengan tombol logout terisolasi (stopPropagation).

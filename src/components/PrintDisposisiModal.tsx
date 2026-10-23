@@ -146,12 +146,16 @@ export default function PrintDisposisiModal({
 
       <Letter letter={workingLetter} disposition />
       <div className="modal-actions">
-        <button className="btn outline" onClick={onClose}>
+        <button type="button" className="btn outline" onClick={onClose}>
           Tutup
         </button>
-        <button className="btn primary" onClick={() => window.print()}>
-          <Icon name="print" />
-          Cetak Disposisi
+        <button
+          type="button"
+          className="btn primary bg-emerald-700 hover:bg-emerald-800 text-white font-semibold flex items-center gap-2 px-4 py-2 rounded shadow-sm transition-all active:scale-95"
+          onClick={() => window.print()}
+        >
+          <Icon name="print" size={15} />
+          <span>Cetak Disposisi</span>
         </button>
       </div>
     </Modal>

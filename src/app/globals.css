@@ -84,6 +84,7 @@
 }
 .app-shell {
   min-height: 100vh;
+  overflow-x: hidden;
 }
 .sidebar {
   position: fixed;
@@ -296,6 +297,8 @@
 .workspace {
   margin-left: 246px;
   min-width: 0;
+  max-width: calc(100vw - 246px);
+  overflow-x: hidden;
 }
 .topbar {
   height: 65px;
@@ -1529,10 +1532,12 @@ td .icon-btn {
   overflow-y: auto;
 }
 .modal {
-  width: 560px;
-  max-width: 100%;
+  width: 660px;
+  max-width: 95vw;
   max-height: 90vh;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   background: white;
   border: 1px solid #dce6df;
   border-radius: 8px;
@@ -1563,11 +1568,13 @@ td .icon-btn {
   align-items: center;
   justify-content: flex-end;
   gap: 10px;
-  padding: 16px 22px;
+  padding: 14px 22px;
   border-top: 1px solid var(--color-line);
   background: white;
   position: sticky;
   bottom: 0;
+  z-index: 10;
+  margin-top: auto;
 }
 .modal-actions > span {
   margin-right: auto;
@@ -1626,8 +1633,10 @@ td .icon-btn {
 .new-form {
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  padding: 23px;
+  gap: 13px;
+  padding: 18px 22px;
+  overflow-y: auto;
+  flex: 1;
 }
 .new-form > p {
   font-size: 11px;

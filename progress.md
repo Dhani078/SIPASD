@@ -236,3 +236,32 @@
    - Seluruh 70 berkas di `src/` berukuran <= 200 baris kode.
    - 0 em-dash di 132 berkas proyek.
 
+---
+
+## Sesi 10: Pembersihan Total Redundansi Tombol, Isolasi Overflow Window, Form Disposisi Semantik & Responsif
+**Tanggal**: 23 Oktober 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Eliminasi Redundansi Tombol CTA**:
+   - Menghapus tombol ganda `+ Indeks Berkas Baru` di atas tabel `ArchiveWorkspace.tsx`, mempertahankan satu tombol primer di heading halaman.
+2. **Isolasi Penuh Overflow Window**:
+   - Memasang `overflow-x: hidden` pada `.app-shell` dan membatasi `max-width: calc(100vw - 246px)` pada `.workspace`. Jendela peramban kini 100% bebas dari scrollbar horizontal meluber, scroll horizontal hanya aktif lokal di dalam kontainer `.table-wrap`.
+3. **Penyempurnaan Modal Dialog Form**:
+   - Memperluas modal menjadi 660px, header dan footer berposisi sticky, form scrollable vertikal secara mulus tanpa menutupi tombol Batal dan Simpan.
+4. **Desain Ulang Pilihan Instruksi Disposisi**:
+   - Mengganti teks draf mentah `[X]` dan `[ ]` dengan chip toggle berikon centang SVG semantik pada `NewLetterDisposisiFields.tsx`.
+5. **Dinamisme Konteks Surat Masuk & Keluar**:
+   - Menyesuaikan label tanggal secara dinamis pada `NewLetterModal.tsx` ('Tanggal Diterima' untuk surat masuk, 'Tanggal Diterbitkan' untuk surat keluar).
+6. **Pemadatan Baris Aksi Tabel**:
+   - Memadatkan tombol aksi pada `ArchiveTable.tsx` menjadi 2 tombol berlabel teks ('Lihat PDF' dan 'Disposisi') serta 3 tombol ikon ber-tooltip ('Unduh', 'Edit', 'Hapus') menghemat 200px lebar horizontal tabel per baris.
+7. **Interaktivitas Unggah PDF**:
+   - Menambahkan event drag-and-drop live highlight dan lencana informasi file terpilih pada kotak unggah berkas.
+8. **Verifikasi Kualitas**:
+   - Skor `aislop`: 100/100 (Healthy), 0 errors, 0 warnings.
+   - `npm test`: 6/6 test suites passed (100% HEALTHY).
+   - `npm run typecheck`: 0 type errors.
+   - `npm run build`: sukses 100%.
+   - Seluruh berkas di `src/` <= 200 baris kode.
+   - Invarian 0 em-dash terpenuhi.
+

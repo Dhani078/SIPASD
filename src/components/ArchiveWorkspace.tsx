@@ -47,7 +47,7 @@ export default function ArchiveWorkspace({
   onPrint,
   onEdit,
   onDelete,
-  onNew,
+  onNew: _onNew,
   onExport,
   page,
   onPage,
@@ -92,10 +92,6 @@ export default function ArchiveWorkspace({
             </option>
           ))}
         </select>
-        <button className="btn primary" onClick={onNew}>
-          <Icon name="plus" size={16} />
-          Indeks Berkas Baru
-        </button>
         <button className="btn outline" onClick={onExport}>
           <Icon name="download" size={16} />
           Ekspor Excel

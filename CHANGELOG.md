@@ -12,6 +12,20 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.8.0] - 2026-10-23
+
+### Changed
+- **Penyempurnaan Ergonomi & UX Sempurna**:
+  * Eliminasi tombol CTA ganda pada tabel arsip (`ArchiveWorkspace.tsx`), mempertahankan satu tombol primer di heading halaman.
+  * Eliminasi total scrollbar horizontal browser window dengan `overflow-x: hidden` pada `.app-shell` dan pembatasan `max-width: calc(100vw - 246px)` pada `.workspace`.
+  * Redesain modal `Indeks Berkas Baru` (`NewLetterModal.tsx` & `.modal`) menjadi lebih luas (660px), header dan footer berposisi sticky, sehingga tombol Batal dan Simpan selalu terlihat tanpa scroll.
+  * Redesain pilihan instruksi disposisi dari teks braket manual `[X]` / `[ ]` menjadi chip toggle berikon centang SVG semantik (`NewLetterDisposisiFields.tsx`).
+  * Penyesuaian label dinamis pada formulir surat keluar (menjadi 'Tanggal Diterbitkan' dan 'Tujuan Instansi').
+  * Pemadatan tombol aksi baris tabel (`ArchiveTable.tsx`) menjadi tombol primer teks 'Lihat PDF' & 'Disposisi', serta tombol utilitas ringkas 'Unduh', 'Edit', dan 'Hapus' ber-tooltip.
+  * Peningkatan interaktivitas kotak upload PDF dengan dukungan drag-and-drop live highlight dan badge informasi ukuran file.
+
+---
+
 ## [2.7.0] - 2026-10-23
 
 ### Added

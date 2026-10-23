@@ -142,6 +142,17 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi kepatuhan: `npm test` 6/6 lolos, `npm run typecheck` 0 error, `npm run build` sukses 100%, skor `aislop` 100/100 (0 error, 0 warning, 0 vuln).
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 12: Ergonomic Polish, UX Invariant & Zero Layout Overflow (100% COMPLETE)
+- [x] Eliminasi tombol ganda `+ Indeks Berkas Baru` di atas tabel arsip (`ArchiveWorkspace.tsx`).
+- [x] Proteksi isolasi scrollbar horizontal window peramban via `overflow-x: hidden` di `.app-shell` dan pembatasan `max-width` di `.workspace`.
+- [x] Perluasan modal dialog ke 660px dengan header dan footer berposisi sticky di `.modal` dan `NewLetterModal.tsx`.
+- [x] Redesain opsi instruksi disposisi dari teks braket `[X]` / `[ ]` menjadi chip semantik berikon centang SVG.
+- [x] Dinamisme label tanggal surat keluar pada `NewLetterModal.tsx` ('Tanggal Diterbitkan' vs 'Tanggal Diterima').
+- [x] Pemadatan kolom aksi tabel menjadi 2 tombol berlabel teks dan 3 tombol ikon ber-tooltip (`ArchiveTable.tsx`).
+- [x] Penambahan fitur drag-and-drop dan visual badge informasi file pada dropzone PDF.
+- [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% hijau.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

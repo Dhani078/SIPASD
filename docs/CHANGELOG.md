@@ -5,7 +5,20 @@ Format: `[YYYY-MM-DD] Fitur/Perbaikan - Deskripsi`
 
 ---
 
-## [2026-10-22] Addendum: Desain UI Viewer PDF Lebih Luas, Mode Layar Penuh, dan Perbaikan Warna Tombol Disposisi
+## [2026-10-22] Addendum: 4 Tombol Aksi Dokumen Tabel (Tambah Unduh Langsung) & UI-Craft Polish
+
+- **Bilah Aksi Dokumen Tabel (4 Tombol Lengkap)**: kolom 'AKSI DOKUMEN' di tabel arsip kini dilengkapi 4 tombol aksi berurutan:
+  1. `Lihat PDF` (hijau zamrud #ecfdf5, pratinjau streaming Cloudinary)
+  2. `Unduh` (teal/toska #f0fdfa, unduh berkas PDF asli seketika ke komputer)
+  3. `Disposisi` (slate elegan #f8fafc dengan teks gelap #1e293b, cetak lembar disposisi)
+  4. `Hapus` (rose lembut #fef2f2 dengan teks merah #991b1b, hapus arsip)
+- **UI-Craft Micro-Interactions**:
+  - Sentuhan tactile feedback `active:scale-[0.96]` pada setiap tombol aksi dokumen.
+  - Transisi hover halus (0.15 detik) dengan elevasi bayangan terukur dan penataan ikon optik presisi.
+  - Perataan baris aksi menggunakan `nowrap` dengan jarak rapat 5px untuk memastikan keempat tombol tertata rapi dalam satu baris horizontal tanpa patah.
+- **Kepatuhan Modular**: `ArchiveTable.tsx` berukuran 190 baris (tetap di bawah batas 200 baris kode).
+
+---
 
 - **Tombol Cetak Disposisi**: styling diperbaiki dengan class eksplisit `btn-disposisi-primary` berlatar hijau tua (#047857) dan teks putih kontras. Mengatasi benturan CSS sebelumnya di mana selector `.document-tools button` menimpa background menjadi putih sehingga teks putih tak terlihat (tampak seperti kotak kosong).
 - **Perluasan Area Pratinjau PDF**: lebar default modal pratinjau diperbesar dari 960px menjadi 1200px (tinggi 94vh).

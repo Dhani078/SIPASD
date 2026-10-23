@@ -3,6 +3,7 @@
 import ArchiveTable from './ArchiveTable';
 import DistributionView from './DistributionView';
 import DispositionHistoryView from './DispositionHistoryView';
+import ProfileView from './ProfileView';
 import Icon from './Icon';
 import Badge from './Badge';
 import Modal from './Modal';
@@ -19,6 +20,7 @@ interface Props {
   onClassify: (code: string) => void;
   onExport: () => void;
   onPrint: (letter: LetterRecord) => void;
+  onNavigate?: (page: string) => void;
 }
 
 export function ReferenceViews({
@@ -30,6 +32,7 @@ export function ReferenceViews({
   onClassify,
   onExport,
   onPrint,
+  onNavigate = () => {},
 }: Props) {
   if (page === 'classification')
     return (
@@ -52,15 +55,19 @@ export function ReferenceViews({
       </section>
     );
 
-  if (page === 'users' || page === 'profile')
+  if (page === 'profile') {
+    return <ProfileView user={user} onNavigate={onNavigate} />;
+  }
+
+  if (page === 'users')
     return (
       <section className="panel">
         <div className="panel-heading">
-          <h2>{page === 'profile' ? 'Profil Pengguna' : 'Manajemen Akun Terdaftar'}</h2>
+          <h2>Manajemen Akun Terdaftar</h2>
           <Badge type="Biasa" />
         </div>
         <div className="records">
-          {(page === 'profile' ? [user] : demoUsers).map((account) => (
+          {demoUsers.map((account) => (
             <div className="account-row" key={account.username}>
               <div className="top-avatar">{account.initials}</div>
               <div>

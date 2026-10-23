@@ -134,6 +134,7 @@ export default function SipasdMainView({
           onClassify={(c) => archive('in', { classification: c })}
           onExport={() => void exportExcel(visible)}
           onPrint={setPrintLetter}
+          onNavigate={go}
         />
       )}
     </main>

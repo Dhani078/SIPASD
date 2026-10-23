@@ -62,19 +62,35 @@ export default function Sidebar({
           Portal Publik
           <Icon name="arrow" size={15} />
         </button>
-        <div className="user-card">
+        <div
+          className="user-card cursor-pointer hover:bg-white/5 transition-all active:scale-[0.98] rounded p-1 -m-1"
+          role="button"
+          tabIndex={0}
+          title="Buka Kartu Profil Pengguna"
+          onClick={() => go('profile')}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              go('profile');
+            }
+          }}
+        >
           <div className="avatar">
             {user.initials}
             <span />
           </div>
-          <div>
+          <div className="min-w-0 flex-1">
             <strong>{user.name}</strong>
             <small>{user.role}</small>
           </div>
           <button
-            className="icon-btn"
-            title="Keluar"
-            onClick={() => go('login')}
+            type="button"
+            className="icon-btn hover:text-red-400 transition-colors"
+            title="Keluar Sesi (Logout)"
+            onClick={(e) => {
+              e.stopPropagation();
+              go('login');
+            }}
           >
             <Icon name="logout" size={16} />
           </button>

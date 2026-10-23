@@ -5,7 +5,15 @@ Format: `[YYYY-MM-DD] Fitur/Perbaikan - Deskripsi`
 
 ---
 
-## [2026-10-22] Addendum: Buku Ekspedisi Tersimpan ke Database, Pembersihan Nilai OCR, dan Pemeriksaan 59 Baris Disposisi
+## [2026-10-22] Addendum: Interaktivitas Profil Pengguna (Flyout Dropdown & Kartu Identitas Digital)
+
+- **TopNavbar**: avatar pengguna diubah menjadi tombol interaktif beraksesibilitas keyboard (aria-expanded, active scale feedback). Klik membuka flyout menu profil lengkap (`ProfileDropdown.tsx`) berisi nama, NIP, unit kerja, status serverless TiDB, dan tautan aksi cepat.
+- **Sidebar**: kartu pengguna (`user-card`) diubah menjadi area interaktif yang dapat diklik langsung untuk membuka kartu profil, dengan tombol logout terisolasi (stopPropagation).
+- **Halaman Profil (`ProfileView.tsx`)**: menampilkan kartu identitas aparatur berstandar Pemprov Kalsel, detail wewenang sistem, status keamanan SSL TiDB Cloud, serta opsi kembali ke beranda atau keluar sesi.
+- **Modularitas**: notifikasi topbar dipisah ke `NotificationsFlyout.tsx`, seluruh berkas di `src/` tetap di bawah 200 baris kode (0 file melanggar).
+- **Data Akun**: penambahan informasi NIP, email dinas, dan unit kerja pada seluruh akun terdaftar di `demoUsers`.
+
+---
 
 - **Buku Ekspedisi**: ditambah `src/app/api/expedition/route.ts` (GET daftar, POST upsert ke `buku_ekspedisi` dengan validasi dan audit log `CATAT_EKSPEDISI`). Form dipisah ke `src/components/ExpeditionFormModal.tsx` supaya `DistributionView.tsx` tetap di bawah 200 baris. Diuji langsung ke produksi: catatan tersimpan lalu dibaca ulang lewat `GET /api/expedition`, data uji sudah dihapus sehingga tabel kembali kosong.
 - **Pembersihan nilai OCR**: `scripts/bersihkan-nilai-ocr.ts` memperbaiki 33 baris, yaitu 1 perihal yang diawali nomor surat dan kata sifat, 13 tujuan yang dirapikan ke nama instansi baku, serta 16 tujuan nilai contoh `KONI Kalsel / Instansi Terkait` dan 3 tujuan berisi blok data pegawai yang ditandai `-`.

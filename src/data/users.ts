@@ -2,11 +2,34 @@ import { DemoUser } from '@/types';
 
 export const demoUsers: DemoUser[] = [
   {
+    username: 'pengarsip',
+    name: 'Rana Nur Syifa',
+    role: 'Analis Anggaran - Ahli Pertama',
+    label: 'Pengarsip',
+    initials: 'RN',
+    nip: '199701012025212001',
+    email: 'rana@dispora.kalselprov.go.id',
+    unitKerja: 'Subbag Keuangan',
+  },
+  {
+    username: 'developer',
+    name: 'Muhammad Rizki Ramadhani',
+    role: 'Mahasiswa Magang TI UNISKA',
+    label: 'Developer',
+    initials: 'MR',
+    nip: '2310010406',
+    email: 'dhanisepeda@gmail.com',
+    unitKerja: 'Sekretariat Dispora',
+  },
+  {
     username: 'admin',
     name: 'Administrator IT Dispora',
     role: 'Super Admin',
     label: 'Super Admin',
     initials: 'AD',
+    nip: '198503152010011002',
+    email: 'admin.dispora@kalselprov.go.id',
+    unitKerja: 'Sekretariat Dispora',
   },
   {
     username: 'kadis',
@@ -14,6 +37,9 @@ export const demoUsers: DemoUser[] = [
     role: 'Kepala Dinas / Pengguna Anggaran',
     label: 'Kadispora',
     initials: 'PH',
+    nip: '197802141996121001',
+    email: 'pebriadin.kadis@kalselprov.go.id',
+    unitKerja: 'Pimpinan Dinas',
   },
   {
     username: 'tu_umum',
@@ -21,6 +47,9 @@ export const demoUsers: DemoUser[] = [
     role: 'Petugas TU Umum',
     label: 'Petugas TU',
     initials: 'TU',
+    nip: '199204102020121003',
+    email: 'tu.dispora@kalselprov.go.id',
+    unitKerja: 'Subbag Umum & Kepegawaian',
   },
   {
     username: 'subbag_keuangan',
@@ -28,6 +57,9 @@ export const demoUsers: DemoUser[] = [
     role: 'Kasubbag Keuangan',
     label: 'Kasubbag Keuangan',
     initials: 'NF',
+    nip: '198707152011012005',
+    email: 'norika.keuangan@kalselprov.go.id',
+    unitKerja: 'Subbag Keuangan',
   },
   {
     username: 'kabid_pora',
@@ -35,6 +67,9 @@ export const demoUsers: DemoUser[] = [
     role: 'Kabid Pembudayaan Olahraga',
     label: 'Kabid Pora',
     initials: 'BO',
+    nip: '197906182005011004',
+    email: 'budiono.pora@kalselprov.go.id',
+    unitKerja: 'Bidang Pembudayaan Olahraga',
   },
 ];
 

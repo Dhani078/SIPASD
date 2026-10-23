@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Icon from './Icon';
+import ProfileDropdown from './ProfileDropdown';
+import NotificationsFlyout from './NotificationsFlyout';
 import type { LetterRecord, DemoUser } from '@/types';
 import { matchesSearch } from '@/lib/format';
 
@@ -13,6 +15,7 @@ interface Props {
   onSearch: (query: string) => void;
   onMenu: () => void;
   onExport: () => void;
+  onNavigate?: (page: string) => void;
 }
 
 export default function TopNavbar({
@@ -23,10 +26,12 @@ export default function TopNavbar({
   onSearch,
   onMenu,
   onExport,
+  onNavigate = () => {},
 }: Props) {
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
   const [notices, setNotices] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   const [read, setRead] = useState<number[]>([]);
   const [now, setNow] = useState(new Date());
   const input = useRef<HTMLInputElement>(null);
@@ -48,12 +53,14 @@ export default function TopNavbar({
       if (e.key === 'Escape') {
         setOpen(false);
         setNotices(false);
+        setProfileOpen(false);
       }
     };
     const outside = (e: PointerEvent) => {
       if (!root.current?.contains(e.target as Node)) {
         setOpen(false);
         setNotices(false);
+        setProfileOpen(false);
       }
     };
     document.addEventListener('keydown', key);
@@ -69,11 +76,7 @@ export default function TopNavbar({
 
   return (
     <header className="topbar" ref={root}>
-      <button
-        className="icon-btn mobile-menu"
-        aria-label="Buka navigasi"
-        onClick={onMenu}
-      >
+      <button className="icon-btn mobile-menu" aria-label="Buka navigasi" onClick={onMenu}>
         <Icon name="menu" />
       </button>
       <div className="breadcrumb">
@@ -121,11 +124,7 @@ export default function TopNavbar({
           />
           <kbd>Ctrl K</kbd>
           {open && query && (
-            <div
-              className="search-results"
-              role="region"
-              aria-label="Hasil pencarian"
-            >
+            <div className="search-results" role="region" aria-label="Hasil pencarian">
               {results.map((l) => (
                 <button
                   key={l.id}
@@ -136,9 +135,7 @@ export default function TopNavbar({
                 >
                   <Icon name="file" />
                   <span>
-                    <b>
-                      {l.id} - {l.origin}
-                    </b>
+                    <b>{l.id} - {l.origin}</b>
                     <small>{l.subject}</small>
                   </span>
                 </button>
@@ -152,46 +149,47 @@ export default function TopNavbar({
           className="notification icon-btn"
           aria-expanded={notices}
           aria-label={`Notifikasi, ${3 - read.length} belum dibaca`}
-          onClick={() => setNotices(!notices)}
+          onClick={() => {
+            setNotices(!notices);
+            setProfileOpen(false);
+          }}
         >
           <Icon name="bell" />
           {read.length < 3 && <i />}
         </button>
-        <div className="top-avatar" title={`${user.name} - ${user.role}`}>
+
+        <button
+          type="button"
+          className="top-avatar cursor-pointer hover:ring-2 hover:ring-emerald-600 transition-all active:scale-95"
+          title={`${user.name} - ${user.role} (Klik untuk menu profil)`}
+          aria-label="Profil Pengguna"
+          aria-expanded={profileOpen}
+          onClick={() => {
+            setProfileOpen(!profileOpen);
+            setNotices(false);
+          }}
+        >
           {user.initials}
-        </div>
+        </button>
       </div>
+
       {notices && (
-        <div className="notifications">
-          <h3>
-            Notifikasi<span>{3 - read.length} baru</span>
-          </h3>
-          {[
-            'Surat kilat membutuhkan disposisi',
-            'Indeks surat masuk diperbarui',
-            'Rekap agenda siap diunduh',
-          ].map((text, i) => (
-            <button
-              key={text}
-              onClick={() => {
-                setRead((r) => (r.includes(i) ? r : [...r, i]));
-                setNotices(false);
-                if (i === 2) onExport();
-                else
-                  onSelect(
-                    letters.find((l) => l.type === 'Kilat') ?? letters[0]
-                  );
-              }}
-            >
-              <Icon name={i === 2 ? 'chart' : 'in'} />
-              <span>
-                {text}
-                <small>{i + 2} menit yang lalu</small>
-              </span>
-              {!read.includes(i) && <span className="live-dot" />}
-            </button>
-          ))}
-        </div>
+        <NotificationsFlyout
+          letters={letters}
+          read={read}
+          setRead={setRead}
+          onSelect={onSelect}
+          onExport={onExport}
+          onClose={() => setNotices(false)}
+        />
+      )}
+
+      {profileOpen && (
+        <ProfileDropdown
+          user={user}
+          onClose={() => setProfileOpen(false)}
+          onNavigate={onNavigate}
+        />
       )}
     </header>
   );

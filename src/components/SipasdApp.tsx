@@ -146,6 +146,7 @@ export default function SipasdApp({
           onSearch={(q) => archive('in', { query: q })}
           onMenu={() => setDrawer((v) => !v)}
           onExport={() => void exportExcel(visible)}
+          onNavigate={go}
         />
         <SipasdMainView
           page={page}

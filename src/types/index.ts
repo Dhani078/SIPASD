@@ -23,6 +23,9 @@ export interface DemoUser {
   role: string;
   label: string;
   initials: string;
+  nip?: string;
+  email?: string;
+  unitKerja?: string;
 }
 
 export interface Disposition {

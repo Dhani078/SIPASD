@@ -34,12 +34,16 @@ export default function LoginPage({
         setLoading(false);
         return;
       }
-      const matched = demoUsers.find((u) => u.username === usr) || {
-        username: data.user.username,
-        name: data.user.namaLengkap,
-        role: data.user.jabatan,
-        label: data.user.role,
-        initials: data.user.namaLengkap.slice(0, 2).toUpperCase(),
+      const found = demoUsers.find((u) => u.username === usr);
+      const matched: DemoUser = {
+        username: data.user?.username || usr,
+        name: data.user?.namaLengkap || found?.name || usr,
+        role: data.user?.jabatan || found?.role || 'Aparatur Dispora',
+        label: data.user?.role || found?.label || 'Pengguna',
+        initials: (data.user?.namaLengkap || found?.name || usr).slice(0, 2).toUpperCase(),
+        nip: data.user?.nip || found?.nip || '-',
+        email: data.user?.email || found?.email || '-',
+        unitKerja: data.user?.unitKerja || found?.unitKerja || 'Dispora Kalsel',
       };
       onLoginSuccess(matched);
     } catch {

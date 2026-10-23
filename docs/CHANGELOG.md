@@ -5,6 +5,16 @@ Format: `[YYYY-MM-DD] Fitur/Perbaikan - Deskripsi`
 
 ---
 
+## [2026-10-22] Addendum: Metadata Surat Diisi dari Dataset PDF
+
+- **Temuan**: metadata surat masih placeholder seragam, yaitu `NOMOR/<agenda>/DISPORA/2026` (170 baris), `Surat Masuk Terkait Agenda No. <agenda>` (167), `Instansi Pemerintah / Pengprov Cabang Olahraga Kalsel` (168), `Surat Keluar Dispora: <agenda>` (241), dan tujuan generik `KONI Kalsel / Instansi Terkait` (241).
+- **Perbaikan**: 144 berkas surat keluar ditambah ke OCR (total 289 pindai), lalu nomor surat, tanggal, asal/tujuan, dan perihal diambil dari isi berkas.
+- **Hasil surat masuk (170 baris)**: nomor 73, tanggal 76, asal instansi 99, perihal 110 terisi dari berkas; sisanya ditandai `-`.
+- **Hasil surat keluar (241 baris)**: nomor 61, tanggal 106, tujuan 81, perihal 71 terisi; baris tanpa hasil memakai penanda `TIDAK TERBACA/<agenda>` karena kolom nomor bersifat unik dan wajib isi.
+- **Berkas**: `docs/METADATA_DARI_PDF.md`, `docs/METADATA_SURAT_MASUK_2026.csv`, `docs/METADATA_SURAT_KELUAR_2026.csv`, `scripts/apply-meta-dari-pdf.ts`.
+
+---
+
 ## [2026-10-22] Addendum: Pejabat Pendisposisi Diisi Ulang dari Dataset PDF
 
 - **Temuan**: 172 baris `riwayat_disposisi` semuanya bernama `Pebriadin Hapiz, AP, M.Si` (nilai seed, bukan hasil berkas surat).

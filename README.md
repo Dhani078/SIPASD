@@ -51,6 +51,7 @@ Username login memakai identitas generik, sedangkan nama yang tampil di antarmuk
 ### 1. Katalog & Pencarian Multi-Filter Instan (< 2 Detik)
 - Mesin pencari cepat berbasis kata kunci: Nomor Surat, Nomor Agenda, Asal/Tujuan Instansi, Perihal, Ringkasan, dan Kode Klasifikasi.
 - Filter berdasarkan rentang tanggal surat/diterima dan status sifat surat (*Biasa, Penting, Segera, Kilat*).
+- Nomor surat, tanggal, asal/tujuan instansi, dan perihal diisi dari isi berkas PDF asli (bukan nilai contoh). Rincian metode dan cakupannya ada di `docs/METADATA_DARI_PDF.md`.
 
 ### 2. Built-in In-Browser PDF Streaming Viewer
 - Membaca dokumen PDF pindaian langsung di layar peramban tanpa wajib mengunduh file fisik.

@@ -29,7 +29,9 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 - **Transaksi Database Atomik**: Fungsi `insertNewLetter` dan `deleteLettersBatch` kini dibungkus dalam transaksi database (`beginTransaction`, `commit`, `rollback`) dengan locking `FOR UPDATE` untuk mencegah race condition registrasi agenda.
 - **Optimasi Batch Delete**: Menghapus operasi loop N+1 sekuensial menjadi kueri tunggal atomik dengan klausa `IN (?)` pada mysql2.
 - **Kueri Parameterized Statis**: Kueri `updateLetter` diubah menjadi parameter statis murni dengan `COALESCE(?, column)`, mengeliminasi risiko injeksi SQL.
-- **Aksesibilitas & Type Safety**: Penggantian seluruh unsafe cast `as any` dengan union types pada `EditLetterModal.tsx`, penambahan atribut `id` dan `htmlFor` pada form controls.
+- **Aksesibilitas & Semantic HTML5**: Mengganti `role="status"` dengan `<output>`, `role="dialog"` dengan `<dialog open>`, `role="img"` dengan `<figure>`, serta memasang semantic `<button>` pada overlay drawer dan kartu profil pengguna sidebar.
+- **Type Safety & Purity**: Penggantian seluruh unsafe cast `as any` dengan union types pada `EditLetterModal.tsx`, penambahan atribut `id` dan `htmlFor` pada form controls, serta resolusi cascading effect render pada `WitaClock.tsx` dan `DistributionView.tsx`.
+- **Pencapaian Skor Kualitas 100/100**: Audit `aislop` mencapai skor sempurna 100/100 (Healthy), 0 errors, 0 warnings di seluruh 72 berkas produksi.
 - **Optimasi Eager Loading**: Halaman `/login` tidak lagi memuat 411 arsip TiDB saat belum terautentikasi (`initialLetters={[]}`).
 
 ---

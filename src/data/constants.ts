@@ -54,4 +54,5 @@ export const GDRIVE_FOLDERS = {
   skId: '1rgWCFwULt8awBCVIuomy7cELKqEtbdkx',
   smUrl: 'https://drive.google.com/drive/folders/1deTFD7oICTXkkMs5HzS-bhtZzvCqfW9n',
   skUrl: 'https://drive.google.com/drive/folders/1rgWCFwULt8awBCVIuomy7cELKqEtbdkx',
+  fileViewPrefix: 'https://drive.google.com/file/d/',
 };

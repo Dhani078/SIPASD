@@ -11,9 +11,9 @@ export default function DocumentPreview(
   return (
     <Suspense
       fallback={
-        <div className="empty" role="status">
+        <output className="empty">
           Memuat pembaca PDF digital...
-        </div>
+        </output>
       }
     >
       <PdfPreviewPanel {...props} />

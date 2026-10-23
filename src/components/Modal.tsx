@@ -18,7 +18,7 @@ export default function Modal({
   className = '',
   overlayClassName = '',
 }: Props) {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDialogElement>(null);
   const titleId = useId();
   const close = useRef(onClose);
 
@@ -77,14 +77,15 @@ export default function Modal({
 
   return (
     <div
+      role="presentation"
       className={`modal-overlay ${overlayClassName}`}
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div
+      <dialog
+        open
         className={`modal ${className}`}
-        role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
         tabIndex={-1}
@@ -101,7 +102,7 @@ export default function Modal({
           </button>
         </div>
         {children}
-      </div>
+      </dialog>
     </div>
   );
 }

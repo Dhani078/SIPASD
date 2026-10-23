@@ -43,13 +43,16 @@ export default function DashboardView({
   ];
 
   const segments = useMemo(() => {
-    let acc = 0;
     const colors = ['#146c51', '#51977e', '#98bbaa', '#d6ab61', '#e4d3ae'];
-    return counts.map((count, i) => {
-      const start = acc;
-      acc += active.length ? (count / active.length) * 100 : 0;
-      return `${colors[i]} ${start}% ${acc}%`;
-    });
+    const total = active.length;
+    const res: string[] = [];
+    let cur = 0;
+    for (let i = 0; i < counts.length; i++) {
+      const nxt = cur + (total ? (counts[i] / total) * 100 : 0);
+      res.push(`${colors[i]} ${cur}% ${nxt}%`);
+      cur = nxt;
+    }
+    return res;
   }, [counts, active.length]);
 
   return (
@@ -128,17 +131,16 @@ export default function DashboardView({
                 <Icon name="chevron" size={16} />
               </button>
             </div>
-            <div
+            <figure
               className="donut"
               style={{ background: `conic-gradient(${segments.join(',')})` }}
-              role="img"
               aria-label={`Distribusi ${letters.length} berkas di lima bidang`}
             >
               <div>
                 <strong>{letters.length}</strong>
                 <span>Total berkas</span>
               </div>
-            </div>
+            </figure>
             <div className="division-list">
               {divisions.map((division, i) => (
                 <button key={division} onClick={() => onDivision(division)}>

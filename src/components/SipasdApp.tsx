@@ -139,7 +139,14 @@ export default function SipasdApp({
 
   return (
     <div className="app-shell">
-      {drawer && <div className="drawer-overlay" onClick={() => setDrawer(false)} />}
+      {drawer && (
+        <button
+          type="button"
+          aria-label="Tutup navigasi drawer"
+          className="drawer-overlay"
+          onClick={() => setDrawer(false)}
+        />
+      )}
       <Sidebar drawer={drawer} page={page} go={go} user={user} counts={{ in: inCount, out: outCount }} />
       <div className="workspace">
         <TopNavbar

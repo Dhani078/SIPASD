@@ -122,7 +122,7 @@ export async function uploadToGoogleDrive(
       }
 
       const fileData = (await uploadRes.json()) as GoogleFileResponse;
-      const url = fileData.webViewLink || `https://drive.google.com/file/d/${fileData.id}/view?usp=drivesdk`;
+      const url = fileData.webViewLink || `${GDRIVE_FOLDERS.fileViewPrefix}${fileData.id}/view?usp=drivesdk`;
       console.log(`[GDrive] Upload success: ${fileName} -> ${fileData.id}`);
       return url;
     } catch (err: any) {

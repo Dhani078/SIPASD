@@ -64,33 +64,27 @@ export default function Sidebar({
           Portal Publik
           <Icon name="arrow" size={15} />
         </button>
-        <div
-          className="user-card cursor-pointer hover:bg-white/5 transition-all active:scale-[0.98] rounded p-1 -m-1"
-          role="button"
-          tabIndex={0}
-          title="Buka Kartu Profil Pengguna"
-          onClick={() => go('profile')}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              go('profile');
-            }
-          }}
-        >
-          <div className="avatar">
-            {user.initials}
-            <span />
-          </div>
-          <div className="min-w-0 flex-1">
-            <strong>{user.name}</strong>
-            <small>{user.role}</small>
-          </div>
+        <div className="user-card hover:bg-white/5 transition-all rounded p-1 -m-1 flex items-center">
+          <button
+            type="button"
+            className="flex items-center gap-2 min-w-0 flex-1 text-left bg-transparent border-0 p-0 text-inherit cursor-pointer"
+            title="Buka Kartu Profil Pengguna"
+            onClick={() => go('profile')}
+          >
+            <div className="avatar">
+              {user.initials}
+              <span />
+            </div>
+            <div className="min-w-0 flex-1">
+              <strong>{user.name}</strong>
+              <small>{user.role}</small>
+            </div>
+          </button>
           <button
             type="button"
             className="icon-btn hover:text-red-400 transition-colors"
             title="Keluar Sesi (Logout)"
-            onClick={(e) => {
-              e.stopPropagation();
+            onClick={() => {
               if (onLogout) onLogout();
               else go('login');
             }}

@@ -45,8 +45,20 @@ export default function DistributionView({ letters, onExport }: Props) {
   }, []);
 
   useEffect(() => {
-    loadRecords();
-  }, [loadRecords]);
+    let isMounted = true;
+    fetch('/api/expedition')
+      .then((res) => res.json())
+      .then((data) => {
+        if (!isMounted || !data.success) return;
+        const map: Record<string, ExpeditionRecord> = {};
+        for (const r of data.records as ExpeditionRecord[]) map[r.surat_keluar_id] = r;
+        setRecords(map);
+      })
+      .catch(() => {});
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <section className="panel">

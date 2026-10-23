@@ -103,10 +103,10 @@ export default function AppModals({
         <HelpModal kind={modal} onClose={() => setModal('')} />
       )}
       {toast && (
-        <div className="toast" role="status">
+        <output className="toast">
           <span className={`toast-icon ${toast.ok ? 'success' : 'error'}`}>{toast.ok ? '✓' : '!'}</span>
           {toast.msg}
-        </div>
+        </output>
       )}
     </>
   );

@@ -110,71 +110,33 @@ export async function updateLetter(
   data: Partial<LetterRecord>,
   direction: 'in' | 'out' = 'in'
 ): Promise<boolean> {
-  if (direction === 'in') {
-    const sm = await queryOne<any>(
-      'SELECT id FROM arsip_surat_masuk WHERE id = ? OR nomor_agenda = ?',
-      [id, id]
-    );
-    if (!sm) return false;
+  const isIn = direction === 'in';
+  const row = await queryOne<any>(
+    isIn
+      ? 'SELECT id FROM arsip_surat_masuk WHERE id = ? OR nomor_agenda = ?'
+      : 'SELECT id FROM arsip_surat_keluar WHERE id = ? OR nomor_agenda = ?',
+    [id, id]
+  );
+  if (!row) return false;
 
+  if (isIn) {
     await query(
-      'UPDATE arsip_surat_masuk SET ' +
-      'nomor_surat = COALESCE(?, nomor_surat), ' +
-      'asal_instansi = COALESCE(?, asal_instansi), ' +
-      'perihal = COALESCE(?, perihal), ' +
-      'tanggal_surat = COALESCE(?, tanggal_surat), ' +
-      'sifat_surat = COALESCE(?, sifat_surat), ' +
-      'file_url = COALESCE(?, file_url) ' +
-      'WHERE id = ?',
-      [
-        data.number ?? null,
-        data.origin ?? null,
-        data.subject ?? null,
-        data.date ?? null,
-        data.type ? data.type.toUpperCase() : null,
-        data.fileUrl ?? null,
-        sm.id,
-      ]
+      'UPDATE arsip_surat_masuk SET nomor_surat = COALESCE(?, nomor_surat), asal_instansi = COALESCE(?, asal_instansi), perihal = COALESCE(?, perihal), tanggal_surat = COALESCE(?, tanggal_surat), sifat_surat = COALESCE(?, sifat_surat), file_url = COALESCE(?, file_url) WHERE id = ?',
+      [data.number ?? null, data.origin ?? null, data.subject ?? null, data.date ?? null, data.type ? data.type.toUpperCase() : null, data.fileUrl ?? null, row.id]
     );
-
     if (data.disposition) {
       const d = data.disposition;
       const instStr = d.instructions?.join(', ') || 'Tindak Lanjuti';
       await query(
-        'UPDATE riwayat_disposisi SET ' +
-        'pejabat_pendisposisi = COALESCE(?, pejabat_pendisposisi), ' +
-        'instruksi_tercatat = ?, ' +
-        'catatan_tertulis = ?, ' +
-        'status_penyelesaian = COALESCE(?, status_penyelesaian) ' +
-        'WHERE surat_masuk_id = ?',
-        [d.official || null, instStr, d.notes || '', d.status || 'SELESAI', sm.id]
+        'UPDATE riwayat_disposisi SET pejabat_pendisposisi = COALESCE(?, pejabat_pendisposisi), instruksi_tercatat = ?, catatan_tertulis = ?, status_penyelesaian = COALESCE(?, status_penyelesaian) WHERE surat_masuk_id = ?',
+        [d.official || null, instStr, d.notes || '', d.status || 'SELESAI', row.id]
       );
     }
-    return true;
   } else {
-    const sk = await queryOne<any>(
-      'SELECT id FROM arsip_surat_keluar WHERE id = ? OR nomor_agenda = ?',
-      [id, id]
-    );
-    if (!sk) return false;
-
     await query(
-      'UPDATE arsip_surat_keluar SET ' +
-      'nomor_surat = COALESCE(?, nomor_surat), ' +
-      'tujuan_instansi = COALESCE(?, tujuan_instansi), ' +
-      'perihal = COALESCE(?, perihal), ' +
-      'tanggal_surat = COALESCE(?, tanggal_surat), ' +
-      'file_url = COALESCE(?, file_url) ' +
-      'WHERE id = ?',
-      [
-        data.number ?? null,
-        data.origin ?? null,
-        data.subject ?? null,
-        data.date ?? null,
-        data.fileUrl ?? null,
-        sk.id,
-      ]
+      'UPDATE arsip_surat_keluar SET nomor_surat = COALESCE(?, nomor_surat), tujuan_instansi = COALESCE(?, tujuan_instansi), perihal = COALESCE(?, perihal), tanggal_surat = COALESCE(?, tanggal_surat), file_url = COALESCE(?, file_url) WHERE id = ?',
+      [data.number ?? null, data.origin ?? null, data.subject ?? null, data.date ?? null, data.fileUrl ?? null, row.id]
     );
-    return true;
   }
+  return true;
 }

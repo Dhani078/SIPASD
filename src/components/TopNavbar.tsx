@@ -115,7 +115,7 @@ export default function TopNavbar({
           />
           <kbd>Ctrl K</kbd>
           {open && query && (
-            <div className="search-results" role="region" aria-label="Hasil pencarian">
+            <section className="search-results" aria-label="Hasil pencarian">
               {results.map((l) => (
                 <button
                   key={l.id}
@@ -132,7 +132,7 @@ export default function TopNavbar({
                 </button>
               ))}
               {!results.length && <p>Arsip tidak ditemukan.</p>}
-            </div>
+            </section>
           )}
         </div>
         <div className="header-divider" />

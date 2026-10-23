@@ -58,7 +58,7 @@ Proyek SIPASD diaudit pada 5 dimensi: standar industri, fungsionalitas logic, cl
 
 ### M2. CLOUDINARY API SECRET DI SOURCE CODE
 - **File**: `src/app/api/pdf/route.ts` (baris 7)
-- **Masalah**: `api_secret: '[REDACTED_CLOUDINARY_SECRET]'` hardcoded dalam kode.
+- **Masalah**: `api_secret` hardcoded dalam kode sumber sebagai nilai cadangan.
 - **Risiko**: Secret terekspos di GitHub publik. Siapa pun bisa generate signed URL.
 - **Perbaikan**: Hapus fallback hardcoded, gunakan `process.env.CLOUDINARY_API_SECRET` saja.
 - **Status**: DIPERBAIKI SESI INI

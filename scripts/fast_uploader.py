@@ -8,9 +8,9 @@ import cloudinary.uploader
 from concurrent.futures import ThreadPoolExecutor
 
 cloudinary.config(
-    cloud_name=os.getenv('CLOUDINARY_CLOUD_NAME', 'vqfpoekg'),
-    api_key=os.getenv('CLOUDINARY_API_KEY', '966426338749991'),
-    api_secret=os.getenv('CLOUDINARY_API_SECRET', '[REDACTED_CLOUDINARY_SECRET]'),
+    cloud_name=os.getenv('CLOUDINARY_CLOUD_NAME'),
+    api_key=os.getenv('CLOUDINARY_API_KEY'),
+    api_secret=os.getenv('CLOUDINARY_API_SECRET'),
     secure=True
 )
 
@@ -36,12 +36,25 @@ def parse_date(filename):
 
 def get_conn():
     ctx = ssl.create_default_context()
+    db_url = os.getenv('DATABASE_URL')
+    if db_url:
+        import urllib.parse
+        p = urllib.parse.urlparse(db_url)
+        return pymysql.connect(
+            host=p.hostname or 'gateway01.ap-southeast-1.prod.aws.tidbcloud.com',
+            port=p.port or 4000,
+            user=p.username or '2MyeDkP7MjFas9U.root',
+            password=p.password or '',
+            database=(p.path or '/sipasd').lstrip('/'),
+            ssl=ctx,
+            autocommit=True
+        )
     return pymysql.connect(
-        host='gateway01.ap-southeast-1.prod.aws.tidbcloud.com',
-        port=4000,
-        user='2MyeDkP7MjFas9U.root',
-        password='[REDACTED_DB_PASSWORD]',
-        database='sipasd',
+        host=os.getenv('TIDB_HOST', 'gateway01.ap-southeast-1.prod.aws.tidbcloud.com'),
+        port=int(os.getenv('TIDB_PORT', 4000)),
+        user=os.getenv('TIDB_USER', '2MyeDkP7MjFas9U.root'),
+        password=os.getenv('TIDB_PASSWORD', ''),
+        database=os.getenv('TIDB_DATABASE', 'sipasd'),
         ssl=ctx,
         autocommit=True
     )

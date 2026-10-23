@@ -140,6 +140,7 @@ export default function DistributionView({ letters, onExport }: Props) {
                         <button
                           type="button"
                           className="table-action-btn action-view"
+                          aria-label={rec ? `Ubah catatan distribusi agenda ${letter.id}` : `Catat distribusi agenda ${letter.id}`}
                           onClick={() => { setSelectedLetter(letter); setNotice(null); setShowForm(true); }}
                         >
                           <Icon name="plus" size={14} />

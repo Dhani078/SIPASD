@@ -1,5 +1,6 @@
 import os
 import re
+import sys
 import pymupdf
 
 SM_DIR = r"C:\xampp\htdocs\Laporan Magang\Surat Masuk\Surat Masuk 2026"
@@ -66,7 +67,8 @@ def analyze_folder(folder_path, label):
                 })
             doc.close()
         except Exception as e:
-            print(f"Error reading {f}: {e}")
+            sys.stderr.write(f"Error reading {f}: {e}\n")
+            continue
             
     return {
         "label": label,

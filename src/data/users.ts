@@ -72,5 +72,3 @@ export const demoUsers: DemoUser[] = [
     unitKerja: 'Bidang Pembudayaan Olahraga',
   },
 ];
-
-export const DEMO_PASSWORD = 'Dispora2026!';

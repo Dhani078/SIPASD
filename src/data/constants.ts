@@ -48,3 +48,10 @@ export const defaultSampleLetter = {
     notes: 'Segera koordinasikan persiapan dengan panitia daerah.',
   },
 };
+
+export const GDRIVE_FOLDERS = {
+  smId: '1deTFD7oICTXkkMs5HzS-bhtZzvCqfW9n',
+  skId: '1rgWCFwULt8awBCVIuomy7cELKqEtbdkx',
+  smUrl: 'https://drive.google.com/drive/folders/1deTFD7oICTXkkMs5HzS-bhtZzvCqfW9n',
+  skUrl: 'https://drive.google.com/drive/folders/1rgWCFwULt8awBCVIuomy7cELKqEtbdkx',
+};

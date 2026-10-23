@@ -5,9 +5,9 @@ import { v2 as cloudinary } from 'cloudinary';
 import crypto from 'crypto';
 
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME || 'vqfpoekg',
-  api_key: process.env.CLOUDINARY_API_KEY || '966426338749991',
-  api_secret: process.env.CLOUDINARY_API_SECRET || '[REDACTED_CLOUDINARY_SECRET]',
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
   secure: true
 });
 
@@ -45,7 +45,7 @@ async function uploadFile(filePath: string, folder: string, publicId: string) {
 
 // Helper to run tasks with concurrency limit
 async function pMap<T, R>(items: T[], fn: (item: T, idx: number) => Promise<R>, concurrency: number = 5): Promise<R[]> {
-  const results: R[] = new Array(items.length);
+  const results: R[] = Array.from({ length: items.length });
   let currentIndex = 0;
 
   async function worker() {
@@ -61,7 +61,8 @@ async function pMap<T, R>(items: T[], fn: (item: T, idx: number) => Promise<R>, 
 }
 
 async function run() {
-  const dbUrl = process.env.DATABASE_URL || 'mysql://2MyeDkP7MjFas9U.root:[REDACTED_DB_PASSWORD]@gateway01.ap-southeast-1.prod.aws.tidbcloud.com:4000/sipasd?sslaccept=strict';
+  const dbUrl = process.env.DATABASE_URL;
+  if (!dbUrl) throw new Error('DATABASE_URL environment variable is required');
   const pool = mysql.createPool({
     uri: dbUrl,
     ssl: { rejectUnauthorized: true },

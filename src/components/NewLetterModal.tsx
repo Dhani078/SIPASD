@@ -22,6 +22,7 @@ export default function NewLetterModal({ direction, onClose, onSave }: Props) {
   const [saving, setSaving] = useState(false);
   const [aiRec, setAiRec] = useState<ClassificationResult | null>(null);
   const [classCode, setClassCode] = useState('005');
+  const [today] = useState(() => new Date().toISOString().slice(0, 10));
   const fileInput = useRef<HTMLInputElement>(null);
 
   const toggleCheck = (item: string) => {
@@ -112,8 +113,8 @@ export default function NewLetterModal({ direction, onClose, onSave }: Props) {
               <button type="button" className="btn primary py-1 px-2 text-xs" onClick={() => setClassCode(aiRec.code)}>Terapkan</button>
             </div>
           )}
-          <label>Tanggal Surat <input name="date" type="date" defaultValue={new Date().toISOString().slice(0, 10)} required /></label>
-          <label>Tanggal Diterima <input name="received" type="date" defaultValue={new Date().toISOString().slice(0, 10)} required /></label>
+          <label>Tanggal Surat <input name="date" type="date" defaultValue={today} required /></label>
+          <label>Tanggal Diterima <input name="received" type="date" defaultValue={today} required /></label>
           <label>
             Klasifikasi Arsip
             <select name="classification" value={classCode} onChange={(e) => setClassCode(e.target.value)}>

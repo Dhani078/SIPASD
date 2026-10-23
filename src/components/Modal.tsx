@@ -21,7 +21,10 @@ export default function Modal({
   const ref = useRef<HTMLDivElement>(null);
   const titleId = useId();
   const close = useRef(onClose);
-  close.current = onClose;
+
+  useEffect(() => {
+    close.current = onClose;
+  }, [onClose]);
 
   useEffect(() => {
     const previous = document.activeElement as HTMLElement | null;

@@ -1,14 +1,12 @@
-import { getRealLetters } from '@/lib/letters';
 import SipasdApp from '@/components/SipasdApp';
 import { demoUsers } from '@/data/users';
 
 export const dynamic = 'force-dynamic';
 
 export default async function LoginRoute() {
-  const letters = await getRealLetters();
   return (
     <SipasdApp
-      initialLetters={letters}
+      initialLetters={[]}
       initialUser={demoUsers[1]}
       initialPage="login"
     />

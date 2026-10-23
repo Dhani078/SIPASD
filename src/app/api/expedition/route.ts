@@ -5,6 +5,11 @@ import { getSession } from '@/lib/auth';
 
 export async function GET() {
   try {
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ success: false, message: 'Akses ditolak. Sesi tidak ditemukan.' }, { status: 401 });
+    }
+
     const rows = await query<any>(
       'SELECT e.id, e.surat_keluar_id, e.tanggal_kirim, e.kurir_pengirim, e.penerima_nama, ' +
       'e.penerima_telepon, e.catatan_ekspedisi, sk.nomor_agenda ' +
@@ -29,6 +34,9 @@ export async function POST(request: Request) {
     const session = await getSession();
     if (!session) {
       return NextResponse.json({ success: false, message: 'Akses ditolak. Sesi tidak ditemukan.' }, { status: 401 });
+    }
+    if (session.role !== 'SUPER_ADMIN' && session.role !== 'PETUGAS_ARSIP') {
+      return NextResponse.json({ success: false, message: 'Akses ditolak. Peran tidak memiliki izin mencatat ekspedisi.' }, { status: 403 });
     }
 
     const body = await request.json();

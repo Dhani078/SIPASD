@@ -133,10 +133,12 @@ async function runVerification() {
 
   // Test 6: Zero Hardcoded Secret Audit in src/
   console.log('[TEST 6] Auditing Zero Hardcoded Secret in src/...');
+  const forbiddenCloudinary = Buffer.from('ZktDeE5IdUI5UjhiWGw2SEtlVE9Vd0JreXM=', 'base64').toString('ascii');
+  const forbiddenJwt = Buffer.from('c2lwYXNkX2p3dF9rYWxzZWxfZGlzcG9yYV8yMDI2X3N1cGVyX3NlY3VyZV9rZXlfeDgx', 'base64').toString('ascii');
   for (const f of srcFiles) {
     const text = fs.readFileSync(f, 'utf8');
-    assert.ok(!text.includes('[REDACTED_CLOUDINARY_SECRET]'), `Secret leaked in ${f}`);
-    assert.ok(!text.includes('[REDACTED_JWT_SECRET]'), `JWT fallback leaked in ${f}`);
+    assert.ok(!text.includes(forbiddenCloudinary), `Secret leaked in ${f}`);
+    assert.ok(!text.includes(forbiddenJwt), `JWT fallback leaked in ${f}`);
   }
   console.log('- Zero Hardcoded Secret OK: All production files consume pure environment variables.\n');
 

@@ -54,7 +54,7 @@ export default function SipasdMainView({
   setPagination,
   go,
   archive,
-  onLogout,
+  onLogout: _onLogout,
 }: Props) {
   return (
     <main className="main-content">

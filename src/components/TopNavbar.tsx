@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Icon from './Icon';
 import ProfileDropdown from './ProfileDropdown';
 import NotificationsFlyout from './NotificationsFlyout';
+import WitaClock from './WitaClock';
 import type { LetterRecord, DemoUser } from '@/types';
 import { matchesSearch } from '@/lib/format';
 
@@ -35,7 +36,6 @@ export default function TopNavbar({
   const [notices, setNotices] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [read, setRead] = useState<number[]>([]);
-  const [now, setNow] = useState(new Date());
   const input = useRef<HTMLInputElement>(null);
   const root = useRef<HTMLElement>(null);
 
@@ -44,7 +44,6 @@ export default function TopNavbar({
   }, [open]);
 
   useEffect(() => {
-    const tick = setInterval(() => setNow(new Date()), 1000);
     const key = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
@@ -68,7 +67,6 @@ export default function TopNavbar({
     document.addEventListener('keydown', key);
     document.addEventListener('pointerdown', outside);
     return () => {
-      clearInterval(tick);
       document.removeEventListener('keydown', key);
       document.removeEventListener('pointerdown', outside);
     };
@@ -87,16 +85,7 @@ export default function TopNavbar({
         <span>{title}</span>
       </div>
       <div className="top-actions">
-        <time className="wita-clock mono" dateTime={now.toISOString()}>
-          {new Intl.DateTimeFormat('id-ID', {
-            timeZone: 'Asia/Makassar',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: false,
-          }).format(now)}{' '}
-          <small>WITA</small>
-        </time>
+        <WitaClock />
         <button
           className="icon-btn mobile-search-toggle"
           aria-label="Buka pencarian arsip"

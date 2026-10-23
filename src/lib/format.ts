@@ -1,9 +1,9 @@
-export function formatDate(date: string) {
+function formatIndoDate(date: string, month: 'long' | 'short'): string {
   try {
     const d = date.includes('T') ? new Date(date) : new Date(date + 'T00:00:00+08:00');
     return new Intl.DateTimeFormat('id-ID', {
       day: '2-digit',
-      month: 'long',
+      month,
       year: 'numeric',
       timeZone: 'Asia/Makassar',
     }).format(d);
@@ -12,18 +12,12 @@ export function formatDate(date: string) {
   }
 }
 
-export function shortDate(date: string) {
-  try {
-    const d = date.includes('T') ? new Date(date) : new Date(date + 'T00:00:00+08:00');
-    return new Intl.DateTimeFormat('id-ID', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-      timeZone: 'Asia/Makassar',
-    }).format(d);
-  } catch {
-    return date;
-  }
+export function formatDate(date: string): string {
+  return formatIndoDate(date, 'long');
+}
+
+export function shortDate(date: string): string {
+  return formatIndoDate(date, 'short');
 }
 
 export function matchesSearch(
@@ -79,4 +73,21 @@ export function matchYearFilter(letterDate: string, filterYear?: string): boolea
   }
 
   return letterDate.startsWith(filterYear);
+}
+
+export function filterLetters(
+  letters: any[],
+  page: string,
+  filters: { query?: string; year?: string; urgency?: string; classification?: string; venue?: string; division?: string }
+) {
+  return letters.filter(
+    (l) =>
+      ((page !== 'in' && page !== 'out') || l.direction === page) &&
+      matchesSearch(l, filters.query || '') &&
+      matchYearFilter(l.date, filters.year) &&
+      (!filters.urgency || (filters.urgency === 'Urgent' ? ['Kilat', 'Segera'].includes(l.type) : l.type === filters.urgency)) &&
+      (!filters.classification || l.classification === filters.classification) &&
+      (!filters.venue || l.venue === filters.venue) &&
+      (!filters.division || l.division === filters.division)
+  );
 }

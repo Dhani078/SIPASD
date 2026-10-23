@@ -5,11 +5,11 @@ import type { LetterRecord } from '@/types';
 
 export default function CorrespondenceChart({
   letters,
-  onExport,
+  onExport: _onExport,
   selectedYear = '2026',
 }: {
   letters: LetterRecord[];
-  onExport: () => void;
+  onExport?: () => void;
   selectedYear?: string;
 }) {
   const [period, setPeriod] = useState(1);

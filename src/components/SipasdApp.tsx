@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LandingPage from './LandingPage';
 import LoginPage from './LoginPage';
 import Sidebar from './Sidebar';
@@ -11,7 +11,7 @@ import { emptyFilters } from './ArchiveWorkspace';
 import { useLetterActions } from '@/hooks/useLetterActions';
 import { groups } from '@/data/navigation';
 import { demoUsers } from '@/data/users';
-import { matchesSearch, matchYearFilter } from '@/lib/format';
+import { filterLetters } from '@/lib/format';
 import { exportExcel } from '@/lib/exportExcel';
 import type { LetterRecord, DemoUser, ArchiveFilters } from '@/types';
 
@@ -20,6 +20,14 @@ interface Props {
   initialUser?: DemoUser;
   initialPage?: string;
 }
+
+const URL_MAP: Record<string, string> = {
+  dashboard: '/dashboard',
+  in: '/arsip-masuk',
+  out: '/arsip-keluar',
+  landing: '/',
+  login: '/login',
+};
 
 export default function SipasdApp({
   initialLetters,
@@ -52,7 +60,28 @@ export default function SipasdApp({
   const go = (next: string) => {
     setSelected(null); setSelectedIds([]); setFilters(emptyFilters);
     setPagination(1); setDrawer(false); setPage(next);
+    if (typeof window !== 'undefined') {
+      const dest = URL_MAP[next] || `/dashboard?view=${next}`;
+      if (window.location.pathname + window.location.search !== dest) {
+        window.history.pushState({ page: next }, '', dest);
+      }
+    }
   };
+
+  useEffect(() => {
+    const handlePop = () => {
+      const path = window.location.pathname;
+      const v = new URLSearchParams(window.location.search).get('view');
+      if (v) setPage(v);
+      else if (path.includes('arsip-masuk')) setPage('in');
+      else if (path.includes('arsip-keluar')) setPage('out');
+      else if (path.includes('dashboard')) setPage('dashboard');
+      else if (path.includes('login')) setPage('login');
+      else if (path === '/') setPage('landing');
+    };
+    window.addEventListener('popstate', handlePop);
+    return () => window.removeEventListener('popstate', handlePop);
+  }, []);
 
   const archive = (next: string, values: Partial<ArchiveFilters> = {}) => {
     go(next);
@@ -64,16 +93,9 @@ export default function SipasdApp({
       ? 'Beranda Eksekutif'
       : groups.flatMap((g) => g.items).find((i) => i[2] === page)?.[0] ?? 'Profil Pengguna';
 
-  const visible = letters.filter(
-    (l) =>
-      ((page !== 'in' && page !== 'out') || l.direction === page) &&
-      matchesSearch(l, filters.query) &&
-      matchYearFilter(l.date, filters.year) &&
-      (!filters.urgency || (filters.urgency === 'Urgent' ? ['Kilat', 'Segera'].includes(l.type) : l.type === filters.urgency)) &&
-      (!filters.classification || l.classification === filters.classification) &&
-      (!filters.venue || l.venue === filters.venue) &&
-      (!filters.division || l.division === filters.division)
-  );
+  const visible = filterLetters(letters, page, filters);
+  const inCount = letters.filter((l) => l.direction === 'in').length;
+  const outCount = letters.filter((l) => l.direction === 'out').length;
 
   const onSaveLetter = async (record: Omit<LetterRecord, 'id'>, file?: File) => {
     const saved = await handleSave(record, file);
@@ -91,21 +113,13 @@ export default function SipasdApp({
     setSelectedIds(allChecked ? selectedIds.filter((id) => !visibleIds.includes(id)) : [...new Set([...selectedIds, ...visibleIds])]);
   };
 
-  const handleBatchDelete = () => {
-    const targets = letters.filter((l) => selectedIds.includes(l.id));
-    setBatchTargets(targets);
-  };
-
   if (page === 'landing') {
     return (
       <LandingPage
-        go={go}
-        onTrack={(q) => archive('in', { query: q })}
+        go={go} onTrack={(q) => archive('in', { query: q })}
         onVenue={(v) => archive(letters.some((l) => l.venue === v && l.direction === 'in') ? 'in' : 'out', { venue: v })}
-        setModal={setModal}
-        sampleLetter={letters[0]}
-        totalSuratMasuk={letters.filter((l) => l.direction === 'in').length}
-        totalSuratKeluar={letters.filter((l) => l.direction === 'out').length}
+        setModal={setModal} sampleLetter={letters[0]}
+        totalSuratMasuk={inCount} totalSuratKeluar={outCount}
       />
     );
   }
@@ -126,73 +140,31 @@ export default function SipasdApp({
   return (
     <div className="app-shell">
       {drawer && <div className="drawer-overlay" onClick={() => setDrawer(false)} />}
-      <Sidebar
-        drawer={drawer}
-        page={page}
-        go={go}
-        user={user}
-        counts={{
-          in: letters.filter((l) => l.direction === 'in').length,
-          out: letters.filter((l) => l.direction === 'out').length,
-        }}
-      />
+      <Sidebar drawer={drawer} page={page} go={go} user={user} counts={{ in: inCount, out: outCount }} />
       <div className="workspace">
         <TopNavbar
-          title={title}
-          user={user}
-          letters={letters}
-          onSelect={setSelected}
-          onSearch={(q) => archive('in', { query: q })}
-          onMenu={() => setDrawer((v) => !v)}
-          onExport={() => void exportExcel(visible)}
-          onNavigate={go}
+          title={title} user={user} letters={letters} onSelect={setSelected}
+          onSearch={(q) => archive('in', { query: q })} onMenu={() => setDrawer((v) => !v)}
+          onExport={() => void exportExcel(visible)} onNavigate={go}
         />
         <SipasdMainView
-          page={page}
-          title={title}
-          user={user}
-          letters={letters}
-          visible={visible}
-          filters={filters}
-          setFilters={setFilters}
-          selected={selected}
-          setSelected={setSelected}
-          selectedIds={selectedIds}
-          onToggleSelect={handleToggleSelect}
-          onToggleAll={handleToggleAll}
-          onBatchDelete={handleBatchDelete}
-          setPrintLetter={setPrintLetter}
-          onEdit={setEditTarget}
-          onDelete={setDeleteTarget}
-          setModal={setModal}
-          pagination={pagination}
-          setPagination={setPagination}
-          go={go}
-          archive={archive}
+          page={page} title={title} user={user} letters={letters} visible={visible}
+          filters={filters} setFilters={setFilters} selected={selected} setSelected={setSelected}
+          selectedIds={selectedIds} onToggleSelect={handleToggleSelect} onToggleAll={handleToggleAll}
+          onBatchDelete={() => setBatchTargets(letters.filter((l) => selectedIds.includes(l.id)))}
+          setPrintLetter={setPrintLetter} onEdit={setEditTarget} onDelete={setDeleteTarget}
+          setModal={setModal} pagination={pagination} setPagination={setPagination}
+          go={go} archive={archive}
         />
       </div>
 
       <AppModals
-        modal={modal}
-        selected={selected}
-        printLetter={printLetter}
-        editTarget={editTarget}
-        deleteTarget={deleteTarget}
-        batchTargets={batchTargets}
-        deleting={deleting}
-        page={page}
-        toast={toast}
-        setModal={setModal}
-        setSelected={setSelected}
-        setPrintLetter={setPrintLetter}
-        setEditTarget={setEditTarget}
-        setDeleteTarget={setDeleteTarget}
-        setBatchTargets={setBatchTargets}
-        setSelectedIds={setSelectedIds}
-        onSaveLetter={onSaveLetter}
-        onUpdateLetter={handleUpdate}
-        confirmDelete={confirmDelete}
-        confirmBatchDelete={confirmBatchDelete}
+        modal={modal} selected={selected} printLetter={printLetter} editTarget={editTarget}
+        deleteTarget={deleteTarget} batchTargets={batchTargets} deleting={deleting} page={page}
+        toast={toast} setModal={setModal} setSelected={setSelected} setPrintLetter={setPrintLetter}
+        setEditTarget={setEditTarget} setDeleteTarget={setDeleteTarget} setBatchTargets={setBatchTargets}
+        setSelectedIds={setSelectedIds} onSaveLetter={onSaveLetter} onUpdateLetter={handleUpdate}
+        confirmDelete={confirmDelete} confirmBatchDelete={confirmBatchDelete}
       />
     </div>
   );

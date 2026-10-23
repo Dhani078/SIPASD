@@ -7,10 +7,17 @@ import { logAudit } from '@/lib/audit';
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { username, password } = body;
+    const { username, password, isQuickLogin } = body;
 
-    if (!username || !password) {
-      return NextResponse.json({ success: false, message: 'Username dan password wajib diisi' }, { status: 400 });
+    if (!username) {
+      return NextResponse.json({ success: false, message: 'Username wajib diisi' }, { status: 400 });
+    }
+
+    const allowQuick = process.env.ALLOW_DEMO_LOGIN === 'true';
+    const isQuick = isQuickLogin && allowQuick;
+
+    if (!isQuick && !password) {
+      return NextResponse.json({ success: false, message: 'Password wajib diisi' }, { status: 400 });
     }
 
     const user = await queryOne(
@@ -22,9 +29,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, message: 'Kredensial tidak valid atau akun dinonaktifkan' }, { status: 401 });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password_hash);
-    if (!isMatch) {
-      return NextResponse.json({ success: false, message: 'Password salah' }, { status: 401 });
+    if (!isQuick) {
+      const isMatch = await bcrypt.compare(password, user.password_hash);
+      if (!isMatch) {
+        return NextResponse.json({ success: false, message: 'Password salah' }, { status: 401 });
+      }
     }
 
     const sessionData = {

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Icon from './Icon';
 import Crest from './Crest';
-import { demoUsers, DEMO_PASSWORD } from '@/data/users';
+import { demoUsers } from '@/data/users';
 import type { DemoUser } from '@/types';
 
 export default function LoginPage({
@@ -19,14 +19,14 @@ export default function LoginPage({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const submitLogin = async (usr: string, pwd: string) => {
+  const submitLogin = async (usr: string, pwd = '', isQuickLogin = false) => {
     setLoading(true);
     setError('');
     try {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: usr, password: pwd }),
+        body: JSON.stringify({ username: usr, password: pwd, isQuickLogin }),
       });
       const data = await res.json();
       if (!res.ok || !data.success) {
@@ -170,8 +170,8 @@ export default function LoginPage({
                 type="button"
                 onClick={() => {
                   setUsername(user.username);
-                  setPassword(DEMO_PASSWORD);
-                  submitLogin(user.username, DEMO_PASSWORD);
+                  setPassword('');
+                  submitLogin(user.username, '', true);
                 }}
               >
                 {user.label}

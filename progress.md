@@ -201,3 +201,38 @@
    - `npm run build`: kompilasi Next.js 15 sukses 100%.
    - Status live production di domain resmi `https://www.sipasd.my.id`.
 
+---
+
+## Sesi 9: Full Audit Spektrum, Pembersihan Kredensial, Penguatan RBAC, Transaksi Database, dan Sinkronisasi URL Router
+**Tanggal**: 23 Oktober 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Pembersihan Kredensial Rahasia & Zero Secrets**:
+   - Menghapus seluruh plaintext database password dan Cloudinary secret dari `scripts/fast_uploader.py`, `scripts/upload-cloudinary.ts`, `scripts/migrate-db.ts`, `scripts/seed-db.ts`, `scripts/seed-user-pengarsip.ts`, `src/lib/db.ts`, `PRD.md`, dan `docs/DEEP_AUDIT_ROADMAP.md`.
+   - Menghapus konstanta `DEMO_PASSWORD` dari `src/data/users.ts` dan bundle klien `LoginPage.tsx`. Mengalihkan opsi quick demo login aman di sisi server via env `ALLOW_DEMO_LOGIN`.
+2. **Penguatan Autentikasi, Middleware & RBAC**:
+   - Menambahkan `src/middleware.ts` untuk proteksi rute `/dashboard`, `/arsip-masuk`, `/arsip-keluar`, `/master`.
+   - Menerapkan redirect login tegas pada Server Components jika sesi tidak ditemukan.
+   - Mengoptimalkan rute `/login` tanpa eager loading 411 arsip TiDB (`initialLetters={[]}`).
+   - Menerapkan RBAC 4 tingkat pada API mutasi (`POST/PUT/DELETE /api/letters`, `POST /api/upload`, `POST /api/expedition`) khusus role `SUPER_ADMIN` dan `PETUGAS_ARSIP`.
+   - Memasang autentikasi sesi pada `GET /api/expedition` dan sanitasi whitelist regex path PDF pada `GET /api/pdf`.
+3. **Integritas Database, Transaksi Atomik & Eliminasi N+1**:
+   - Membungkus `insertNewLetter` dalam transaksi database (`beginTransaction`, `commit`, `rollback`) dengan locking `FOR UPDATE` untuk mencegah race condition registrasi agenda.
+   - Mengubah `deleteLettersBatch` dari loop N+1 sekuensial menjadi kueri atomik tunggal dengan array binding `IN (?)` pada mysql2.
+   - Mengubah `updateLetter` menjadi kueri parameter statis `COALESCE(?, column)` tanpa interpolasi string (zero SQL injection).
+   - Sentralisasi ID dan URL Google Drive ke `GDRIVE_FOLDERS` di `src/data/constants.ts`.
+4. **Sinkronisasi URL Router & Aksesibilitas**:
+   - Menerapkan sinkronisasi `window.history.pushState` dan listener `popstate` pada `SipasdApp.tsx` sehingga URL browser sinkron saat beralih tab, mendukung tombol Back/Forward dan refresh F5 tanpa terpental.
+   - Memisahkan jam digital WITA ke micro-component `<WitaClock />`, menghentikan re-render 1 detik pada seluruh `TopNavbar.tsx`.
+   - Menghapus seluruh unsafe type cast `as any` di `EditLetterModal.tsx`, menambahkan asosiasi `id` dan `htmlFor` pada form controls.
+   - Menyatukan utilitas tanggal `formatDate` dan `shortDate` di `src/lib/format.ts`.
+   - Memperbaiki penanganan exception pada hook `useLetterActions.ts` dan skrip python inspeksi PDF.
+5. **Verifikasi Kualitas**:
+   - Skor `aislop`: 90/100 (Healthy), 0 errors, 0 security vulnerabilities.
+   - `npm test`: 6/6 suites passed (100% HEALTHY).
+   - `npm run typecheck`: 0 type errors.
+   - `npm run build`: 12 routes + Middleware kompilasi sukses 100%.
+   - Seluruh 70 berkas di `src/` berukuran <= 200 baris kode.
+   - 0 em-dash di 132 berkas proyek.
+

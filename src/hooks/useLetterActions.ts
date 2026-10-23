@@ -19,10 +19,11 @@ export function useLetterActions(
       fd.append('folder', record.direction === 'in' ? 'surat_masuk' : 'surat_keluar');
       const upRes = await fetch('/api/upload', { method: 'POST', body: fd });
       const upData = await upRes.json();
-      if (upRes.ok && upData.success) {
-        fileUrl = upData.url;
-        if (upData.driveUrl) driveUrl = upData.driveUrl;
+      if (!upRes.ok || !upData.success) {
+        throw new Error(upData.message || 'Gagal mengunggah berkas PDF.');
       }
+      fileUrl = upData.url;
+      if (upData.driveUrl) driveUrl = upData.driveUrl;
     }
     const res = await fetch('/api/letters', {
       method: 'POST',
@@ -92,10 +93,11 @@ export function useLetterActions(
       fd.append('folder', editTarget?.direction === 'in' ? 'surat_masuk' : 'surat_keluar');
       const upRes = await fetch('/api/upload', { method: 'POST', body: fd });
       const upData = await upRes.json();
-      if (upRes.ok && upData.success) {
-        fileUrl = upData.url;
-        if (upData.driveUrl) driveUrl = upData.driveUrl;
+      if (!upRes.ok || !upData.success) {
+        throw new Error(upData.message || 'Gagal mengunggah berkas PDF pembaruan.');
       }
+      fileUrl = upData.url;
+      if (upData.driveUrl) driveUrl = upData.driveUrl;
     }
     const res = await fetch('/api/letters', {
       method: 'PUT',

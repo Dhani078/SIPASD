@@ -1,7 +1,11 @@
 import { NextResponse } from 'next/server';
 import { getRealLetters } from '@/lib/letters';
-import { insertNewLetter, deleteLetter, deleteLettersBatch, updateLetter } from '@/lib/letter-mutations';
+import { insertNewLetter, deleteLettersBatch, updateLetter } from '@/lib/letter-mutations';
 import { getSession } from '@/lib/auth';
+
+function canManageLetters(role?: string): boolean {
+  return role === 'SUPER_ADMIN' || role === 'PETUGAS_ARSIP';
+}
 
 export async function GET() {
   try {
@@ -22,11 +26,14 @@ export async function POST(request: Request) {
     if (!session) {
       return NextResponse.json({ success: false, message: 'Akses ditolak. Sesi tidak ditemukan.' }, { status: 401 });
     }
+    if (!canManageLetters(session.role)) {
+      return NextResponse.json({ success: false, message: 'Akses ditolak. Peran tidak memiliki izin menambah arsip.' }, { status: 403 });
+    }
     const body = await request.json();
     if (!body.number || !body.origin || !body.subject) {
       return NextResponse.json({ success: false, message: 'Nomor surat, instansi, dan perihal wajib diisi.' }, { status: 400 });
     }
-    const sanitize = (s: string) => String(s).replace(/[<>]/g, '').trim().slice(0, 500);
+    const sanitize = (s: string) => s.replace(/[<>]/g, '').trim().slice(0, 500);
     body.number = sanitize(body.number);
     body.origin = sanitize(body.origin);
     body.subject = sanitize(body.subject);
@@ -50,6 +57,9 @@ export async function DELETE(request: Request) {
     const session = await getSession();
     if (!session) {
       return NextResponse.json({ success: false, message: 'Akses ditolak. Sesi tidak ditemukan.' }, { status: 401 });
+    }
+    if (!canManageLetters(session.role)) {
+      return NextResponse.json({ success: false, message: 'Akses ditolak. Peran tidak memiliki izin menghapus arsip.' }, { status: 403 });
     }
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
@@ -93,6 +103,9 @@ export async function PUT(request: Request) {
     const session = await getSession();
     if (!session) {
       return NextResponse.json({ success: false, message: 'Akses ditolak. Sesi tidak ditemukan.' }, { status: 401 });
+    }
+    if (!canManageLetters(session.role)) {
+      return NextResponse.json({ success: false, message: 'Akses ditolak. Peran tidak memiliki izin mengubah arsip.' }, { status: 403 });
     }
     const body = await request.json();
     const { id, direction, ...updates } = body;

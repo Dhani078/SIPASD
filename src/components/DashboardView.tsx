@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Icon, { type IconName } from './Icon';
 import ArchiveTable from './ArchiveTable';
 import CorrespondenceChart from './CorrespondenceChart';
@@ -19,19 +19,22 @@ interface Props {
 }
 
 export default function DashboardView({
-  letters,
-  go,
-  setFilter,
-  setModal,
-  exportData,
-  onSelect,
-  onVenue,
-  onDivision,
+  letters, go, setFilter, setModal, exportData, onSelect, onVenue, onDivision,
 }: Props) {
   const [year, setYear] = useState('2026');
-  const active = year === 'Semua' ? letters : letters.filter((l) => l.date.startsWith(year));
-  const incoming = active.filter((l) => l.direction === 'in').length;
-  const urgent = active.filter((l) => ['Kilat', 'Segera'].includes(l.type)).length;
+  const active = useMemo(() => (year === 'Semua' ? letters : letters.filter((l) => l.date.startsWith(year))), [letters, year]);
+
+  const { incoming, urgent, counts } = useMemo(() => {
+    let inc = 0, urg = 0;
+    const divMap = new Map<string, number>(divisions.map((d) => [d, 0]));
+    for (const l of active) {
+      if (l.direction === 'in') inc++;
+      if (l.type === 'Kilat' || l.type === 'Segera') urg++;
+      if (l.division && divMap.has(l.division)) divMap.set(l.division, (divMap.get(l.division) || 0) + 1);
+    }
+    return { incoming: inc, urgent: urg, counts: divisions.map((d) => divMap.get(d) || 0) };
+  }, [active]);
+
   const stats: [IconName, string, number, string, string][] = [
     ['in', 'Surat Masuk', incoming, 'dokumen', 'green'],
     ['out', 'Surat Keluar', active.length - incoming, 'dokumen', 'gold'],
@@ -39,14 +42,15 @@ export default function DashboardView({
     ['clock', 'Sifat Kilat & Segera', urgent, 'berkas', 'red'],
   ];
 
-  let offset = 0;
-  const counts = divisions.map((d) => active.filter((l) => l.division === d).length);
-  const colors = ['#146c51', '#51977e', '#98bbaa', '#d6ab61', '#e4d3ae'];
-  const segments = counts.map((count, i) => {
-    const start = offset;
-    offset += active.length ? (count / active.length) * 100 : 0;
-    return `${colors[i]} ${start}% ${offset}%`;
-  });
+  const segments = useMemo(() => {
+    let acc = 0;
+    const colors = ['#146c51', '#51977e', '#98bbaa', '#d6ab61', '#e4d3ae'];
+    return counts.map((count, i) => {
+      const start = acc;
+      acc += active.length ? (count / active.length) * 100 : 0;
+      return `${colors[i]} ${start}% ${acc}%`;
+    });
+  }, [counts, active.length]);
 
   return (
     <>

@@ -128,6 +128,20 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Perbaikan tuntas logout bersih: fungsi `clearSessionCookie` (maxAge 0, path '/') di `src/lib/auth.ts`, endpoint `GET/POST /api/auth/logout`, dan integrasi tombol logout di seluruh komponen navigasi tanpa loop bouncing kembali ke dashboard saat direfresh.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 11: Full Audit Spektrum, Zero Secrets, RBAC 4 Tingkat, Transaksi Database & Sinkronisasi Router URL
+- [x] Pembersihan total seluruh password TiDB, Cloudinary secret, dan JWT fallback dari seluruh berkas skrip dan markdown (`scripts/`, `docs/`, `PRD.md`).
+- [x] Eliminasi konstanta `DEMO_PASSWORD` dari frontend `src/data/users.ts` dan bundle klien `LoginPage.tsx`.
+- [x] Pembuatan `src/middleware.ts` untuk proteksi rute Server Components terhadap akses tanpa sesi.
+- [x] Penegakan RBAC 4 tingkat pada API mutasi (`/api/letters`, `/api/upload`, `/api/expedition`).
+- [x] Implementasi transaksi atomik (`beginTransaction`, `commit`, `rollback`) dengan locking `FOR UPDATE` pada registrasi nomor agenda di `src/lib/letter-mutations.ts`.
+- [x] Eliminasi N+1 loop sekuensial pada batch delete menjadi kueri atomik `IN (?)`.
+- [x] Eliminasi risiko injeksi SQL dengan beralih ke parameter statis murni `COALESCE(?, column)`.
+- [x] Pembuatan komponen `src/components/WitaClock.tsx` untuk menghentikan re-render 1 detik pada bilah navigasi atas.
+- [x] Penerapan sinkronisasi URL peramban dengan `window.history.pushState` dan listener `popstate` di `SipasdApp.tsx`.
+- [x] Resolusi type safety (0 `as any`) dan aksesibilitas `id`/`htmlFor` pada `EditLetterModal.tsx`.
+- [x] Verifikasi kepatuhan: `npm test` 6/6 lolos, `npm run typecheck` 0 error, `npm run build` sukses 100%, skor `aislop` 90/100 (0 error, 0 vuln).
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

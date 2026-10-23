@@ -30,6 +30,12 @@ export async function GET(request: Request) {
     }
 
     const cleanPublicId = publicId.replace(/\.pdf$/i, '') + '.pdf';
+    if (!/^sipasd\/(surat_masuk|surat_keluar|test)\/[a-zA-Z0-9_.-]+\.pdf$/.test(cleanPublicId) || cleanPublicId.includes('..')) {
+      return NextResponse.json(
+        { success: false, message: 'Format public_id tidak diizinkan.' },
+        { status: 400 }
+      );
+    }
     const signedUrl = cloudinary.utils.private_download_url(cleanPublicId, 'pdf', {
       resource_type: 'raw',
       type: 'upload',

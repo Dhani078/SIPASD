@@ -1,7 +1,6 @@
 'use client';
 
 import Icon from './Icon';
-import Badge from './Badge';
 import type { DemoUser } from '@/types';
 
 interface Props {

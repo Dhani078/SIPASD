@@ -1,5 +1,6 @@
 import os
 import re
+import sys
 import pymupdf
 
 SM_DIR = r"C:\xampp\htdocs\Laporan Magang\Surat Masuk\Surat Masuk 2026"
@@ -50,8 +51,9 @@ def inspect_text_contents():
                     c = code_match.group(1)
                     classifications_found[c] = classifications_found.get(c, 0) + 1
                     
-            except Exception:
-                pass
+            except Exception as err:
+                sys.stderr.write(f"Warning: {f}: {err}\n")
+                continue
                 
     print(f"\nExtracted {len(subjects)} real subjects, {len(agencies)} destination agencies.")
     print("Classification Codes Occurrence in Text:", classifications_found)

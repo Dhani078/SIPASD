@@ -1,7 +1,8 @@
 import mysql from 'mysql2/promise';
 
 async function migrate() {
-  const url = process.env.DATABASE_URL || 'mysql://2MyeDkP7MjFas9U.root:[REDACTED_DB_PASSWORD]@gateway01.ap-southeast-1.prod.aws.tidbcloud.com:4000/sipasd?sslaccept=strict';
+  const url = process.env.DATABASE_URL;
+  if (!url) throw new Error('DATABASE_URL environment variable is required');
   console.log('Connecting to TiDB Cloud Serverless...');
   
   const connection = await mysql.createConnection({

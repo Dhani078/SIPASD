@@ -12,6 +12,28 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.7.0] - 2026-10-23
+
+### Added
+- **Proteksi Rute Middleware (`src/middleware.ts`)**: Penjaga rute Edge untuk proteksi `/dashboard`, `/arsip-masuk`, `/arsip-keluar`, dan `/master` dari akses tanpa autentikasi.
+- **Micro-Component Jam WITA (`src/components/WitaClock.tsx`)**: Pemisahan jam digital zona waktu WITA agar tidak memicu re-render 1 detik pada seluruh `TopNavbar.tsx`.
+- **Sinkronisasi URL Browser (`window.history.pushState` & `popstate`)**: Navigasi sidebar kini memperbarui URL peramban secara real-time dan mendukung navigasi Back/Forward serta refresh F5 tanpa terpental ke dashboard.
+
+### Security
+- **Pembersihan Total Secrets dari Repositori**: Menghapus seluruh plaintext database password dan Cloudinary secret dari file skrip (`fast_uploader.py`, `upload-cloudinary.ts`, `migrate-db.ts`, `seed-db.ts`, `seed-user-pengarsip.ts`, `db.ts`) dan dokumentasi (`PRD.md`, `DEEP_AUDIT_ROADMAP.md`).
+- **Eliminasi `DEMO_PASSWORD` dari Client Bundle**: Menghapus password plaintext dari `users.ts` dan bundle frontend `LoginPage.tsx`. Opsi uji peran dialihkan ke verifikasi server via env `ALLOW_DEMO_LOGIN`.
+- **Enforcement RBAC 4 Tingkat**: Pembatasan ketat pada endpoint mutasi data (`POST/PUT/DELETE /api/letters`, `POST /api/upload`, `POST /api/expedition`) khusus role `SUPER_ADMIN` dan `PETUGAS_ARSIP`.
+- **Autentikasi Ekspedisi & Whitelist PDF**: Guard sesi pada `GET /api/expedition` dan validasi regex anti-path-traversal pada `GET /api/pdf`.
+
+### Changed
+- **Transaksi Database Atomik**: Fungsi `insertNewLetter` dan `deleteLettersBatch` kini dibungkus dalam transaksi database (`beginTransaction`, `commit`, `rollback`) dengan locking `FOR UPDATE` untuk mencegah race condition registrasi agenda.
+- **Optimasi Batch Delete**: Menghapus operasi loop N+1 sekuensial menjadi kueri tunggal atomik dengan klausa `IN (?)` pada mysql2.
+- **Kueri Parameterized Statis**: Kueri `updateLetter` diubah menjadi parameter statis murni dengan `COALESCE(?, column)`, mengeliminasi risiko injeksi SQL.
+- **Aksesibilitas & Type Safety**: Penggantian seluruh unsafe cast `as any` dengan union types pada `EditLetterModal.tsx`, penambahan atribut `id` dan `htmlFor` pada form controls.
+- **Optimasi Eager Loading**: Halaman `/login` tidak lagi memuat 411 arsip TiDB saat belum terautentikasi (`initialLetters={[]}`).
+
+---
+
 ## [2.6.0] - 2026-10-23
 
 ### Added

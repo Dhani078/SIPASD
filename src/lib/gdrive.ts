@@ -1,3 +1,5 @@
+import { GDRIVE_FOLDERS } from '@/data/constants';
+
 interface GoogleTokenResponse {
   access_token: string;
   expires_in: number;
@@ -67,8 +69,8 @@ export async function uploadToGoogleDrive(
 
   const folderId =
     folderType === 'masuk'
-      ? process.env.GOOGLE_DRIVE_SM_FOLDER_ID || '1deTFD7oICTXkkMs5HzS-bhtZzvCqfW9n'
-      : process.env.GOOGLE_DRIVE_SK_FOLDER_ID || '1rgWCFwULt8awBCVIuomy7cELKqEtbdkx';
+      ? process.env.GOOGLE_DRIVE_SM_FOLDER_ID || GDRIVE_FOLDERS.smId
+      : process.env.GOOGLE_DRIVE_SK_FOLDER_ID || GDRIVE_FOLDERS.skId;
 
   const boundary = '-------314159265358979323846';
   const delimiter = `\r\n--${boundary}\r\n`;

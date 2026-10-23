@@ -515,13 +515,13 @@ Korpus 420 pindaian scan PDF yang tersimpan di SIPASD menjadi objek data penelit
    - Hubungkan repositori GitHub `Dhani078/SIPASD` ke Vercel.
    - Atur *Environment Variables* di Vercel Dashboard:
      ```env
-     DATABASE_URL="mysql://2MyeDkP7MjFas9U.root:[REDACTED_DB_PASSWORD]@gateway01.ap-southeast-1.prod.aws.tidbcloud.com:4000/sipasd?sslaccept=strict"
-     CLOUDINARY_CLOUD_NAME="vqfpoekg"
-     CLOUDINARY_API_KEY="966426338749991"
-     CLOUDINARY_API_SECRET="[REDACTED_CLOUDINARY_SECRET]"
-     CLOUDINARY_URL="cloudinary://966426338749991:[REDACTED_CLOUDINARY_SECRET]@vqfpoekg"
-     NEXTAUTH_SECRET="[REDACTED_NEXTAUTH_SECRET]"
-     JWT_SECRET="[REDACTED_JWT_SECRET]"
+     DATABASE_URL="mysql://username:password@gateway01.ap-southeast-1.prod.aws.tidbcloud.com:4000/sipasd?sslaccept=strict"
+     CLOUDINARY_CLOUD_NAME="your_cloud_name"
+     CLOUDINARY_API_KEY="your_api_key"
+     CLOUDINARY_API_SECRET="your_cloudinary_api_secret"
+     CLOUDINARY_URL="cloudinary://your_api_key:your_cloudinary_api_secret@your_cloud_name"
+     NEXTAUTH_SECRET="your_nextauth_secure_key_min_32_characters"
+     JWT_SECRET="your_jwt_secret_key_minimum_32_characters"
      ```
    - Klik **Deploy**. Vercel akan menghasilkan URL produksi HTTPS publik aktif 24 jam gratis.
 

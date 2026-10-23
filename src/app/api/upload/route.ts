@@ -2,12 +2,20 @@ import { NextResponse } from 'next/server';
 import { uploadPdfBuffer } from '@/lib/cloudinary';
 import { uploadToGoogleDrive } from '@/lib/gdrive';
 import { getSession } from '@/lib/auth';
+import { GDRIVE_FOLDERS } from '@/data/constants';
+
+function canUpload(role?: string): boolean {
+  return role === 'SUPER_ADMIN' || role === 'PETUGAS_ARSIP';
+}
 
 export async function POST(request: Request) {
   try {
     const session = await getSession();
     if (!session) {
       return NextResponse.json({ success: false, message: 'Akses ditolak. Sesi tidak ditemukan.' }, { status: 401 });
+    }
+    if (!canUpload(session.role)) {
+      return NextResponse.json({ success: false, message: 'Akses ditolak. Peran tidak memiliki izin mengunggah berkas.' }, { status: 403 });
     }
 
     const formData = await request.formData();
@@ -29,7 +37,6 @@ export async function POST(request: Request) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Validate PDF magic bytes %PDF-
     const magic = buffer.subarray(0, 5).toString('ascii');
     if (magic !== '%PDF-') {
       return NextResponse.json({ success: false, message: 'Isi berkas bukan dokumen PDF yang valid.' }, { status: 400 });
@@ -37,7 +44,6 @@ export async function POST(request: Request) {
 
     const result = await uploadPdfBuffer(buffer, folder, file.name);
 
-    // Also upload in parallel to official Google Drive backup (5 TB)
     const gdriveFolderType = folder === 'surat_masuk' ? 'masuk' : 'keluar';
     const driveUrl = await uploadToGoogleDrive(buffer, file.name, gdriveFolderType);
 
@@ -48,9 +54,7 @@ export async function POST(request: Request) {
       publicId: result.publicId,
       driveUrl:
         driveUrl ||
-        (gdriveFolderType === 'masuk'
-          ? 'https://drive.google.com/drive/folders/1deTFD7oICTXkkMs5HzS-bhtZzvCqfW9n'
-          : 'https://drive.google.com/drive/folders/1rgWCFwULt8awBCVIuomy7cELKqEtbdkx'),
+        (gdriveFolderType === 'masuk' ? GDRIVE_FOLDERS.smUrl : GDRIVE_FOLDERS.skUrl),
     });
   } catch (error: any) {
     console.error('Upload API error:', error);

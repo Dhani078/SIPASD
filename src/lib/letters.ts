@@ -1,6 +1,6 @@
 import { query } from '@/lib/db';
 import type { LetterRecord, Urgency } from '@/types';
-import { venues } from '@/data/constants';
+import { venues, GDRIVE_FOLDERS } from '@/data/constants';
 import { classifyText } from '@/lib/classifier';
 
 function mapDivision(name?: string | null): string {
@@ -84,7 +84,7 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
         status: r.status_penyelesaian || 'SELESAI',
       },
       fileUrl: r.file_url,
-      driveUrl: r.drive_url || 'https://drive.google.com/drive/folders/1deTFD7oICTXkkMs5HzS-bhtZzvCqfW9n',
+      driveUrl: r.drive_url || GDRIVE_FOLDERS.smUrl,
     };
   });
 
@@ -116,7 +116,7 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
         notes: 'Arsip surat keluar resmi Dispora Kalsel.',
       },
       fileUrl: r.file_url,
-      driveUrl: r.drive_url || 'https://drive.google.com/drive/folders/1rgWCFwULt8awBCVIuomy7cELKqEtbdkx',
+      driveUrl: r.drive_url || GDRIVE_FOLDERS.skUrl,
     };
   });
 

@@ -88,10 +88,23 @@ Jejak lengkap per baris ada di `docs/METADATA_SURAT_MASUK_2026.csv` dan `docs/ME
 
 ## 5. Keterbatasan
 
-1. 289 dari 423 berkas adalah pindai tanpa lapisan teks, sehingga hasil bergantung mutu OCR; sebagian nilai masih mengandung sisa derau OCR (contoh `900/ SSot /Disporai2026`) dan perlu dikoreksi manual.
+1. 289 dari 423 berkas adalah pindai tanpa lapisan teks, sehingga hasil bergantung mutu OCR; sebagian nilai masih mengandung sisa derau OCR dan perlu dikoreksi manual.
 2. Sebagian berkas tidak memuat kepala surat lengkap (berkas dimulai dari lampiran atau proposal), sehingga nomor, asal, dan perihal tidak bisa diambil.
 3. `ringkasan_isi` masih berisi nama berkas dan belum diisi ulang; untuk mengisinya perlu peringkasan isi surat, bukan sekadar pencocokan pola.
 4. Kolom `tahun`, `nomor_urut`, dan `kode_klasifikasi` pada surat keluar belum ditinjau ulang.
+
+### 5.1 Pembersihan Nilai Bernoda OCR
+
+Nilai yang tetap lolos penyaring otomatis tapi jelas keliru dibersihkan dengan `scripts/bersihkan-nilai-ocr.ts` (33 baris diperbaiki):
+
+| Pola temuan | Perlakuan | Contoh |
+|---|---|---|
+| Perihal diawali nomor dan kata sifat surat | Potong awalan, sisakan perihal sebenarnya | `900/ SSot /Disporai2026 Biasa Permohonan Cetak Rekening Koran` menjadi `Permohonan Cetak Rekening Koran` |
+| Tujuan mengandung sisa kata baku lain | Ganti ke nama baku | `Inspekur Previnsi Katimntnn Selatah Cq.Irbanwil I Inspcktorat` dan `Kepala BAPPEDA Provinsi Kalimantan Selatan` menjadi `Inspektorat Daerah Prov. Kalimantan Selatan` dan `Bappeda Prov. Kalimantan Selatan` |
+| Tujuan berupa blok data pegawai atau kalimat template | Tandai `-` | `Nama M.Taufik Rahmani,SE NIP 198303062025211119`, `Atasan Langsung ataupejabatyangditentukan`, `Untuk 1. Nama Pangka UGol NIP Jabatan` |
+| Tujuan masih memakai nilai contoh lama | Tandai `-` | `KONI Kalsel / Instansi Terkait` pada 16 baris tanpa berkas PDF pasangan |
+
+Setelah pembersihan, jumlah baris dengan tujuan instansi hasil ekstraksi pada surat keluar menjadi 56 (sebelumnya 81 termasuk nilai contoh dan derau).
 
 ---
 

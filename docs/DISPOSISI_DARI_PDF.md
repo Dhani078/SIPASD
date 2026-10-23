@@ -111,6 +111,27 @@ Catatan: 59 baris dibiarkan `-` karena tidak ada bukti yang cukup di berkas. Nil
 3. Folder Google Drive tidak memisahkan surat masuk dan surat keluar secara konsisten (sebagian surat keluar tersimpan di folder surat masuk), sehingga blok alamat sebuah berkas tidak selalu menandakan disposisi.
 4. Baris dengan nilai `-` sebaiknya dilengkapi dari arsip fisik lembar disposisi.
 
+### 6.1 Pemeriksaan Halaman Belakang untuk 59 Baris Tanpa Bukti
+
+Untuk memastikan baris `-` memang tidak punya jejak disposisi, dilakukan pemeriksaan lanjutan:
+
+1. Halaman terakhir 26 berkas (dari 59) yang punya lebih dari satu halaman di-OCR ulang.
+2. 33 berkas sisanya hanya satu halaman, sehingga isinya sudah tercakup pada OCR halaman pertama.
+3. Seluruh teks (halaman pertama + halaman terakhir) disaring dengan dua lapis pola: nama pejabat (tanpa peduli spasi, contoh `pebriadinhapiz`) dan pola longgar (`kepaladinaskepemudaan`, `disposisi`, `sekretaris`, `pptk|ppk|bendahara`).
+
+Hasil pemeriksaan:
+
+| Temuan pada 59 berkas | Jumlah berkas |
+|---|---|
+| Nama pejabat pendisposisi (Pebriadin, Denny Saputra, Norika Fajriana, Budiono, Heru Susanto, M. Fauzi, Akhmad Syarif) | 0 |
+| Kata `disposisi` | 0 |
+| Kata `sekretaris` (umumnya karena surat dari atau ditujukan ke Sekretariat) | 16 |
+| Peran keuangan (`pptk`, `ppk`, `bendahara`) | 5 |
+| Kata `kepala dinas` | 2 |
+| Tidak ada pola sama sekali | 36 |
+
+Kesimpulan: 59 baris tersebut tidak memuat bukti yang cukup di berkas PDF, sehingga nilainya tetap `-` (Belum terverifikasi) dan tidak dikarang. Pengisiannya menunggu arsip fisik lembar disposisi atau daftar dari petugas arsip.
+
 ---
 
 ## 7. Cara Menjalankan Ulang

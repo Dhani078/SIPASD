@@ -5,6 +5,15 @@ Format: `[YYYY-MM-DD] Fitur/Perbaikan - Deskripsi`
 
 ---
 
+## [2026-10-22] Addendum: Buku Ekspedisi Tersimpan ke Database, Pembersihan Nilai OCR, dan Pemeriksaan 59 Baris Disposisi
+
+- **Buku Ekspedisi**: ditambah `src/app/api/expedition/route.ts` (GET daftar, POST upsert ke `buku_ekspedisi` dengan validasi dan audit log `CATAT_EKSPEDISI`). Form dipisah ke `src/components/ExpeditionFormModal.tsx` supaya `DistributionView.tsx` tetap di bawah 200 baris. Diuji langsung ke produksi: catatan tersimpan lalu dibaca ulang lewat `GET /api/expedition`, data uji sudah dihapus sehingga tabel kembali kosong.
+- **Pembersihan nilai OCR**: `scripts/bersihkan-nilai-ocr.ts` memperbaiki 33 baris, yaitu 1 perihal yang diawali nomor surat dan kata sifat, 13 tujuan yang dirapikan ke nama instansi baku, serta 16 tujuan nilai contoh `KONI Kalsel / Instansi Terkait` dan 3 tujuan berisi blok data pegawai yang ditandai `-`.
+- **Pemeriksaan 59 baris disposisi tanpa bukti**: halaman terakhir 26 berkas di-OCR ulang (33 berkas lain hanya satu halaman). Hasilnya tidak ada satu pun yang memuat nama pejabat pendisposisi atau kata `disposisi`, sehingga baris tersebut tetap `-` dan menunggu arsip fisik.
+- **Dokumentasi**: `docs/DISPOSISI_DARI_PDF.md` bagian 6.1, `docs/METADATA_DARI_PDF.md` bagian 5.1, dan `docs/API_ROUTES.md` bagian 6.
+
+---
+
 ## [2026-10-22] Addendum: Metadata Surat Diisi dari Dataset PDF
 
 - **Temuan**: metadata surat masih placeholder seragam, yaitu `NOMOR/<agenda>/DISPORA/2026` (170 baris), `Surat Masuk Terkait Agenda No. <agenda>` (167), `Instansi Pemerintah / Pengprov Cabang Olahraga Kalsel` (168), `Surat Keluar Dispora: <agenda>` (241), dan tujuan generik `KONI Kalsel / Instansi Terkait` (241).

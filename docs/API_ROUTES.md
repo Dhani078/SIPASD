@@ -91,3 +91,44 @@
 
 ### `GET /api/laporan/export-excel?jenis=surat-masuk&tahun=2026`
 - **Tujuan**: Mengunduh berkas spreadsheet `.xlsx` Buku Agenda Surat Masuk / Keluar resmi kedinasan.
+
+---
+
+## 6. Endpoint yang Benar-Benar Aktif di Repositori
+
+Daftar di bawah ini adalah rute yang terpasang pada kode saat ini (folder `src/app/api/`).
+
+| Rute | Metode | Fungsi | Penjagaan Sesi |
+|---|---|---|---|
+| `/api/auth/login` | POST | Validasi kredensial, terbitkan cookie `sipasd_session` | Tidak perlu |
+| `/api/auth/logout` | POST | Hapus cookie sesi | Tidak perlu |
+| `/api/letters` | GET | Kirim seluruh arsip surat masuk dan keluar ke antarmuka | Tidak perlu untuk baca |
+| `/api/letters` | POST | Tambah arsip surat baru (nomor, instansi, perihal wajib) | Wajib |
+| `/api/letters` | DELETE | Hapus satu atau banyak arsip (`id`, `ids`, `direction`) | Wajib |
+| `/api/expedition` | GET | Daftar catatan buku ekspedisi surat keluar | Tidak perlu |
+| `/api/expedition` | POST | Catat atau ubah distribusi ekspedisi (upsert per surat keluar) | Wajib |
+| `/api/pdf` | GET | Streaming PDF dari Cloudinary dengan tanda tangan anti-401 | Tidak perlu |
+| `/api/upload` | POST | Unggah berkas ke Cloudinary dan cadangan ke Google Drive | Wajib |
+
+### `POST /api/expedition`
+- **Tujuan**: Menyimpan catatan distribusi fisik surat keluar ke tabel `buku_ekspedisi` (satu catatan per surat, `ON DUPLICATE KEY UPDATE`).
+- **Request Body**:
+  ```json
+  {
+    "surat_keluar_id": "0932b756-a103-43ec-9b70-1b0b0d34c538",
+    "tanggal_kirim": "2026-10-22",
+    "kurir_pengirim": "Staf TU",
+    "penerima_nama": "Petugas Bank Kalsel",
+    "penerima_telepon": "0812-0000-1111",
+    "catatan_ekspedisi": "Diterima langsung di loket"
+  }
+  ```
+- **Response Sukses (200 OK)**:
+  ```json
+  {
+    "success": true,
+    "message": "Distribusi surat 3802/SK/DISPORA/2026 berhasil dicatat",
+    "nomor_agenda": "3802/SK/DISPORA/2026"
+  }
+  ```
+- **Validasi**: `surat_keluar_id`, `tanggal_kirim` (format `YYYY-MM-DD`), `kurir_pengirim`, dan `penerima_nama` wajib; surat keluar harus ada di basis data; aksi dicatat ke `audit_logs` sebagai `CATAT_EKSPEDISI`.

@@ -1,6 +1,7 @@
 'use client';
 
 import ArchiveTable from './ArchiveTable';
+import YearFilterControl from './YearFilterControl';
 import Icon from './Icon';
 import { classifications, venues, divisions } from '@/data/constants';
 import type { LetterRecord, ArchiveFilters } from '@/types';
@@ -105,16 +106,7 @@ export default function ArchiveWorkspace({
         )}
       </div>
       <div className="archive-filter-row">
-        <select
-          aria-label="Filter tahun anggaran"
-          value={filters.year || ''}
-          onChange={(e) => update('year', e.target.value)}
-        >
-          <option value="">Semua tahun</option>
-          <option value="2026">TA 2026</option>
-          <option value="2025">TA 2025</option>
-          <option value="2024">TA 2024</option>
-        </select>
+        <YearFilterControl value={filters.year} onChange={(y) => update('year', y)} />
         <select
           aria-label="Filter venue"
           value={filters.venue}

@@ -5,7 +5,20 @@ Format: `[YYYY-MM-DD] Fitur/Perbaikan - Deskripsi`
 
 ---
 
-## [2026-10-22] Addendum: 4 Tombol Aksi Dokumen Tabel (Tambah Unduh Langsung) & UI-Craft Polish
+## [2026-10-22] Addendum: Filter Tahun Anggaran Cerdas (Masa Depan 2027-2200, Rentang Historis, dan Input Kustom)
+
+- **Komponen Baru (`YearFilterControl.tsx`)**: dropdown tahun cerdas yang dikelompokkan berdasarkan optgroup:
+  - Tahun Berjalan & Terdata: `TA 2026 (Aktif)`, `TA 2025`, `TA 2024`.
+  - Tahun Mendatang: `TA 2027`, `TA 2028`, `TA 2029`, `TA 2030`, dan `TA 2027 - 2200 (Seterusnya)`.
+  - Rentang Periode Historis: `Periode 2021 - 2025`, `Arsip 2000 - 2020`, `Arsip Sebelum 2000 (< 2000)`.
+  - Pilihan Bebas: opsi 'Ketik Tahun Kustom...' yang membuka input angka inline untuk mengetik tahun atau rentang bebas apa saja (contoh: 2035, 2040, 2200, dsb).
+- **Logika Penyaringan Cerdas (`format.ts:matchYearFilter`)**:
+  - Mendukung tahun eksak 4 digit (`2026`, `2027`).
+  - Mendukung rentang dinamis (`2027-2200`, `2000-2020`, `2021-2025`).
+  - Mendukung operator perbandingan (`>=2027`, `2027+`, `<=2020`, `<2000`).
+- **Kepatuhan Modular**: `ArchiveWorkspace.tsx` berukuran 160 baris dan `YearFilterControl.tsx` 85 baris (seluruh 64 berkas src/ tetap patuh <= 200 baris kode).
+
+---
 
 - **Bilah Aksi Dokumen Tabel (4 Tombol Lengkap)**: kolom 'AKSI DOKUMEN' di tabel arsip kini dilengkapi 4 tombol aksi berurutan:
   1. `Lihat PDF` (hijau zamrud #ecfdf5, pratinjau streaming Cloudinary)

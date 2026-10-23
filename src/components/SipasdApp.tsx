@@ -11,7 +11,7 @@ import { emptyFilters } from './ArchiveWorkspace';
 import { useLetterActions } from '@/hooks/useLetterActions';
 import { groups } from '@/data/navigation';
 import { demoUsers } from '@/data/users';
-import { matchesSearch } from '@/lib/format';
+import { matchesSearch, matchYearFilter } from '@/lib/format';
 import { exportExcel } from '@/lib/exportExcel';
 import type { LetterRecord, DemoUser, ArchiveFilters } from '@/types';
 
@@ -69,7 +69,7 @@ export default function SipasdApp({
     (l) =>
       ((page !== 'in' && page !== 'out') || l.direction === page) &&
       matchesSearch(l, filters.query) &&
-      (!filters.year || l.date.startsWith(filters.year)) &&
+      matchYearFilter(l.date, filters.year) &&
       (!filters.urgency || (filters.urgency === 'Urgent' ? ['Kilat', 'Segera'].includes(l.type) : l.type === filters.urgency)) &&
       (!filters.classification || l.classification === filters.classification) &&
       (!filters.venue || l.venue === filters.venue) &&

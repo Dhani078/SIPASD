@@ -54,3 +54,29 @@ export function matchesSearch(
     .toLocaleLowerCase('id')
     .includes(query.trim().toLocaleLowerCase('id'));
 }
+
+export function matchYearFilter(letterDate: string, filterYear?: string): boolean {
+  if (!filterYear) return true;
+  const match = letterDate.match(/^(\d{4})/);
+  if (!match) return false;
+  const year = parseInt(match[1], 10);
+
+  if (/^\d{4}$/.test(filterYear)) {
+    return year === parseInt(filterYear, 10);
+  }
+
+  const range = filterYear.match(/^(\d{4})-(\d{4})$/);
+  if (range) {
+    return year >= parseInt(range[1], 10) && year <= parseInt(range[2], 10);
+  }
+
+  if (filterYear.startsWith('>=') || filterYear.endsWith('+')) {
+    return year >= parseInt(filterYear.replace(/[>=+]/g, ''), 10);
+  }
+
+  if (filterYear.startsWith('<=') || filterYear.startsWith('<')) {
+    return year <= parseInt(filterYear.replace(/[<=]/g, ''), 10);
+  }
+
+  return letterDate.startsWith(filterYear);
+}

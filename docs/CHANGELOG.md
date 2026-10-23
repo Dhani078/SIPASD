@@ -5,7 +5,14 @@ Format: `[YYYY-MM-DD] Fitur/Perbaikan - Deskripsi`
 
 ---
 
-## [2026-10-22] Addendum: Filter Tahun Anggaran Cerdas (Masa Depan 2027-2200, Rentang Historis, dan Input Kustom)
+## [2026-10-22] Addendum: Modal Info Fungsi Riwayat Disposisi Fisik
+
+- **Penyederhanaan Tata Letak**: banner besar penjelasan fungsi disposisi di atas tabel riwayat disposisi diubah menjadi tombol kecil rapi berlabel 'Info Fungsi' di samping judul panel.
+- **Komponen Baru (`DispositionInfoModal.tsx`)**: tombol 'Info Fungsi' diklik membuka jendela sembul (modal dialog) berisi penjelasan lengkap fungsi pencatatan lembar disposisi fisik, pejabat pendisposisi, bidang pelaksana, dan monitoring status tindak lanjut.
+- **Tata Letak Bersih**: tabel riwayat disposisi dan bilah pencarian kini langsung tampil tanpa terdorong ke bawah oleh banner statis.
+- **Kepatuhan Modular**: `DispositionHistoryView.tsx` 183 baris dan `DispositionInfoModal.tsx` 41 baris (seluruh 65 berkas src/ tetap patuh <= 200 baris kode).
+
+---
 
 - **Komponen Baru (`YearFilterControl.tsx`)**: dropdown tahun cerdas yang dikelompokkan berdasarkan optgroup:
   - Tahun Berjalan & Terdata: `TA 2026 (Aktif)`, `TA 2025`, `TA 2024`.

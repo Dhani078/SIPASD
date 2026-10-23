@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Icon from './Icon';
 import Badge from './Badge';
+import DispositionInfoModal from './DispositionInfoModal';
 import { formatDate } from '@/lib/format';
 import type { LetterRecord } from '@/types';
 
@@ -17,6 +18,7 @@ type StatusFilter = 'ALL' | 'BELUM_DIPROSES' | 'PROSES' | 'SELESAI';
 export default function DispositionHistoryView({ letters, onSelect, onExport }: Props) {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('ALL');
   const [searchQuery, setSearchQuery] = useState('');
+  const [showInfo, setShowInfo] = useState(false);
 
   const suratMasuk = letters.filter((l) => l.direction === 'in' && l.disposition);
 
@@ -60,27 +62,24 @@ export default function DispositionHistoryView({ letters, onSelect, onExport }: 
     <section className="panel">
       <div className="panel-heading">
         <div>
-          <h2>Riwayat Disposisi Fisik</h2>
+          <div className="flex items-center gap-2">
+            <h2>Riwayat Disposisi Fisik</h2>
+            <button
+              type="button"
+              className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-2 py-0.5 rounded-full transition-colors cursor-pointer"
+              onClick={() => setShowInfo(true)}
+              title="Klik untuk melihat penjelasan fungsi riwayat disposisi"
+            >
+              <Icon name="shield" size={12} />
+              <span>Info Fungsi</span>
+            </button>
+          </div>
           <p>Catatan lembar disposisi kertas & status tindak lanjut bidang dinas</p>
         </div>
         <button className="btn outline" onClick={onExport}>
           <Icon name="download" />
           Ekspor Excel
         </button>
-      </div>
-
-      <div className="p-4 bg-emerald-50 border border-emerald-200 rounded mb-4">
-        <div className="flex items-start gap-3">
-          <Icon name="shield" size={20} />
-          <div className="text-sm text-slate-700">
-            <b className="block mb-1">Fungsi Riwayat Disposisi</b>
-            <p>
-              Riwayat Disposisi mencatat lembar disposisi kertas fisik yang distaples di surat masuk. 
-              Setiap entri merekam: pejabat pendisposisi, tanggal, bidang tujuan, instruksi, catatan tertulis, 
-              dan status penyelesaian (Belum Diproses, Sedang Proses, Selesai).
-            </p>
-          </div>
-        </div>
       </div>
 
       <div className="flex items-center gap-3 mb-4">
@@ -178,6 +177,7 @@ export default function DispositionHistoryView({ letters, onSelect, onExport }: 
           </table>
         </div>
       )}
+      {showInfo && <DispositionInfoModal onClose={() => setShowInfo(false)} />}
     </section>
   );
 }

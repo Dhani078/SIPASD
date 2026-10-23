@@ -12,6 +12,24 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.6.0] - 2026-10-23
+
+### Added
+- **5 Tombol Aksi Dokumen Tabel**: Penambahan tombol `Edit` (aksen amber emas `#fffbeb` / `#d97706`) bersanding dengan `Lihat PDF`, `Unduh`, `Disposisi`, dan `Hapus` pada `src/components/ArchiveTable.tsx`.
+- **Fitur Edit Arsip & Mutasi TiDB**: Endpoint `PUT /api/letters` dan fungsi mutasi `updateLetter` di `src/lib/letter-mutations.ts` untuk pembaruan metadata (nomor surat, tanggal naskah, asal/tujuan instansi, perihal, sifat, unggah ulang PDF fisik) serta sinkronisasi data lembar disposisi pimpinan.
+- **Komponen Modal Edit (`src/components/EditLetterModal.tsx`)**: Formulir dialog pengeditan metadata arsip surat dan status disposisi terisolasi (< 200 LOC).
+- **Filter Tahun Anggaran Cerdas**: Komponen `src/components/YearFilterControl.tsx` dan fungsi `matchYearFilter` di `src/lib/format.ts` mendukung tahun berjalan (2026, 2025, 2024), tahun masa depan (2027-2200), rentang historis (2000-2020, < 2000), dan input kustom bebas.
+- **Modal Popup Ringkas Info Fungsi**: Mengganti banner besar pada Riwayat Disposisi dan Buku Ekspedisi menjadi tombol pil ringkas `Info Fungsi` (`DispositionInfoModal.tsx` dan `ExpeditionInfoModal.tsx`).
+- **Landing Page Modern & Berdaya Saing**: Komponen `src/components/LandingFeatures.tsx` (3 pilar keunggulan SPBE), lencana status live pulse dot, pintasan cepat kata kunci pencarian, dan sampel dokumen autentik agenda 0899.
+- **Maxx Mode Responsif Smartphone & iPad**: Breakpoint drawer navigasi 992px (iPad mode potret mendapat 100% lebar kerja penuh), kanvas penampil PDF 100vw x 100dvh pada smartphone, tombol sentuh ramah jari 34px-40px, tipografi seluler 11px-14px, dan proteksi nol overflow horizontal.
+
+### Fixed
+- **Pembersihan Logout Sesi Permanen (Hard Cookie Deletion)**: Fungsi `clearSessionCookie` di `src/lib/auth.ts` kini menetapkan `maxAge: 0`, `expires: new Date(0)`, `path: '/'`, dan `httpOnly: true`. Handler logout di Sidebar, ProfileDropdown, dan ProfileView memanggil `POST /api/auth/logout` lalu mengarahkan ke root `/`, mengatasi masalah memantul (*bouncing*) kembali ke dashboard saat direfresh.
+- **Koreksi Data Tahun 2025 pada Agenda 1039**: Memperbaiki tanggal surat agenda 1039 ke tanggal naskah asli (28 Agustus 2026), memastikan 100% arsip berada pada TA 2026.
+- **Pembersihan Anomali OCR**: Menghilangkan teks pengotor pada perihal, instansi, dan nomor surat keluar di TiDB.
+
+---
+
 ## [2.3.0-security-audit] - 2026-10-22
 
 ### Added

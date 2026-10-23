@@ -3,8 +3,8 @@
 ## Ringkasan Status Sesi Terakhir
 - **Repositori / Proyek**: SIPASD (Sistem Informasi Pengelolaan Arsip Surat Dispora)
 - **Lokasi Direktori Repositori**: `C:\xampp\htdocs\SIPASD`
-- **Lokasi Direktori Prototipe UI (18 Komponen Modular)**: `C:\xampp\htdocs\Laporan Magang\SIPASD Web Application UI (1)`
 - **Target Instansi**: Sekretariat Dinas Kepemudaan dan Olahraga Provinsi Kalimantan Selatan
+- **Pengembang Tunggal**: Muhammad Rizki Ramadhani (`Dhani078` / `dhanisepeda@gmail.com`)
 - **Status Fase Kerja**:
   * **Phase 1: Dokumen Spesifikasi, Arsitektur, Panduan Pengguna & Naskah Magang (SELESAI 100% - MAXX MODE)**.
   * **Phase 2: Inisialisasi Proyek, Database TiDB & Storage Cloud (SELESAI 100%)**.
@@ -14,95 +14,127 @@
   * **Phase 6: Verifikasi Akhir & Deploy Publik Vercel (SELESAI 100% - LIVE PRODUCTION)**.
   * **Phase 7: Sinkronisasi Google Drive 5 TB & Dual-Upload Otomatis (SELESAI 100%)**.
   * **Phase 8: Deep Audit Keamanan, UX/Performa & Pengujian Ekstensif (SELESAI 100%)**.
+  * **Phase 9: Otomatisasi Ekstraksi OCR PDF, Riwayat Disposisi Fisik, Buku Ekspedisi, dan Pembersihan Metadata (SELESAI 100%)**.
+  * **Phase 10: 5 Tombol Aksi Dokumen Tabel, Modal Edit Metadata/Disposisi TiDB, Filter Tahun Cerdas, Maxx Mode Mobile/iPad, dan Hard Logout Cookie (SELESAI 100%)**.
 - **Hasil Kompilasi & Pengujian**:
   * `npx tsc --noEmit`: 0 error.
   * `npm test`: 6/6 test suites passed (100% HEALTHY).
-  * `npm run build`: 100% sukses (11 rute terkompilasi optimal).
-  * Batas Modularitas: Seluruh 54 berkas di `src/` berukuran <= 200 LOC per file.
+  * `npm run build`: 100% sukses terkompilasi optimal.
+  * Batas Modularitas: Seluruh 68 berkas di `src/` berukuran <= 200 LOC per file.
   * Zero Dummy Data: 411 arsip riil (170 surat masuk & 241 surat keluar) ditarik live dari TiDB Cloud via `mysql2`.
   * Zero Em-Dash: Bebas dari em-dash (-) di seluruh kode dan dokumen.
   * Security Hardening: Security headers aktif di `next.config.ts`, route auth guards aktif di `/api/letters`, sanitasi XSS input server-side, 0 hardcoded secret di `src/`.
-  * UI/UX State Handling: Loading Skeleton (`loading.tsx`), Error Boundary (`error.tsx`), Halaman 404 (`not-found.tsx`), PDF loading spinner, feedback toast berikon.
   * Domain Resmi: `https://www.sipasd.my.id` (dengan SSL aktif dan redirect 308).
   * Telemetri: Terintegrasi `@vercel/analytics` dan `@vercel/speed-insights`.
 
 ---
 
-## Inventaris Berkas Kode Sumber (`src/`)
+## Fitur dan Peningkatan Terbaru (Sesi Terakhir)
 
-### 1. Komponen Antarmuka (`src/components/` - Seluruhnya <= 200 LOC)
-- `SipasdApp.tsx` (178 LOC) - Orkestrator antarmuka utama aplikasi
-- `SipasdMainView.tsx` (128 LOC) - Panel kerja tampilan utama workspace
-- `LandingPage.tsx` (172 LOC) - Portal publik & pelacak nomor agenda surat
-- `LoginPage.tsx` (188 LOC) - Halaman login terproteksi & tombol uji 5 peran kedinasan
-- `Sidebar.tsx` (89 LOC) - Navigasi samping kedinasan & profil pejabat
-- `TopNavbar.tsx` (199 LOC) - Bilah navigasi atas, jam WITA & pencarian global Ctrl+K
-- `DashboardView.tsx` (184 LOC) - Dasbor eksekutif, 4 kartu KPI & donat beban bidang
-- `CorrespondenceChart.tsx` (125 LOC) - Grafik batang korespondensi bulanan TA 2026
-- `ArchiveWorkspace.tsx` (144 LOC) - Panel kerja split-screen arsip surat
-- `ArchiveTable.tsx` (153 LOC) - Tabel data padat & paginasi 15 baris
-- `DocumentPreview.tsx` (23 LOC) - Pembungkus suspense penampil dokumen
-- `PdfPreviewPanel.tsx` (108 LOC) - Pemutar dokumen PDF bawaan berbasis streaming Cloudinary & Google Drive
-- `PrintDisposisiModal.tsx` (51 LOC) - Modal cetak lembar disposisi standar Pemprov Kalsel (A4/F4)
-- `Letter.tsx` (130 LOC) - Format naskah fisik kedinasan & lembar disposisi cetak
-- `NewLetterModal.tsx` (179 LOC) - Dialog perekaman indeks surat baru
-- `NewLetterDisposisiFields.tsx` (88 LOC) - Bidang isian instruksi & catatan disposisi pimpinan
-- `ReferenceViews.tsx` (181 LOC) - Tampilan master klasifikasi, profil pengguna & audit log
-- `Modal.tsx` (105 LOC) - Dialog modal generik aksesibel
-- `Badge.tsx` (9 LOC) - Lencana sifat surat berwarna
-- `Crest.tsx` (19 LOC) - Lambang resmi Pemerintah Provinsi Kalimantan Selatan
-- `Icon.tsx` (144 LOC) - Koleksi 23 ikon SVG terstandardisasi
+1. **5 Tombol Aksi Dokumen Tabel (`ArchiveTable.tsx`)**:
+   - `Lihat PDF` (`action-view`: emerald green `#ecfdf5` / `#047857`) -> membuka modal streaming penampil berkas pindaian.
+   - `Unduh` (`action-download`: toska teal `#f0fdfa` / `#0d9488`) -> unduh langsung berkas PDF asli tanpa wajib buka modal.
+   - `Disposisi` (`action-print`: slate gelap `#f8fafc` / `#0f172a`) -> membuka dialog cetak lembar disposisi dinas resmi.
+   - `Edit` (`action-edit`: amber hangat `#fffbeb` / `#d97706`, border `#fde68a`) -> membuka modal edit metadata dan disposisi.
+   - `Hapus` (`action-delete`: merah mawar `#fef2f2` / `#dc2626`) -> dialog konfirmasi hapus berkas aman.
 
-### 2. Pustaka, Layanan & Basis Data (`src/lib/`)
-- `db.ts` (36 LOC) - Koneksi pool basis data TiDB Cloud Serverless (`mysql2`)
-- `letters.ts` (114 LOC) - Kueri data riil 411 arsip persuratan dari TiDB Cloud
-- `letter-mutations.ts` (103 LOC) - Kueri INSERT mutasi arsip surat masuk dan keluar
-- `auth.ts` (51 LOC) - Manajemen JWT sesi cookie HttpOnly (`jose`)
-- `audit.ts` (23 LOC) - Pencatatan jejak audit aktivitas ke tabel `audit_logs`
-- `format.ts` (39 LOC) - Format penanggalan zona waktu WITA (Asia/Makassar)
-- `download.ts` (11 LOC) - Utilitas pengunduhan blob berkas di peramban
-- `exportExcel.ts` (49 LOC) - Generator berkas spreadsheet Excel (.xlsx) dinas (`exceljs`)
-- `cloudinary.ts` (39 LOC) - Utilitas integrasi upload Cloudinary SDK
-- `classifier.ts` (98 LOC) - Mesin klasifikasi cerdas Naive Bayes untuk rekomendasi kode kearsipan dan bidang tujuan otomatis
+2. **Fitur Edit Arsip Lengkap (`EditLetterModal.tsx`, `/api/letters` PUT)**:
+   - Formulir pengeditan nomor surat, tanggal naskah, asal/tujuan instansi, perihal, sifat, unggah ulang PDF fisik opsional, dan status/catatan disposisi.
+   - Sinkronisasi instan ke tabel `arsip_surat_masuk`, `arsip_surat_keluar`, dan `riwayat_disposisi` di basis data TiDB Cloud Serverless.
+   - Terintegrasi juga di panel alat penampil PDF (`PdfPreviewPanel.tsx`) dan tabel Riwayat Disposisi Fisik (`DispositionHistoryView.tsx`).
 
-### 4. Naskah Akademik Resmi UNISKA (`docs/`)
-- `docs/SIPASD_SOURCE_CODE_2026.zip` (376 KB) - Arsip berkas kode sumber bersih (Next.js 15, TypeScript, Tailwind v4, scripts) tanpa node_modules dan rahasia, siap burn ke CD pengumpulan kampus.
-- `docs/SIPASD_BERKAS_MAGANG_LENGKAP_2026.zip` (151 KB) - Paket softcopy dokumen lengkap (Laporan, Slide, SQL Dump, dan Panduan) untuk CD-ROM / Flashdisk pengumpulan ke kampus.
-- `docs/DATABASE_SIPASD_BACKUP_2026.sql` (256 KB) - Cadangan basis data mandiri SQL DDL + data riil 411 berkas dan 8 tabel siap impor di MySQL/MariaDB lokal.
-- `docs/LAPORAN_MAGANG_SIPASD_DISPORA_KALSEL.docx` (44 KB, 123 paragraf) - Naskah resmi Microsoft Word lengkap siap cetak / jilid (Format A4, Margin 4-3-3-3 cm, Times New Roman 12 pt, Spasi 1.5, 0 em-dash).
-- `docs/PRESENTASI_SIDANG_MAGANG_SIPASD.pptx` (38 KB, 12 slide) - Slide presentasi resmi sidang magang 16:9 widescreen.
-- `docs/PRESENTASI_SIDANG_MAGANG_SIPASD.html` - Presentasi web interaktif berbasis browser mandiri.
-- `docs/PANDUAN_SIDANG_DAN_TANYA_JAWAB_PENGUJI.md` - Skenario demo 5 menit & bedah 5 jawaban pertanyaan kritis dewan penguji.
-- `docs/BAB_1_PENDAHULUAN_DRAFT.md` s/d `docs/BAB_5_PENUTUP_DRAFT.md` - Draf Markdown per bab.
-- `docs/DAFTAR_PUSTAKA.md` - 21 Rujukan format APA 7th Edition.
+3. **Perbaikan Mekanisme Logout Bersih (Hard Cookie Deletion)**:
+   - Masalah sebelumnya: klik logout hanya mengubah state lokal React (`go('login')` / `go('landing')`) tanpa membersihkan cookie sesi server, sehingga saat halaman di-refresh otomatis masuk kembali ke dashboard.
+   - Solusi: implementasi `clearSessionCookie` dengan `maxAge: 0`, `expires: new Date(0)`, `path: '/'`, dan `httpOnly: true`.
+   - Menghubungkan fungsi logout ke Sidebar, ProfileDropdown, dan ProfileView yang memanggil `fetch('/api/auth/logout', { method: 'POST' })` lalu me-redirect ke root `/`.
 
-### 5. Rute Halaman & REST API (`src/app/`)
-- `src/app/page.tsx` - Halaman beranda utama terhubung data riil
-- `src/app/landing/page.tsx` - Rute portal publik mandiri
-- `src/app/login/page.tsx` - Rute login terproteksi mandiri
-- `src/app/dashboard/page.tsx` - Rute dasbor eksekutif
-- `src/app/arsip-masuk/page.tsx` - Rute katalog surat masuk split-screen PDF
-- `src/app/arsip-keluar/page.tsx` - Rute katalog surat keluar terindeks
-- `src/app/api/auth/login/route.ts` - Endpoint autentikasi kredensial pengguna TiDB
-- `src/app/api/auth/logout/route.ts` - Endpoint penghapusan sesi cookie
-- `src/app/api/letters/route.ts` - Endpoint REST GET & POST arsip surat
-- `src/app/api/upload/route.ts` - Endpoint REST unggah berkas fisik ganda (Cloudinary CDN + Google Drive 5 TB)
-- `src/app/api/pdf/route.ts` - Endpoint REST streaming signed URL PDF Cloudinary anti-401
-- `src/app/api/ai/suggest/route.ts` - Endpoint REST klasifikasi cerdas Naive Bayes untuk rekomendasi klasifikasi arsip dinas otomatis
-- `src/lib/gdrive.ts` - Modul upload native Google Drive dengan refresh token otomatis
+4. **Filter Tahun Anggaran Cerdas (`YearFilterControl.tsx` & `matchYearFilter`)**:
+   - Pengelompokan dropdown terstruktur: Tahun Berjalan (2026, 2025, 2024), Tahun Mendatang (2027, 2028, 2029, 2030, dan `2027 - 2200`), serta Rentang Historis (`2000 - 2020` dan `< 2000`).
+   - Mode input bebas kustom: pengguna dapat mengetik rentang tahun sembarang langsung pada input filter.
 
-### 6. Integrasi Google Drive 5 TB & Keamanan Kredensial
-- Sebanyak 420 berkas fisik asli Dispora Kalsel (171 Surat Masuk & 249 Surat Keluar) 100% tersimpan di Google Drive resmi dinas.
-- 100% baris arsip di TiDB Cloud Serverless memiliki tautan berkas individual `drive_url` aktif.
-- Seluruh berkas kredensial (`credentials/`) dan file token/secret terisolasi ketat di `.gitignore` anti-bocor ke GitHub.
+5. **Modal Popup Ringkas Info Fungsi (`DispositionInfoModal.tsx` & `ExpeditionInfoModal.tsx`)**:
+   - Banner besar penjelasan fungsi disposisi dan ekspedisi diganti menjadi tombol pil kecil `Info Fungsi` di samping judul.
+   - Menghemat ruang vertikal layar kerja sehingga tabel dokumen langsung terlihat di atas tanpa terdorong ke bawah.
+
+6. **Maxx Mode Responsif Smartphone (<768px) & iPad Tablet (768px - 1024px)**:
+   - Breakpoint drawer navigasi diperluas ke 992px: iPad mode potret otomatis mendapatkan 100% lebar kerja penuh tanpa terhimpit sidebar.
+   - Penampil PDF pada ponsel pintar otomatis membuka kanvas 100vw x 100dvh layar penuh.
+   - Target sentuh tombol distandarkan ke 34px-40px ramah jari dengan feedback taktil `active:scale-[0.94]`.
+   - Tipografi seluler diperbaiki: font 6px/8px dihapus, distandarkan ke 11px-14px ramah mata.
+   - Proteksi nol overflow horizontal di seluruh layar.
+
+7. **Landing Page Publik Modern & Berdaya Saing (`LandingPage.tsx` & `LandingFeatures.tsx`)**:
+   - Lencana status transformasi SPBE dengan live pulse dot.
+   - Tombol pintasan sekali klik kata kunci pencarian cepat (`0899`, `1039`, `3802`, `Dispora`, `Kejurprov`, `Sekda`).
+   - Kartu 3 pilar keunggulan sistem (Temu-kembali <2s, Streaming Cloudinary/Drive, Disposisi & Ekspedisi SPBE).
+   - Dokumen percontohan autentik memakai data naskah riil Dispora Kalsel agenda `0899/SM/DISPORA/2026`.
 
 ---
 
-## Panduan Lanjutan untuk Sesi Berikutnya
-1. Seluruh kode sumber di Next.js 15 App Router telah terintegrasi 100% dan lolos build produksi tanpa error.
-2. Identitas Git wajib selalu menggunakan:
-   ```bash
-   git config user.name "Dhani078"
-   git config user.email "dhanisepeda@gmail.com"
-   ```
-3. Lakukan pengujian responsivitas peramban dan push ke repositori GitHub `Dhani078/SIPASD`.
+## Inventaris Berkas Kode Sumber (`src/` - 68 Berkas, Seluruhnya <= 200 LOC)
+
+### Komponen Antarmuka (`src/components/`)
+1. `SipasdApp.tsx` (199 LOC) - Orkestrator antarmuka utama, manajemen state global dan router lokal.
+2. `SipasdMainView.tsx` (146 LOC) - Kontainer workspace utama yang merender dashboard, arsip, dan referensi.
+3. `LandingPage.tsx` (186 LOC) - Portal publik, pelacak nomor agenda, dan sampel dokumen dinas.
+4. `LandingFeatures.tsx` (62 LOC) - Tiga kartu pilar keunggulan sistem kearsipan kedinasan.
+5. `LoginPage.tsx` (188 LOC) - Halaman login terproteksi dengan tombol pengujian 5 peran resmi dinas.
+6. `Sidebar.tsx` (107 LOC) - Navigasi samping kedinasan, penghitung arsip, dan tombol logout.
+7. `TopNavbar.tsx` (198 LOC) - Bilah navigasi atas, jam WITA, pencarian global Ctrl+K, notifikasi, dan profil.
+8. `DashboardView.tsx` (184 LOC) - Dasbor eksekutif, 4 kartu KPI, beban bidang, dan venue olahraga.
+9. `CorrespondenceChart.tsx` (125 LOC) - Grafik batang korespondensi bulanan TA 2026.
+10. `ArchiveWorkspace.tsx` (157 LOC) - Panel kerja arsip surat, filter ganda, dan aksi massal.
+11. `ArchiveTable.tsx` (192 LOC) - Tabel data padat dengan 5 tombol aksi dokumen dan paginasi 15 baris.
+12. `YearFilterControl.tsx` (72 LOC) - Komponen dropdown dan input filter tahun cerdas.
+13. `EditLetterModal.tsx` (141 LOC) - Dialog modal pengeditan metadata arsip surat dan disposisi kedinasan.
+14. `DocumentPreview.tsx` (22 LOC) - Pembungkus suspense penampil dokumen PDF digital.
+15. `PdfPreviewPanel.tsx` (175 LOC) - Penampil PDF streaming in-browser dengan mode fullscreen dan edit.
+16. `PrintDisposisiModal.tsx` (51 LOC) - Modal cetak lembar disposisi standar Pemprov Kalsel (A4/F4).
+17. `Letter.tsx` (130 LOC) - Templat naskah fisik kedinasan dan format lembar disposisi resmi cetak.
+18. `NewLetterModal.tsx` (179 LOC) - Dialog perekaman indeks surat masuk dan keluar baru.
+19. `NewLetterDisposisiFields.tsx` (88 LOC) - Bidang isian instruksi dan catatan disposisi pimpinan.
+20. `DistributionView.tsx` (178 LOC) - Antarmuka buku ekspedisi surat keluar dan rekapitulasi distribusi kurir.
+21. `ExpeditionFormModal.tsx` (107 LOC) - Dialog pencatatan kurir pengirim dan tanda terima naskah dinas.
+22. `ExpeditionInfoModal.tsx` (45 LOC) - Modal penjelasan fungsi pencatatan buku ekspedisi surat keluar.
+23. `DispositionHistoryView.tsx` (195 LOC) - Halaman pemantauan status penyelesaian riwayat disposisi fisik.
+24. `DispositionInfoModal.tsx` (41 LOC) - Modal penjelasan fungsi pencatatan riwayat disposisi fisik.
+25. `ReferenceViews.tsx` (199 LOC) - Tampilan master klasifikasi, profil pengguna, dan audit log.
+26. `ProfileView.tsx` (120 LOC) - Kartu profil pegawai, hak akses, unit kerja, dan tombol logout.
+27. `ProfileDropdown.tsx` (91 LOC) - Menu popup avatar profil dengan tombol audit dan logout bersih.
+28. `NotificationsFlyout.tsx` (104 LOC) - Panel notifikasi berkas mendesak / kilat.
+29. `DeleteConfirmModal.tsx` (84 LOC) - Dialog konfirmasi hapus tunggal dan massal berproteksi aman.
+30. `Pagination.tsx` (62 LOC) - Navigasi kontrol halaman tabel.
+31. `Modal.tsx` (105 LOC) - Dialog modal generik aksesibel dengan backdrop blur dan escape key listener.
+32. `Badge.tsx` (9 LOC) - Lencana penanda sifat surat dinas berwarna.
+33. `Crest.tsx` (19 LOC) - Lambang resmi Pemerintah Provinsi Kalimantan Selatan.
+34. `Icon.tsx` (162 LOC) - Koleksi 25 ikon SVG terstandardisasi (termasuk ikon edit, eye, download, print).
+
+### Pustaka & Layanan Backend (`src/lib/`)
+35. `db.ts` (36 LOC) - Pool koneksi basis data TiDB Cloud Serverless (`mysql2/promise`).
+36. `letters.ts` (114 LOC) - Kueri data riil 411 arsip persuratan dan pemetaan field disposisi dari TiDB.
+37. `letter-mutations.ts` (196 LOC) - Kueri INSERT, UPDATE (mutasi metadata dan disposisi), dan DELETE arsip.
+38. `auth.ts` (61 LOC) - Manajemen JWT sesi cookie HttpOnly (`jose`) dan hard cookie clearing.
+39. `audit.ts` (23 LOC) - Pencatatan jejak audit aktivitas ke tabel `audit_logs`.
+40. `format.ts` (56 LOC) - Format penanggalan zona waktu WITA (Asia/Makassar) dan logika filter tahun cerdas.
+41. `download.ts` (11 LOC) - Utilitas pengunduhan blob berkas di peramban.
+42. `exportExcel.ts` (49 LOC) - Generator berkas spreadsheet Excel (.xlsx) dinas (`exceljs`).
+43. `cloudinary.ts` (39 LOC) - Utilitas integrasi upload Cloudinary SDK dengan signed URL anti-401.
+44. `gdrive.ts` (123 LOC) - Modul upload Google Drive OAuth 2.0 dengan auto retry dan backoff eksponensial.
+45. `classifier.ts` (98 LOC) - Mesin klasifikasi cerdas Naive Bayes untuk rekomendasi kode kearsipan otomatis.
+
+---
+
+## Panduan Melanjutkan Kerja bagi Model / Agen Sesi Baru
+
+Jika sesi baru dimulai:
+1. **Verifikasi Lingkungan**:
+   - Jalankan `npm test` untuk memastikan 6/6 test suites lulus.
+   - Jalankan `npx tsc --noEmit` untuk memastikan 0 error tipe TypeScript.
+2. **Kepatuhan Aturan**:
+   - Setiap berkas di bawah `src/` dilarang melebihi 200 baris kode (`LOC <= 200`).
+   - Dilarang membuat data tiruan/dummy; gunakan data riil TiDB Cloud Serverless.
+   - Nol karakter em-dash (gunakan tanda hubung biasa `-`).
+   - Identitas Git mutlak: `Dhani078 <dhanisepeda@gmail.com>`. Dilarang mencantumkan nama AI/Hermes di repositori.
+3. **Status Produksi Terverifikasi**:
+   - Sistem sudah aktif 100% di domain `https://www.sipasd.my.id`.
+   - Seluruh 423 berkas fisik tersimpan di Google Drive dan terhubung ke TiDB Cloud.

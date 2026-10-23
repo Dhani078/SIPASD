@@ -5,3 +5,8 @@ export async function POST() {
   await clearSessionCookie();
   return NextResponse.json({ success: true, message: 'Logout berhasil' });
 }
+
+export async function GET() {
+  await clearSessionCookie();
+  return NextResponse.json({ success: true, message: 'Logout berhasil' });
+}

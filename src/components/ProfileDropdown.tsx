@@ -7,9 +7,10 @@ interface Props {
   user: DemoUser;
   onClose: () => void;
   onNavigate: (page: string) => void;
+  onLogout?: () => void;
 }
 
-export default function ProfileDropdown({ user, onClose, onNavigate }: Props) {
+export default function ProfileDropdown({ user, onClose, onNavigate, onLogout }: Props) {
   return (
     <div
       className="profile-flyout absolute right-6 top-[58px] w-80 bg-white border border-slate-200 rounded-lg shadow-xl z-50 p-3 text-slate-800 animate-in fade-in slide-in-from-top-2 duration-150"
@@ -79,7 +80,8 @@ export default function ProfileDropdown({ user, onClose, onNavigate }: Props) {
           className="w-full flex items-center gap-2 px-2.5 py-2 text-xs text-red-600 hover:bg-red-50 rounded transition-colors text-left font-medium"
           onClick={() => {
             onClose();
-            onNavigate('login');
+            if (onLogout) onLogout();
+            else onNavigate('login');
           }}
         >
           <Icon name="logout" size={14} />

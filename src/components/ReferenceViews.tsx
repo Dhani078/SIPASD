@@ -22,6 +22,7 @@ interface Props {
   onPrint: (letter: LetterRecord) => void;
   onEdit?: (letter: LetterRecord) => void;
   onNavigate?: (page: string) => void;
+  onLogout?: () => void;
 }
 
 export function ReferenceViews({
@@ -35,6 +36,7 @@ export function ReferenceViews({
   onPrint,
   onEdit,
   onNavigate = () => {},
+  onLogout,
 }: Props) {
   if (page === 'classification')
     return (
@@ -58,7 +60,7 @@ export function ReferenceViews({
     );
 
   if (page === 'profile') {
-    return <ProfileView user={user} onNavigate={onNavigate} />;
+    return <ProfileView user={user} onNavigate={onNavigate} onLogout={onLogout} />;
   }
 
   if (page === 'users')

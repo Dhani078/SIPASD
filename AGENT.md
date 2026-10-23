@@ -66,4 +66,14 @@ Saat sesi baru dimulai:
 1. Jalankan `git status` dan periksa `git diff --stat` untuk melihat perubahan berkas yang belum ter-commit.
 2. Baca `docs/HANDOFF.md`, `CONSTRAINTS.md`, dan `task_plan.md` untuk mengetahui fase mana yang sedang berjalan.
 3. Lanjutkan pengerjaan pada fase tersebut tanpa mengulang analisis dari nol.
-4. Setelah pengerjaan selesai, lakukan pengujian build (`npm run build`), lakukan commit dengan format *Conventional Commits*, dan mutakhirkan `CHANGELOG.md`.
+4. Setelah pengerjaan selesai, lakukan pengujian build (`npm run build`), pastikan `npm test` lulus 6/6 dan file `src/` <= 200 LOC, lalu commit dengan identitas `Dhani078 <dhanisepeda@gmail.com>` dan mutakhirkan `CHANGELOG.md`.
+
+---
+
+## 📌 Catatan Khusus Fitur Terpasang (Jangan Buat Ulang)
+- **5 Tombol Aksi Tabel**: `Lihat PDF`, `Unduh`, `Disposisi`, `Edit`, `Hapus` sudah aktif di `ArchiveTable.tsx`.
+- **Edit Modal**: `EditLetterModal.tsx` sudah terhubung ke `PUT /api/letters` dan mutasi TiDB `updateLetter`.
+- **Logout**: Logout server-side sudah bersih menggunakan `clearSessionCookie` (maxAge 0, path '/') di `src/lib/auth.ts` dan `GET/POST /api/auth/logout`.
+- **Filter Tahun Cerdas**: `YearFilterControl.tsx` sudah menangani masa depan `2027-2200`, rentang historis `2000-2020`, dan input kustom via `matchYearFilter` di `src/lib/format.ts`.
+- **Responsif Maxx Mode**: Breakpoint drawer sidebar diatur pada `992px` (iPad portrait dapat 100% lebar kerja tanpa terhimpit sidebar).
+- **Landing Page Modern**: `LandingFeatures.tsx` dan `LandingPage.tsx` sudah memiliki live pulse status SPBE, pintasan kata kunci cepat, dan sampel naskah riil 0899.

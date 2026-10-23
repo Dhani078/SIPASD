@@ -7,9 +7,10 @@ import type { DemoUser } from '@/types';
 interface Props {
   user: DemoUser;
   onNavigate: (page: string) => void;
+  onLogout?: () => void;
 }
 
-export default function ProfileView({ user, onNavigate }: Props) {
+export default function ProfileView({ user, onNavigate, onLogout }: Props) {
   return (
     <section className="panel space-y-6">
       <div className="panel-heading">
@@ -22,7 +23,10 @@ export default function ProfileView({ user, onNavigate }: Props) {
             <Icon name="arrow" size={12} />
             Kembali ke Beranda
           </button>
-          <button className="btn outline text-xs text-red-600 border-red-200 hover:bg-red-50" onClick={() => onNavigate('login')}>
+          <button
+            className="btn outline text-xs text-red-600 border-red-200 hover:bg-red-50"
+            onClick={onLogout || (() => onNavigate('login'))}
+          >
             <Icon name="logout" size={12} />
             Keluar Sesi
           </button>

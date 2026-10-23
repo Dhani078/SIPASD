@@ -108,6 +108,26 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Buat dokumen laporan audit dan roadmap perbaikan di `docs/DEEP_AUDIT_ROADMAP.md`.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 9: Ekstraksi OCR Nyata PDF, Pejabat Pendisposisi Riil & Buku Ekspedisi
+- [x] Unduh 423 berkas PDF riil dari Google Drive resmi dinas.
+- [x] Ekstraksi RapidOCR latar belakang 4 worker pada berkas pindaian.
+- [x] Pemetaan pejabat pendisposisi riil (Kadis, Sekretaris, Kabid, Kasubbag) dan dokumentasi bukti di `docs/DISPOSISI_DARI_PDF.md`.
+- [x] Implementasi fitur Buku Ekspedisi Surat Keluar (`src/app/api/expedition/route.ts`, `ExpeditionFormModal.tsx`, `DistributionView.tsx`).
+- [x] Pembersihan anomali OCR perihal, instansi, dan nomor surat keluar di TiDB.
+- [x] Koreksi tanggal agenda 1039 ke TA 2026 sah.
+- *Status: Complete (100% PRODUCTION READY)*
+
+### [x] Phase 10: 5 Tombol Aksi Tabel, Modal Edit, Filter Tahun Cerdas, Maxx Mode Mobile, dan Hard Logout Cookie
+- [x] Implementasi 5 tombol aksi dokumen tabel: `Lihat PDF`, `Unduh`, `Disposisi`, `Edit`, `Hapus` pada `ArchiveTable.tsx`.
+- [x] Implementasi endpoint `PUT /api/letters` dan fungsi mutasi `updateLetter` di `src/lib/letter-mutations.ts`.
+- [x] Pembuatan komponen modal edit terisolasi `src/components/EditLetterModal.tsx` (< 200 LOC).
+- [x] Implementasi filter tahun cerdas `YearFilterControl.tsx` dan fungsi `matchYearFilter` di `src/lib/format.ts` (dukungan 2027-2200, 2000-2020, dan input kustom).
+- [x] Pembuatan modal pop-up ringkas info fungsi disposisi (`DispositionInfoModal.tsx`) dan ekspedisi (`ExpeditionInfoModal.tsx`).
+- [x] Redesain Landing Page publik modern dan berdaya saing (`LandingFeatures.tsx`, status SPBE live pulse dot, pintasan kata kunci cepat, sampel autentik 0899).
+- [x] Penerapan Maxx Mode Responsif pada smartphone (<768px) dan iPad/tablet (768px-1024px) dengan drawer breakpoint 992px, 100vw x 100dvh PDF viewer, dan proteksi nol overflow horizontal.
+- [x] Perbaikan tuntas logout bersih: fungsi `clearSessionCookie` (maxAge 0, path '/') di `src/lib/auth.ts`, endpoint `GET/POST /api/auth/logout`, dan integrasi tombol logout di seluruh komponen navigasi tanpa loop bouncing kembali ke dashboard saat direfresh.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

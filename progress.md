@@ -132,3 +132,72 @@
    - Seluruh 54 berkas di `src/` <= 200 baris kode (LOC invariant terpenuhi).
    - Zero em-dash invariant terverifikasi (0 em-dash di seluruh repo).
 
+---
+
+## Sesi 6: Ekstraksi OCR Nyata dari 423 PDF, Pejabat Pendisposisi Riil, Buku Ekspedisi & Pembersihan Anomali
+**Tanggal**: 22 Oktober 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Analisis Dataset Scan PDF Riil**:
+   - Mengunduh 423 berkas PDF dari Google Drive resmi dinas (174 Surat Masuk dan 249 Surat Keluar).
+   - Menjalankan 4 worker RapidOCR latar belakang untuk mengekstraksi teks pindaian.
+2. **Pemetaan Pejabat Pendisposisi Nyata**:
+   - Memetakan 170 Surat Masuk dari seed dummy menjadi pejabat asli: 90 Kepala Dinas, 16 Kasubbag, 3 Sekretaris, 3 Kabid, dan 59 belum terverifikasi (karena ketiadaan lembar fisik di scan asli).
+   - Mendokumentasikan bukti audit di `docs/DISPOSISI_DARI_PDF.md`.
+3. **Pembangunan Modul Buku Ekspedisi Surat Keluar**:
+   - Membuat endpoint RESTful `/api/expedition` (GET & POST) terhubung ke tabel `buku_ekspedisi` di TiDB Cloud.
+   - Membuat dialog formulir modal `ExpeditionFormModal.tsx` dan memperbarui tampilan `DistributionView.tsx`.
+4. **Pembersihan Anomali OCR & Tanggal Sah**:
+   - Menjalankan pembersihan regex pada 33 nilai perihal dan instansi tujuan bernoda OCR.
+   - Memangkas teks buntut naskah ('Dasar', 'DasarDPA') pada 10 nomor surat keluar.
+   - Mengoreksi tanggal surat agenda 1039 dari rujukan konsiderans 2025 ke tanggal naskah asli (28 Agustus 2026), memastikan 100% data berada pada TA 2026.
+
+---
+
+## Sesi 7: Penampil PDF Luas & Fullscreen, 5 Tombol Aksi Dokumen Tabel & Modal Edit Metadata/Disposisi
+**Tanggal**: 22 - 23 Oktober 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Peningkatan Penampil PDF Bawaan**:
+   - Mengatasi tombol cetak disposisi putih dengan class `.btn-disposisi-primary` warna hijau zamrud (#047857).
+   - Memperluas lebar popup penampil dokumen menjadi 1200px dan tinggi 94vh.
+   - Menambahkan tombol layar penuh (*fullscreen mode*) 100vw x 100vh pada `PdfPreviewPanel.tsx`.
+2. **5 Tombol Aksi Dokumen Tabel Lengkap**:
+   - Mengonfigurasi 5 tombol terpadu di setiap baris tabel dokumen (`ArchiveTable.tsx`): `Lihat PDF`, `Unduh`, `Disposisi`, `Edit`, dan `Hapus`.
+   - Menerapkan desain tombol aksi dengan mikro-interaksi `active:scale-[0.96]`, border kontras transparan, dan tanpa patah baris.
+3. **Implementasi Fitur Edit Arsip**:
+   - Membangun endpoint `PUT /api/letters` dan fungsi mutasi `updateLetter` di `src/lib/letter-mutations.ts`.
+   - Membuat modal formulir `EditLetterModal.tsx` untuk mengubah nomor surat, instansi, perihal, sifat, unggah ulang PDF fisik, dan status disposisi.
+   - Mengintegrasikan aksi edit pada tabel Riwayat Disposisi Fisik (`DispositionHistoryView.tsx`) dan panel alat pratinjau PDF.
+
+---
+
+## Sesi 8: Filter Tahun Cerdas, Pop-up Info Ringkas, Desain Ulang Landing Page, Maxx Mode Mobile, dan Hard Logout
+**Tanggal**: 23 Oktober 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Filter Tahun Anggaran Cerdas**:
+   - Membuat komponen `YearFilterControl.tsx` dan fungsi pencocokan `matchYearFilter` di `src/lib/format.ts`.
+   - Mendukung filter dropdown tahun berjalan (2026, 2025, 2024), masa depan (2027-2200), rentang historis (2000-2020, <2000), serta mode input kustom bebas.
+2. **Modal Popup Ringkas Penjelasan Fungsi**:
+   - Mengganti banner besar pada menu Riwayat Disposisi dan Buku Ekspedisi menjadi tombol pil ringkas `Info Fungsi` di samping judul (`DispositionInfoModal.tsx` dan `ExpeditionInfoModal.tsx`), menghemat ruang vertikal layar kerja.
+3. **Desain Ulang Landing Page Berdaya Saing**:
+   - Menambahkan lencana transformasi SPBE dengan live pulse dot, pintasan cepat kata kunci pencarian (0899, 1039, 3802, Dispora), kartu 3 pilar keunggulan (`LandingFeatures.tsx`), dan dokumen percontohan autentik agenda 0899.
+4. **Maxx Mode Responsif Smartphone & iPad Tablet**:
+   - Memperluas drawer breakpoint ke 992px sehingga iPad mode potret mendapatkan 100% lebar kerja penuh tanpa terhimpit sidebar.
+   - Mengatur kanvas penampil PDF pada layar ponsel pintar menjadi 100vw x 100dvh layar penuh.
+   - Menstandarkan target sentuh 34px-40px dan memperbaiki ukuran font seluler dari mikro (6px/8px) menjadi 11px-14px ramah mata.
+5. **Perbaikan Tuntas Masalah Logout**:
+   - Memperbaiki `clearSessionCookie` di `src/lib/auth.ts` dengan parameter `maxAge: 0`, `expires: new Date(0)`, `path: '/'`, dan `httpOnly: true`.
+   - Mengaktifkan metode POST dan GET pada `/api/auth/logout`.
+   - Menyambungkan handler logout pada Sidebar, ProfileDropdown, dan ProfileView yang me-redirect ke root `/` sehingga saat halaman direfresh tidak memantul (*bouncing*) kembali ke dashboard.
+6. **Audit & Verifikasi Kualitas Akhir**:
+   - Seluruh 68 berkas di `src/` berukuran <= 200 baris kode (LOC invariant terpenuhi).
+   - Invarian nol em-dash terverifikasi di seluruh repositori.
+   - `npm test`: 6/6 suites passed (100% HEALTHY).
+   - `npm run build`: kompilasi Next.js 15 sukses 100%.
+   - Status live production di domain resmi `https://www.sipasd.my.id`.
+

@@ -16,6 +16,7 @@ interface Props {
   onMenu: () => void;
   onExport: () => void;
   onNavigate?: (page: string) => void;
+  onLogout?: () => void;
 }
 
 export default function TopNavbar({
@@ -27,6 +28,7 @@ export default function TopNavbar({
   onMenu,
   onExport,
   onNavigate = () => {},
+  onLogout,
 }: Props) {
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
@@ -189,6 +191,7 @@ export default function TopNavbar({
           user={user}
           onClose={() => setProfileOpen(false)}
           onNavigate={onNavigate}
+          onLogout={onLogout}
         />
       )}
     </header>

@@ -101,14 +101,42 @@ Daftar di bawah ini adalah rute yang terpasang pada kode saat ini (folder `src/a
 | Rute | Metode | Fungsi | Penjagaan Sesi |
 |---|---|---|---|
 | `/api/auth/login` | POST | Validasi kredensial, terbitkan cookie `sipasd_session` | Tidak perlu |
-| `/api/auth/logout` | POST | Hapus cookie sesi | Tidak perlu |
+| `/api/auth/logout` | POST, GET | Hapus cookie sesi permanen (maxAge: 0, path: '/') | Tidak perlu |
 | `/api/letters` | GET | Kirim seluruh arsip surat masuk dan keluar ke antarmuka | Tidak perlu untuk baca |
 | `/api/letters` | POST | Tambah arsip surat baru (nomor, instansi, perihal wajib) | Wajib |
+| `/api/letters` | PUT | Edit metadata arsip surat dan sinkronisasi lembar disposisi | Wajib |
 | `/api/letters` | DELETE | Hapus satu atau banyak arsip (`id`, `ids`, `direction`) | Wajib |
 | `/api/expedition` | GET | Daftar catatan buku ekspedisi surat keluar | Tidak perlu |
 | `/api/expedition` | POST | Catat atau ubah distribusi ekspedisi (upsert per surat keluar) | Wajib |
 | `/api/pdf` | GET | Streaming PDF dari Cloudinary dengan tanda tangan anti-401 | Tidak perlu |
 | `/api/upload` | POST | Unggah berkas ke Cloudinary dan cadangan ke Google Drive | Wajib |
+
+### `PUT /api/letters`
+- **Tujuan**: Memperbarui metadata naskah dinas (nomor surat, tanggal naskah, asal/tujuan instansi, perihal, sifat, unggah ulang PDF pengganti) serta pembaruan lembar disposisi kedinasan (pejabat, instruksi, catatan, status).
+- **Request Body**:
+  ```json
+  {
+    "id": "0899",
+    "direction": "in",
+    "number": "400.8.1/01549/Kesra/2026",
+    "origin": "Sekretariat Daerah Prov. Kalimantan Selatan",
+    "subject": "Pelaksanaan Kegiatan Bersih-Bersih Masjid dalam Rangka Hari Jadi ke-76 Provinsi Kalimantan Selatan",
+    "date": "2026-07-31",
+    "type": "Kilat",
+    "disposition": {
+      "official": "Pebriadin Hapiz, AP, M.Si",
+      "status": "SELESAI",
+      "notes": "Segera koordinasikan dengan panitia daerah."
+    }
+  }
+  ```
+- **Response Sukses (200 OK)**:
+  ```json
+  {
+    "success": true,
+    "message": "Arsip berhasil diperbarui di TiDB Cloud"
+  }
+  ```
 
 ### `POST /api/expedition`
 - **Tujuan**: Menyimpan catatan distribusi fisik surat keluar ke tabel `buku_ekspedisi` (satu catatan per surat, `ON DUPLICATE KEY UPDATE`).

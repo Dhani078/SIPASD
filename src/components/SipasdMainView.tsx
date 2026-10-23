@@ -29,6 +29,7 @@ interface Props {
   setPagination: (p: number) => void;
   go: (next: string) => void;
   archive: (next: string, values?: Partial<ArchiveFilters>) => void;
+  onLogout?: () => void;
 }
 
 export default function SipasdMainView({
@@ -53,6 +54,7 @@ export default function SipasdMainView({
   setPagination,
   go,
   archive,
+  onLogout,
 }: Props) {
   return (
     <main className="main-content">

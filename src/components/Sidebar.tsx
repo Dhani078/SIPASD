@@ -11,12 +11,14 @@ export default function Sidebar({
   go,
   user,
   counts,
+  onLogout,
 }: {
   drawer: boolean;
   page: string;
   go: (page: string) => void;
   user: DemoUser;
   counts: Record<'in' | 'out', number>;
+  onLogout?: () => void;
 }) {
   return (
     <aside className={`sidebar ${drawer ? 'open' : ''}`}>
@@ -89,7 +91,8 @@ export default function Sidebar({
             title="Keluar Sesi (Logout)"
             onClick={(e) => {
               e.stopPropagation();
-              go('login');
+              if (onLogout) onLogout();
+              else go('login');
             }}
           >
             <Icon name="logout" size={16} />

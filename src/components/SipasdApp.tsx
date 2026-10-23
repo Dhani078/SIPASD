@@ -43,16 +43,15 @@ export default function SipasdApp({
     setTimeout(() => setToast(null), 4000);
   };
 
-  const { deleteTarget, setDeleteTarget, batchTargets, setBatchTargets, deleting, handleSave, confirmDelete, confirmBatchDelete } =
-    useLetterActions(setLetters, tell);
+  const {
+    deleteTarget, setDeleteTarget, batchTargets, setBatchTargets,
+    deleting, handleSave, confirmDelete, confirmBatchDelete,
+    editTarget, setEditTarget, handleUpdate,
+  } = useLetterActions(setLetters, tell);
 
   const go = (next: string) => {
-    setSelected(null);
-    setSelectedIds([]);
-    setFilters(emptyFilters);
-    setPagination(1);
-    setDrawer(false);
-    setPage(next);
+    setSelected(null); setSelectedIds([]); setFilters(emptyFilters);
+    setPagination(1); setDrawer(false); setPage(next);
   };
 
   const archive = (next: string, values: Partial<ArchiveFilters> = {}) => {
@@ -163,6 +162,7 @@ export default function SipasdApp({
           onToggleAll={handleToggleAll}
           onBatchDelete={handleBatchDelete}
           setPrintLetter={setPrintLetter}
+          onEdit={setEditTarget}
           onDelete={setDeleteTarget}
           setModal={setModal}
           pagination={pagination}
@@ -176,6 +176,7 @@ export default function SipasdApp({
         modal={modal}
         selected={selected}
         printLetter={printLetter}
+        editTarget={editTarget}
         deleteTarget={deleteTarget}
         batchTargets={batchTargets}
         deleting={deleting}
@@ -184,10 +185,12 @@ export default function SipasdApp({
         setModal={setModal}
         setSelected={setSelected}
         setPrintLetter={setPrintLetter}
+        setEditTarget={setEditTarget}
         setDeleteTarget={setDeleteTarget}
         setBatchTargets={setBatchTargets}
         setSelectedIds={setSelectedIds}
         onSaveLetter={onSaveLetter}
+        onUpdateLetter={handleUpdate}
         confirmDelete={confirmDelete}
         confirmBatchDelete={confirmBatchDelete}
       />

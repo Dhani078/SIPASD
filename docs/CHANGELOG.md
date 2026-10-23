@@ -5,7 +5,21 @@ Format: `[YYYY-MM-DD] Fitur/Perbaikan - Deskripsi`
 
 ---
 
-## [2026-10-22] Addendum: Maxx Mode Responsif untuk Smartphone & iPad Tablet (Touch Targets & Zero Overflow)
+## [2026-10-22] Addendum: Tombol Edit Arsip Dokumen di Seluruh Tabel & Modal Viewer
+
+- **Endpoint RESTful PUT (`/api/letters`) & Mutasi TiDB (`updateLetter`)**:
+  - Menyediakan kemampuan pembaruan metadata (nomor surat, tanggal naskah, asal/tujuan instansi, perihal, sifat naskah, dan berkas PDF pengganti).
+  - Khusus surat masuk: sinkronisasi pembaruan lembar disposisi (pejabat pendisposisi, instruksi, catatan tertulis, status penyelesaian) langsung ke tabel `riwayat_disposisi`.
+- **Komponen Baru Modal Edit (`EditLetterModal.tsx`)**:
+  - Formulir pengeditan metadata lengkap dengan validasi naskah dinas, pilihan sifat/klasifikasi, pengunggahan ulang berkas fisik opsional, dan pengaturan status disposisi.
+- **5 Tombol Aksi Dokumen Tabel Lengkap (`ArchiveTable.tsx`)**:
+  - Menambahkan tombol **Edit** (warna aksen amber emas `#fffbeb` / `#d97706`, border `#fde68a`) berdampingan dengan `Lihat PDF`, `Unduh`, `Disposisi`, dan `Hapus`.
+- **Integrasi Edit pada Tampilan Terkait**:
+  - Menu `Riwayat Disposisi Fisik` (`DispositionHistoryView.tsx`): tombol Edit di setiap baris disposisi untuk koreksi pejabat atau status tindak lanjut.
+  - Penampil PDF (`PdfPreviewPanel.tsx`): tombol `Edit Arsip` di bilah alat pratinjau.
+- **Kepatuhan Modular**: seluruh 68 berkas sumber `src/` patuh di bawah batas 200 baris kode.
+
+---
 
 - **Optimasi Tablet & iPad (768px - 1024px)**:
   - Breakpoint drawer sidebar diperluas ke 992px, sehingga iPad mode potret otomatis mendapatkan ruang kerja penuh (100% lebar layar) dengan navigasi drawer off-canvas yang mulus.

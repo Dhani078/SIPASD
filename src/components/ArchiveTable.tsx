@@ -15,6 +15,7 @@ interface Props {
   onToggleSelect?: (id: string) => void;
   onToggleAll?: () => void;
   onPrint?: (letter: LetterRecord) => void;
+  onEdit?: (letter: LetterRecord) => void;
   onDelete?: (letter: LetterRecord) => void;
   page?: number;
   onPage?: (page: number) => void;
@@ -22,9 +23,8 @@ interface Props {
 
 function downloadPdf(letter: LetterRecord, e: React.MouseEvent) {
   e.stopPropagation();
-  const url = letter.fileUrl ? `/api/pdf?url=${encodeURIComponent(letter.fileUrl)}` : '/placeholder-surat.pdf';
   const a = document.createElement('a');
-  a.href = url;
+  a.href = letter.fileUrl ? `/api/pdf?url=${encodeURIComponent(letter.fileUrl)}` : '/placeholder-surat.pdf';
   a.download = `${letter.id.replace(/\/(SM|SK)\/.*$/i, '')}.pdf`;
   a.target = '_blank';
   a.click();
@@ -39,12 +39,12 @@ export default function ArchiveTable({
   onToggleSelect,
   onToggleAll,
   onPrint,
+  onEdit,
   onDelete,
   page = 1,
   onPage,
 }: Props) {
-  const pages = Math.max(1, Math.ceil(letters.length / 15));
-  const current = Math.min(page, pages);
+  const pages = Math.max(1, Math.ceil(letters.length / 15)), current = Math.min(page, pages);
   const visible = letters.slice(compact ? 0 : (current - 1) * 15, compact ? 5 : current * 15);
   const visibleIds = visible.map((l) => l.id);
   const allChecked = visibleIds.length > 0 && visibleIds.every((id) => selectedIds.includes(id));
@@ -125,10 +125,8 @@ export default function ArchiveTable({
                   <td>
                     <div className="row-actions">
                       <button
-                        type="button"
-                        className="table-action-btn action-view"
-                        aria-label={`Buka PDF ${letter.id}`}
-                        title={`Buka Dokumen PDF ${letter.id}`}
+                        type="button" className="table-action-btn action-view"
+                        aria-label={`Buka PDF ${letter.id}`} title={`Buka Dokumen PDF ${letter.id}`}
                         onClick={(e) => { e.stopPropagation(); onSelect(letter); }}
                       >
                         <Icon name="eye" size={14} />
@@ -136,10 +134,8 @@ export default function ArchiveTable({
                       </button>
                       {!compact && (
                         <button
-                          type="button"
-                          className="table-action-btn action-download"
-                          aria-label={`Unduh berkas PDF ${letter.id}`}
-                          title={`Unduh Langsung Berkas Asli ${letter.id}`}
+                          type="button" className="table-action-btn action-download"
+                          aria-label={`Unduh berkas PDF ${letter.id}`} title={`Unduh Berkas Asli ${letter.id}`}
                           onClick={(e) => downloadPdf(letter, e)}
                         >
                           <Icon name="download" size={14} />
@@ -148,22 +144,28 @@ export default function ArchiveTable({
                       )}
                       {!compact && onPrint && (
                         <button
-                          type="button"
-                          className="table-action-btn action-print"
-                          aria-label={`Cetak Disposisi ${letter.id}`}
-                          title={`Cetak Lembar Disposisi ${letter.id}`}
+                          type="button" className="table-action-btn action-print"
+                          aria-label={`Cetak Disposisi ${letter.id}`} title={`Cetak Lembar Disposisi ${letter.id}`}
                           onClick={(e) => { e.stopPropagation(); onPrint(letter); }}
                         >
                           <Icon name="print" size={14} />
                           <span>Disposisi</span>
                         </button>
                       )}
+                      {!compact && onEdit && (
+                        <button
+                          type="button" className="table-action-btn action-edit"
+                          aria-label={`Edit ${letter.id}`} title={`Edit Metadata Arsip ${letter.id}`}
+                          onClick={(e) => { e.stopPropagation(); onEdit(letter); }}
+                        >
+                          <Icon name="edit" size={13} />
+                          <span>Edit</span>
+                        </button>
+                      )}
                       {!compact && onDelete && (
                         <button
-                          type="button"
-                          className="table-action-btn action-delete"
-                          aria-label={`Hapus Arsip ${letter.id}`}
-                          title={`Hapus Arsip ${letter.id}`}
+                          type="button" className="table-action-btn action-delete"
+                          aria-label={`Hapus Arsip ${letter.id}`} title={`Hapus Arsip ${letter.id}`}
                           onClick={(e) => { e.stopPropagation(); onDelete(letter); }}
                         >
                           <Icon name="close" size={13} />

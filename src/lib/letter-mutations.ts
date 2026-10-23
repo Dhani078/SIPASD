@@ -131,3 +131,66 @@ export async function deleteLettersBatch(ids: string[], direction: 'in' | 'out')
   }
   return count;
 }
+
+export async function updateLetter(
+  id: string,
+  data: Partial<LetterRecord>,
+  direction: 'in' | 'out' = 'in'
+): Promise<boolean> {
+  if (direction === 'in') {
+    const sm = await queryOne<any>(
+      'SELECT id FROM arsip_surat_masuk WHERE id = ? OR nomor_agenda LIKE ?',
+      [id, `${id}/%`]
+    );
+    if (!sm) return false;
+
+    const sets: string[] = [];
+    const vals: any[] = [];
+    if (data.number !== undefined) { sets.push('nomor_surat = ?'); vals.push(data.number); }
+    if (data.origin !== undefined) { sets.push('asal_instansi = ?'); vals.push(data.origin); }
+    if (data.subject !== undefined) { sets.push('perihal = ?'); vals.push(data.subject); }
+    if (data.date !== undefined) { sets.push('tanggal_surat = ?'); vals.push(data.date); }
+    if (data.type !== undefined) { sets.push('sifat_surat = ?'); vals.push(data.type.toUpperCase()); }
+    if (data.fileUrl !== undefined) { sets.push('file_url = ?'); vals.push(data.fileUrl); }
+
+    if (sets.length > 0) {
+      vals.push(sm.id);
+      await query(`UPDATE arsip_surat_masuk SET ${sets.join(', ')} WHERE id = ?`, vals);
+    }
+
+    if (data.disposition) {
+      const d = data.disposition;
+      const instStr = d.instructions?.join(', ') || 'Tindak Lanjuti';
+      await query(
+        `UPDATE riwayat_disposisi 
+         SET pejabat_pendisposisi = COALESCE(?, pejabat_pendisposisi),
+             instruksi_tercatat = ?,
+             catatan_tertulis = ?,
+             status_penyelesaian = COALESCE(?, status_penyelesaian)
+         WHERE surat_masuk_id = ?`,
+        [d.official, instStr, d.notes || '', d.status || 'SELESAI', sm.id]
+      );
+    }
+    return true;
+  } else {
+    const sk = await queryOne<any>(
+      'SELECT id FROM arsip_surat_keluar WHERE id = ? OR nomor_agenda LIKE ?',
+      [id, `${id}/%`]
+    );
+    if (!sk) return false;
+
+    const sets: string[] = [];
+    const vals: any[] = [];
+    if (data.number !== undefined) { sets.push('nomor_surat = ?'); vals.push(data.number); }
+    if (data.origin !== undefined) { sets.push('tujuan_instansi = ?'); vals.push(data.origin); }
+    if (data.subject !== undefined) { sets.push('perihal = ?'); vals.push(data.subject); }
+    if (data.date !== undefined) { sets.push('tanggal_surat = ?'); vals.push(data.date); }
+    if (data.fileUrl !== undefined) { sets.push('file_url = ?'); vals.push(data.fileUrl); }
+
+    if (sets.length > 0) {
+      vals.push(sk.id);
+      await query(`UPDATE arsip_surat_keluar SET ${sets.join(', ')} WHERE id = ?`, vals);
+    }
+    return true;
+  }
+}

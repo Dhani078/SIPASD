@@ -8,6 +8,7 @@ export function useLetterActions(
   const [deleteTarget, setDeleteTarget] = useState<LetterRecord | null>(null);
   const [batchTargets, setBatchTargets] = useState<LetterRecord[]>([]);
   const [deleting, setDeleting] = useState(false);
+  const [editTarget, setEditTarget] = useState<LetterRecord | null>(null);
 
   const handleSave = async (record: Omit<LetterRecord, 'id'>, file?: File) => {
     let fileUrl = record.fileUrl;
@@ -82,6 +83,43 @@ export function useLetterActions(
     }
   };
 
+  const handleUpdate = async (id: string, updates: Partial<LetterRecord>, file?: File) => {
+    let fileUrl = updates.fileUrl;
+    let driveUrl = updates.driveUrl;
+    if (file) {
+      const fd = new FormData();
+      fd.append('file', file);
+      fd.append('folder', editTarget?.direction === 'in' ? 'surat_masuk' : 'surat_keluar');
+      const upRes = await fetch('/api/upload', { method: 'POST', body: fd });
+      const upData = await upRes.json();
+      if (upRes.ok && upData.success) {
+        fileUrl = upData.url;
+        if (upData.driveUrl) driveUrl = upData.driveUrl;
+      }
+    }
+    const res = await fetch('/api/letters', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id,
+        direction: editTarget?.direction || 'in',
+        ...updates,
+        ...(fileUrl ? { fileUrl } : {}),
+        ...(driveUrl ? { driveUrl } : {}),
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || 'Gagal memperbarui arsip');
+
+    setLetters((prev) =>
+      prev.map((l) =>
+        l.id === id ? { ...l, ...updates, ...(fileUrl ? { fileUrl } : {}), ...(driveUrl ? { driveUrl } : {}) } : l
+      )
+    );
+    tell(`Arsip No. Agenda ${id} berhasil diperbarui di TiDB Cloud.`);
+    setEditTarget(null);
+  };
+
   return {
     deleteTarget,
     setDeleteTarget,
@@ -91,5 +129,8 @@ export function useLetterActions(
     handleSave,
     confirmDelete,
     confirmBatchDelete,
+    editTarget,
+    setEditTarget,
+    handleUpdate,
   };
 }

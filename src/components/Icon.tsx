@@ -25,7 +25,8 @@ export type IconName =
   | 'building'
   | 'chevron'
   | 'maximize'
-  | 'minimize';
+  | 'minimize'
+  | 'edit';
 
 export default function Icon({
   name,
@@ -134,6 +135,12 @@ export default function Icon({
     minimize: (
       <>
         <path d="M4 14h6m0 0v6m0-6L3 21m17-7h-6m0 0v6m0-6 7 7M14 4v6m0 0h6m-6 0 7-7M4 10h6m0 0V4m0 6L3 3" />
+      </>
+    ),
+    edit: (
+      <>
+        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
       </>
     ),
   };

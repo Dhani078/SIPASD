@@ -9,10 +9,11 @@ interface Props {
   letter: LetterRecord;
   onClose: () => void;
   onPrint: () => void;
+  onEdit?: () => void;
   onDelete?: () => void;
 }
 
-export default function PdfPreviewPanel({ letter, onClose, onPrint, onDelete }: Props) {
+export default function PdfPreviewPanel({ letter, onClose, onPrint, onEdit, onDelete }: Props) {
   const [pdfLoading, setPdfLoading] = useState(true);
   const [fitMode, setFitMode] = useState<'page' | 'width'>('page');
   const [maximized, setMaximized] = useState(false);
@@ -94,6 +95,18 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onDelete }: 
         </div>
 
         <div className="flex items-center gap-2">
+          {onEdit && (
+            <button
+              type="button"
+              className="hover:border-amber-500 hover:text-amber-800 transition-colors"
+              title="Edit metadata berkas arsip ini"
+              onClick={onEdit}
+            >
+              <Icon name="edit" size={13} />
+              <span>Edit Arsip</span>
+            </button>
+          )}
+
           {onDelete && (
             <button
               type="button"

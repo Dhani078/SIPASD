@@ -22,6 +22,7 @@ interface Props {
   onToggleAll: () => void;
   onBatchDelete: () => void;
   setPrintLetter: (l: LetterRecord | null) => void;
+  onEdit?: (l: LetterRecord) => void;
   onDelete?: (l: LetterRecord) => void;
   setModal: (m: string) => void;
   pagination: number;
@@ -45,6 +46,7 @@ export default function SipasdMainView({
   onToggleAll,
   onBatchDelete,
   setPrintLetter,
+  onEdit,
   onDelete,
   setModal,
   pagination,
@@ -118,6 +120,7 @@ export default function SipasdMainView({
           onToggleAll={onToggleAll}
           onBatchDelete={onBatchDelete}
           onPrint={setPrintLetter}
+          onEdit={onEdit}
           onDelete={onDelete}
           onNew={() => setModal('new')}
           onExport={() => void exportExcel(visible)}
@@ -134,6 +137,7 @@ export default function SipasdMainView({
           onClassify={(c) => archive('in', { classification: c })}
           onExport={() => void exportExcel(visible)}
           onPrint={setPrintLetter}
+          onEdit={onEdit}
           onNavigate={go}
         />
       )}

@@ -26,6 +26,7 @@ interface Props {
   onToggleAll: () => void;
   onBatchDelete: () => void;
   onPrint: (letter: LetterRecord) => void;
+  onEdit?: (letter: LetterRecord) => void;
   onDelete?: (letter: LetterRecord) => void;
   onNew: () => void;
   onExport: () => void;
@@ -44,6 +45,7 @@ export default function ArchiveWorkspace({
   onToggleAll,
   onBatchDelete,
   onPrint,
+  onEdit,
   onDelete,
   onNew,
   onExport,
@@ -144,6 +146,7 @@ export default function ArchiveWorkspace({
           onToggleSelect={onToggleSelect}
           onToggleAll={onToggleAll}
           onPrint={onPrint}
+          onEdit={onEdit}
           onDelete={onDelete}
           page={page}
           onPage={onPage}

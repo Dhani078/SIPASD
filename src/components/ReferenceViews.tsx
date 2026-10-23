@@ -20,6 +20,7 @@ interface Props {
   onClassify: (code: string) => void;
   onExport: () => void;
   onPrint: (letter: LetterRecord) => void;
+  onEdit?: (letter: LetterRecord) => void;
   onNavigate?: (page: string) => void;
 }
 
@@ -32,6 +33,7 @@ export function ReferenceViews({
   onClassify,
   onExport,
   onPrint,
+  onEdit,
   onNavigate = () => {},
 }: Props) {
   if (page === 'classification')
@@ -86,7 +88,7 @@ export function ReferenceViews({
     return <DistributionView letters={letters} onExport={onExport} />;
 
   if (page === 'history')
-    return <DispositionHistoryView letters={letters} onSelect={onSelect} onExport={onExport} />;
+    return <DispositionHistoryView letters={letters} onSelect={onSelect} onEdit={onEdit} onExport={onExport} />;
 
   return (
     <section className="panel">

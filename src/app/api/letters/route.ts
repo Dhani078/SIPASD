@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getRealLetters } from '@/lib/letters';
-import { insertNewLetter, deleteLetter, deleteLettersBatch } from '@/lib/letter-mutations';
+import { insertNewLetter, deleteLetter, deleteLettersBatch, updateLetter } from '@/lib/letter-mutations';
 import { getSession } from '@/lib/auth';
 
 export async function GET() {
@@ -83,6 +83,36 @@ export async function DELETE(request: Request) {
     console.error('API Letters DELETE error:', error);
     return NextResponse.json(
       { success: false, message: error.message || 'Gagal menghapus arsip' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PUT(request: Request) {
+  try {
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ success: false, message: 'Akses ditolak. Sesi tidak ditemukan.' }, { status: 401 });
+    }
+    const body = await request.json();
+    const { id, direction, ...updates } = body;
+    if (!id) {
+      return NextResponse.json({ success: false, message: 'ID atau nomor agenda arsip wajib diisi.' }, { status: 400 });
+    }
+    const sanitize = (s: any) => typeof s === 'string' ? s.replace(/[<>]/g, '').trim().slice(0, 500) : s;
+    if (updates.number) updates.number = sanitize(updates.number);
+    if (updates.origin) updates.origin = sanitize(updates.origin);
+    if (updates.subject) updates.subject = sanitize(updates.subject);
+
+    const ok = await updateLetter(id, updates, direction || 'in');
+    if (!ok) {
+      return NextResponse.json({ success: false, message: 'Arsip tidak ditemukan untuk diperbarui' }, { status: 404 });
+    }
+    return NextResponse.json({ success: true, message: 'Arsip berhasil diperbarui di TiDB Cloud' });
+  } catch (error: any) {
+    console.error('API Letters PUT error:', error);
+    return NextResponse.json(
+      { success: false, message: error.message || 'Gagal memperbarui arsip' },
       { status: 500 }
     );
   }

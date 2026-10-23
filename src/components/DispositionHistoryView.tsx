@@ -10,12 +10,13 @@ import type { LetterRecord } from '@/types';
 interface Props {
   letters: LetterRecord[];
   onSelect: (letter: LetterRecord) => void;
+  onEdit?: (letter: LetterRecord) => void;
   onExport: () => void;
 }
 
 type StatusFilter = 'ALL' | 'BELUM_DIPROSES' | 'PROSES' | 'SELESAI';
 
-export default function DispositionHistoryView({ letters, onSelect, onExport }: Props) {
+export default function DispositionHistoryView({ letters, onSelect, onEdit, onExport }: Props) {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('ALL');
   const [searchQuery, setSearchQuery] = useState('');
   const [showInfo, setShowInfo] = useState(false);
@@ -169,6 +170,17 @@ export default function DispositionHistoryView({ letters, onSelect, onExport }: 
                         <Icon name="eye" size={14} />
                         <span>Detail</span>
                       </button>
+                      {onEdit && (
+                        <button
+                          type="button"
+                          className="table-action-btn action-edit"
+                          onClick={() => onEdit(letter)}
+                          title={`Edit Disposisi ${letter.id}`}
+                        >
+                          <Icon name="edit" size={13} />
+                          <span>Edit</span>
+                        </button>
+                      )}
                     </div>
                   </td>
                 </tr>

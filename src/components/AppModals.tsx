@@ -2,6 +2,7 @@ import NewLetterModal from './NewLetterModal';
 import PrintDisposisiModal from './PrintDisposisiModal';
 import DocumentPreview from './DocumentPreview';
 import DeleteConfirmModal from './DeleteConfirmModal';
+import EditLetterModal from './EditLetterModal';
 import { HelpModal } from './ReferenceViews';
 import type { LetterRecord } from '@/types';
 
@@ -9,6 +10,7 @@ interface Props {
   modal: string;
   selected: LetterRecord | null;
   printLetter: LetterRecord | null;
+  editTarget: LetterRecord | null;
   deleteTarget: LetterRecord | null;
   batchTargets: LetterRecord[];
   deleting: boolean;
@@ -17,10 +19,12 @@ interface Props {
   setModal: (m: string) => void;
   setSelected: (l: LetterRecord | null) => void;
   setPrintLetter: (l: LetterRecord | null) => void;
+  setEditTarget: (l: LetterRecord | null) => void;
   setDeleteTarget: (l: LetterRecord | null) => void;
   setBatchTargets: (b: LetterRecord[]) => void;
   setSelectedIds: (ids: string[]) => void;
   onSaveLetter: (record: Omit<LetterRecord, 'id'>, file?: File) => Promise<void>;
+  onUpdateLetter: (id: string, updates: Partial<LetterRecord>, file?: File) => Promise<void>;
   confirmDelete: () => Promise<void>;
   confirmBatchDelete: () => Promise<void>;
 }
@@ -29,6 +33,7 @@ export default function AppModals({
   modal,
   selected,
   printLetter,
+  editTarget,
   deleteTarget,
   batchTargets,
   deleting,
@@ -37,10 +42,12 @@ export default function AppModals({
   setModal,
   setSelected,
   setPrintLetter,
+  setEditTarget,
   setDeleteTarget,
   setBatchTargets,
   setSelectedIds,
   onSaveLetter,
+  onUpdateLetter,
   confirmDelete,
   confirmBatchDelete,
 }: Props) {
@@ -51,7 +58,15 @@ export default function AppModals({
           letter={selected}
           onClose={() => setSelected(null)}
           onPrint={() => { const item = selected; setSelected(null); setPrintLetter(item); }}
+          onEdit={() => { const item = selected; setSelected(null); setEditTarget(item); }}
           onDelete={() => { const item = selected; setSelected(null); setDeleteTarget(item); }}
+        />
+      )}
+      {editTarget && (
+        <EditLetterModal
+          letter={editTarget}
+          onClose={() => setEditTarget(null)}
+          onSave={onUpdateLetter}
         />
       )}
       {modal === 'new' && (

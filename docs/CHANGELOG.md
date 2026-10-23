@@ -5,7 +5,19 @@ Format: `[YYYY-MM-DD] Fitur/Perbaikan - Deskripsi`
 
 ---
 
-## [2026-10-22] Addendum: Desain Ulang Landing Page Publik Menjadi Lebih Modern dan Berdaya Saing
+## [2026-10-22] Addendum: Maxx Mode Responsif untuk Smartphone & iPad Tablet (Touch Targets & Zero Overflow)
+
+- **Optimasi Tablet & iPad (768px - 1024px)**:
+  - Breakpoint drawer sidebar diperluas ke 992px, sehingga iPad mode potret otomatis mendapatkan ruang kerja penuh (100% lebar layar) dengan navigasi drawer off-canvas yang mulus.
+  - Penyesuaian grid metrik 2x2 dan perataan kolom sekunder dashboard tablet.
+- **Smartphone Maxx Mode (<768px)**:
+  - **Pratinjau PDF Layar Penuh Otomatis**: modal PDF otomatis mengisi 100vw x 100dvh tanpa terpotong margin, memberi ruang baca maksimal pada layar HP.
+  - **Peningkatan Tipografi Seluler**: perbaikan ukuran font kecil (6px/8px dihapus, distandarkan ke 11px-14px yang ramah mata).
+  - **Tombol Sentuh Ramah Jari (WCAG Touch Targets)**: tombol aksi tabel distandarkan ke ukuran sentuh minimal 34x34px dengan feedback taktil `active:scale-[0.94]`.
+  - **Bilah Filter Responsif**: tata letak filter dan pencarian tersusun vertikal rapi dengan input setinggi 36px-40px (mencegah auto-zoom Safari iOS).
+- **Proteksi Nol Overflow**: penegakan `overflow-x: hidden` dan `-webkit-overflow-scrolling: touch` pada seluruh kontainer.
+
+---
 
 - **Peningkatan Tampilan Header & Hero**:
   - Lencana status 'TRANSFORMASI SPBE KALSEL MAJU - TA 2026' dengan indikator denyut hijau hidup (live pulse dot).

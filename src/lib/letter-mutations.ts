@@ -139,8 +139,8 @@ export async function updateLetter(
 ): Promise<boolean> {
   if (direction === 'in') {
     const sm = await queryOne<any>(
-      'SELECT id FROM arsip_surat_masuk WHERE id = ? OR nomor_agenda LIKE ?',
-      [id, `${id}/%`]
+      'SELECT id FROM arsip_surat_masuk WHERE id = ? OR nomor_agenda = ? OR nomor_agenda LIKE ?',
+      [id, id, `${id}/%`]
     );
     if (!sm) return false;
 
@@ -174,8 +174,8 @@ export async function updateLetter(
     return true;
   } else {
     const sk = await queryOne<any>(
-      'SELECT id FROM arsip_surat_keluar WHERE id = ? OR nomor_agenda LIKE ?',
-      [id, `${id}/%`]
+      'SELECT id FROM arsip_surat_keluar WHERE id = ? OR nomor_agenda = ? OR nomor_agenda LIKE ?',
+      [id, id, `${id}/%`]
     );
     if (!sk) return false;
 

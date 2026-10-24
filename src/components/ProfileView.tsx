@@ -65,52 +65,52 @@ export default function ProfileView({ user, onNavigate, onLogout }: Props) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="p-4 bg-white border border-slate-200 rounded-lg">
+        <div className="p-4 bg-white border border-slate-200 rounded-lg shadow-sm">
           <div className="flex items-center gap-2 mb-3 text-emerald-950 font-semibold text-sm">
             <Icon name="shield" size={16} />
             <span>Hak Akses & Otoritas Sistem</span>
           </div>
           <ul className="space-y-2 text-xs text-slate-600">
             <li className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
-              <span>Pencarian dan penelusuran dokumen arsip dinas</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 flex-shrink-0" />
+              <span>Pencarian dan penelusuran dokumen arsip kedinasan terpadu</span>
             </li>
             <li className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
-              <span>Pratinjau berkas pindaian PDF (Signed Cloudinary Stream)</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 flex-shrink-0" />
+              <span>Pratinjau langsung berkas fisik asli beresolusi tinggi</span>
             </li>
             <li className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
-              <span>Pencatatan riwayat disposisi fisik pimpinan</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 flex-shrink-0" />
+              <span>Pencatatan instruksi riwayat lembar disposisi fisik pimpinan</span>
             </li>
             <li className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
-              <span>Ekspor Buku Agenda dan Buku Ekspedisi format Excel</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 flex-shrink-0" />
+              <span>Penerbitan Buku Agenda dan Buku Ekspedisi standar kearsipan</span>
             </li>
           </ul>
         </div>
 
-        <div className="p-4 bg-white border border-slate-200 rounded-lg">
+        <div className="p-4 bg-white border border-slate-200 rounded-lg shadow-sm">
           <div className="flex items-center gap-2 mb-3 text-emerald-950 font-semibold text-sm">
             <Icon name="check" size={16} />
-            <span>Status Keamanan & Sesi</span>
+            <span>Status Keamanan & Sesi Kedinasan</span>
           </div>
           <div className="space-y-2 text-xs text-slate-600">
             <div className="flex justify-between py-1 border-b border-slate-100">
-              <span className="text-slate-500">Basis Data:</span>
-              <span className="font-semibold text-emerald-800">TiDB Cloud Serverless (SSL Strict)</span>
+              <span className="text-slate-500">Pusat Data Kearsipan:</span>
+              <span className="font-semibold text-emerald-800">Tersinkronisasi Real-Time (TLS 1.3)</span>
             </div>
             <div className="flex justify-between py-1 border-b border-slate-100">
               <span className="text-slate-500">Penyimpanan Digital:</span>
-              <span className="font-semibold text-slate-700">Cloudinary CDN + Google Drive 5 TB</span>
+              <span className="font-semibold text-slate-700">Layanan Ganda (Akses Cepat & Cadangan Otomatis)</span>
             </div>
             <div className="flex justify-between py-1 border-b border-slate-100">
-              <span className="text-slate-500">Tipe Token:</span>
-              <span className="font-mono text-slate-700">JWT HttpOnly (8 Jam)</span>
+              <span className="text-slate-500">Otentikasi Sesi:</span>
+              <span className="font-semibold text-slate-700">Aman Terenkripsi (Masa Berlaku 8 Jam)</span>
             </div>
             <div className="flex justify-between py-1">
-              <span className="text-slate-500">Audit Trail:</span>
-              <span className="font-semibold text-emerald-700">Terekam aktif di tabel audit_logs</span>
+              <span className="text-slate-500">Jejak Audit Aktivitas:</span>
+              <span className="font-semibold text-emerald-700">Terekam Resmi (Audit Trail Kedinasan)</span>
             </div>
           </div>
         </div>

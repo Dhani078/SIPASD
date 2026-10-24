@@ -12,6 +12,17 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.18.0] - 2026-10-23
+
+### Changed
+- **Penyempurnaan Halaman Profil Pengguna (`ProfileView.tsx` & `SipasdMainView.tsx`)**:
+  * Menghapus istilah vendor infrastruktur mentah (TiDB, Cloudinary, raw table) pada kartu keamanan dan menggantinya dengan bahasa tata kelola resmi kedinasan Pemprov Kalsel (*Pusat Data Kearsipan Terintegrasi TLS 1.3*, *Layanan Ganda Streaming & Cadangan*, *Sesi Terotentikasi Aman 8 Jam*, *Jejak Audit Aktivitas Pegawai*).
+  * Menyelaraskan teks deskripsi subtitle halaman profil menjadi: *"Informasi identitas aparatur, rincian kewenangan akses, dan riwayat sesi kedinasan."*
+  * Menyembunyikan tombol `+ Indeks Surat Baru` pada halaman profil agar antarmuka fokus pada manajemen identitas dan kredensial pengguna.
+  * Memperbaiki perataan tipografi NIP dan memastikan tombol aksi keluar sesi tidak mepet border kontainer.
+
+---
+
 ## [2.17.0] - 2026-10-23
 
 ### Added

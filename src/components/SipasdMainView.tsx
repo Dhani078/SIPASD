@@ -65,7 +65,17 @@ export default function SipasdMainView({
           <p>
             {page === 'dashboard'
               ? `Selamat datang, ${user.name}. Berikut ringkasan persuratan Dispora hari ini.`
-              : 'Kelola, telusuri, dan tindak lanjuti arsip kedinasan secara terpusat.'}
+              : page === 'profile'
+                ? 'Informasi identitas aparatur, rincian kewenangan akses, dan riwayat sesi kedinasan.'
+                : page === 'history'
+                  ? 'Pencatatan lembar disposisi kertas Kepala Dinas & status tindak lanjut bidang.'
+                  : page === 'excel'
+                    ? 'Ekspor dan pelaporan register buku agenda surat resmi dalam format Microsoft Excel.'
+                    : page === 'expedition'
+                      ? 'Pencatatan buku ekspedisi dan tanda terima distribusi surat keluar kedinasan.'
+                      : page === 'master'
+                        ? 'Master kode klasifikasi persuratan dinas berdasar Permendagri & Perda Kalsel.'
+                        : 'Kelola, telusuri, dan tindak lanjuti arsip kedinasan secara terpusat.'}
           </p>
         </div>
         <div className="heading-actions">
@@ -74,9 +84,11 @@ export default function SipasdMainView({
             <span>{user.role}</span>
             <small>TERVERIFIKASI</small>
           </div>
-          <button className="btn primary" onClick={() => setModal('new')}>
-            <Icon name="plus" size={17} /> Indeks Surat Baru
-          </button>
+          {page !== 'profile' && (
+            <button className="btn primary" onClick={() => setModal('new')}>
+              <Icon name="plus" size={17} /> Indeks Surat Baru
+            </button>
+          )}
         </div>
       </div>
 

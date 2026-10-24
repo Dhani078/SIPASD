@@ -6,6 +6,7 @@ import Badge from './Badge';
 import DispositionInfoModal from './DispositionInfoModal';
 import DispositionFilters, { StatusFilter } from './DispositionFilters';
 import DispositionPagination from './DispositionPagination';
+import DispositionRowMenu from './DispositionRowMenu';
 import { formatDate } from '@/lib/format';
 import type { LetterRecord } from '@/types';
 
@@ -52,10 +53,10 @@ export default function DispositionHistoryView({ letters, onSelect, onEdit, onEx
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
   const currentPage = Math.min(page, totalPages);
-  const paginated = useMemo(() => {
-    const start = (currentPage - 1) * pageSize;
-    return filtered.slice(start, start + pageSize);
-  }, [filtered, currentPage, pageSize]);
+  const paginated = useMemo(
+    () => filtered.slice((currentPage - 1) * pageSize, currentPage * pageSize),
+    [filtered, currentPage, pageSize]
+  );
 
   const statusCounts = useMemo(() => ({
     ALL: suratMasuk.length,
@@ -125,34 +126,35 @@ export default function DispositionHistoryView({ letters, onSelect, onEdit, onEx
                   <th>KEPADA BIDANG</th>
                   <th>INSTRUKSI PIMPINAN</th>
                   <th>STATUS TINDAK LANJUT</th>
-                  <th style={{ textAlign: 'right' }}>AKSI</th>
+                  <th style={{ textAlign: 'right', paddingRight: '16px', width: '60px' }}>AKSI</th>
                 </tr>
               </thead>
               <tbody>
                 {paginated.map((letter) => (
-                  <tr key={letter.id}>
+                  <tr
+                    key={letter.id}
+                    className="cursor-pointer hover:bg-slate-50 transition-colors"
+                    onClick={() => onSelect(letter)}
+                  >
                     <td>
-                      <b className="mono agenda">{letter.id}/SM/{letter.date ? letter.date.slice(0, 4) : '2026'}</b>
-                      <p className="text-xs text-slate-500 mt-1">
-                        {letter.disposition?.date ? formatDate(letter.disposition.date) : (letter.date && formatDate(letter.date))}
-                      </p>
+                      <b className="mono text-emerald-800 text-xs font-bold block">{letter.id}/SM/{letter.date ? letter.date.slice(0, 4) : '2026'}</b>
+                      <p className="text-xs text-slate-500 mt-1">{letter.disposition?.date ? formatDate(letter.disposition.date) : (letter.date && formatDate(letter.date))}</p>
                     </td>
                     <td>
-                      <b>{letter.origin}</b>
-                      <p>{letter.subject}</p>
+                      <b className="text-slate-900 font-semibold">{letter.origin}</b>
+                      <p title={letter.subject} className="text-slate-700 text-xs mt-0.5">{letter.subject}</p>
                     </td>
                     <td>
-                      <span className="text-sm font-medium text-slate-800">
-                        {letter.disposition?.official || 'Pebriadin Hapiz, AP, M.Si'}
-                      </span>
+                      <span className="text-xs font-medium text-slate-800">{letter.disposition?.official || 'Pebriadin Hapiz, AP, M.Si'}</span>
                     </td>
                     <td>
-                      <span className="text-sm font-semibold text-emerald-900">
-                        {letter.disposition?.division || '-'}
-                      </span>
+                      <span className="text-xs font-semibold text-emerald-900">{letter.disposition?.division || '-'}</span>
                     </td>
                     <td>
-                      <span className="text-xs text-slate-700 bg-slate-100 px-2 py-1 rounded inline-block">
+                      <span
+                        className="text-xs text-slate-700 bg-slate-100 px-2 py-1 rounded inline-block"
+                        title={letter.disposition?.instructions?.join(', ') || 'Tindak lanjuti & Koordinasikan'}
+                      >
                         {letter.disposition?.instructions?.join(', ') || 'Tindak lanjuti & Koordinasikan'}
                       </span>
                     </td>
@@ -162,16 +164,11 @@ export default function DispositionHistoryView({ letters, onSelect, onEdit, onEx
                     </td>
                     <td>
                       <div className="row-actions">
-                        <button type="button" className="table-action-btn action-view" onClick={() => onSelect(letter)}>
-                          <Icon name="eye" size={14} />
-                          <span>Detail</span>
-                        </button>
-                        {onEdit && (
-                          <button type="button" className="table-action-btn action-edit" onClick={() => onEdit(letter)} title={`Edit Disposisi ${letter.id}`}>
-                            <Icon name="edit" size={13} />
-                            <span>Edit</span>
-                          </button>
-                        )}
+                        <DispositionRowMenu
+                          letter={letter}
+                          onSelect={onSelect}
+                          onEdit={onEdit}
+                        />
                       </div>
                     </td>
                   </tr>

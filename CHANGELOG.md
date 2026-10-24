@@ -12,6 +12,17 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.17.0] - 2026-10-23
+
+### Added
+- **Pola Menu Aksi Terpusat Titik Tiga pada Riwayat Disposisi (`DispositionRowMenu.tsx`)**:
+  * Mengganti tombol ganda `[Detail]` dan `[Edit]` di tabel Riwayat Disposisi dengan tombol aksi titik tiga `[...]` yang senada dan seragam dengan modul persuratan.
+  * Menjadikan seluruh baris tabel disposisi dapat diklik langsung (`clickable row`) untuk membuka modal rincian lembar disposisi.
+  * Memperjelas dan memperbesar ukuran font header tabel (`th`) dari 7px menjadi 11px berbobot 650 dengan kontras warna WCAG AA (`#475569`).
+  * Menghilangkan garis glitch visual pada nomor agenda dan menambahkan tooltip hover pada teks perihal surat.
+
+---
+
 ## [2.16.0] - 2026-10-23
 
 ### Fixed

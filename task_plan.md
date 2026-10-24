@@ -218,6 +218,14 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 21: Disposition History Action Menu & Table Polish (100% COMPLETE)
+- [x] Pembuatan komponen `DispositionRowMenu.tsx` (80 LOC) tombol titik tiga.
+- [x] Penyeragaman tombol aksi di Riwayat Disposisi menjadi tombol titik tiga `[...]`.
+- [x] Peningkatan tipografi header tabel `th` dari 7px ke 11px berbobot 650 (#475569).
+- [x] Baris tabel disposisi dijadikan clickable row (`onClick={() => onSelect(letter)}`).
+- [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

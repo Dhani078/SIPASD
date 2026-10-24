@@ -849,13 +849,13 @@ table {
 }
 th {
   background: #f8fafc;
-  font-size: 7px;
-  letter-spacing: 0.65px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
   font-weight: 650;
-  color: #7b8899;
+  color: #475569;
   padding: 10px 14px;
-  border-top: 1px solid #edf0f3;
-  border-bottom: 1px solid #edf0f3;
+  border-top: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
   white-space: nowrap;
 }
 th svg {

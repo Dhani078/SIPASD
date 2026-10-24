@@ -436,13 +436,30 @@
    - Menemukan bahwa Surat Keluar (241 berkas) merupakan naskah dinas murni (SPT tugas dinas, SPD perjalanan, pengantar SPJ, pesanan) yang tidak memiliki keterkaitan dengan permohonan reservasi venue olahraga.
    - Mengisolasi filter dropdown `venue` sehingga **hanya muncul di Arsip Surat Masuk** (`isSuratMasuk={page === 'in'}`).
    - Menghilangkan sepenuhnya dropdown venue pada Arsip Surat Keluar agar pengguna tidak lagi melihat filter fasilitas olahraga yang tidak relevan.
-2. **Penyelarasan Klasifikasi & Bidang Riil pada Surat Keluar**:
-   - Menghubungkan nomor surat ke kode klasifikasi dinas (`900` Keuangan: 159 surat, `800` Kepegawaian: 76 surat, `427` Kepemudaan: 5 surat, `045` Kearsipan: 1 surat).
-   - Menghubungkan isi perihal ke bidang dinas terkait (Sekretariat, Pengembangan Pemuda, Sarana & Prasarana, Prestasi, Pembudayaan).
 3. **Verifikasi Kualitas**:
    - `npm test`: 6/6 test suites passed (100% HEALTHY).
    - `tsc --noEmit`: 0 type errors.
    - `aislop scan`: 100/100 Healthy (0 errors, 0 warnings).
    - `npm run build`: 12 rute produksi sukses.
    - Seluruh 73 berkas di `src/` <= 200 baris kode.
+
+---
+
+## Sesi 19: Penyeragaman Menu Titik Tiga [...] pada Riwayat Disposisi & Peningkatan Header Tabel
+**Tanggal**: 24 Oktober 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Penerapan Menu Aksi Titik Tiga pada Riwayat Disposisi (`DispositionRowMenu.tsx`)**:
+   - Mengganti tombol ganda `[Detail]` dan `[Edit]` menjadi tombol tunggal `[...]` (29x29px) dengan popover rapi untuk membuka detail disposisi dan mengubah instruksi pimpinan.
+   - Menambahkan event klik langsung pada baris tabel disposisi (`<tr onClick={() => onSelect(letter)}>`) untuk akses cepat 1-klik.
+2. **Peningkatan Tipografi & Keterbacaan Header Tabel (`globals.css`)**:
+   - Menaikkan ukuran font header tabel (`th`) dari 7px menjadi 11px berbobot 650 dengan kontras warna `#475569`.
+   - Menghilangkan glitch visual pada teks nomor agenda disposisi.
+3. **Verifikasi Kualitas**:
+   - `npm test`: 6/6 test suites passed (100% HEALTHY).
+   - `tsc --noEmit`: 0 type errors.
+   - `aislop scan`: 100/100 Healthy (0 errors, 0 warnings).
+   - `npm run build`: 12 rute produksi sukses.
+   - Seluruh 74 berkas di `src/` <= 200 baris kode.
 

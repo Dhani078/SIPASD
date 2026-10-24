@@ -75,8 +75,8 @@ export default function ArchiveTable({
                 TANGGAL <Icon name="down" size={11} />
               </th>
               <th scope="col">SIFAT</th>
-              <th scope="col" style={{ textAlign: 'right', paddingRight: '16px' }}>
-                AKSI DOKUMEN
+              <th scope="col" style={{ textAlign: 'right', paddingRight: '16px', width: '60px' }}>
+                AKSI
               </th>
             </tr>
           </thead>

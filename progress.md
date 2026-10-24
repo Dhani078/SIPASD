@@ -384,15 +384,15 @@
 
 ---
 
-## Sesi 16: Implementasi Menu Aksi Hibrida [Lihat] + [...] Dropdown
+## Sesi 16: Penyatuan Seluruh Aksi Dokumen ke Menu Titik Tiga [...]
 **Tanggal**: 24 Oktober 2026  
 **Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
 
 ### Aktivitas yang Telah Diselesaikan
-1. **Pembangunan Komponen Dropdown Hibrida (`RowActionMenu.tsx`)**:
-   - Mempertahankan tombol utama `Lihat` (1-klik instan membuka PDF).
-   - Menambahkan tombol kebab menu `...` yang membuka popover rapi untuk aksi sekunder (Cetak Disposisi, Unduh PDF, Ubah Metadata, dan Hapus Berkas).
-   - Menghilangkan polusi visual 75 ikon bertumpuk dan mencegah risiko salah klik pada tombol hapus.
+1. **Pemusatan Aksi ke Menu Titik Tiga (`RowActionMenu.tsx`)**:
+   - Memasukkan aksi `Lihat Berkas (PDF)` ke urutan paling atas di dalam dropdown menu titik tiga `[...]`.
+   - Kolom aksi tabel kini berukuran minimalis (hanya satu tombol `[...]` berukuran 29x29px).
+   - Pengguna tetap dapat mengklik baris mana saja di tabel untuk membuka dokumen fisik secara langsung.
 2. **Penyempurnaan Ikon & Gaya Antarmuka**:
    - Menambahkan ikon `more` tiga titik vertikal di `Icon.tsx`.
    - Menambahkan kelas `.table-action-btn.action-more` di `globals.css`.

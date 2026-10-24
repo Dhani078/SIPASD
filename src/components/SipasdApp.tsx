@@ -118,7 +118,7 @@ export default function SipasdApp({
       <LandingPage
         go={go} onTrack={(q) => archive('in', { query: q })}
         onVenue={(v) => archive(letters.some((l) => l.venue === v && l.direction === 'in') ? 'in' : 'out', { venue: v })}
-        setModal={setModal} sampleLetter={letters[0]}
+        setModal={setModal} sampleLetter={letters.find((l) => l.direction === 'in') || letters[0]}
         totalSuratMasuk={inCount} totalSuratKeluar={outCount}
       />
     );

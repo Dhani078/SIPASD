@@ -66,8 +66,8 @@ export default function LandingPage({
       </header>
 
       <main className="landing-main max-w-7xl mx-auto px-5 sm:px-10 flex-1 w-full" id="beranda">
-        <section className="hero py-12 sm:py-16 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          <div className="lg:col-span-7">
+        <section className="hero py-8 sm:py-12 md:py-16 grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-6 lg:gap-10 items-center">
+          <div className="md:col-span-7">
             <div className="official-pill inline-flex items-center gap-2 bg-emerald-50 text-emerald-800 border border-emerald-200/80 px-3.5 py-1.5 rounded-full text-xs font-semibold">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <span>TRANSFORMASI DIGITAL KEARSIPAN SPBE - TA 2026</span>
@@ -136,7 +136,7 @@ export default function LandingPage({
             </div>
           </div>
 
-          <div className="lg:col-span-5 flex justify-center">
+          <div className="md:col-span-5 flex justify-center md:justify-end">
             <div className="hero-document relative max-w-sm w-full transform hover:rotate-0 transition-transform duration-300">
               <div className="doc-floating absolute -top-3 -left-3 bg-white/95 backdrop-blur-md border border-slate-200 px-3 py-1.5 rounded-full text-xs font-semibold shadow-md flex items-center gap-2 z-10 text-slate-800">
                 <Badge type="Kilat" />

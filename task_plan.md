@@ -249,6 +249,12 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 25: Hero Side-by-Side Responsive Elevation (100% COMPLETE)
+- [x] Menurunkan breakpoint hero 2-kolom ke `md:grid-cols-12` (768px) agar selalu duduk berdampingan (*sebelahan*) di laptop & PC.
+- [x] Memperbaiki pemilihan sampel berkas publik di `SipasdApp.tsx` menjadi Surat Masuk resmi.
+- [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

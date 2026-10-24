@@ -12,6 +12,18 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.21.0] - 2026-10-23
+
+### Fixed
+- **Responsivitas Hero Landing Page Sebelahan (`LandingPage.tsx`)**:
+  * Mengubah breakpoint layout 2 kolom hero dari `lg:grid-cols-12` (1024px) menjadi `md:grid-cols-12` (768px).
+  * Mengeliminasi celah ruang kosong masif di sisi kanan pada layar laptop (1366x768 atau zoom 125%) sehingga teks pengantar di kolom kiri (`md:col-span-7`) dan kartu pratinjau dokumen di kolom kanan (`md:col-span-5`) duduk berdampingan (*sebelahan*) secara sempurna.
+  * Hanya bertumpuk 1 kolom pada layar ponsel (`< 768px`).
+- **Penyelarasan Dokumen Sampel Publik (`SipasdApp.tsx`)**:
+  * Mengubah sampel dokumen landing page dari indeks teratas acak `letters[0]` menjadi berkas Surat Masuk resmi publik (`letters.find(l => l.direction === 'in')`), menampilkan agenda resmi bertaraf dinas (agenda 0899 dari Setda Kalsel).
+
+---
+
 ## [2.20.0] - 2026-10-23
 
 ### Fixed

@@ -113,6 +113,17 @@ export default function SipasdApp({
     setSelectedIds(allChecked ? selectedIds.filter((id) => !visibleIds.includes(id)) : [...new Set([...selectedIds, ...visibleIds])]);
   };
 
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+    } catch {
+      // ignore network errors
+    }
+    if (typeof window !== 'undefined') {
+      window.location.href = '/';
+    }
+  };
+
   if (page === 'landing') {
     return (
       <LandingPage
@@ -147,12 +158,12 @@ export default function SipasdApp({
           onClick={() => setDrawer(false)}
         />
       )}
-      <Sidebar drawer={drawer} page={page} go={go} user={user} counts={{ in: inCount, out: outCount }} />
+      <Sidebar drawer={drawer} page={page} go={go} user={user} counts={{ in: inCount, out: outCount }} onLogout={handleLogout} />
       <div className="workspace">
         <TopNavbar
           title={title} user={user} letters={letters} onSelect={setSelected}
           onSearch={(q) => archive('in', { query: q })} onMenu={() => setDrawer((v) => !v)}
-          onExport={() => void exportExcel(visible)} onNavigate={go}
+          onExport={() => void exportExcel(visible)} onNavigate={go} onLogout={handleLogout}
         />
         <SipasdMainView
           page={page} title={title} user={user} letters={letters} visible={visible}
@@ -161,7 +172,7 @@ export default function SipasdApp({
           onBatchDelete={() => setBatchTargets(letters.filter((l) => selectedIds.includes(l.id)))}
           setPrintLetter={setPrintLetter} onEdit={setEditTarget} onDelete={setDeleteTarget}
           setModal={setModal} pagination={pagination} setPagination={setPagination}
-          go={go} archive={archive}
+          go={go} archive={archive} onLogout={handleLogout}
         />
       </div>
 

@@ -12,6 +12,17 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.22.0] - 2026-10-23
+
+### Fixed
+- **Penghancuran Total Cookie Sesi saat Logout (`SipasdApp.tsx` & `SipasdMainView.tsx`)**:
+  * Mengatasi *re-login bug* di mana setelah logout dan me-refresh halaman landing page, sistem masih otomatis masuk (*auto-login*) kembali dengan akun lama.
+  * Masalah disebabkan oleh aksi "Keluar Sesi" di antarmuka klien yang sebelumnya hanya memindahkan `state` halaman tanpa memanggil endpoint server `/api/auth/logout`.
+  * Membangun fungsi `handleLogout` yang mengeksekusi `POST /api/auth/logout` untuk menghapus cookie HTTP-Only `sipasd_session` (`maxAge: 0`, `expires: new Date(0)`), lalu mereload ke `/` secara bersih.
+  * Meneruskan prop `onLogout={handleLogout}` ke `Sidebar`, `TopNavbar`, `ProfileDropdown`, dan `ProfileView`.
+
+---
+
 ## [2.21.0] - 2026-10-23
 
 ### Fixed

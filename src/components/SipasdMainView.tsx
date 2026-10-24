@@ -154,6 +154,7 @@ export default function SipasdMainView({
           onPrint={setPrintLetter}
           onEdit={onEdit}
           onNavigate={go}
+          onLogout={_onLogout}
         />
       )}
     </main>

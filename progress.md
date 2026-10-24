@@ -539,9 +539,25 @@
 1. **Perbaikan Grid Breakpoint Hero (`LandingPage.tsx`)**:
    - Menurunkan breakpoint 2-kolom hero dari `lg:grid-cols-12` (1024px) ke `md:grid-cols-12` (768px).
    - Memastikan kolom kiri teks pengantar (`md:col-span-7`) dan kolom kanan pratinjau surat (`md:col-span-5`) selalu berdampingan (*sebelahan*) pada seluruh layar laptop dan desktop tanpa ruang kosong berlebih.
-2. **Penyelarasan Dokumen Sampel Publik (`SipasdApp.tsx`)**:
-   - Memilih naskah Surat Masuk bertaraf dinas (agenda 0899 dari Setda Kalsel) sebagai pratinjau publik.
 3. **Verifikasi Kualitas**:
+   - `npm test`: 6/6 test suites passed (100% HEALTHY).
+   - `tsc --noEmit`: 0 type errors.
+   - `aislop scan`: 100/100 Healthy (0 errors, 0 warnings).
+   - `npm run build`: 12 rute produksi sukses.
+   - Seluruh 78 berkas di `src/` <= 200 baris kode.
+
+---
+
+## Sesi 24: Penuntasan Bug Re-Login Pasca Logout
+**Tanggal**: 24 Oktober 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Penyambungan Handler Logout ke Server (`SipasdApp.tsx`)**:
+   - Menulis `handleLogout` yang mengeksekusi `POST /api/auth/logout` untuk menghapus cookie `sipasd_session` (`maxAge: 0`, `expires: 1970`).
+   - Meneruskan `onLogout={handleLogout}` ke `Sidebar`, `TopNavbar`, dan `SipasdMainView` (diteruskan ke `ReferenceViews` dan `ProfileView`).
+   - Memastikan saat pengguna me-refresh halaman landing page atau kembali ke `/`, sesi telah bersih total 100% dan tidak akan otomatis login kembali.
+2. **Verifikasi Kualitas**:
    - `npm test`: 6/6 test suites passed (100% HEALTHY).
    - `tsc --noEmit`: 0 type errors.
    - `aislop scan`: 100/100 Healthy (0 errors, 0 warnings).

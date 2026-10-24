@@ -255,6 +255,12 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 26: Session Logout & Refresh Bug Eradication (100% COMPLETE)
+- [x] Penambahan `handleLogout` pemanggil endpoint `POST /api/auth/logout` untuk menghapus cookie sesi server.
+- [x] Distribusi prop `onLogout` ke Sidebar, TopNavbar, ProfileDropdown, dan ProfileView.
+- [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

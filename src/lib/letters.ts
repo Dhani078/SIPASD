@@ -28,6 +28,35 @@ function detectVenue(text: string): string {
   return '-';
 }
 
+function detectClassification(number: string, text: string): string {
+  const n = (number || '').trim();
+  const t = text.toLowerCase();
+  if (n.startsWith('900') || n.startsWith('90') || ['anggaran', 'keuangan', 'rekening', 'spj', 'bku', 'kas'].some((k) => t.includes(k))) return '900';
+  if (n.startsWith('800') || n.startsWith('80') || n.startsWith('000.1.2.3') || ['tugas', 'perjalanan', 'pegawai'].some((k) => t.includes(k))) return '800';
+  if (n.startsWith('005') || t.includes('undangan')) return '005';
+  if (n.startsWith('045') || n.startsWith('000.5') || t.includes('arsip')) return '045';
+  if (t.includes('pemuda') || t.includes('pramuka')) return '427';
+  if (t.includes('olahraga') || t.includes('atlet')) return '426';
+  return '900';
+}
+
+function mapOutgoingDivision(text: string): string {
+  const t = text.toLowerCase();
+  if (['pemuda', 'pramuka', 'wirausaha', 'kepemudaan'].some((k) => t.includes(k))) return 'Pengembangan Pemuda';
+  if (['prestasi', 'atlet', 'koni', 'kejurprov', 'pelatda'].some((k) => t.includes(k))) return 'Peningkatan Prestasi';
+  if (['pembudayaan', 'senam', 'masyarakat', 'rekreasi'].some((k) => t.includes(k))) return 'Pembudayaan Olahraga';
+  if (['sarana', 'prasarana', 'kendaraan', 'pesanan', 'rehabilitasi', 'order'].some((k) => t.includes(k))) return 'Sarana & Prasarana';
+  return 'Sekretariat';
+}
+
+function mapOutgoingUrgency(text: string): Urgency {
+  const t = text.toLowerCase();
+  if (['kilat', 'darurat'].some((k) => t.includes(k))) return 'Kilat';
+  if (['segera', 'tanggapan', 'konfirmasi'].some((k) => t.includes(k))) return 'Segera';
+  if (['audit', 'penting', 'perintah tugas', 'pemeriksaan'].some((k) => t.includes(k))) return 'Penting';
+  return 'Biasa';
+}
+
 function mapUrgency(sifat?: string | null): Urgency {
   const s = (sifat || 'BIASA').toUpperCase();
   if (s === 'KILAT') return 'Kilat';
@@ -97,10 +126,9 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
     const agendaNum = r.nomor_agenda.split('/')[0] || r.id.slice(0, 6);
     const dateStr = r.tanggal_surat ? new Date(r.tanggal_surat).toISOString().slice(0, 10) : '2026-08-01';
     const combinedText = `${r.perihal} ${r.ringkasan_isi || ''} ${r.tujuan_instansi}`;
-    const div = mapDivision(r.nama_bidang);
-    const num = parseInt(agendaNum.replace(/\D/g, ''), 10) || 0;
-    const type: Urgency = num % 13 === 0 ? 'Penting' : num % 17 === 0 ? 'Segera' : 'Biasa';
-    const cls = num % 5 === 0 ? '427' : num % 7 === 0 ? '800' : num % 11 === 0 ? '900' : num % 19 === 0 ? '045' : r.kode_klasifikasi || '426';
+    const div = mapOutgoingDivision(combinedText);
+    const type: Urgency = mapOutgoingUrgency(combinedText);
+    const cls = detectClassification(r.nomor_surat, combinedText);
     return {
       id: agendaNum,
       rawId: r.id,

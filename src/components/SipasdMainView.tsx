@@ -110,6 +110,7 @@ export default function SipasdMainView({
       ) : page === 'in' || page === 'out' ? (
         <ArchiveWorkspace
           letters={visible}
+          isSuratMasuk={page === 'in'}
           filters={filters}
           onFilters={(f) => {
             setFilters(f);

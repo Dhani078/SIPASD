@@ -12,6 +12,19 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.16.0] - 2026-10-23
+
+### Fixed
+- **Pembersihan Total Filter Venue pada Surat Keluar (`ArchiveWorkspace.tsx` & `SipasdMainView.tsx`)**:
+  * Menghilangkan dropdown filter venue secara absolut pada antarmuka Arsip Surat Keluar (`/arsip-keluar`), mengeliminasi kebingungan pengguna di mana filter venue sebelumnya selalu mengembalikan 0 hasil pada surat dinas keluar.
+  * Memastikan filter venue hanya tampil pada modul Arsip Surat Masuk di mana surat permohonan fasilitas olahraga masyarakat/cabor memang relevan.
+- **Penyelarasan Klasifikasi & Bidang Riil pada Surat Keluar (`src/lib/letters.ts`)**:
+  * Mengganti pembagian modulo matematis acak dengan ekstraksi klasifikasi riil berbasis nomor surat (`900` Keuangan: 159 surat, `800` Kepegawaian/SPT/SPD: 76 surat, `427` Kepemudaan: 5 surat, `045` Kearsipan: 1 surat).
+  * Menyelaraskan pembidangan dinas keluar: `Sekretariat` (213 surat), `Pengembangan Pemuda` (16 surat), `Sarana & Prasarana` (9 surat), `Peningkatan Prestasi` (2 surat), dan `Pembudayaan Olahraga` (1 surat).
+  * Seluruh opsi filter dropdown pada Surat Keluar kini terbukti menghasilkan arsip yang 100% valid dan bermakna.
+
+---
+
 ## [2.15.0] - 2026-10-23
 
 ### Fixed

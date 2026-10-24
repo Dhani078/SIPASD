@@ -18,6 +18,7 @@ export const emptyFilters: ArchiveFilters = {
 
 interface Props {
   letters: LetterRecord[];
+  isSuratMasuk?: boolean;
   filters: ArchiveFilters;
   onFilters: (filters: ArchiveFilters) => void;
   selected: LetterRecord | null;
@@ -37,6 +38,7 @@ interface Props {
 
 export default function ArchiveWorkspace({
   letters,
+  isSuratMasuk = true,
   filters,
   onFilters,
   selected,
@@ -118,18 +120,20 @@ export default function ArchiveWorkspace({
             </option>
           ))}
         </select>
-        <select
-          aria-label="Filter venue"
-          value={filters.venue}
-          onChange={(e) => update('venue', e.target.value)}
-        >
-          <option value="">Semua venue</option>
-          {venues.map((v) => (
-            <option key={v} value={v}>
-              {v}
-            </option>
-          ))}
-        </select>
+        {isSuratMasuk && (
+          <select
+            aria-label="Filter venue"
+            value={filters.venue}
+            onChange={(e) => update('venue', e.target.value)}
+          >
+            <option value="">Semua venue</option>
+            {venues.map((v) => (
+              <option key={v} value={v}>
+                {v}
+              </option>
+            ))}
+          </select>
+        )}
         <select
           aria-label="Filter bidang"
           value={filters.division}

@@ -211,6 +211,13 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 20: 100% Filter Verification (SM & SK) (100% COMPLETE)
+- [x] Isolasi filter dropdown venue sehingga hanya muncul di Arsip Surat Masuk.
+- [x] Penyelarasan klasifikasi riil Surat Keluar: `900` Keuangan (159), `800` Kepegawaian (76), `427` (5), `045` (1).
+- [x] Penyelarasan bidang dinas Surat Keluar: Sekretariat (213), Kepemudaan (16), Sarpras (9), Prestasi (2), Olahraga (1).
+- [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

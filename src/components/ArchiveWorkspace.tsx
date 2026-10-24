@@ -118,7 +118,7 @@ export default function ArchiveWorkspace({
             </option>
           ))}
         </select>
-        {letters.some((l) => l.venue) && (
+        {letters.some((l) => l.venue && l.venue !== '-') && (
           <select
             aria-label="Filter venue"
             value={filters.venue}

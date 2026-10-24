@@ -115,9 +115,9 @@ export default function ArchiveTable({
                     </b>
                   </td>
                   <td>
-                    <b>{letter.origin}</b>
-                    <p title={letter.subject}>{letter.subject}</p>
-                    {!compact && <small className="mono">{letter.number}</small>}
+                    <b className="text-slate-900 font-semibold">{letter.origin}</b>
+                    <p title={letter.subject} className="text-slate-700 text-xs mt-0.5">{letter.subject}</p>
+                    {!compact && <small className="mono block text-[11px] text-slate-500 mt-0.5">{letter.number}</small>}
                   </td>
                   <td className="mono date-cell">{shortDate(letter.date)}</td>
                   <td>

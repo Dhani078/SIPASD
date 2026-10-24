@@ -12,6 +12,21 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.15.0] - 2026-10-23
+
+### Fixed
+- **Sanitasi Total 108 Teks Rusak / Glitch OCR TiDB (`scripts/clean_glued_text.py`)**:
+  * Mengeliminasi seluruh nama instansi nempel (contoh: `PEMERINTAHPROVINSIKALIMANTANSELATAN` dipetakan ke dinas/badan asli berdasarkan nomor surat seperti BKD, Bappeda, BPKAD, Dispersip, Biro Organisasi, Bapenda, dsb).
+  * Menghapus potongan teks OCR rusak pada perihal (`halsebagaiberikut:...`) menjadi judul surat edaran resmi kedinasan.
+  * Memperbaiki glitch karakter tanda persen dan kurung siku pada nomor surat dinas.
+- **Pembersihan Cerdas Filter Venue (`letters.ts` & `ArchiveWorkspace.tsx`)**:
+  * Menghapus modul fallback buatan pada fungsi `detectVenue`, memastikan venue hanya tercatat jika naskah benar-benar memuat nama fasilitas olahraga Dispora.
+  * Memastikan dropdown filter venue tersembunyi secara murni pada workspace Surat Masuk.
+- **Penyempurnaan Hirarki Tipografi Baris Tabel (`ArchiveTable.tsx`)**:
+  * Mempertegas kontras nama instansi pengirim (`text-slate-900 font-semibold`), teks perihal (`text-slate-700 text-xs`), dan nomor surat (`text-[11px] font-mono text-slate-500`).
+
+---
+
 ## [2.14.0] - 2026-10-23
 
 ### Added

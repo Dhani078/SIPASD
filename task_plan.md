@@ -203,6 +203,14 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 19: Glued OCR Text Sanitization & Venue Auto-Hide (100% COMPLETE)
+- [x] Pembersihan total 108 baris instansi nempel & glitch OCR di TiDB Cloud.
+- [x] Pemetaan kode nomor surat ke dinas/badan resmi (BKD, Bappeda, BPKAD, Dispersip, Biro Organisasi, Bapenda, dsb).
+- [x] Hapus fallback modulo buatan di `detectVenue` (`src/lib/letters.ts`).
+- [x] Auto-hide filter venue di `ArchiveWorkspace.tsx` saat tidak relevan.
+- [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

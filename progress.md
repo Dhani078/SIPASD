@@ -403,3 +403,25 @@
    - `npm run build`: 12 rute produksi sukses.
    - Seluruh 73 berkas di `src/` <= 200 baris kode.
 
+---
+
+## Sesi 17: Sanitasi Teks OCR Glitch & Pembersihan Kontekstual Venue
+**Tanggal**: 24 Oktober 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Pembersihan 108 Data Naskah Rusak TiDB (`scripts/clean_glued_text.py`)**:
+   - Memetakan nama instansi panjang tanpa spasi ke SKPD resmi Pemprov Kalsel (BKD, Bappeda, BPKAD, Dispersip, Biro Organisasi, Bapenda, Kwarda Pramuka, dll).
+   - Mengoreksi perihal surat edaran presensi dan WFH/WFO yang sebelumnya berisi potongan teks OCR mentah.
+2. **Penyempurnaan Deteksi Venue**:
+   - Menghapus fallback modulo pada `src/lib/letters.ts`, sehingga venue hanya terisi jika benar-benar disebut di naskah.
+   - Menyembunyikan filter venue pada arsip surat masuk yang tidak memiliki keterkaitan fasilitas olahraga.
+3. **Penyempurnaan Hirarki Tipografi Baris Tabel (`ArchiveTable.tsx`)**:
+   - Mempertegas bobot font nama instansi dan warna perihal serta nomor naskah dinas.
+4. **Verifikasi Kualitas**:
+   - `npm test`: 6/6 test suites passed (100% HEALTHY).
+   - `tsc --noEmit`: 0 type errors.
+   - `aislop scan`: 100/100 Healthy (0 errors, 0 warnings).
+   - `npm run build`: 12 rute produksi sukses.
+   - Seluruh 73 berkas di `src/` <= 200 baris kode.
+

@@ -12,13 +12,10 @@ function mapDivision(name?: string | null): string {
   return 'Sekretariat';
 }
 
-function detectVenue(text: string, division?: string, id?: string): string {
+function detectVenue(text: string): string {
+  const t = text.toLowerCase();
   for (const v of venues) {
-    if (text.toLowerCase().includes(v.toLowerCase().slice(0, 8))) return v;
-  }
-  if (division && (division.includes('Sarana') || division.includes('Olahraga') || division.includes('Prestasi'))) {
-    const num = parseInt((id || '0').replace(/\D/g, ''), 10) || 0;
-    return venues[num % venues.length];
+    if (t.includes(v.toLowerCase().slice(0, 8))) return v;
   }
   return '-';
 }
@@ -73,7 +70,7 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
       type: mapUrgency(r.sifat_surat),
       direction: 'in',
       classification: classifyText(combinedText).code || '005',
-      venue: detectVenue(combinedText, div, agendaNum),
+      venue: detectVenue(combinedText),
       division: div,
       disposition: {
         official: r.pejabat_pendisposisi || '-',
@@ -106,7 +103,7 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
       type,
       direction: 'out',
       classification: cls,
-      venue: detectVenue(combinedText, div, agendaNum),
+      venue: detectVenue(combinedText),
       division: div,
       disposition: {
         official: '-',

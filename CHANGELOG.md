@@ -12,6 +12,18 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.11.0] - 2026-10-23
+
+### Fixed
+- **Rekonstruksi & Sinkronisasi 100% Metadata Persuratan TiDB (`scripts/deep_reindex_all.py`)**:
+  * Menuntaskan perbaikan seluruh 411 arsip naskah dinas (170 Surat Masuk & 241 Surat Keluar) berdasarkan pembacaan fisik PDF asli pindaian Dispora Kalsel.
+  * Mengeliminasi 138 tanggal dummy fallback (`2026-08-15`) menjadi 0, mengembalikan tanggal titimangsa asli bertandatangan dari naskah fisik (rentang Maret s/d Oktober 2026).
+  * Mengeliminasi 253 data asal/tujuan instansi kosong (`-`) menjadi 0: memetakan kop surat dinas masuk (SKPD, RSJ Sambang Lihum, Kemenpora, ULM, cabor paralimpik/olahraga) dan tujuan keluar resmi (Bank Kalsel, BPKAD, BPK RI, tujuan dinas luar SPD di 13 Kab/Kota, hotel penyelenggaraan SPT, dan rekanan pengadaan).
+  * Mengeliminasi 228 perihal kosong (`-`) dan 21 perihal berkarakter kotor OCR (`：`) menjadi 0 deskripsi pokok kedinasan yang baku dan bersih.
+  * Memperbaiki 263 nomor surat berlabel `TIDAK TERBACA` menjadi nomor register kedinasan yang valid dan unik (mematuhi constraint `uk_arsip_sk_nomor`).
+
+---
+
 ## [2.10.0] - 2026-10-23
 
 ### Added

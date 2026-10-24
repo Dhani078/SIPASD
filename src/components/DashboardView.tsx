@@ -61,7 +61,7 @@ export default function DashboardView({
         <div className="flex items-center gap-2">
           <span className="text-xs font-semibold text-slate-700">Filter Tahun:</span>
           <div className="flex gap-1">
-            {['Semua', '2026', '2025', '2024'].map((y) => (
+            {['Semua', '2026', '2025'].map((y) => (
               <button key={y} type="button" className={`btn py-0.5 px-2.5 text-xs ${year === y ? 'primary' : 'outline'}`} onClick={() => setYear(y)}>
                 {y === 'Semua' ? 'Semua Tahun' : `TA ${y}`}
               </button>
@@ -134,10 +134,10 @@ export default function DashboardView({
             <figure
               className="donut"
               style={{ background: `conic-gradient(${segments.join(',')})` }}
-              aria-label={`Distribusi ${letters.length} berkas di lima bidang`}
+              aria-label={`Distribusi ${active.length} berkas di lima bidang`}
             >
               <div>
-                <strong>{letters.length}</strong>
+                <strong>{active.length}</strong>
                 <span>Total berkas</span>
               </div>
             </figure>
@@ -147,7 +147,7 @@ export default function DashboardView({
                   <i className={`division-dot d${i}`} />
                   <span>{division}</span>
                   <b className="mono">{counts[i]}</b>
-                  <small>{letters.length ? Math.round((counts[i] / letters.length) * 100) : 0}%</small>
+                  <small>{active.length ? Math.round((counts[i] / active.length) * 100) : 0}%</small>
                 </button>
               ))}
             </div>

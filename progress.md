@@ -506,3 +506,26 @@
    - `npm run build`: 12 rute produksi sukses.
    - Seluruh 78 berkas di `src/` <= 200 baris kode.
 
+---
+
+## Sesi 22: Sinkronisasi 100% Tahun Naskah Riil & Perapian Filter Tahun
+**Tanggal**: 24 Oktober 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Pemeriksaan Dokumen Fisik Agenda 1039 & 3868**:
+   - Berkas `1039(31agustua).pdf`: Teks naskah bertitimangsa asli **28 Agustus 2026** (tahun 2025 hanya rujukan nomor SK lama).
+   - Berkas `3868 S Pengantar Lap Arsip.pdf`: Bernomor resmi `/Dispora/2026` pengantar laporan bulan **April 2026** (tahun 2025 murni salah ketik juru ketik).
+   - Mengoreksi kedua tanggal naskah di TiDB Cloud, menghasilkan 411 arsip naskah dinas **100% konsisten Tahun Anggaran 2026**.
+2. **Pembersihan Opsi Tahun Berlebih (`YearFilterControl.tsx`)**:
+   - Membuang opsi `2027-2200`, `2028-2030`, dan rentang `< 2000`.
+   - Menggantinya dengan opsi presisi kedinasan: `Semua Tahun Anggaran`, `TA 2026 (Tahun Berjalan)`, `TA 2025`, `TA 2024`, dan `TA 2027 (Mendatang)`.
+3. **Sinkronisasi Donut Chart Dasbor (`DashboardView.tsx`)**:
+   - Menghubungkan pusat chart dan persentase pembagian bidang dengan `active.length` (tahun aktif terpilih) bukan `letters.length` (seluruh data).
+4. **Verifikasi Kualitas**:
+   - `npm test`: 6/6 test suites passed (100% HEALTHY).
+   - `tsc --noEmit`: 0 type errors.
+   - `aislop scan`: 100/100 Healthy (0 errors, 0 warnings).
+   - `npm run build`: 12 rute produksi sukses.
+   - Seluruh 78 berkas di `src/` <= 200 baris kode.
+

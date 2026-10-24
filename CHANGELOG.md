@@ -12,6 +12,22 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.20.0] - 2026-10-23
+
+### Fixed
+- **Sinkronisasi 100% Tahun Anggaran Dokumen Riil (`1039` & `3868`)**:
+  * Memeriksa lembar fisik PDF asli pada agenda `1039` dan `3868` yang sebelumnya memicu anomali "2 arsip TA 2025" di dasbor.
+  * Berkas `1039` bertitimangsa naskah asli **28 Agustus 2026** (teks 2025 hanyalah nomor SK rujukan pengurus cabor lama).
+  * Berkas `3868` bernomor resmi `000.5.2/3868/Dispora/2026` untuk pengantar laporan kearsipan bulan **April 2026** (teks 2025 merupakan salah ketik juru ketik dinas).
+  * Seluruh 411 arsip naskah fisik di TiDB Cloud kini **100% konsisten Tahun Anggaran 2026** (170 Surat Masuk & 241 Surat Keluar).
+- **Pembersihan Total Opsi Tahun pada `YearFilterControl.tsx`**:
+  * Membuang puluhan opsi tahun berlebih yang tidak realistis (`2027-2200`, `2028-2030`, `Arsip < 2000`, `2000-2020`).
+  * Menyederhanakan dropdown menjadi opsi standar kedinasan: `Semua Tahun Anggaran`, `TA 2026 (Tahun Berjalan)`, `TA 2025`, `TA 2024`, dan `TA 2027 (Mendatang)`.
+- **Perbaikan Sinkronisasi Filter Tahun pada Donut Chart Dasbor (`DashboardView.tsx`)**:
+  * Mengubah acuan perhitungan total dan persentase distribusi per bidang dari `letters.length` (global 411) menjadi `active.length` (tahun aktif), memastikan angka pusat chart dan persentase selalu sinkron 100% dengan filter tahun yang dipilih.
+
+---
+
 ## [2.19.0] - 2026-10-23
 
 ### Added

@@ -114,7 +114,7 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onEdit, onDe
               title="Hapus berkas arsip ini dari sistem"
               onClick={onDelete}
             >
-              <Icon name="close" size={13} />
+              <Icon name="trash" size={13} />
               <span>Hapus</span>
             </button>
           )}

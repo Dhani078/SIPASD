@@ -285,7 +285,22 @@
    - Penampil PDF (`PdfPreviewPanel.tsx`) membuka tautan cadangan Google Drive spesifik per tahun naskah.
    - Penomoran agenda di tabel dan lembar disposisi cetak dinamis mengikuti tahun naskah dokumen.
    - Ekspor Excel buku agenda otomatis mendeteksi tahun data aktif (`Buku-Agenda-Dispora-{tahun}.xlsx`).
-3. **Verifikasi Kualitas**:
+---
+
+## Sesi 12: Penambahan Filter Pencarian Bulan Naskah dan Ikon Tong Sampah Semantik
+**Tanggal**: 24 Oktober 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Penjelasan File Non-Indeks Google Drive**:
+   - Berkas `BOQ,RAP,RKS,LAMP_274...` pada folder Drive `Surat Masuk 2026` merupakan berkas uji coba manual yang belum diindeks ke TiDB SIPASD sehingga tidak muncul dalam hasil pencarian database.
+2. **Implementasi Filter Bulan Kalender**:
+   - Menambahkan daftar 12 bulan di `src/data/constants.ts` dan dropdown `Semua Bulan` di baris filter `ArchiveWorkspace.tsx`.
+   - Menghubungkan fungsi pencocokan bulan naskah (`l.date.slice(5, 7)`) pada `filterLetters` di `src/lib/format.ts`.
+3. **Penyempurnaan Ikon Hapus ke Logo Tong Sampah**:
+   - Menambahkan ikon vektor SVG `trash` di `src/components/Icon.tsx`.
+   - Mengganti ikon tombol hapus pada tabel dokumen (`ArchiveTable.tsx`) dan penampil PDF (`PdfPreviewPanel.tsx`) dari tanda silang (`close`) menjadi tong sampah (`trash`).
+4. **Verifikasi Kualitas**:
    - Skor `aislop`: 100/100 (Healthy), 0 errors, 0 warnings.
    - `npm test`: 6/6 test suites passed (100% HEALTHY).
    - `npm run typecheck`: 0 type errors.

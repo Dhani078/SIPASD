@@ -78,13 +78,14 @@ export function matchYearFilter(letterDate: string, filterYear?: string): boolea
 export function filterLetters(
   letters: any[],
   page: string,
-  filters: { query?: string; year?: string; urgency?: string; classification?: string; venue?: string; division?: string }
+  filters: { query?: string; year?: string; month?: string; urgency?: string; classification?: string; venue?: string; division?: string }
 ) {
   return letters.filter(
     (l) =>
       ((page !== 'in' && page !== 'out') || l.direction === page) &&
       matchesSearch(l, filters.query || '') &&
       matchYearFilter(l.date, filters.year) &&
+      (!filters.month || l.date.slice(5, 7) === filters.month) &&
       (!filters.urgency || (filters.urgency === 'Urgent' ? ['Kilat', 'Segera'].includes(l.type) : l.type === filters.urgency)) &&
       (!filters.classification || l.classification === filters.classification) &&
       (!filters.venue || l.venue === filters.venue) &&

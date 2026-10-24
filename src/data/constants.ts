@@ -29,6 +29,21 @@ export const classifications = [
   ['900', 'Keuangan'],
 ] as const;
 
+export const monthsList = [
+  ['01', 'Januari'],
+  ['02', 'Februari'],
+  ['03', 'Maret'],
+  ['04', 'April'],
+  ['05', 'Mei'],
+  ['06', 'Juni'],
+  ['07', 'Juli'],
+  ['08', 'Agustus'],
+  ['09', 'September'],
+  ['10', 'Oktober'],
+  ['11', 'November'],
+  ['12', 'Desember'],
+] as const;
+
 export const defaultSampleLetter = {
   id: '0899',
   number: '400.8.1/01549/Kesra/2026',

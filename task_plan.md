@@ -162,6 +162,13 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi 100% sehat: `aislop` 100/100, `npm test` 6/6 lolos, `npm run build` sukses.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 14: Month Filter & Trash Can Action Icon (100% COMPLETE)
+- [x] Klarifikasi file non-indeks `BOQ,RAP,RKS...` di Google Drive.
+- [x] Penambahan filter dropdown 12 bulan di `ArchiveWorkspace.tsx` dan `src/lib/format.ts`.
+- [x] Penambahan ikon `trash` di `Icon.tsx` dan pembaruan tombol hapus di `ArchiveTable.tsx` serta `PdfPreviewPanel.tsx`.
+- [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

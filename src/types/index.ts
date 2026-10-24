@@ -61,6 +61,7 @@ export interface ArchiveFilters {
   venue: string;
   division: string;
   year?: string;
+  month?: string;
 }
 
 export interface ArsipSuratMasuk {

@@ -3,7 +3,7 @@
 import ArchiveTable from './ArchiveTable';
 import YearFilterControl from './YearFilterControl';
 import Icon from './Icon';
-import { classifications, venues, divisions } from '@/data/constants';
+import { classifications, venues, divisions, monthsList } from '@/data/constants';
 import type { LetterRecord, ArchiveFilters } from '@/types';
 
 export const emptyFilters: ArchiveFilters = {
@@ -13,6 +13,7 @@ export const emptyFilters: ArchiveFilters = {
   venue: '',
   division: '',
   year: '',
+  month: '',
 };
 
 interface Props {
@@ -105,6 +106,18 @@ export default function ArchiveWorkspace({
       </div>
       <div className="archive-filter-row">
         <YearFilterControl value={filters.year} onChange={(y) => update('year', y)} />
+        <select
+          aria-label="Filter bulan naskah"
+          value={filters.month || ''}
+          onChange={(e) => update('month', e.target.value)}
+        >
+          <option value="">Semua Bulan</option>
+          {monthsList.map(([code, label]) => (
+            <option value={code} key={code}>
+              Bulan {label}
+            </option>
+          ))}
+        </select>
         <select
           aria-label="Filter venue"
           value={filters.venue}

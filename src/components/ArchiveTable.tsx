@@ -166,7 +166,7 @@ export default function ArchiveTable({
                           aria-label={`Hapus Arsip ${letter.id}`} title={`Hapus Arsip ${letter.id}`}
                           onClick={(e) => { e.stopPropagation(); onDelete(letter); }}
                         >
-                          <Icon name="close" size={13} />
+                          <Icon name="trash" size={13} />
                         </button>
                       )}
                     </div>

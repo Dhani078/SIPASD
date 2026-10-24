@@ -12,6 +12,14 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.10.0] - 2026-10-23
+
+### Added
+- **Filter Pencarian Berdasarkan Bulan Naskah (`src/components/ArchiveWorkspace.tsx`)**: Menambahkan dropdown pilihan 12 bulan kalender (Januari s/d Desember) bersanding dengan filter tahun, klasifikasi, venue, dan bidang di `ArchiveWorkspace.tsx` dan `src/lib/format.ts`.
+- **Ikon Tong Sampah Semantik (`trash`)**: Menambahkan ikon SVG tong sampah (`trash`) pada `Icon.tsx` dan mengganti seluruh tombol aksi hapus arsip di tabel dokumen (`ArchiveTable.tsx`) dan penampil PDF (`PdfPreviewPanel.tsx`) dari ikon silang (`close`) menjadi logo tong sampah resmi.
+
+---
+
 ## [2.9.0] - 2026-10-23
 
 ### Changed

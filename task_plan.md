@@ -195,6 +195,14 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 18: Hybrid Action Pattern [Lihat] + [...] Dropdown (100% COMPLETE)
+- [x] Pembangunan komponen menu aksi baris `RowActionMenu.tsx` (136 LOC).
+- [x] Integrasi `[👁 Lihat]` 1-klik instan + `[...]` popover menu (Cetak, Unduh, Edit, Hapus).
+- [x] Penambahan ikon `more` semantik pada `Icon.tsx` dan styling `.action-more` di `globals.css`.
+- [x] Pemangkasan 60% lebar kolom aksi dan penghilangan polusi visual 75 ikon.
+- [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

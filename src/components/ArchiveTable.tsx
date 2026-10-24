@@ -3,6 +3,7 @@
 import Icon from './Icon';
 import Badge from './Badge';
 import Pagination from './Pagination';
+import RowActionMenu from './RowActionMenu';
 import { shortDate } from '@/lib/format';
 import type { LetterRecord } from '@/types';
 
@@ -124,50 +125,15 @@ export default function ArchiveTable({
                   </td>
                   <td>
                     <div className="row-actions">
-                      <button
-                        type="button" className="table-action-btn action-view"
-                        aria-label={`Buka PDF ${letter.id}`} title={`Buka Dokumen PDF ${letter.id}`}
-                        onClick={(e) => { e.stopPropagation(); onSelect(letter); }}
-                      >
-                        <Icon name="eye" size={13} />
-                        <span>Lihat</span>
-                      </button>
-                      {!compact && onPrint && (
-                        <button
-                          type="button" className="table-action-btn action-print p-1.5"
-                          aria-label={`Cetak Disposisi ${letter.id}`} title={`Cetak Lembar Disposisi ${letter.id}`}
-                          onClick={(e) => { e.stopPropagation(); onPrint(letter); }}
-                        >
-                          <Icon name="print" size={13} />
-                        </button>
-                      )}
-                      {!compact && (
-                        <button
-                          type="button" className="table-action-btn action-download p-1.5"
-                          aria-label={`Unduh berkas PDF ${letter.id}`} title={`Unduh Berkas Asli ${letter.id}`}
-                          onClick={(e) => downloadPdf(letter, e)}
-                        >
-                          <Icon name="download" size={13} />
-                        </button>
-                      )}
-                      {!compact && onEdit && (
-                        <button
-                          type="button" className="table-action-btn action-edit p-1.5"
-                          aria-label={`Edit ${letter.id}`} title={`Edit Metadata Arsip ${letter.id}`}
-                          onClick={(e) => { e.stopPropagation(); onEdit(letter); }}
-                        >
-                          <Icon name="edit" size={13} />
-                        </button>
-                      )}
-                      {!compact && onDelete && (
-                        <button
-                          type="button" className="table-action-btn action-delete p-1.5"
-                          aria-label={`Hapus Arsip ${letter.id}`} title={`Hapus Arsip ${letter.id}`}
-                          onClick={(e) => { e.stopPropagation(); onDelete(letter); }}
-                        >
-                          <Icon name="trash" size={13} />
-                        </button>
-                      )}
+                      <RowActionMenu
+                        letter={letter}
+                        onSelect={onSelect}
+                        onPrint={onPrint}
+                        onEdit={onEdit}
+                        onDelete={onDelete}
+                        onDownload={downloadPdf}
+                        compact={compact}
+                      />
                     </div>
                   </td>
                 </tr>

@@ -12,6 +12,21 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.14.0] - 2026-10-23
+
+### Added
+- **Pola Menu Aksi Hibrida Berkelas Enterprise (`RowActionMenu.tsx`)**:
+  * Mengganti deretan 5 tombol yang padat di tabel persuratan dengan pola modern standar industri: tombol primer **`[👁 Lihat]`** (akses instan 1-klik dokumen fisik) bersanding dengan tombol aksi kebab menu **`[...]`**.
+  * Memindahkan menu sekunder ke dropdown popover yang bersih dan aman:
+    - 🖨️ Cetak Lembar Disposisi
+    - ⬇️ Unduh Berkas Asli (PDF)
+    - ✏️ Ubah Metadata Arsip
+    - 🗑️ Hapus Berkas dari Sistem (terisolasi aman di bagian bawah bergaris pemisah dengan aksen merah).
+  * Memangkas lebar kolom aksi sebesar **60%** (menghemat ~160px), memberikan ruang maksimal bagi keterbacaan nomor agenda dan perihal naskah kedinasan.
+  * Menambahkan ikon `more` semantik pada `Icon.tsx` dan gaya interaktif di `globals.css`.
+
+---
+
 ## [2.13.0] - 2026-10-23
 
 ### Changed

@@ -4005,6 +4005,22 @@ td .icon-btn {
   transform: translateY(-1px) !important;
 }
 
+.table-action-btn.action-more {
+  background: #f8fafc !important;
+  color: #475569 !important;
+  border: 1px solid #cbd5e1 !important;
+  padding: 5px 6px !important;
+  min-width: 29px !important;
+  justify-content: center !important;
+}
+
+.table-action-btn.action-more:hover {
+  background: #e2e8f0 !important;
+  color: #0f172a !important;
+  border-color: #94a3b8 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
 @media (max-width: 900px) {
   .table-action-btn span {
     display: none !important;

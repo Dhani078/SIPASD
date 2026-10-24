@@ -382,3 +382,24 @@
    - `npm run build`: 12 rute produksi sukses.
    - Seluruh 72 berkas di `src/` <= 200 baris kode.
 
+---
+
+## Sesi 16: Implementasi Menu Aksi Hibrida [Lihat] + [...] Dropdown
+**Tanggal**: 24 Oktober 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Pembangunan Komponen Dropdown Hibrida (`RowActionMenu.tsx`)**:
+   - Mempertahankan tombol utama `Lihat` (1-klik instan membuka PDF).
+   - Menambahkan tombol kebab menu `...` yang membuka popover rapi untuk aksi sekunder (Cetak Disposisi, Unduh PDF, Ubah Metadata, dan Hapus Berkas).
+   - Menghilangkan polusi visual 75 ikon bertumpuk dan mencegah risiko salah klik pada tombol hapus.
+2. **Penyempurnaan Ikon & Gaya Antarmuka**:
+   - Menambahkan ikon `more` tiga titik vertikal di `Icon.tsx`.
+   - Menambahkan kelas `.table-action-btn.action-more` di `globals.css`.
+3. **Verifikasi Kualitas**:
+   - `npm test`: 6/6 test suites passed (100% HEALTHY).
+   - `tsc --noEmit`: 0 type errors.
+   - `aislop scan`: 100/100 Healthy (0 errors, 0 warnings).
+   - `npm run build`: 12 rute produksi sukses.
+   - Seluruh 73 berkas di `src/` <= 200 baris kode.
+

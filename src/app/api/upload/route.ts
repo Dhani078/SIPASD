@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { uploadPdfBuffer } from '@/lib/cloudinary';
 import { uploadToGoogleDrive } from '@/lib/gdrive';
 import { getSession } from '@/lib/auth';
-import { GDRIVE_FOLDERS } from '@/data/constants';
+import { getGdriveFolderUrl } from '@/data/constants';
 
 function canUpload(role?: string): boolean {
   return role === 'SUPER_ADMIN' || role === 'PETUGAS_ARSIP';
@@ -45,16 +45,15 @@ export async function POST(request: Request) {
     const result = await uploadPdfBuffer(buffer, folder, file.name);
 
     const gdriveFolderType = folder === 'surat_masuk' ? 'masuk' : 'keluar';
-    const driveUrl = await uploadToGoogleDrive(buffer, file.name, gdriveFolderType);
+    const yearStr = String(formData.get('year') || '2026').slice(0, 4);
+    const driveUrl = await uploadToGoogleDrive(buffer, file.name, gdriveFolderType, yearStr);
 
     return NextResponse.json({
       success: true,
       message: 'Berkas PDF berhasil diunggah ke Cloudinary dan Google Drive',
       url: result.url,
       publicId: result.publicId,
-      driveUrl:
-        driveUrl ||
-        (gdriveFolderType === 'masuk' ? GDRIVE_FOLDERS.smUrl : GDRIVE_FOLDERS.skUrl),
+      driveUrl: driveUrl || getGdriveFolderUrl(gdriveFolderType, yearStr),
     });
   } catch (error: any) {
     console.error('Upload API error:', error);

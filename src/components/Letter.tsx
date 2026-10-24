@@ -31,7 +31,7 @@ export default function Letter({
           No. Agenda
           <br />
           <b>
-            {cleanAgenda}/{letter.direction === 'in' ? 'SM' : 'SK'}/DISPORA/2026
+            {cleanAgenda}/{letter.direction === 'in' ? 'SM' : 'SK'}/DISPORA/{letter.date ? letter.date.slice(0, 4) : '2026'}
           </b>
         </span>
         <span>

@@ -110,7 +110,7 @@ export default function ArchiveTable({
                   <td>
                     <b className="mono agenda">
                       {letter.id}
-                      <span>/{letter.direction === 'in' ? 'SM' : 'SK'}/2026</span>
+                      <span>/{letter.direction === 'in' ? 'SM' : 'SK'}/{letter.date ? letter.date.slice(0, 4) : '2026'}</span>
                     </b>
                   </td>
                   <td>

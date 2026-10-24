@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Modal from './Modal';
 import Icon from './Icon';
+import { getGdriveFolderUrl } from '@/data/constants';
 import type { LetterRecord } from '@/types';
 
 interface Props {
@@ -22,11 +23,10 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onEdit, onDe
     ? `/api/pdf?url=${encodeURIComponent(letter.fileUrl)}`
     : '/placeholder-surat.pdf';
 
+  const letterYear = letter.date ? letter.date.slice(0, 4) : '2026';
   let driveUrl = letter.driveUrl || 'https://drive.google.com';
   if (driveUrl.includes('folders/1deTFD7oICTXkkMs5HzS') || driveUrl.includes('folders/1rgWCFwULt8awBCVIuomy')) {
-    driveUrl = letter.direction === 'in'
-      ? 'https://drive.google.com/drive/folders/1deTFD7oICTXkkMs5HzS-bhtZzvCqfW9n'
-      : 'https://drive.google.com/drive/folders/1rgWCFwULt8awBCVIuomy7cELKqEtbdkx';
+    driveUrl = getGdriveFolderUrl(letter.direction === 'in' ? 'masuk' : 'keluar', letterYear);
   }
 
   const viewHash = fitMode === 'page' ? '#view=Fit&zoom=page-fit' : '#view=FitH';
@@ -34,7 +34,7 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onEdit, onDe
 
   return (
     <Modal
-      title={`Pratinjau Berkas Fisik: No. Agenda ${cleanAgenda}/${letter.direction === 'in' ? 'SM' : 'SK'}/2026`}
+      title={`Pratinjau Berkas Fisik: No. Agenda ${cleanAgenda}/${letter.direction === 'in' ? 'SM' : 'SK'}/${letterYear}`}
       onClose={onClose}
       className={`pdf-modal-popup ${maximized ? 'pdf-modal-fullscreen' : ''}`}
       overlayClassName="pdf-overlay-popup"

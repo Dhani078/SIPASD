@@ -153,6 +153,15 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% hijau.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 13: Google Drive 2020-2027 Curation & Multi-Year Dynamic Archive Intake (100% COMPLETE)
+- [x] Pembersihan 40 folder usang 2000-2019 di Google Drive `sistem magang`.
+- [x] Penyusunan 16 folder aktif terfokus pada rentang TA 2020 s/d TA 2027.
+- [x] Implementasi ekstraksi tahun dinamis dari tanggal surat pada `insertNewLetter` (`src/lib/letter-mutations.ts`).
+- [x] Pemetaan rute upload PDF ke folder Google Drive spesifik per tahun (`src/lib/gdrive.ts` & `src/app/api/upload/route.ts`).
+- [x] Tautan dinamis per tahun naskah pada penampil PDF dan ekspor Excel (`PdfPreviewPanel.tsx` & `exportExcel.ts`).
+- [x] Verifikasi 100% sehat: `aislop` 100/100, `npm test` 6/6 lolos, `npm run build` sukses.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

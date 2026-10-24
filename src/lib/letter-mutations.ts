@@ -1,6 +1,6 @@
 import { getDbPool, query, queryOne } from '@/lib/db';
 import type { LetterRecord } from '@/types';
-import { GDRIVE_FOLDERS } from '@/data/constants';
+import { getGdriveFolderUrl } from '@/data/constants';
 import { randomUUID } from 'crypto';
 
 export async function insertNewLetter(
@@ -8,7 +8,9 @@ export async function insertNewLetter(
   userId = 'usr-admin-01'
 ): Promise<string> {
   const id = randomUUID();
-  const year = 2026;
+  const dateStr = String(data.date || '');
+  const parsedYear = parseInt(dateStr.slice(0, 4), 10);
+  const year = !isNaN(parsedYear) && parsedYear >= 2000 && parsedYear <= 2200 ? parsedYear : 2026;
   const pool = getDbPool();
   const conn = await pool.getConnection();
 
@@ -17,14 +19,15 @@ export async function insertNewLetter(
 
     if (data.direction === 'in') {
       const [maxRows] = await conn.query<any[]>(
-        "SELECT COALESCE(MAX(CAST(SUBSTRING_INDEX(nomor_agenda, '/', 1) AS UNSIGNED)), 1250) as maxAgenda FROM arsip_surat_masuk FOR UPDATE"
+        "SELECT COALESCE(MAX(CAST(SUBSTRING_INDEX(nomor_agenda, '/', 1) AS UNSIGNED)), 1250) as maxAgenda FROM arsip_surat_masuk WHERE nomor_agenda LIKE ? FOR UPDATE",
+        [`%/${year}`]
       );
       const nextAgenda = Number(maxRows[0]?.maxAgenda || 1250) + 1;
       const nomorAgenda = `${nextAgenda}/SM/DISPORA/${year}`;
 
       await conn.query(
         'INSERT INTO arsip_surat_masuk (id, nomor_agenda, nomor_surat, tanggal_surat, tanggal_diterima, asal_instansi, perihal, ringkasan_isi, sifat_surat, file_url, cloudinary_public_id, drive_url, file_name_original, indexed_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?)',
-        [id, nomorAgenda, data.number, data.date, data.disposition?.date || data.date, data.origin, data.subject, data.subject, data.type.toUpperCase(), data.fileUrl || '', data.driveUrl || GDRIVE_FOLDERS.smUrl, `${nomorAgenda.replace(/\//g, '_')}.pdf`, userId]
+        [id, nomorAgenda, data.number, data.date, data.disposition?.date || data.date, data.origin, data.subject, data.subject, data.type.toUpperCase(), data.fileUrl || '', data.driveUrl || getGdriveFolderUrl('masuk', year), `${nomorAgenda.replace(/\//g, '_')}.pdf`, userId]
       );
 
       const dispId = randomUUID();
@@ -38,7 +41,8 @@ export async function insertNewLetter(
       return nomorAgenda;
     } else {
       const [maxRows] = await conn.query<any[]>(
-        "SELECT COALESCE(MAX(CAST(SUBSTRING_INDEX(nomor_agenda, '/', 1) AS UNSIGNED)), 7500) as maxAgenda, COALESCE(MAX(nomor_urut), 250) as maxUrut FROM arsip_surat_keluar FOR UPDATE"
+        "SELECT COALESCE(MAX(CAST(SUBSTRING_INDEX(nomor_agenda, '/', 1) AS UNSIGNED)), 7500) as maxAgenda, COALESCE(MAX(nomor_urut), 250) as maxUrut FROM arsip_surat_keluar WHERE tahun = ? FOR UPDATE",
+        [year]
       );
       const nextAgenda = Number(maxRows[0]?.maxAgenda || 7500) + 1;
       const nextUrut = Number(maxRows[0]?.maxUrut || 250) + 1;
@@ -46,7 +50,7 @@ export async function insertNewLetter(
 
       await conn.query(
         'INSERT INTO arsip_surat_keluar (id, nomor_agenda, nomor_surat, nomor_urut, tahun, kode_klasifikasi_id, bidang_pemrakarsa_id, tanggal_surat, tujuan_instansi, perihal, ringkasan_isi, file_url, cloudinary_public_id, drive_url, indexed_by) VALUES (?, ?, ?, ?, ?, 2, 1, ?, ?, ?, ?, ?, NULL, ?, ?)',
-        [id, nomorAgenda, data.number, nextUrut, year, data.date, data.origin, data.subject, data.subject, data.fileUrl || '', data.driveUrl || GDRIVE_FOLDERS.skUrl, userId]
+        [id, nomorAgenda, data.number, nextUrut, year, data.date, data.origin, data.subject, data.subject, data.fileUrl || '', data.driveUrl || getGdriveFolderUrl('keluar', year), userId]
       );
 
       await conn.commit();

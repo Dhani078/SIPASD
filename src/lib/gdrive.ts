@@ -1,4 +1,4 @@
-import { GDRIVE_FOLDERS } from '@/data/constants';
+import { GDRIVE_FOLDERS, getGdriveFolderId } from '@/data/constants';
 
 interface GoogleTokenResponse {
   access_token: string;
@@ -59,7 +59,8 @@ async function getAccessToken(): Promise<string | null> {
 export async function uploadToGoogleDrive(
   buffer: Buffer,
   fileName: string,
-  folderType: 'masuk' | 'keluar'
+  folderType: 'masuk' | 'keluar',
+  year: string | number = 2026
 ): Promise<string | null> {
   const token = await getAccessToken();
   if (!token) {
@@ -67,10 +68,7 @@ export async function uploadToGoogleDrive(
     return null;
   }
 
-  const folderId =
-    folderType === 'masuk'
-      ? process.env.GOOGLE_DRIVE_SM_FOLDER_ID || GDRIVE_FOLDERS.smId
-      : process.env.GOOGLE_DRIVE_SK_FOLDER_ID || GDRIVE_FOLDERS.skId;
+  const folderId = getGdriveFolderId(folderType, year);
 
   const boundary = '-------314159265358979323846';
   const delimiter = `\r\n--${boundary}\r\n`;

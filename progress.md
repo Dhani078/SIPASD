@@ -268,3 +268,28 @@
    - Seluruh berkas di `src/` <= 200 baris kode.
    - Invarian 0 em-dash terpenuhi.
 
+---
+
+## Sesi 11: Penataan Ulang Google Drive 2020-2027 dan Dinamisme Arsip Multi-Tahun
+**Tanggal**: 24 Oktober 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Pembersihan Folder Usang Google Drive**:
+   - Memindahkan 40 folder tahun 2000 s/d 2019 ke tempat sampah Google Drive untuk menjaga kerapian direktori `sistem magang`.
+   - Membuat folder proyeksi masa depan `Surat Masuk 2027` dan `Surat Keluar 2027`.
+   - Mempertahankan 16 folder aktif terfokus pada rentang TA 2020 s/d TA 2027.
+2. **Dinamisme Pengindeksan Arsip Berdasarkan Tanggal Naskah**:
+   - Modul `insertNewLetter` (`src/lib/letter-mutations.ts`) kini mengekstrak tahun dari tanggal naskah input (`data.date.slice(0, 4)`) dan memformat nomor agenda resmi sesuai tahun bersangkutan (`/SM/DISPORA/{tahun}` atau `/SK/DISPORA/{tahun}`).
+   - Unggah lampiran PDF fisik (`uploadToGoogleDrive`) otomatis diarahkan ke ID folder Google Drive tahun terkait (2020-2027) mengacu pada `GDRIVE_YEAR_FOLDERS`.
+   - Penampil PDF (`PdfPreviewPanel.tsx`) membuka tautan cadangan Google Drive spesifik per tahun naskah.
+   - Penomoran agenda di tabel dan lembar disposisi cetak dinamis mengikuti tahun naskah dokumen.
+   - Ekspor Excel buku agenda otomatis mendeteksi tahun data aktif (`Buku-Agenda-Dispora-{tahun}.xlsx`).
+3. **Verifikasi Kualitas**:
+   - Skor `aislop`: 100/100 (Healthy), 0 errors, 0 warnings.
+   - `npm test`: 6/6 test suites passed (100% HEALTHY).
+   - `npm run typecheck`: 0 type errors.
+   - `npm run build`: sukses 100%.
+   - Seluruh 70 berkas di `src/` <= 200 baris kode.
+   - Invarian 0 em-dash terpenuhi.
+

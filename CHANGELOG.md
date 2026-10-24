@@ -12,6 +12,22 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.9.0] - 2026-10-23
+
+### Changed
+- **Pembersihan & Penataan Folder Google Drive (`sistem magang`)**:
+  * Menghapus folder usang 2000-2019 yang terlalu padat, mempertahankan struktur rapi dan terfokus pada rentang **TA 2020 s/d TA 2027** (total 16 folder aktif).
+  * Pembuatan otomatis folder proyeksi masa depan `Surat Masuk 2027` dan `Surat Keluar 2027`.
+  * Dokumentasi mapping ID folder Google Drive diperbarui di `docs/GOOGLE_DRIVE_FOLDERS_MAPPING.json`.
+- **Dinamisme Pengindeksan Arsip Multi-Tahun**:
+  * Mutasi data (`insertNewLetter`) kini secara dinamis mengekstrak tahun dari tanggal surat naskah (`data.date.slice(0, 4)`) untuk penomoran agenda resmi (`/SM/DISPORA/{tahun}` atau `/SK/DISPORA/{tahun}`) dan tahun arsip keluar TiDB Cloud.
+  * Unggah lampiran PDF fisik (`uploadToGoogleDrive`) otomatis diarahkan ke folder Google Drive tahun terkait (2020-2027) sesuai tanggal naskah.
+  * Tautan cadangan Google Drive di penampil PDF (`PdfPreviewPanel.tsx`) membuka folder Google Drive tahun terkait naskah.
+  * Penomoran agenda di tabel dan lembar disposisi cetak dinamis mengikuti tahun naskah dokumen.
+  * Ekspor Excel buku agenda otomatis mendeteksi tahun data aktif (`Buku-Agenda-Dispora-{tahun}.xlsx`).
+
+---
+
 ## [2.8.0] - 2026-10-23
 
 ### Changed

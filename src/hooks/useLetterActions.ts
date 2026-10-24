@@ -17,6 +17,7 @@ export function useLetterActions(
       const fd = new FormData();
       fd.append('file', file);
       fd.append('folder', record.direction === 'in' ? 'surat_masuk' : 'surat_keluar');
+      fd.append('year', record.date ? record.date.slice(0, 4) : '2026');
       const upRes = await fetch('/api/upload', { method: 'POST', body: fd });
       const upData = await upRes.json();
       if (!upRes.ok || !upData.success) {
@@ -91,6 +92,8 @@ export function useLetterActions(
       const fd = new FormData();
       fd.append('file', file);
       fd.append('folder', editTarget?.direction === 'in' ? 'surat_masuk' : 'surat_keluar');
+      const targetDate = updates.date || editTarget?.date || '';
+      fd.append('year', targetDate ? targetDate.slice(0, 4) : '2026');
       const upRes = await fetch('/api/upload', { method: 'POST', body: fd });
       const upData = await upRes.json();
       if (!upRes.ok || !upData.success) {

@@ -133,7 +133,7 @@ export default function DispositionHistoryView({ letters, onSelect, onEdit, onEx
               {filtered.map((letter) => (
                 <tr key={letter.id}>
                   <td>
-                    <b className="mono agenda">{letter.id}/SM/2026</b>
+                    <b className="mono agenda">{letter.id}/SM/{letter.date ? letter.date.slice(0, 4) : '2026'}</b>
                     <p className="text-xs text-slate-500 mt-1">
                       {letter.disposition?.date && formatDate(letter.disposition.date)}
                     </p>

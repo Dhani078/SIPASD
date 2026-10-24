@@ -5,7 +5,9 @@ export async function exportExcel(letters: LetterRecord[]) {
   const { Workbook } = await import('exceljs');
   const workbook = new Workbook();
   workbook.creator = 'SIPASD Dispora Kalsel';
-  const sheet = workbook.addWorksheet('Buku Agenda 2026');
+  const years = Array.from(new Set(letters.map((l) => l.date ? l.date.slice(0, 4) : '2026'))).filter(Boolean);
+  const yearLabel = years.length === 1 ? years[0] : 'Multi-Tahun';
+  const sheet = workbook.addWorksheet(`Buku Agenda ${yearLabel}`);
   sheet.columns = [
     { header: 'No. Agenda', key: 'id', width: 20 },
     { header: 'Jenis', key: 'direction', width: 15 },
@@ -43,6 +45,6 @@ export async function exportExcel(letters: LetterRecord[]) {
     new Blob([buffer], {
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     }),
-    'Buku-Agenda-Dispora-2026.xlsx'
+    `Buku-Agenda-Dispora-${yearLabel}.xlsx`
   );
 }

@@ -1,6 +1,6 @@
 import { query } from '@/lib/db';
 import type { LetterRecord, Urgency } from '@/types';
-import { venues, GDRIVE_FOLDERS } from '@/data/constants';
+import { GDRIVE_FOLDERS } from '@/data/constants';
 import { classifyText } from '@/lib/classifier';
 
 function mapDivision(name?: string | null): string {
@@ -14,9 +14,17 @@ function mapDivision(name?: string | null): string {
 
 function detectVenue(text: string): string {
   const t = text.toLowerCase();
-  for (const v of venues) {
-    if (t.includes(v.toLowerCase().slice(0, 8))) return v;
-  }
+  if (t.includes('17 mei')) return 'Lapangan 17 Mei';
+  if (t.includes('swargaloka')) return 'Lap. Golf Swargaloka';
+  if (t.includes('darma praja') || t.includes('dharma praja')) return 'Lap. Tenis Dharma Praja';
+  if (t.includes('hasanuddin')) return 'GOR Hasanuddin HM';
+  if (t.includes('mulawarman') && (t.includes('kolam') || t.includes('renang'))) return 'Kolam Renang Mulawarman';
+  if (t.includes('demang lehman')) return 'Stadion Demang Lehman';
+  if (t.includes('paman birin')) return 'GOR Paman Birin';
+  if (t.includes('sultan suriansyah')) return 'Gedung Sultan Suriansyah';
+  if (t.includes('skb mulawarman') || t.includes('sentra olahraga skb')) return 'Lapangan SKB';
+  if (t.includes('sungai ulin')) return 'BMX Sungai Ulin';
+  if (t.includes('balipat')) return 'Sirkuit Balipat';
   return '-';
 }
 

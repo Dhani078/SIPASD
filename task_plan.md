@@ -186,6 +186,15 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 17: Enterprise UI/UX Elevation (100% COMPLETE)
+- [x] Perampingan tombol aksi baris tabel dokumen menjadi cluster rapi 28x28px (`Lihat`, Cetak, Unduh, Edit, Hapus).
+- [x] Penghematan ~150px lebar kolom aksi dan perluasan area baca naskah.
+- [x] Peningkatan tipografi dan kontras badge sifat surat (dari 7px ke 11px pill).
+- [x] Penyelarasan bahasa kedinasan formal pada header dan banner sistem.
+- [x] Pembersihan kontekstual filter venue pada arsip surat masuk.
+- [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

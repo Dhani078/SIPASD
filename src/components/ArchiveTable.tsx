@@ -129,17 +129,16 @@ export default function ArchiveTable({
                         aria-label={`Buka PDF ${letter.id}`} title={`Buka Dokumen PDF ${letter.id}`}
                         onClick={(e) => { e.stopPropagation(); onSelect(letter); }}
                       >
-                        <Icon name="eye" size={14} />
-                        <span>Lihat PDF</span>
+                        <Icon name="eye" size={13} />
+                        <span>Lihat</span>
                       </button>
                       {!compact && onPrint && (
                         <button
-                          type="button" className="table-action-btn action-print"
+                          type="button" className="table-action-btn action-print p-1.5"
                           aria-label={`Cetak Disposisi ${letter.id}`} title={`Cetak Lembar Disposisi ${letter.id}`}
                           onClick={(e) => { e.stopPropagation(); onPrint(letter); }}
                         >
-                          <Icon name="print" size={14} />
-                          <span>Disposisi</span>
+                          <Icon name="print" size={13} />
                         </button>
                       )}
                       {!compact && (
@@ -148,7 +147,7 @@ export default function ArchiveTable({
                           aria-label={`Unduh berkas PDF ${letter.id}`} title={`Unduh Berkas Asli ${letter.id}`}
                           onClick={(e) => downloadPdf(letter, e)}
                         >
-                          <Icon name="download" size={14} />
+                          <Icon name="download" size={13} />
                         </button>
                       )}
                       {!compact && onEdit && (

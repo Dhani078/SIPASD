@@ -118,16 +118,18 @@ export default function ArchiveWorkspace({
             </option>
           ))}
         </select>
-        <select
-          aria-label="Filter venue"
-          value={filters.venue}
-          onChange={(e) => update('venue', e.target.value)}
-        >
-          <option value="">Semua venue</option>
-          {venues.map((v) => (
-            <option key={v}>{v}</option>
-          ))}
-        </select>
+        {letters.some((l) => l.venue) && (
+          <select
+            aria-label="Filter venue"
+            value={filters.venue}
+            onChange={(e) => update('venue', e.target.value)}
+          >
+            <option value="">Semua venue</option>
+            {venues.map((v) => (
+              <option key={v}>{v}</option>
+            ))}
+          </select>
+        )}
         <select
           aria-label="Filter bidang"
           value={filters.division}

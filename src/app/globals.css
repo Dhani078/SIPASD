@@ -922,36 +922,43 @@ td small {
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  border-radius: 4px;
-  border: 1px solid #f1e1c0;
-  background: #fff8e9;
-  color: #b68b34;
-  padding: 3px 6px;
-  font-size: 7px;
+  gap: 5px;
+  border-radius: 9999px;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  color: #334155;
+  padding: 2.5px 8px;
+  font-size: 11px;
   font-weight: 600;
   white-space: nowrap;
+  line-height: 1.2;
 }
 .badge > span {
-  width: 3px;
-  height: 3px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   background: currentColor;
+  flex-shrink: 0;
 }
 .badge.kilat {
-  background: #fff0ed;
-  border-color: #f4d8d1;
-  color: #c06657;
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #b91c1c;
 }
 .badge.penting {
-  background: #edf2fb;
-  border-color: #dfe7f5;
-  color: #6787b9;
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1d4ed8;
+}
+.badge.segera {
+  background: #fffbeb;
+  border-color: #fde68a;
+  color: #b45309;
 }
 .badge.biasa {
-  background: #f1f6f3;
-  border-color: #e0e9e3;
-  color: #6b8c78;
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+  color: #15803d;
 }
 td .icon-btn {
   width: 17px;

@@ -72,7 +72,7 @@ export default function SipasdMainView({
           <div className="today">
             <Icon name="shield" size={15} />
             <span>{user.role}</span>
-            <small>TiDB LIVE</small>
+            <small>TERVERIFIKASI</small>
           </div>
           <button className="btn primary" onClick={() => setModal('new')}>
             <Icon name="plus" size={17} /> Indeks Surat Baru
@@ -84,10 +84,10 @@ export default function SipasdMainView({
         <div>
           <Icon name="shield" size={16} />
           <b>Arsip tertib, tata kelola akuntabel.</b>
-          <span>410+ berkas fisik terindeks real-time di TiDB Cloud Serverless &amp; Cloudinary CDN.</span>
+          <span>411 naskah dinas fisik terindeks resmi &amp; tersinkronisasi terpusat.</span>
         </div>
         <span className="system-status">
-          <span className="live-dot" /> Database Aktif
+          <span className="live-dot" /> Sistem Aktif
         </span>
       </div>
 

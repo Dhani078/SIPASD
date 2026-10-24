@@ -12,6 +12,24 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.13.0] - 2026-10-23
+
+### Changed
+- **Perampingan & Penyatuan Tombol Aksi Tabel (`ArchiveTable.tsx`)**:
+  * Menyeragamkan tombol aksi baris dokumen menjadi satu cluster kompak (`[👁 Lihat] [🖨] [⬇] [✏] [🗑]`) dengan ukuran presisi 28x28px, menghemat ~150px lebar kolom aksi.
+  * Memperluas area baca kolom perihal dan instansi pengirim/tujuan di layar PC dan tablet secara signifikan.
+- **Penyelarasan Teks & Bahasa Kedinasan Formal (`SipasdMainView.tsx`)**:
+  * Mengganti label teknis developer `TiDB LIVE` menjadi badge kedinasan **`TERVERIFIKASI`**.
+  * Mengganti banner teks vendor database/CDN menjadi teks formal: *"Sistem Kearsipan Terintegrasi: 411 naskah dinas fisik terindeks resmi & tersinkronisasi terpusat."*
+  * Mengganti status koneksi menjadi **`Sistem Aktif`** (dengan indikator lampu hijau berdenyut).
+- **Penyempurnaan Visual & Tipografi Badge Sifat Surat (`globals.css`)**:
+  * Memperbesar ukuran teks badge dari 7px menjadi 11px berbobot 600 dengan desain pill modern (`rounded-full`) dan titik status 5px.
+  * Memberikan kontras warna baku: merah cerah untuk `Kilat`, kuning/amber untuk `Segera`, dan hijau zamrud lembut untuk `Biasa`.
+- **Pembersihan Kontekstual Filter Venue (`ArchiveWorkspace.tsx`)**:
+  * Menyembunyikan filter venue secara otomatis pada antarmuka Surat Masuk (karena surat masuk dari instansi eksternal tidak berkait venue olahraga daerah), dan hanya memunculkannya saat relevan.
+
+---
+
 ## [2.12.0] - 2026-10-23
 
 ### Added

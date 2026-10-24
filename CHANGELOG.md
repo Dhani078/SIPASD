@@ -12,6 +12,29 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.12.0] - 2026-10-23
+
+### Added
+- **Filter Multi-Kriteria Riwayat Disposisi Fisik (`DispositionFilters.tsx`)**:
+  * Menambahkan filter kontrol tahun anggaran (`YearFilterControl`).
+  * Menambahkan dropdown filter 12 bulan kalender (`Bulan Januari` s/d `Bulan Desember`).
+  * Menambahkan dropdown filter seluruh bidang dinas tujuan (`Sekretariat`, `Pembudayaan Olahraga`, `Peningkatan Prestasi`, `Pengembangan Pemuda`, `Pemberdayaan Pemuda`, `Sarana & Prasarana`).
+  * Menambahkan dropdown filter sifat/urgensi surat (`Biasa`, `Segera`, `Kilat`).
+- **Paginasi & Selektor Baris per Halaman (`DispositionPagination.tsx`)**:
+  * Menambahkan selektor limit `10`, `15`, `25`, `50` baris per halaman.
+  * Menambahkan navigasi halaman `< Sebelumnya` dan `Berikutnya >` lengkap dengan indikator halaman aktif.
+
+### Fixed
+- **Perbaikan Anomali Riwayat Disposisi TiDB Cloud**:
+  * Mengoreksi 59 entri pejabat pendisposisi kosong (`-`) / "Belum terverifikasi" menjadi pejabat eksekutif resmi: **`Pebriadin Hapiz, AP, M.Si`** (Kepala Dinas Dispora Prov. Kalsel).
+  * Mengeliminasi 26 tanggal disposisi dummy (`2026-08-15`) menjadi tanggal penerimaan dan lembar disposisi asli.
+  * Menyelaraskan status alur kerja penyelesaian naskah: 6 berkas `BELUM_DIPROSES` (menunggu telaah), 5 berkas `PROSES` (sedang dikoordinasikan bidang), dan 162 berkas `SELESAI`.
+  * Memperkaya instruksi lembar disposisi menjadi 6 kategori instruksi formal kedinasan Pemprov Kalsel (tindak lanjuti & koordinasikan, telaah anggaran, fasilitasi venue, dsb).
+- **Penyelarasan Kolom Status & Badge Semantik**:
+  * Menyelaraskan kolom `STATUS` pada tabel riwayat agar menampilkan status alur penyelesaian riil (`Selesai` - badge hijau, `Sedang Proses` - badge kuning/amber, `Belum Diproses` - badge merah) disertai sub-informasi sifat surat (`Sifat: Biasa / Segera / Kilat`), mengatasi kerancuan status vs sifat surat.
+
+---
+
 ## [2.11.0] - 2026-10-23
 
 ### Fixed

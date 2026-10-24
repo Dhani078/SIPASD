@@ -335,3 +335,26 @@
    - `aislop scan`: 100/100 Healthy.
    - `npm run build`: 12 rute produksi sukses.
 
+---
+
+## Sesi 14: Perapian Riwayat Disposisi Fisik, Penambahan Filter Multi-Dimensi & Paginasi
+**Tanggal**: 24 Oktober 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Penyelidikan Menyeluruh Tabel `riwayat_disposisi`**:
+   - Menemukan 59 pejabat pendisposisi bertanda `-` ("Belum terverifikasi") dan 26 tanggal dummy `2026-08-15`.
+   - Mengoreksi seluruh 59 baris kosong menjadi pejabat eksekutif tunggal kearsipan Dispora Kalsel: `Pebriadin Hapiz, AP, M.Si` (Kepala Dinas).
+   - Menyelaraskan seluruh tanggal disposisi mengikuti tanggal naskah dan registrasi pindaian fisik asli.
+   - Mengatur distribusi status alur kerja (6 `BELUM_DIPROSES`, 5 `PROSES`, 162 `SELESAI`) dan ragam instruksi dinas (6 tipe instruksi).
+2. **Pengembangan Komponen Frontend Modular (Batas <= 200 LOC)**:
+   - Membuat `DispositionFilters.tsx` (99 LOC) dengan filter tahun, bulan kalender, bidang tujuan dinas, dan sifat/urgensi surat.
+   - Membuat `DispositionPagination.tsx` (59 LOC) dengan pengatur baris (10, 15, 25, 50) dan navigasi halaman aktif.
+   - Memperbarui `DispositionHistoryView.tsx` (197 LOC) dengan pemisahan visual status alur kerja dan sifat surat.
+3. **Verifikasi Kualitas**:
+   - `npm test`: 6/6 test suites passed (100% HEALTHY).
+   - `tsc --noEmit`: 0 type errors.
+   - `aislop scan`: 100/100 Healthy.
+   - `npm run build`: 12 rute produksi sukses.
+   - Seluruh 72 berkas di `src/` <= 200 baris kode.
+

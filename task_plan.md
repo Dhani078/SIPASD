@@ -177,6 +177,15 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 16: Physical Disposition History Polish & Multi-Filter (100% COMPLETE)
+- [x] Audit dan perbaikan 59 entri pejabat kosong di `riwayat_disposisi` menjadi `Pebriadin Hapiz, AP, M.Si`.
+- [x] Eliminasi seluruh 26 tanggal disposisi dummy `2026-08-15` dan sinkronisasi tanggal terima naskah.
+- [x] Pembuatan komponen `DispositionFilters.tsx` (tahun, bulan kalender, bidang dinas, urgensi).
+- [x] Pembuatan komponen `DispositionPagination.tsx` (selektor limit baris dan navigasi halaman).
+- [x] Pemisahan visual kolom STATUS (alur penyelesaian) dan sifat surat di `DispositionHistoryView.tsx`.
+- [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

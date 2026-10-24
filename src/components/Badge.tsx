@@ -1,8 +1,8 @@
-export default function Badge({ type }: { type: string }) {
+export default function Badge({ type, label }: { type: string; label?: string }) {
   return (
     <span className={`badge ${type.toLowerCase()}`}>
       <span />
-      {type}
+      {label || type}
     </span>
   );
 }

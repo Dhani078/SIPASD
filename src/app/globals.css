@@ -1532,6 +1532,10 @@ td .icon-btn {
   overflow-y: auto;
 }
 .modal {
+  position: relative !important;
+  margin: auto !important;
+  left: auto !important;
+  right: auto !important;
   width: 660px;
   max-width: 95vw;
   max-height: 90vh;
@@ -3781,6 +3785,10 @@ td .icon-btn {
 }
 
 .pdf-modal-popup {
+  position: relative !important;
+  margin: auto !important;
+  left: auto !important;
+  right: auto !important;
   width: 1200px !important;
   max-width: 96vw !important;
   height: 94vh !important;

@@ -257,7 +257,10 @@
    - Memadatkan tombol aksi pada `ArchiveTable.tsx` menjadi 2 tombol berlabel teks ('Lihat PDF' dan 'Disposisi') serta 3 tombol ikon ber-tooltip ('Unduh', 'Edit', 'Hapus') menghemat 200px lebar horizontal tabel per baris.
 7. **Interaktivitas Unggah PDF**:
    - Menambahkan event drag-and-drop live highlight dan lencana informasi file terpilih pada kotak unggah berkas.
-8. **Verifikasi Kualitas**:
+8. **Perbaikan Layout Centering Modal PDF**:
+   - Menghilangkan bug alignment modal PDF yang bergeser ke tepi kiri (x=0) menimpa sidebar akibat user-agent `<dialog>`. Direset dengan `position: relative !important; margin: auto !important; left: auto !important; right: auto !important;` sehingga simetris sempurna di tengah layar (margin horizontal 360px di kiri dan kanan pada viewport 1920px).
+   - Memastikan navigasi login me-load 411 arsip TiDB secara utuh via `window.location.assign('/dashboard')`.
+9. **Verifikasi Kualitas**:
    - Skor `aislop`: 100/100 (Healthy), 0 errors, 0 warnings.
    - `npm test`: 6/6 test suites passed (100% HEALTHY).
    - `npm run typecheck`: 0 type errors.

@@ -46,6 +46,7 @@ export default function LoginPage({
         unitKerja: data.user?.unitKerja || found?.unitKerja || 'Dispora Kalsel',
       };
       onLoginSuccess(matched);
+      window.location.assign('/dashboard');
     } catch {
       setError('Koneksi database terganggu. Silakan coba lagi.');
       setLoading(false);

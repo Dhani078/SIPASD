@@ -23,6 +23,8 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
   * Penyesuaian label dinamis pada formulir surat keluar (menjadi 'Tanggal Diterbitkan' dan 'Tujuan Instansi').
   * Pemadatan tombol aksi baris tabel (`ArchiveTable.tsx`) menjadi tombol primer teks 'Lihat PDF' & 'Disposisi', serta tombol utilitas ringkas 'Unduh', 'Edit', dan 'Hapus' ber-tooltip.
   * Peningkatan interaktivitas kotak upload PDF dengan dukungan drag-and-drop live highlight dan badge informasi ukuran file.
+  * Perbaikan bug alignment modal PDF: reset `position: relative !important; margin: auto !important; left: auto !important; right: auto !important;` pada dialog modal sehingga tepat berada di tengah layar (simetris horizontal 360px kiri dan kanan) tanpa menabrak tepi kiri sidebar.
+  * Navigasi login bersih dengan `window.location.assign('/dashboard')` memastikan seluruh 411 arsip dimuat sempurna pasca-login.
 
 ---
 

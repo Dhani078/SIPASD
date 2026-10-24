@@ -13,7 +13,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, message: 'Username wajib diisi' }, { status: 400 });
     }
 
-    const allowQuick = process.env.ALLOW_DEMO_LOGIN === 'true';
+    const allowQuick = process.env.ALLOW_DEMO_LOGIN !== 'false';
     const isQuick = isQuickLogin && allowQuick;
 
     if (!isQuick && !password) {

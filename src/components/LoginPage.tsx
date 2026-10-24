@@ -180,7 +180,7 @@ export default function LoginPage({
             ))}
           </div>
           <small className="demo-note">
-            Terhubung langsung ke TiDB Cloud Serverless 8 tabel relasional.
+            Kata sandi resmi: <b>Dispora2026!</b> | Terhubung TiDB Cloud Serverless.
           </small>
         </form>
       </div>

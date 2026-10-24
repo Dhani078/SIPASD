@@ -12,8 +12,8 @@ const FEATURES = [
   {
     icon: 'file' as const,
     title: 'Streaming PDF In-Browser',
-    desc: 'Membaca langsung dokumen hasil scan resolusi tinggi via Cloudinary signed stream tanpa perlu mengunduh file fisik.',
-    tag: 'Cloud CDN + Drive 5 TB',
+    desc: 'Membaca langsung dokumen hasil scan resolusi tinggi via penampil berkas digital terenkripsi tanpa perlu mengunduh file fisik.',
+    tag: 'Layanan Akses Ganda',
   },
   {
     icon: 'shield' as const,

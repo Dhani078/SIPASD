@@ -12,6 +12,21 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.19.0] - 2026-10-23
+
+### Added
+- **Elevasi Total Landing Page ke Standar Enterprise 100/100 MAX MODE**:
+  * **Seksi Penutup / Closing Call-to-Action (`LandingCta.tsx`)**: Menambahkan banner kontras modern bergradasi emerald gelap (`from-emerald-950 via-emerald-900 to-teal-950`) dengan tombol aksi `Masuk Portal SIPASD` dan `Pelajari Alur Kerja`.
+  * **Footer Kedinasan 4-Kolom Resmi (`LandingFooter.tsx`)**: Restrukturisasi footer menjadi 4 pilar lengkap (Identitas Pemprov Kalsel & Dispora, Navigasi Pintas, Kontak Resmi Jalan Pramuka No. 4, dan Jadwal Pelayanan Tata Usaha Dispora).
+  * **Pilar Metrik Interaktif (`LandingStats.tsx`)**: 4 kartu statistik besar ber-indikator lampu denyut live (`170` Surat Masuk, `241` Surat Keluar, `11` Venue Olahraga, `< 2 Detik` Kecepatan Temu-Kembali).
+  * **Katalog Aset Olahraga Banua (`LandingVenues.tsx`)**: Perbaikan tanda baca judul (*11 venue olahraga. Satu sistem pengelolaan.*) dan tombol chip venue yang responsif dan interaktif.
+- **Pembersihan Keamanan & Kredensial Hero (`LandingPage.tsx`)**:
+  * Menghapus seluruh nama stack vendor backend (`TiDB Cloud Serverless SSL`) dan menggantinya dengan standar kearsipan pemerintah: *Tersinkronisasi Real-Time • Enkripsi TLS 1.3 • Kepatuhan Tata Kelola SPBE Pemprov Kalsel*.
+  * Menyelaraskan warna badge resmi menjadi emerald lembut (`bg-emerald-50 text-emerald-800 border-emerald-200/80`).
+  * Memperbaiki placeholder pencarian menjadi ringkas dan padat.
+
+---
+
 ## [2.18.0] - 2026-10-23
 
 ### Changed

@@ -12,6 +12,17 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.49.0] - 2026-10-25
+
+### Added
+- **Kompresi PDF Otomatis di Sisi Klien / Browser (`src/lib/pdf-compress.ts`)**:
+  * Mengimplementasikan modul kompresi cerdas non-blocking berbasis `pdf-lib` dan `pdfjs-dist` dengan worker lokal (`public/pdf.worker.min.mjs`).
+  * Ambang batas cerdas 4 MB: Berkas naskah fisik $\le 4\text{ MB}$ diteruskan langsung tanpa kompresi, sedangkan berkas $> 4\text{ MB}$ dan $\le 20\text{ MB}$ di-downscale ke resolusi dinas 150 DPI JPEG kualitas 0.75 secara otomatis.
+  * Menyelamatkan proses pengunggahan dari batas payload Vercel Serverless 4.5 MB (`413 FUNCTION_PAYLOAD_TOO_LARGE`) dengan tetap mempertahankan teks, stempel, dan tanda tangan naskah kedinasan tetap tajam.
+  * Integrasi badge visual interaktif `Auto-Kompres` pada modal input arsip (`NewLetterModal.tsx`, `EditLetterModal.tsx`) dan feedback progres dinamis di hook aksi naskah (`useLetterActions.ts`).
+
+---
+
 ## [2.48.0] - 2026-10-25
 
 ### Security

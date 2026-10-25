@@ -102,6 +102,11 @@ export default function EditLetterModal({ letter, onClose, onSave }: Props) {
           <div>
             <label htmlFor={`${uid}-file`} className="block font-semibold mb-1 text-slate-600">Ganti PDF (Opsional)</label>
             <input id={`${uid}-file`} type="file" accept=".pdf" onChange={(e) => setFile(e.target.files?.[0] || null)} className="w-full text-xs" />
+            {file && file.size > 4 * 1024 * 1024 && (
+              <span className="text-[10px] bg-amber-100 text-amber-800 font-medium px-1.5 py-0.5 rounded mt-0.5 inline-block">
+                {(file.size / (1024 * 1024)).toFixed(1)} MB - Auto-Kompresi Aktif
+              </span>
+            )}
           </div>
         </div>
 

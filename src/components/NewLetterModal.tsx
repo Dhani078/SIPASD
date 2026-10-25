@@ -162,6 +162,7 @@ export default function NewLetterModal({ direction, onClose, onSave }: Props) {
               <Icon name="file" size={14} />
               <span className="font-semibold truncate max-w-xs">{file.name}</span>
               <span className="text-emerald-700 text-[11px]">({(file.size / 1024).toFixed(0)} KB)</span>
+              {file.size > 4 * 1024 * 1024 && <span className="bg-amber-200 text-amber-900 text-[10px] px-1 rounded font-medium">Auto-Kompres</span>}
               <button type="button" className="ml-1 text-red-600 hover:text-red-800" onClick={() => setFile(undefined)} title="Hapus berkas">✕</button>
             </div>
           ) : (

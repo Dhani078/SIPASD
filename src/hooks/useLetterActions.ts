@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { LetterRecord } from '@/types';
+import { compressPdfIfNeeded } from '@/lib/pdf-compress';
 
 export function useLetterActions(
   setLetters: React.Dispatch<React.SetStateAction<LetterRecord[]>>,
@@ -14,8 +15,10 @@ export function useLetterActions(
     let fileUrl = record.fileUrl;
     let driveUrl = record.driveUrl;
     if (file) {
+      tell('Memeriksa dan menyiapkan lampiran naskah...');
+      const readyFile = await compressPdfIfNeeded(file, (p) => tell(p.message));
       const fd = new FormData();
-      fd.append('file', file);
+      fd.append('file', readyFile);
       fd.append('folder', record.direction === 'in' ? 'surat_masuk' : 'surat_keluar');
       fd.append('year', record.date ? record.date.slice(0, 4) : '2026');
       const upRes = await fetch('/api/upload', { method: 'POST', body: fd });
@@ -89,8 +92,10 @@ export function useLetterActions(
     let fileUrl = updates.fileUrl;
     let driveUrl = updates.driveUrl;
     if (file) {
+      tell('Memeriksa dan menyiapkan lampiran naskah...');
+      const readyFile = await compressPdfIfNeeded(file, (p) => tell(p.message));
       const fd = new FormData();
-      fd.append('file', file);
+      fd.append('file', readyFile);
       fd.append('folder', editTarget?.direction === 'in' ? 'surat_masuk' : 'surat_keluar');
       const targetDate = updates.date || editTarget?.date || '';
       fd.append('year', targetDate ? targetDate.slice(0, 4) : '2026');

@@ -12,6 +12,15 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.32.0] - 2026-10-23
+
+### Fixed
+- **Pembaruan Jam Pelayanan Tata Usaha Kedinasan (`LandingFooter.tsx`)**:
+  * Menyelaraskan jam pelayanan resmi loket Tata Usaha Dispora Kalsel menjadi **Senin - Jumat: 08.00 - 16.00 WITA**.
+  * Mempertahankan hari Sabtu - Minggu sebagai Libur Kedinasan.
+
+---
+
 ## [2.31.0] - 2026-10-23
 
 ### Fixed

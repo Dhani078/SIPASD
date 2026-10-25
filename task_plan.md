@@ -327,6 +327,11 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 37: Official Working Hours Alignment (100% COMPLETE)
+- [x] Memutakhirkan jam operasional loket Tata Usaha di `LandingFooter.tsx` menjadi **Senin - Jumat: 08.00 - 16.00 WITA**.
+- [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

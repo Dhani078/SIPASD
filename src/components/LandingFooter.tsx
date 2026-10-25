@@ -64,12 +64,8 @@ export default function LandingFooter({ onOpenModal, onLogin }: Props) {
             <h4 className="text-white font-semibold text-xs tracking-wider uppercase mb-3">Pelayanan Tata Usaha</h4>
             <ul className="space-y-1.5 text-slate-400 text-[11px]">
               <li className="flex justify-between py-1 border-b border-slate-800">
-                <span>Senin - Kamis:</span>
-                <span className="text-white font-medium">08.00 - 16.30 WITA</span>
-              </li>
-              <li className="flex justify-between py-1 border-b border-slate-800">
-                <span>Jumat:</span>
-                <span className="text-white font-medium">08.00 - 11.30 WITA</span>
+                <span>Senin - Jumat:</span>
+                <span className="text-white font-medium">08.00 - 16.00 WITA</span>
               </li>
               <li className="flex justify-between py-1">
                 <span>Sabtu - Minggu:</span>

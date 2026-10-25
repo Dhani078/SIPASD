@@ -320,6 +320,13 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 36: Direct Google Chrome Visual Audit Mandate & Documentation (100% COMPLETE)
+- [x] Menetapkan aturan mutlak ke-9 di `AGENT.md` dan `CONSTRAINTS.md`: Verifikasi visual langsung via browser Google Chrome nyata (`chrome.exe`) untuk setiap pengerjaan antarmuka baru.
+- [x] Menyediakan skrip otomasi pengujian browser `scripts/chrome_audit.py` dan `scripts/visual_audit_landing.py`.
+- [x] Memutakhirkan `docs/HANDOFF.md`, `CHANGELOG.md`, dan `progress.md`.
+- [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

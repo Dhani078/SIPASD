@@ -43,6 +43,11 @@
 7. **Zero Em-Dashes**:
    - Dilarang keras menggunakan karakter em-dash pada seluruh teks antarmuka, judul, lencana, maupun dokumentasi. Gunakan tanda hubung biasa (`-`), tanda kurung, atau titik koma.
 
+8. **Audit Visual Nyata Langsung di Google Chrome (Direct-to-Chrome Visual Audit Mandate)**:
+   - Dilarang hanya mengandalkan unit test atau compiler output tanpa melihat hasil rendering nyata di peramban.
+   - Setiap kali mengerjakan fitur baru atau memoles tampilan, agen wajib memvalidasi langsung ke Google Chrome nyata (`C:\Users\Anomali\AppData\Local\Google\Chrome\Application\chrome.exe` atau live `https://www.sipasd.my.id`).
+   - Verifikasi wajib memastikan: layout hero berdampingan (*side-by-side*), 0 horizontal overflow (375px s/d 1440px), modal pop-up interaktif, dan penegakan hak akses RBAC.
+
 ---
 
 ## 2. Enforced with Numbers (Batasan Terukur dengan Perintah Uji)

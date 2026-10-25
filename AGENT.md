@@ -30,6 +30,14 @@
    - Seluruh berkas rahasia di direktori `credentials/` (`oauth-client.json`, `token.json`, `service_account.json`) dan `.env.local` wajib diisolasi mutlak dalam `.gitignore`. Dilarang keras melakukan commit berkas kredensial ke GitHub publik.
 8. **Zero Em-Dashes**:
    - Seluruh teks antarmuka, notifikasi, dan dokumentasi dilarang menggunakan karakter em-dash. Gunakan tanda hubung biasa (`-`).
+9. **Audit Visual Langsung ke Google Chrome Nyata (Direct-to-Chrome Visual Audit Mandate)**:
+   - Setiap kali mengerjakan, memperbaiki, atau menambah fitur antarmuka, **DILARANG HANYA MENGASUMSIKAN KODE BENAR SECARA TEORI**.
+   - Agen wajib memvalidasi langsung ke browser Google Chrome nyata (`C:\Users\Anomali\AppData\Local\Google\Chrome\Application\chrome.exe` atau live `https://www.sipasd.my.id`) menggunakan otomasi Playwright (`headless=False` jika user meminta melihat langsung di layar) untuk memastikan:
+     * Tata letak hero landing page duduk berdampingan (*side-by-side*) presisi tanpa tumpuk vertikal.
+     * Bebas dari horizontal scrollbar overflow (0 overflow pada resolusi mobile 375px s/d desktop 1440px).
+     * Seluruh tombol aksi (titik tiga `[...]`, modal SOP/Klasifikasi, tombol hapus logo tong sampah) berfungsi interaktif saat diklik nyata.
+     * Hak akses berbasis peran (RBAC): akun staf pengarsip (`Rana Nur Syifa`) terisolasi dari menu admin (`Manajemen Pengguna` dan `Audit Trail`).
+     * Nol pesan galat di konsol peramban (`console.error = 0`).
 
 ---
 

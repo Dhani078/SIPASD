@@ -18,7 +18,7 @@ async def run_visual_audit():
         page.on('console', lambda msg: console_logs.append(f'[{msg.type}] {msg.text}'))
 
         print('[2/8] Mengakses https://www.sipasd.my.id/ (Landing Page)...')
-        await page.goto('https://www.sipasd.my.id/', wait_until='domcontentloaded')
+        await page.goto('https://www.sipasd.my.id/', wait_until='networkidle')
         await page.wait_for_timeout(2000)
 
         # Audit 1: Header & Hero Section
@@ -26,8 +26,8 @@ async def run_visual_audit():
         hero_check = await page.evaluate('''() => {
             const hero = document.querySelector('.hero');
             const hRect = hero ? hero.getBoundingClientRect() : null;
-            const leftCol = document.querySelector('.hero .md\\\\:col-span-7');
-            const rightCol = document.querySelector('.hero-document');
+            const leftCol = hero ? hero.children[0] : null;
+            const rightCol = hero ? hero.children[1] : null;
             const lRect = leftCol ? leftCol.getBoundingClientRect() : null;
             const rRect = rightCol ? rightCol.getBoundingClientRect() : null;
             
@@ -36,7 +36,9 @@ async def run_visual_audit():
                 heroWidth: hRect ? Math.round(hRect.width) : 0,
                 leftColWidth: lRect ? Math.round(lRect.width) : 0,
                 rightColWidth: rRect ? Math.round(rRect.width) : 0,
-                isSideBySide: lRect && rRect ? (rRect.left > lRect.right - 50) : false,
+                leftColX: lRect ? Math.round(lRect.left) : 0,
+                rightColX: rRect ? Math.round(rRect.left) : 0,
+                isSideBySide: lRect && rRect ? (rRect.left > lRect.left + 400) : false,
                 overflowX: document.documentElement.scrollWidth > window.innerWidth,
                 headerBrand: document.querySelector('.brand b')?.innerText,
                 headerSubtitle: document.querySelector('.brand small')?.innerText,

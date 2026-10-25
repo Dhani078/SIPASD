@@ -288,6 +288,12 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 31: OCR Text Spacing Normalization & Agenda Column Polish (100% COMPLETE)
+- [x] Menormalkan 78 entri teks nempel OCR di TiDB Cloud (`ASNTerbaik2026` -> `ASN Terbaik 2026`, dll).
+- [x] Memisahkan nomor agenda dari suffix dinas di `DispositionHistoryView.tsx`.
+- [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

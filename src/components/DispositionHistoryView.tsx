@@ -137,7 +137,9 @@ export default function DispositionHistoryView({ letters, onSelect, onEdit, onEx
                     onClick={() => onSelect(letter)}
                   >
                     <td>
-                      <b className="mono text-emerald-800 text-xs font-bold block">{letter.id}/SM/{letter.date ? letter.date.slice(0, 4) : '2026'}</b>
+                      <b className="mono text-emerald-800 text-xs font-bold block">
+                        {letter.id} <span className="font-normal text-slate-400 text-[11px]">/SM/{letter.date ? letter.date.slice(0, 4) : '2026'}</span>
+                      </b>
                       <p className="text-xs text-slate-500 mt-1">{letter.disposition?.date ? formatDate(letter.disposition.date) : (letter.date && formatDate(letter.date))}</p>
                     </td>
                     <td>

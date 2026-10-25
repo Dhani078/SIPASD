@@ -640,3 +640,21 @@
    - `npm run build`: 12 rute produksi sukses.
    - Seluruh 79 berkas di `src/` <= 200 baris kode.
 
+---
+
+## Sesi 29: Sanitasi Glitch Spasi Teks OCR TiDB & Penegasan Nomor Agenda
+**Tanggal**: 24 Oktober 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Pembersihan Spasi Nempel Glitch OCR di Database**:
+   - Melakukan normalisasi string regex pada 18 Surat Masuk dan 60 Surat Keluar di TiDB Cloud, memisahkan kata-kata nempel (`ASNTerbaik2026` -> `ASN Terbaik 2026`, dll).
+2. **Penegasan Tipografi Kolom Agenda**:
+   - Memperjelas penataan teks nomor agenda di `DispositionHistoryView.tsx` dengan memisahkan nomor urut dari suffix dinas.
+3. **Verifikasi Kualitas**:
+   - `npm test`: 6/6 test suites passed (100% HEALTHY).
+   - `tsc --noEmit`: 0 type errors.
+   - `aislop scan`: 100/100 Healthy (0 errors, 0 warnings).
+   - `npm run build`: 12 rute produksi sukses.
+   - Seluruh 79 berkas di `src/` <= 200 baris kode.
+

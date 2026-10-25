@@ -12,6 +12,15 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.27.0] - 2026-10-23
+
+### Fixed
+- **Sanitasi Glitch Spasi Teks OCR TiDB & Penegasan Kolom Nomor Agenda (`DispositionHistoryView.tsx`)**:
+  * Menjalankan normalisasi teks pada 18 naskah Surat Masuk dan 60 naskah Surat Keluar di TiDB Cloud, memisahkan kata-kata nempel hasil OCR seperti `ASNTerbaik2026` menjadi `ASN Terbaik 2026`, `PemberitahuanKegiatan` menjadi `Pemberitahuan Kegiatan`, dll.
+  * Memperjelas tipografi kolom nomor agenda di Riwayat Disposisi dengan memisahkan angka agenda dan suffix tahun dinas via elemen `span` kontras abu-abu lembut (`1211 /SM/2026`).
+
+---
+
 ## [2.26.0] - 2026-10-23
 
 ### Fixed

@@ -13,7 +13,8 @@ export async function POST(request: Request) {
       success: true,
       suggestion: result,
     });
-  } catch (error: any) {
-    return NextResponse.json({ success: false, message: error.message || 'Gagal memproses klasifikasi.' }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Gagal memproses klasifikasi.';
+    return NextResponse.json({ success: false, message }, { status: 500 });
   }
 }

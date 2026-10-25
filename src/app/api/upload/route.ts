@@ -55,8 +55,9 @@ export async function POST(request: Request) {
       publicId: result.publicId,
       driveUrl: driveUrl || getGdriveFolderUrl(gdriveFolderType, yearStr),
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Upload API error:', error);
-    return NextResponse.json({ success: false, message: error.message || 'Gagal mengunggah berkas' }, { status: 500 });
+    const message = error instanceof Error ? error.message : 'Gagal mengunggah berkas';
+    return NextResponse.json({ success: false, message }, { status: 500 });
   }
 }

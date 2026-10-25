@@ -4,6 +4,18 @@ import { query } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
 
+interface AuditLogRow {
+  id: string;
+  action: string;
+  resource: string;
+  ip_address: string;
+  user_agent: string;
+  created_at: string | Date;
+  username: string;
+  nama_lengkap: string;
+  role: string;
+}
+
 export async function GET() {
   const session = await getSession();
   if (!session) {
@@ -16,7 +28,7 @@ export async function GET() {
   }
 
   try {
-    const logs = await query<any>(`
+    const logs = await query<AuditLogRow>(`
       SELECT a.id, a.action, a.resource, a.ip_address, a.user_agent, a.created_at,
              COALESCE(u.username, 'system') as username,
              COALESCE(u.nama_lengkap, 'Sistem Kearsipan') as nama_lengkap,
@@ -28,7 +40,8 @@ export async function GET() {
     `);
 
     return NextResponse.json({ success: true, logs });
-  } catch (error: any) {
-    return NextResponse.json({ error: 'Gagal memuat jejak audit', details: error?.message }, { status: 500 });
+  } catch (error: unknown) {
+    const details = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ error: 'Gagal memuat jejak audit', details }, { status: 500 });
   }
 }

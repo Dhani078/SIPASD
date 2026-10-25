@@ -55,17 +55,18 @@ export async function GET(request: Request) {
           },
         });
       }
-    } catch {
-      // fallback to redirect
+    } catch (streamError) {
+      console.warn('PDF stream buffer fetch failed, fallback to 307 redirect:', streamError);
     }
 
     const response = NextResponse.redirect(signedUrl, 307);
     response.headers.set('Cache-Control', 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400');
     return response;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('API PDF Proxy error:', error);
+    const message = error instanceof Error ? error.message : 'Gagal memuat dokumen PDF.';
     return NextResponse.json(
-      { success: false, message: error.message || 'Gagal memuat dokumen PDF.' },
+      { success: false, message },
       { status: 500 }
     );
   }

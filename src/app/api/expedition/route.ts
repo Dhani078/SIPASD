@@ -3,6 +3,22 @@ import { query } from '@/lib/db';
 import { logAudit } from '@/lib/audit';
 import { getSession } from '@/lib/auth';
 
+interface ExpeditionRow {
+  id: string;
+  surat_keluar_id: string;
+  tanggal_kirim: string | Date | null;
+  kurir_pengirim: string;
+  penerima_nama: string;
+  penerima_telepon: string | null;
+  catatan_ekspedisi: string | null;
+  nomor_agenda: string | null;
+}
+
+interface LetterRow {
+  id: string;
+  nomor_agenda: string;
+}
+
 export async function GET() {
   try {
     const session = await getSession();
@@ -10,7 +26,7 @@ export async function GET() {
       return NextResponse.json({ success: false, message: 'Akses ditolak. Sesi tidak ditemukan.' }, { status: 401 });
     }
 
-    const rows = await query<any>(
+    const rows = await query<ExpeditionRow>(
       'SELECT e.id, e.surat_keluar_id, e.tanggal_kirim, e.kurir_pengirim, e.penerima_nama, ' +
       'e.penerima_telepon, e.catatan_ekspedisi, sk.nomor_agenda ' +
       'FROM buku_ekspedisi e LEFT JOIN arsip_surat_keluar sk ON sk.id = e.surat_keluar_id ' +
@@ -18,12 +34,12 @@ export async function GET() {
     );
     return NextResponse.json({
       success: true,
-      records: rows.map((r: any) => ({
+      records: rows.map((r) => ({
         ...r,
         tanggal_kirim: r.tanggal_kirim ? new Date(r.tanggal_kirim).toISOString().slice(0, 10) : null,
       })),
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('API Expedition GET error:', error);
     return NextResponse.json({ success: false, message: 'Gagal mengambil data buku ekspedisi' }, { status: 500 });
   }
@@ -57,7 +73,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, message: 'Format tanggal kirim tidak valid.' }, { status: 400 });
     }
 
-    const surat = await query<any>('SELECT id, nomor_agenda FROM arsip_surat_keluar WHERE id = ?', [suratId]);
+    const surat = await query<LetterRow>('SELECT id, nomor_agenda FROM arsip_surat_keluar WHERE id = ?', [suratId]);
     if (!surat.length) {
       return NextResponse.json({ success: false, message: 'Surat keluar tidak ditemukan di database' }, { status: 404 });
     }
@@ -77,8 +93,9 @@ export async function POST(request: Request) {
       message: `Distribusi surat ${surat[0].nomor_agenda} berhasil dicatat`,
       nomor_agenda: surat[0].nomor_agenda,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('API Expedition POST error:', error);
-    return NextResponse.json({ success: false, message: error.message || 'Gagal menyimpan catatan ekspedisi' }, { status: 500 });
+    const message = error instanceof Error ? error.message : 'Gagal menyimpan catatan ekspedisi';
+    return NextResponse.json({ success: false, message }, { status: 500 });
   }
 }

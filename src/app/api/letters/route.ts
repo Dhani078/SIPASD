@@ -11,7 +11,7 @@ export async function GET() {
   try {
     const letters = await getRealLetters();
     return NextResponse.json({ success: true, letters });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('API Letters GET error:', error);
     return NextResponse.json(
       { success: false, message: 'Gagal mengambil data arsip dari TiDB' },
@@ -33,7 +33,7 @@ export async function POST(request: Request) {
     if (!body.number || !body.origin || !body.subject) {
       return NextResponse.json({ success: false, message: 'Nomor surat, instansi, dan perihal wajib diisi.' }, { status: 400 });
     }
-    const sanitize = (s: string) => s.replace(/[<>]/g, '').trim().slice(0, 500);
+    const sanitize = (s: unknown) => (typeof s === 'string' ? s.replace(/[<>]/g, '').trim().slice(0, 500) : '');
     body.number = sanitize(body.number);
     body.origin = sanitize(body.origin);
     body.subject = sanitize(body.subject);
@@ -43,10 +43,11 @@ export async function POST(request: Request) {
       message: 'Arsip berhasil disimpan',
       agendaNumber,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('API Letters POST error:', error);
+    const message = error instanceof Error ? error.message : 'Gagal menyimpan arsip';
     return NextResponse.json(
-      { success: false, message: error.message || 'Gagal menyimpan arsip' },
+      { success: false, message },
       { status: 500 }
     );
   }
@@ -89,10 +90,11 @@ export async function DELETE(request: Request) {
     }
 
     return NextResponse.json({ success: true, count, message: `${count} arsip berhasil dihapus dari TiDB` });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('API Letters DELETE error:', error);
+    const message = error instanceof Error ? error.message : 'Gagal menghapus arsip';
     return NextResponse.json(
-      { success: false, message: error.message || 'Gagal menghapus arsip' },
+      { success: false, message },
       { status: 500 }
     );
   }
@@ -112,7 +114,7 @@ export async function PUT(request: Request) {
     if (!id) {
       return NextResponse.json({ success: false, message: 'ID atau nomor agenda arsip wajib diisi.' }, { status: 400 });
     }
-    const sanitize = (s: any) => typeof s === 'string' ? s.replace(/[<>]/g, '').trim().slice(0, 500) : s;
+    const sanitize = (s: unknown) => (typeof s === 'string' ? s.replace(/[<>]/g, '').trim().slice(0, 500) : s);
     if (updates.number) updates.number = sanitize(updates.number);
     if (updates.origin) updates.origin = sanitize(updates.origin);
     if (updates.subject) updates.subject = sanitize(updates.subject);
@@ -122,10 +124,11 @@ export async function PUT(request: Request) {
       return NextResponse.json({ success: false, message: 'Arsip tidak ditemukan untuk diperbarui' }, { status: 404 });
     }
     return NextResponse.json({ success: true, message: 'Arsip berhasil diperbarui di TiDB Cloud' });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('API Letters PUT error:', error);
+    const message = error instanceof Error ? error.message : 'Gagal memperbarui arsip';
     return NextResponse.json(
-      { success: false, message: error.message || 'Gagal memperbarui arsip' },
+      { success: false, message },
       { status: 500 }
     );
   }

@@ -4,16 +4,30 @@ import { queryOne } from '@/lib/db';
 import { setSessionCookie } from '@/lib/auth';
 import { logAudit } from '@/lib/audit';
 import { checkRateLimit, recordFailedAttempt, resetRateLimit, getClientIp } from '@/lib/rate-limit';
+import type { UserRole } from '@/types';
+
+interface UserAuthRow {
+  id: string;
+  nip: string;
+  nama_lengkap: string;
+  username: string;
+  email: string;
+  password_hash: string;
+  role: UserRole;
+  jabatan: string;
+  unit_kerja: string;
+  is_active: number | boolean;
+}
 
 const DUMMY_HASH = '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy';
 
-async function verifyPassword(pwd: string, isQuick: boolean, user: any): Promise<boolean> {
+async function verifyPassword(pwd: string, isQuick: boolean, user: UserAuthRow | null): Promise<boolean> {
   if (isQuick) return Boolean(user?.is_active);
   const targetHash = user?.password_hash || DUMMY_HASH;
   return bcrypt.compare(pwd, targetHash);
 }
 
-async function recordFailure(ip: string, username: string, user: any, agent: string) {
+async function recordFailure(ip: string, username: string, user: UserAuthRow | null, agent: string) {
   recordFailedAttempt(`ip:${ip}`);
   const userFail = recordFailedAttempt(`user:${username.toLowerCase()}`);
   await logAudit('LOGIN_FAILED', 'users', user?.id || null, null, ip, agent, {
@@ -41,7 +55,7 @@ export async function POST(request: Request) {
     const body = await request.json().catch(() => ({}));
     const rawUsername = String(body.username || '').trim().slice(0, 64);
     const rawPassword = String(body.password || '').slice(0, 128);
-    const isQuick = Boolean(body.isQuickLogin && process.env.ALLOW_DEMO_LOGIN !== 'false');
+    const isQuick = Boolean(body.isQuickLogin && process.env.ALLOW_DEMO_LOGIN === 'true');
 
     if (!rawUsername) {
       return NextResponse.json({ success: false, message: 'Username wajib diisi' }, { status: 400 });
@@ -62,7 +76,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, message: 'Password wajib diisi' }, { status: 400 });
     }
 
-    const user = await queryOne(
+    const user = await queryOne<UserAuthRow>(
       'SELECT id, nip, nama_lengkap, username, email, password_hash, role, jabatan, unit_kerja, is_active FROM users WHERE username = ?',
       [rawUsername]
     );
@@ -95,7 +109,7 @@ export async function POST(request: Request) {
     await logAudit('LOGIN_SUCCESS', 'users', user.id, user.id, clientIp, userAgent);
 
     return NextResponse.json({ success: true, message: 'Login berhasil', user: sessionData });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Login error:', error);
     return NextResponse.json({ success: false, message: 'Terjadi kesalahan sistem internal' }, { status: 500 });
   }

@@ -12,6 +12,21 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.48.0] - 2026-10-25
+
+### Security
+- **Hardening Keamanan Autentikasi Fail-Closed (`src/app/api/auth/login/route.ts`)**:
+  * Mengubah evaluasi demo quick login dari opt-out (`ALLOW_DEMO_LOGIN !== 'false'`) menjadi opt-in ketat (`ALLOW_DEMO_LOGIN === 'true'`).
+  * Menjamin sistem fail-closed secara default pada rute autentikasi apabila konfigurasi lingkungan tidak disetel secara eksplisit.
+
+### Refactored
+- **Penegakan Type-Safety Absolut & Eliminasi Unsafe Casts (`src/app/api/...`, `src/lib/letters.ts`)**:
+  * Mengganti seluruh `catch (error: any)` menjadi `catch (error: unknown)` dengan penanganan `error instanceof Error` di semua rute API (`/api/auth/login`, `/api/letters`, `/api/pdf`, `/api/upload`, `/api/expedition`, `/api/audit`, `/api/ai/suggest`).
+  * Mendefinisikan antarmuka basis data yang kuat: `UserAuthRow`, `SuratMasukDbRow`, `SuratKeluarDbRow`, `ExpeditionRow`, dan `AuditLogRow`.
+  * Memperbaiki penanganan fallback streaming PDF di `/api/pdf` dengan pencatatan peringatan diagnostik terstruktur saat fallback ke HTTP 307.
+
+---
+
 ## [2.47.0] - 2026-10-23
 
 ### Fixed

@@ -12,6 +12,15 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.31.0] - 2026-10-23
+
+### Fixed
+- **Penyelarasan Total Grid Hero 2-Kolom Berdampingan (`LandingPage.tsx` & `globals.css`)**:
+  * Mengeliminasi benturan CSS antara aturan `.hero { grid-template-columns: 1.2fr 1fr; }` dengan utility Tailwind `md:col-span-7 / md:col-span-5`.
+  * Memastikan kolom teks pengantar (1.2fr) dan kartu pratinjau dokumen fisik dinas (1fr) duduk berdampingan (*side-by-side*) secara presisi pada seluruh layar laptop dan desktop tanpa saling tumpuk.
+
+---
+
 ## [2.30.0] - 2026-10-23
 
 ### Fixed

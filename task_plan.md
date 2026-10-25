@@ -314,6 +314,12 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 35: Side-by-Side Hero Grid Synchronization (100% COMPLETE)
+- [x] Membersihkan benturan CSS grid pada `.hero` di `LandingPage.tsx` dan `globals.css`.
+- [x] Memastikan tata letak 2 kolom hero duduk berdampingan tanpa tumpuk vertikal.
+- [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

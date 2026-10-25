@@ -1821,9 +1821,9 @@ td .icon-btn {
 .hero {
   display: grid;
   grid-template-columns: 1.2fr 1fr;
-  gap: 80px;
+  gap: 40px;
   align-items: center;
-  padding: 65px 0 55px;
+  padding: 50px 0 40px;
 }
 .official-pill {
   display: inline-block;

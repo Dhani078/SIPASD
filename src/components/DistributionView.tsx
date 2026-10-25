@@ -1,21 +1,11 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useMemo } from 'react';
 import Icon from './Icon';
+import DistributionTable, { type ExpeditionRecord } from './DistributionTable';
 import ExpeditionFormModal from './ExpeditionFormModal';
 import ExpeditionInfoModal from './ExpeditionInfoModal';
-import { formatDate } from '@/lib/format';
 import type { LetterRecord } from '@/types';
-
-interface ExpeditionRecord {
-  id: string;
-  surat_keluar_id: string;
-  tanggal_kirim: string;
-  kurir_pengirim: string;
-  penerima_nama: string;
-  penerima_telepon: string | null;
-  catatan_ekspedisi: string | null;
-}
 
 interface Props {
   letters: LetterRecord[];
@@ -28,37 +18,66 @@ export default function DistributionView({ letters, onExport }: Props) {
   const [selectedLetter, setSelectedLetter] = useState<LetterRecord | null>(null);
   const [records, setRecords] = useState<Record<string, ExpeditionRecord>>({});
   const [notice, setNotice] = useState<string | null>(null);
-  const suratKeluar = letters.filter((l) => l.direction === 'out');
+  const [query, setQuery] = useState('');
+  const [status, setStatus] = useState<'ALL' | 'DONE' | 'PENDING'>('ALL');
+  const [page, setPage] = useState(1);
+  const pageSize = 15;
+
+  const suratKeluar = useMemo(() => letters.filter((l) => l.direction === 'out'), [letters]);
   const tercatat = Object.keys(records).length;
 
   const loadRecords = useCallback(async () => {
     try {
       const res = await fetch('/api/expedition');
       const data = await res.json();
-      if (!data.success) return;
+      if (!data?.success) return;
       const map: Record<string, ExpeditionRecord> = {};
       for (const r of data.records as ExpeditionRecord[]) map[r.surat_keluar_id] = r;
       setRecords(map);
     } catch {
-      /* tabel tetap tampil tanpa catatan bila permintaan gagal */
+      /* fallback */
     }
   }, []);
 
   useEffect(() => {
-    let isMounted = true;
+    let active = true;
     fetch('/api/expedition')
       .then((res) => res.json())
       .then((data) => {
-        if (!isMounted || !data.success) return;
+        if (!active || !data?.success) return;
         const map: Record<string, ExpeditionRecord> = {};
         for (const r of data.records as ExpeditionRecord[]) map[r.surat_keluar_id] = r;
         setRecords(map);
       })
       .catch(() => {});
     return () => {
-      isMounted = false;
+      active = false;
     };
   }, []);
+
+  const filtered = useMemo(() => {
+    return suratKeluar.filter((l) => {
+      const isDone = Boolean(l.rawId && records[l.rawId]);
+      if (status === 'DONE' && !isDone) return false;
+      if (status === 'PENDING' && isDone) return false;
+      if (query) {
+        const q = query.toLowerCase();
+        const rec = l.rawId ? records[l.rawId] : undefined;
+        return (
+          l.id.toLowerCase().includes(q) ||
+          l.origin.toLowerCase().includes(q) ||
+          l.subject.toLowerCase().includes(q) ||
+          Boolean(rec?.kurir_pengirim?.toLowerCase().includes(q)) ||
+          Boolean(rec?.penerima_nama?.toLowerCase().includes(q))
+        );
+      }
+      return true;
+    });
+  }, [suratKeluar, records, status, query]);
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+  const curPage = Math.min(page, totalPages);
+  const paged = filtered.slice((curPage - 1) * pageSize, curPage * pageSize);
 
   return (
     <section className="panel">
@@ -68,103 +87,93 @@ export default function DistributionView({ letters, onExport }: Props) {
             <h2>Buku Ekspedisi Surat Keluar</h2>
             <button
               type="button"
-              className="inline-flex items-center gap-1 text-[11px] font-medium text-blue-800 bg-blue-50 hover:bg-blue-100 border border-blue-200 px-2 py-0.5 rounded-full transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-2 py-0.5 rounded-full transition-colors cursor-pointer"
               onClick={() => setShowInfo(true)}
               title="Klik untuk melihat penjelasan fungsi buku ekspedisi"
             >
               <Icon name="shield" size={12} />
               <span>Info Fungsi</span>
             </button>
-            <span className="text-[11px] font-semibold text-slate-600 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded">
+            <span className="text-[11px] font-semibold text-emerald-900 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded">
               Tercatat: {tercatat}/{suratKeluar.length}
             </span>
           </div>
-          <p>Catatan distribusi fisik & tanda terima penerima surat kedinasan</p>
+          <p>Catatan distribusi fisik & tanda terima kurir resmi kedinasan</p>
         </div>
         <div className="flex gap-2">
           <button className="btn outline" onClick={onExport}>
-            <Icon name="download" />
-            Ekspor Excel
+            <Icon name="download" /> Ekspor Excel
           </button>
           <button className="btn primary" onClick={() => { setSelectedLetter(null); setNotice(null); setShowForm(true); }}>
-            <Icon name="plus" />
-            Catat Distribusi
+            <Icon name="plus" /> Catat Distribusi
           </button>
         </div>
       </div>
 
+      <div className="p-3 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2 text-xs">
+        <div className="field flex-1 min-w-[220px]">
+          <Icon name="search" />
+          <input
+            placeholder="Cari nomor, tujuan, perihal, kurir, atau penerima..."
+            value={query}
+            onChange={(e) => { setQuery(e.target.value); setPage(1); }}
+            className="w-full text-xs"
+          />
+        </div>
+        <div className="flex gap-1">
+          {(['ALL', 'PENDING', 'DONE'] as const).map((st) => (
+            <button
+              key={st}
+              type="button"
+              className={`px-2.5 py-1 rounded text-xs border font-medium cursor-pointer ${
+                status === st ? 'bg-emerald-900 text-white border-emerald-900' : 'bg-white text-slate-700 border-slate-300'
+              }`}
+              onClick={() => { setStatus(st); setPage(1); }}
+            >
+              {st === 'ALL' ? `Semua (${suratKeluar.length})` : st === 'PENDING' ? `Belum Dicatat (${suratKeluar.length - tercatat})` : `Tercatat (${tercatat})`}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {notice && (
-        <div className="p-2 mb-3 rounded text-sm border bg-emerald-50 border-emerald-200 text-emerald-900">{notice}</div>
+        <div className="p-2.5 m-3 rounded text-xs border bg-emerald-50 border-emerald-200 text-emerald-900 font-medium">
+          {notice}
+        </div>
       )}
 
-      {suratKeluar.length === 0 ? (
-        <div className="empty">
-          Belum ada surat keluar terdaftar. Buat surat keluar terlebih dahulu di menu Arsip Surat Keluar.
-        </div>
+      {filtered.length === 0 ? (
+        <div className="empty">Tidak ada surat keluar yang cocok dengan kriteria pencarian.</div>
       ) : (
-        <div className="table-wrap">
-          <table>
-            <caption className="sr-only">Daftar distribusi ekspedisi surat keluar</caption>
-            <thead>
-              <tr>
-                <th scope="col">NO. AGENDA</th>
-                <th scope="col">TUJUAN INSTANSI & PERIHAL</th>
-                <th scope="col">TANGGAL</th>
-                <th scope="col">KURIR</th>
-                <th scope="col">PENERIMA</th>
-                <th scope="col" style={{ textAlign: 'right' }}>AKSI</th>
-              </tr>
-            </thead>
-            <tbody>
-              {suratKeluar.map((letter) => {
-                const rec = letter.rawId ? records[letter.rawId] : undefined;
-                return (
-                  <tr key={letter.id}>
-                    <td><b className="mono agenda">{letter.id}/SK/2026</b></td>
-                    <td>
-                      <b>{letter.origin}</b>
-                      <p>{letter.subject}</p>
-                    </td>
-                    <td className="mono date-cell">{formatDate(letter.date)}</td>
-                    <td>
-                      {rec ? (
-                        <span className="text-sm">
-                          {rec.kurir_pengirim}
-                          <br />
-                          <span className="text-xs text-slate-500">{formatDate(rec.tanggal_kirim)}</span>
-                        </span>
-                      ) : (
-                        <span className="text-slate-500 text-xs">Belum dicatat</span>
-                      )}
-                    </td>
-                    <td>
-                      {rec ? (
-                        <span className="text-sm">
-                          {rec.penerima_nama}
-                          {rec.penerima_telepon ? ` (${rec.penerima_telepon})` : ''}
-                        </span>
-                      ) : (
-                        <span className="text-slate-500 text-xs">-</span>
-                      )}
-                    </td>
-                    <td>
-                      <div className="row-actions">
-                        <button
-                          type="button"
-                          className="table-action-btn action-view"
-                          aria-label={rec ? `Ubah catatan distribusi agenda ${letter.id}` : `Catat distribusi agenda ${letter.id}`}
-                          onClick={() => { setSelectedLetter(letter); setNotice(null); setShowForm(true); }}
-                        >
-                          <Icon name="plus" size={14} />
-                          <span>{rec ? 'Ubah Catatan' : 'Catat Distribusi'}</span>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+        <DistributionTable
+          letters={paged}
+          records={records}
+          onSelect={(letter) => { setSelectedLetter(letter); setNotice(null); setShowForm(true); }}
+        />
+      )}
+
+      {totalPages > 1 && (
+        <div className="flex items-center justify-between p-3 border-t border-slate-200 text-xs text-slate-600">
+          <span>Menampilkan {paged.length} dari {filtered.length} surat keluar</span>
+          <div className="flex items-center gap-1.5">
+            <button
+              type="button"
+              disabled={curPage <= 1}
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              className="px-2 py-1 border rounded bg-white text-slate-700 disabled:opacity-40"
+            >
+              Sebelumnya
+            </button>
+            <span className="px-1.5 font-medium">{curPage} / {totalPages}</span>
+            <button
+              type="button"
+              disabled={curPage >= totalPages}
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              className="px-2 py-1 border rounded bg-white text-slate-700 disabled:opacity-40"
+            >
+              Berikutnya
+            </button>
+          </div>
         </div>
       )}
 
@@ -175,18 +184,12 @@ export default function DistributionView({ letters, onExport }: Props) {
           onClose={() => { setShowForm(false); setSelectedLetter(null); }}
           onSaved={async () => {
             await loadRecords();
-            setNotice('Catatan distribusi berhasil disimpan ke TiDB.');
+            setNotice('Catatan distribusi ekspedisi berhasil disimpan ke TiDB.');
           }}
         />
       )}
 
-      {showInfo && (
-        <ExpeditionInfoModal
-          tercatat={tercatat}
-          total={suratKeluar.length}
-          onClose={() => setShowInfo(false)}
-        />
-      )}
+      {showInfo && <ExpeditionInfoModal tercatat={tercatat} total={suratKeluar.length} onClose={() => setShowInfo(false)} />}
     </section>
   );
 }

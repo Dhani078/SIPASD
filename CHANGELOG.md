@@ -12,6 +12,18 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.28.0] - 2026-10-23
+
+### Fixed
+- **Elevasi Modul Distribusi Ekspedisi ke 100/100 Max Mode (`DistributionView.tsx` & `DistributionTable.tsx`)**:
+  * Menambahkan fitur pencarian cepat (`query`) dan filter tab status (`Semua`, `Belum Dicatat`, `Tercatat`) pada Buku Ekspedisi.
+  * Menambahkan kontrol paginasi halaman (15 baris per halaman) menggantikan daftar panjang tak berbatas.
+  * Mengekstrak `DistributionTable.tsx` (92 LOC) menjaga modularitas `DistributionView.tsx` (195 LOC) $\le$ 200 baris kode.
+  * Memperjelas tipografi nomor agenda dan format tanggal, serta merapikan status pill kurir/penerima.
+  * Mengoreksi typo OCR di basis data TiDB (`2A26` $\rightarrow$ `2026`, `Tahap2` $\rightarrow$ `Tahap 2`, `Tanggapanatas` $\rightarrow$ `Tanggapan atas`, `Home(WFH)` $\rightarrow$ `Home (WFH)`).
+
+---
+
 ## [2.27.0] - 2026-10-23
 
 ### Fixed

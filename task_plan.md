@@ -294,6 +294,14 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 32: Distribution Expedition Elevation to 100/100 Max Mode (100% COMPLETE)
+- [x] Menambahkan pencarian multi-kolom dan 3 tab status ekspedisi (`Semua`, `Belum Dicatat`, `Tercatat`).
+- [x] Menambahkan kontrol paginasi limit 15 baris per halaman.
+- [x] Mengekstrak `DistributionTable.tsx` (92 LOC) menjaga modularitas `DistributionView.tsx` (195 LOC) $\le$ 200 baris kode.
+- [x] Mengoreksi typo OCR di basis data TiDB (`2A26` -> `2026`, dll).
+- [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

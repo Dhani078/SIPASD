@@ -3,6 +3,7 @@
 import ArchiveTable from './ArchiveTable';
 import DistributionView from './DistributionView';
 import DispositionHistoryView from './DispositionHistoryView';
+import AgendaRegisterView from './AgendaRegisterView';
 import ProfileView from './ProfileView';
 import Icon from './Icon';
 import { classifications } from '@/data/constants';
@@ -147,6 +148,9 @@ export function ReferenceViews({
 
   if (page === 'history')
     return <DispositionHistoryView letters={letters} onSelect={onSelect} onEdit={onEdit} onExport={onExport} />;
+
+  if (page === 'agenda')
+    return <AgendaRegisterView letters={letters} onSelect={onSelect} onPrint={onPrint} onExport={onExport} />;
 
   return (
     <section className="panel">

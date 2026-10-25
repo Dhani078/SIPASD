@@ -12,6 +12,18 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.40.0] - 2026-10-23
+
+### Added
+- **Modul Penuh Register Buku Agenda Surat (`AgendaRegisterView.tsx`, `ReferenceViews.tsx`)**:
+  * **Dedicated View Register Agenda**: Menggantikan tabel fallback generic dengan modul buku agenda lengkap (`AgendaRegisterView.tsx`, 159 LOC) yang mencakup rekapitulasi seluruh 411 naskah dinas resmi Dispora Kalsel.
+  * **Bilah Pencarian & Filter Tab Multi-Dimensi**: Menyediakan search bar nomor agenda/nomor surat/instansi/perihal, 3 tab filter jenis naskah (*Semua 411, Masuk 170, Keluar 241*), filter tahun anggaran, filter bulan, dan tombol *Hapus Filter*.
+  * **Pembeda Semantik Naskah Masuk & Keluar**: Memberikan badge indikator tegas emerald `SM` untuk surat masuk dan amber `SK` untuk surat keluar pada kolom nomor agenda.
+  * **Paginasi Lengkap & Selector Baris**: Menyediakan navigasi halaman (`Sebelumnya / Berikutnya`), indikator halaman aktif, dan dropdown ukuran baris (10, 15, 25, 50 baris per halaman).
+  * **Ekspor Excel Langsung**: Tombol *Ekspor Excel (.xlsx)* yang mengekspor seluruh register agenda kedinasan.
+
+---
+
 ## [2.39.0] - 2026-10-23
 
 ### Fixed

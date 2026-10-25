@@ -6,8 +6,15 @@ import { demoUsers } from '@/data/users';
 
 export const dynamic = 'force-dynamic';
 
-export default async function DashboardRoute() {
-  const session = await getSession();
+interface Props {
+  searchParams?: Promise<{ view?: string }>;
+}
+
+export default async function DashboardRoute({ searchParams }: Props) {
+  const [session, params] = await Promise.all([
+    getSession(),
+    searchParams ? searchParams : Promise.resolve({ view: 'dashboard' }),
+  ]);
   if (!session) {
     redirect('/login');
   }
@@ -25,7 +32,7 @@ export default async function DashboardRoute() {
     <SipasdApp
       initialLetters={letters}
       initialUser={user}
-      initialPage="dashboard"
+      initialPage={params?.view || 'dashboard'}
     />
   );
 }

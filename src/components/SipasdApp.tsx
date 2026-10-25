@@ -79,6 +79,7 @@ export default function SipasdApp({
       else if (path.includes('login')) setPage('login');
       else if (path === '/') setPage('landing');
     };
+    handlePop();
     window.addEventListener('popstate', handlePop);
     return () => window.removeEventListener('popstate', handlePop);
   }, []);

@@ -12,6 +12,15 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.29.0] - 2026-10-23
+
+### Fixed
+- **Sinkronisasi Parameter Tampilan URL Server & Client (`dashboard/page.tsx`, `page.tsx`, `SipasdApp.tsx`)**:
+  * Mengintegrasikan pembacaan `searchParams` (`?view=...`) pada rute SSR Next.js 15 (`dashboard/page.tsx` dan `page.tsx`), sehingga membuka URL langsung seperti `/dashboard?view=history`, `/dashboard?view=distribution`, atau `/dashboard?view=profile` langsung me-render tampilan yang tepat tanpa ter-reset ke halaman beranda default.
+  * Menjalankan sinkronisasi `handlePop()` pada saat *mount* di peramban klien.
+
+---
+
 ## [2.28.0] - 2026-10-23
 
 ### Fixed

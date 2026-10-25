@@ -5,10 +5,15 @@ import { demoUsers } from '@/data/users';
 
 export const dynamic = 'force-dynamic';
 
-export default async function HomePage() {
-  const [session, letters] = await Promise.all([
+interface Props {
+  searchParams?: Promise<{ view?: string }>;
+}
+
+export default async function HomePage({ searchParams }: Props) {
+  const [session, letters, params] = await Promise.all([
     getSession(),
     getRealLetters(),
+    searchParams ? searchParams : Promise.resolve({ view: undefined }),
   ]);
 
   const user = session
@@ -21,11 +26,13 @@ export default async function HomePage() {
       }
     : demoUsers[1];
 
+  const initialPage = session ? (params?.view || 'dashboard') : 'landing';
+
   return (
     <SipasdApp
       initialLetters={letters}
       initialUser={user}
-      initialPage={session ? 'dashboard' : 'landing'}
+      initialPage={initialPage}
     />
   );
 }

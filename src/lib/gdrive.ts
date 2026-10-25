@@ -120,11 +120,22 @@ export async function uploadToGoogleDrive(
       }
 
       const fileData = (await uploadRes.json()) as GoogleFileResponse;
+
+      await fetch(`https://www.googleapis.com/drive/v3/files/${fileData.id}/permissions`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ role: 'reader', type: 'anyone' }),
+      }).catch(() => {});
+
       const url = fileData.webViewLink || `${GDRIVE_FOLDERS.fileViewPrefix}${fileData.id}/view?usp=drivesdk`;
       console.log(`[GDrive] Upload success: ${fileName} -> ${fileData.id}`);
       return url;
-    } catch (err: any) {
-      console.error(`[GDrive] Upload exception (attempt ${attempt}/${maxRetries}):`, err.message);
+    } catch (err: unknown) {
+      const errMsg = err instanceof Error ? err.message : 'Unknown exception';
+      console.error(`[GDrive] Upload exception (attempt ${attempt}/${maxRetries}):`, errMsg);
       lastError = err;
       if (attempt < maxRetries) {
         await new Promise((r) => setTimeout(r, 1000 * attempt));

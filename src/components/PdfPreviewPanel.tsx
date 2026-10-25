@@ -24,9 +24,17 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onEdit, onDe
     : '/placeholder-surat.pdf';
 
   const letterYear = letter.date ? letter.date.slice(0, 4) : '2026';
-  let driveUrl = letter.driveUrl || 'https://drive.google.com';
-  if (driveUrl.includes('folders/1deTFD7oICTXkkMs5HzS') || driveUrl.includes('folders/1rgWCFwULt8awBCVIuomy')) {
-    driveUrl = getGdriveFolderUrl(letter.direction === 'in' ? 'masuk' : 'keluar', letterYear);
+  const defaultFolderUrl = getGdriveFolderUrl(letter.direction === 'in' ? 'masuk' : 'keluar', letterYear);
+  let driveUrl = (letter.driveUrl || '').trim();
+  if (
+    !driveUrl ||
+    driveUrl === 'https://drive.google.com' ||
+    driveUrl === 'https://drive.google.com/' ||
+    driveUrl.endsWith('/home') ||
+    driveUrl.includes('folders/1deTFD7oICTXkkMs5HzS') ||
+    driveUrl.includes('folders/1rgWCFwULt8awBCVIuomy')
+  ) {
+    driveUrl = defaultFolderUrl;
   }
 
   const viewHash = fitMode === 'page' ? '#view=Fit&zoom=page-fit' : '#view=FitH';

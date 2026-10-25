@@ -12,6 +12,16 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.50.0] - 2026-10-25
+
+### Fixed
+- **Resolusi Tautan Cadangan Google Drive & Izin Akses Otomatis (`src/lib/gdrive.ts`, `src/hooks/useLetterActions.ts`, `src/components/PdfPreviewPanel.tsx`)**:
+  * **Sinkronisasi State Klien Instan**: Menyertakan `driveUrl` ke dalam objek `newRecord` di `useLetterActions.ts` sehingga naskah yang baru diunggah langsung memiliki URL cadangan Google Drive aktif tanpa wajib memuat ulang halaman.
+  * **Pemberian Izin Berkas Otomatis**: Menambahkan injeksi izin baca publik (`anyoneWithLink`, `role: reader`) otomatis via Google Drive API v3 saat berkas baru diunggah di `src/lib/gdrive.ts`, meniadakan penolakan akses yang melempar pengguna ke halaman Beranda Drive.
+  * **Fallback Cerdas Folder Tahun Berjalan**: Memperbarui logika tautan cadangan di `PdfPreviewPanel.tsx` agar selalu mengarah ke folder Google Drive tahun bersangkutan (`Surat Masuk 2026` / `Surat Keluar 2026`) jika tautan berkas kosong atau berupa root `drive.google.com`.
+
+---
+
 ## [2.49.0] - 2026-10-25
 
 ### Added

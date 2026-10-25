@@ -36,7 +36,7 @@ export function useLetterActions(
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || 'Gagal menyimpan arsip');
-    const newRecord: LetterRecord = { ...record, fileUrl, id: data.agendaNumber || 'BARU' };
+    const newRecord: LetterRecord = { ...record, fileUrl, driveUrl, id: data.agendaNumber || 'BARU' };
     setLetters((prev) => [newRecord, ...prev]);
     tell(`Arsip ${newRecord.id} berhasil dicatat ke TiDB Cloud Serverless.`);
     return newRecord;

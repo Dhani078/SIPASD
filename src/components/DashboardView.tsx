@@ -18,6 +18,8 @@ interface Props {
   onDivision: (division: string) => void;
 }
 
+const SPARKLINE_DATA = [[4, 6, 5, 8, 7, 9, 8, 11, 10, 12, 11, 14], [6, 8, 7, 11, 9, 13, 10, 14, 12, 15, 14, 16], [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], [2, 7, 3, 9, 4, 11, 5, 12, 4, 10, 6, 13]];
+
 export default function DashboardView({
   letters, go, setFilter, setModal, exportData, onSelect, onVenue, onDivision,
 }: Props) {
@@ -85,10 +87,10 @@ export default function DashboardView({
             </div>
             <div className="metric-foot">
               <b>{i === 2 ? '100%' : i === 3 ? 'Prioritas' : year === 'Semua' ? 'Semua TA' : `TA ${year}`}</b>
-              <span>{i === 2 ? 'terindeks TiDB' : i === 3 ? 'perlu tindak lanjut' : 'arsip dinas'}</span>
+              <span>{i === 2 ? 'terindeks resmi' : i === 3 ? 'perlu tindak lanjut' : 'arsip dinas'}</span>
             </div>
             <div className="mini-bars">
-              {[3, 5, 4, 7, 5, 8, 6, 9, 7, 10, 9, 12].map((n, j) => (<i key={j} style={{ height: n * 2 }} />))}
+              {SPARKLINE_DATA[i].map((n, j) => (<i key={j} style={{ height: n * 2 }} />))}
             </div>
           </button>
         ))}
@@ -114,7 +116,7 @@ export default function DashboardView({
             <ArchiveTable letters={letters.slice(0, 5)} compact onSelect={onSelect} />
             <div className="table-bottom">
               <Icon name="shield" size={13} />
-              <span>TiDB Cloud Serverless Live</span>
+              <span>Pusat Data SPBE Terenkripsi</span>
               <span className="mono">{letters.length} arsip terindeks</span>
             </div>
           </section>

@@ -12,6 +12,19 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.36.0] - 2026-10-23
+
+### Fixed
+- **Penyempurnaan Total Dasbor Eksekutif Desktop & Mobile 100/100 Max Mode (`DashboardView.tsx`, `ArchiveTable.tsx`, `globals.css`)**:
+  * **Header Kolom Aksi Tabel**: Memperlebar kolom `AKSI` ke `72px` dengan padding kanan seimbang (`14px`), meniadakan pemotongan teks `AKS` menjadi `AKSI` utuh.
+  * **Sparkline Kontekstual 4 Kartu KPI**: Memberikan data deretan tinggi batang mini unik yang mencerminkan karakteristik masing-masing metrik (arus surat masuk, puncak surat keluar, progresi kumulatif total dokumen, dan lonjakan surat kilat/segera).
+  * **Pembersihan Bocoran Vendor Footer Tabel**: Mengganti teks status *"TiDB Cloud Serverless Live"* menjadi *"Pusat Data SPBE Terenkripsi"*.
+  * **Pembersihan Pill Sumbu X Grafik**: Menghapus background pill hijau acak pada label bulan agar seluruh sumbu X tampil bersih, konsisten, dan berwibawa.
+  * **Kerapian Kolom Bidang & Chips Venue**: Menata layout tabular daftar 5 bidang bawah donut chart (`b` dan `small` bertata letak jelas), dan meningkatkan ukuran tombol venue menjadi pill modern 11px.
+  * **Eliminasi Tumpang Tindih Mobile 375px**: Menyembunyikan jam digital di header mobile sempit agar tidak menabrak teks brand `SIPASD`, menata flex vertikal pada subteks `.metric-foot` agar `<b>` dan `<span>` tidak bertumpuk, serta memasang elipsis 2-baris pada perihal naskah tabel.
+
+---
+
 ## [2.35.0] - 2026-10-23
 
 ### Security

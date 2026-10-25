@@ -433,6 +433,15 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 51: Notification Flyout Polish & Quick Mark As Read (100% COMPLETE)
+- [x] Penambahan tombol "Tandai dibaca" di header flyout notifikasi.
+- [x] Pemasangan backdrop scrim overlay semi-transparan untuk click-outside.
+- [x] Penggantian ikon rekap menjadi unduhan `download` dan penambahan tombol footer berkas arsip.
+- [x] Peningkatan tinggi baris item notifikasi $\ge 48\text{px}$ touch-target standar WCAG.
+- [x] Harmonisasi titik indikator lonceng ke warna emerald `#047857` dan peningkatan elevasi bayangan flyout.
+- [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

@@ -1034,3 +1034,25 @@
    - `npm run build`: 12 rute produksi sukses.
    - Seluruh 86 berkas di `src/` <= 200 baris kode.
 
+---
+
+## Sesi 49: Penyempurnaan Notifikasi Flyout, Backdrop & Aksi Tandai Dibaca
+**Tanggal**: 24 Oktober 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Penyempurnaan `NotificationsFlyout.tsx` (112 LOC)**:
+   - Menambahkan tombol "Tandai dibaca" di header notifikasi.
+   - Memasang backdrop overlay untuk menangani click-outside dan meredupkan latar pada ponsel.
+   - Mengganti ikon rekap menjadi ikon unduhan `download` dan menambah tombol footer berkas arsip.
+   - Meningkatkan tinggi baris item menjadi $\ge 48\text{px}$ touch-target standar WCAG.
+2. **Harmonisasi Indikator & Elevasi**:
+   - Menyeragamkan titik indikator lonceng ke warna hijau emerald `#047857`.
+   - Meningkatkan `box-shadow` flyout menjadi `0 20px 50px rgba(15, 23, 42, 0.18)`.
+3. **Verifikasi Kualitas**:
+   - `npm test`: 6/6 test suites passed (100% HEALTHY).
+   - `tsc --noEmit`: 0 type errors.
+   - `aislop scan`: 100/100 Healthy (0 errors, 0 warnings).
+   - `npm run build`: 12 rute produksi sukses.
+   - Seluruh 86 berkas di `src/` <= 200 baris kode.
+

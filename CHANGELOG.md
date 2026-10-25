@@ -12,6 +12,18 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.46.0] - 2026-10-23
+
+### Fixed
+- **Penyempurnaan Komponen Notifikasi Kedinasan, Backdrop & Aksi Tandai Dibaca (`NotificationsFlyout.tsx`, `globals.css`)**:
+  * **Tombol Tandai Semua Dibaca**: Menambahkan aksi massal cepat di header notifikasi untuk menandai seluruh pesan telah dibaca (`setRead([0, 1, 2])`).
+  * **Backdrop Scrim Overlay**: Memasang lapisan backdrop semi-transparan `fixed inset-0 z-40` untuk menangani click-outside dan meredupkan latar dasbor saat notifikasi terbuka di smartphone.
+  * **Ikon Semantik & Ergonomi Sentuh**: Mengganti ikon rekap menjadi `download`, memperbesar tinggi baris notifikasi menjadi $\ge 48\text{px}$ touch-target standar WCAG, dan merapikan spasi vertikal teks judul serta timestamp.
+  * **Harmonisasi Warna Indikator Unread**: Menyeragamkan titik indikator unread pada tombol lonceng navbar dan internal flyout ke warna hijau emerald resmi `#047857`.
+  * **Elevasi Bayangan Kontras**: Meningkatkan `box-shadow` flyout menjadi `0 20px 50px rgba(15, 23, 42, 0.18)` agar kartu notifikasi kontras terhadap dasbor putih.
+
+---
+
 ## [2.45.0] - 2026-10-23
 
 ### Fixed

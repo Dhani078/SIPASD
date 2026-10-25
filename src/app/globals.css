@@ -379,9 +379,9 @@
   right: 6px;
   top: 4px;
   border: 2px solid white;
-  background: #d97706;
-  width: 8px;
-  height: 8px;
+  background: #047857;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
 }
 .top-avatar {
@@ -1198,21 +1198,21 @@ td .icon-btn {
   right: 28px;
   top: 59px;
   background: white;
-  box-shadow: 0 10px 40px #0f172a1a;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.18);
   border: 1px solid var(--color-line);
-  border-radius: 7px;
-  width: 340px;
+  border-radius: 8px;
+  width: 360px;
   z-index: 50;
-  padding: 8px;
+  padding: 0;
+  overflow: hidden;
 }
 .notifications h3 {
-  font-size: 12px;
-  padding: 12px;
-  display: flex;
-  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
 }
 .notifications h3 span {
-  font-size: 9px;
+  font-size: 10px;
   color: #047857;
 }
 .notifications button,

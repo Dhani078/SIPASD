@@ -10,6 +10,12 @@
   --font-sans: "Plus Jakarta Sans Variable", sans-serif;
 }
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
   body {
     margin: 0;
     background: var(--color-canvas);

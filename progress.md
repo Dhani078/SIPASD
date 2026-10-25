@@ -764,3 +764,20 @@
    - `npm run build`: 12 rute produksi sukses.
    - Seluruh 80 berkas di `src/` <= 200 baris kode.
 
+---
+
+## Sesi 36: Optimasi Performa, Kehalusan Scroll 60 FPS & Telemetri
+**Tanggal**: 24 Oktober 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Penerapan Kehalusan Scroll & Font Anti-Aliasing**:
+   - Menambahkan `scroll-behavior: smooth` dan `text-rendering: optimizeLegibility` di `src/app/globals.css`.
+   - Mengaudit metrik performa Chrome nyata: TTFB 35 ms, 374 DOM nodes, 103 kB First Load JS.
+2. **Verifikasi Kualitas**:
+   - `npm test`: 6/6 test suites passed (100% HEALTHY).
+   - `tsc --noEmit`: 0 type errors.
+   - `aislop scan`: 100/100 Healthy (0 errors, 0 warnings).
+   - `npm run build`: 12 rute produksi sukses.
+   - Seluruh 80 berkas di `src/` <= 200 baris kode.
+

@@ -564,3 +564,25 @@
    - `npm run build`: 12 rute produksi sukses.
    - Seluruh 78 berkas di `src/` <= 200 baris kode.
 
+---
+
+## Sesi 25: Penyempurnaan Tata Letak Antarmuka Mobile / Ponsel Bebas Overflow
+**Tanggal**: 24 Oktober 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Isolasi Lebar & Pencegahan Horizontal Overflow**:
+   - Menerapkan `overflow-x: hidden !important; max-width: 100vw !important;` pada seluruh container induk.
+   - Memastikan tabel persuratan dan disposisi menggunakan `overflow-x: auto` terisolasi dengan touch scrolling.
+2. **Optimalisasi Komponen Kunci pada Layar Smartphone (< 768px)**:
+   - Header & Top Navbar: Breadcrumb responsif, ukuran tombol sentuh nyaman, flyout profil & notifikasi tidak melewati batas layar.
+   - Halaman Dasbor: 4 kartu metrik tertata 2x2 rapi, donut chart seimbang.
+   - Halaman Arsip: Toolbar filter tersusun vertikal, touch targets 36px-38px.
+   - Halaman Login & Landing: Eliminasi font mikro, tombol uji akun ber-grid 2-kolom, footer rapi.
+3. **Verifikasi Kualitas**:
+   - `npm test`: 6/6 test suites passed (100% HEALTHY).
+   - `tsc --noEmit`: 0 type errors.
+   - `aislop scan`: 100/100 Healthy (0 errors, 0 warnings).
+   - `npm run build`: 12 rute produksi sukses.
+   - Seluruh 78 berkas di `src/` <= 200 baris kode.
+

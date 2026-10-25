@@ -261,6 +261,12 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 27: Comprehensive Mobile Optimization & Zero Overflow (100% COMPLETE)
+- [x] Penegakan `overflow-x: hidden !important; max-width: 100vw !important;` pada shell dan konten utama.
+- [x] Optimalisasi TopNavbar, flyout notifikasi/profil, dasbor KPI 2x2, toolbar arsip, modal, login, dan landing page pada layar ponsel (< 768px).
+- [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

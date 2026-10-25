@@ -12,6 +12,20 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.23.0] - 2026-10-23
+
+### Fixed
+- **Penyempurnaan Total Tata Letak Mobile / Ponsel Bebas Horizontal Overflow (`globals.css`)**:
+  * Mengisolasi kontainer `html, body, .app-shell, .workspace, .main-content, .public` dengan `overflow-x: hidden !important; max-width: 100vw !important;` mencegah gesekan horizontal (0 horizontal overflow) pada seluruh viewport smartphone (375px - 768px).
+  * **TopNavbar Mobile**: Memadatkan header 56px, merapikan breadcrumb, mengatur flyout notifikasi dan menu profil (`width: calc(100vw - 20px)`, `max-width: 340px`) agar tidak terpotong di tepi layar HP.
+  * **Halaman Arsip & Filter**: Mengatur toolbar dan baris filter bulan/tahun/bidang/urgensi responsif vertikal dengan tinggi sentuh nyaman (36px-38px); membungkus tabel dengan `overflow-x: auto` dan scrolling sentuh lancar.
+  * **Dasbor Mobile**: Menata 4 kartu statistik KPI dalam format 2 kolom (`2x2`) rapi, menyembunyikan sparkline mini-bars pada kartu sempit, dan menyederhanakan donut chart beban kerja.
+  * **Halaman Masuk (Login)**: Menghapus aturan teks mikro (5px-7px lama) menjadi ukuran keterbacaan standar (10px-13px), menata tombol 1-klik uji akun demo dalam grid 2-kolom yang nyaman disentuh jempol.
+  * **Landing Page Mobile**: Memperbaiki logo brand Pemprov Kalsel, tombol "Masuk Sistem", 4 kotak statistik ber-grid 2x2, serta katalog venue olahraga tanpa pergeseran layout.
+  * **Modal & Dialog**: Mengoptimalkan lembar dialog form arsip dan penampil berkas agar pas di layar HP dengan header dan tombol aksi sticky di bawah.
+
+---
+
 ## [2.22.0] - 2026-10-23
 
 ### Fixed

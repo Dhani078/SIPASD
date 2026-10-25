@@ -12,6 +12,18 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.37.0] - 2026-10-23
+
+### Fixed
+- **Sanitasi Kearsipan Surat Masuk, Pengurutan Sekunder Agenda & Optimasi Grid Mobile (`letters.ts`, `ArchiveWorkspace.tsx`, `globals.css`, TiDB Cloud)**:
+  * **Sanitasi Database TiDB**: Memperbaiki teks menempel `analisiskebutuhan` menjadi `analisis kebutuhan`, membuang titik ganda pada nomor surat `800.1.4.1./`, serta menormalkan casing nama instansi `PANITIA PELAKSANA` menjadi `Panitia Pelaksana`.
+  * **Pengurutan Sekunder No. Agenda**: Menambahkan `CAST(SUBSTRING_INDEX(sm.nomor_agenda, '/', 1) AS UNSIGNED) DESC` sehingga pada tanggal yang sama, naskah dinas selalu terurut sekuensial dari agenda terbesar.
+  * **Istilah Baku Kedinasan**: Mengubah label dropdown filter `Semua venue` menjadi istilah resmi kedinasan `Semua Sarana / Lokasi`.
+  * **Peningkatan Kontras Tanggal**: Mengubah warna font `.date-cell` dari abu-abu muda pudar menjadi slate-700 (#334155) 11px berbobot 500, lolos audit aksesibilitas WCAG AAA.
+  * **Grid Toolbar Mobile & Sentuhan Paginasi**: Menata dropdown filter di smartphone (<768px) menjadi 2 kolom simetris (memotong tinggi area filter dari 420px menjadi 200px), dan memperbesar tombol paginasi menjadi min-height 42px touch-friendly.
+
+---
+
 ## [2.36.0] - 2026-10-23
 
 ### Fixed

@@ -122,11 +122,11 @@ export default function ArchiveWorkspace({
         </select>
         {isSuratMasuk && (
           <select
-            aria-label="Filter venue"
+            aria-label="Filter sarana lokasi"
             value={filters.venue}
             onChange={(e) => update('venue', e.target.value)}
           >
-            <option value="">Semua venue</option>
+            <option value="">Semua Sarana / Lokasi</option>
             {venues.map((v) => (
               <option key={v} value={v}>
                 {v}

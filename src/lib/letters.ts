@@ -76,7 +76,7 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
       FROM arsip_surat_masuk sm
       LEFT JOIN riwayat_disposisi rd ON sm.id = rd.surat_masuk_id
       LEFT JOIN bidang_dispora b ON rd.kepada_bidang_id = b.id
-      ORDER BY sm.tanggal_surat DESC
+      ORDER BY sm.tanggal_surat DESC, CAST(SUBSTRING_INDEX(sm.nomor_agenda, '/', 1) AS UNSIGNED) DESC
     `),
     query<any>(`
       SELECT sk.id, sk.nomor_agenda, sk.nomor_surat, sk.nomor_urut, sk.tahun,
@@ -87,7 +87,7 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
       FROM arsip_surat_keluar sk
       LEFT JOIN klasifikasi_arsip k ON sk.kode_klasifikasi_id = k.id
       LEFT JOIN bidang_dispora b ON sk.bidang_pemrakarsa_id = b.id
-      ORDER BY sk.tanggal_surat DESC
+      ORDER BY sk.tanggal_surat DESC, CAST(SUBSTRING_INDEX(sk.nomor_agenda, '/', 1) AS UNSIGNED) DESC
     `),
   ]);
 

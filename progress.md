@@ -841,3 +841,27 @@
    - `npm run build`: 12 rute produksi sukses.
    - Seluruh 81 berkas di `src/` <= 200 baris kode.
 
+---
+
+## Sesi 40: Sanitasi Naskah Surat Masuk, Pengurutan Sekunder & Perapian Filter Mobile
+**Tanggal**: 24 Oktober 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Pembersihan Data Kearsipan di TiDB Cloud**:
+   - Memperbaiki kata menempel `analisiskebutuhan` menjadi `analisis kebutuhan` pada agenda 1207.
+   - Menghapus titik ganda pada nomor surat `800.1.4.1./2718/BKD/2026`.
+   - Menyeragamkan format huruf kapital nama instansi `PANITIA PELAKSANA` menjadi `Panitia Pelaksana`.
+2. **Pengurutan Sekunder No. Agenda**:
+   - Menambahkan pengurutan sekunder agenda number descending pada naskah tanggal sama.
+3. **Penyelarasan Antarmuka Desktop & Mobile**:
+   - Mengubah label filter `Semua venue` menjadi istilah resmi `Semua Sarana / Lokasi`.
+   - Menguatkan kontras teks tanggal tabel menjadi slate-700 (#334155) WCAG AAA compliant.
+   - Menata dropdown filter di mobile menjadi 2 kolom simetris dan memperbesar tinggi tombol paginasi.
+4. **Verifikasi Kualitas**:
+   - `npm test`: 6/6 test suites passed (100% HEALTHY).
+   - `tsc --noEmit`: 0 type errors.
+   - `aislop scan`: 100/100 Healthy (0 errors, 0 warnings).
+   - `npm run build`: 12 rute produksi sukses.
+   - Seluruh 81 berkas di `src/` <= 200 baris kode.
+

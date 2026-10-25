@@ -29,6 +29,10 @@ export default function DispositionFilters({
   divisionFilter, setDivisionFilter, urgencyFilter, setUrgencyFilter,
   getStatusLabel,
 }: Props) {
+  const hasActiveFilters = Boolean(
+    searchQuery || statusFilter !== 'ALL' || yearFilter || monthFilter || divisionFilter || urgencyFilter
+  );
+
   return (
     <div className="space-y-3 mb-4">
       <div className="flex flex-wrap items-center gap-3">
@@ -40,13 +44,13 @@ export default function DispositionFilters({
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        <div className="flex gap-1.5 flex-wrap">
+        <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-1.5 w-full sm:w-auto">
           {(['ALL', 'BELUM_DIPROSES', 'PROSES', 'SELESAI'] as StatusFilter[]).map((status) => (
             <button
               key={status}
               type="button"
               onClick={() => setStatusFilter(status)}
-              className={`px-3 py-1.5 rounded text-xs border font-medium transition-colors cursor-pointer ${
+              className={`px-3 py-1.5 rounded text-xs border font-medium transition-colors cursor-pointer text-center justify-center ${
                 statusFilter === status
                   ? 'bg-emerald-900 text-white border-emerald-900 shadow-sm'
                   : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'
@@ -93,6 +97,23 @@ export default function DispositionFilters({
           <option value="Segera">Segera</option>
           <option value="Kilat">Kilat</option>
         </select>
+        {hasActiveFilters && (
+          <button
+            type="button"
+            className="text-btn text-xs text-emerald-800 hover:text-emerald-900 font-medium ml-auto inline-flex items-center gap-1 cursor-pointer"
+            onClick={() => {
+              setSearchQuery('');
+              setStatusFilter('ALL');
+              setYearFilter('');
+              setMonthFilter('');
+              setDivisionFilter('');
+              setUrgencyFilter('');
+            }}
+          >
+            <Icon name="close" size={13} />
+            Hapus Filter
+          </button>
+        )}
       </div>
     </div>
   );

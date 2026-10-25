@@ -65,33 +65,30 @@ export default function DispositionHistoryView({ letters, onSelect, onEdit, onEx
     SELESAI: suratMasuk.filter((l) => l.disposition?.status === 'SELESAI').length,
   }), [suratMasuk]);
 
-  const getStatusBadge = (status?: string) =>
-    status === 'BELUM_DIPROSES' ? <Badge type="penting" label="Belum Diproses" />
-      : status === 'PROSES' ? <Badge type="kilat" label="Sedang Proses" />
-        : <Badge type="biasa" label="Selesai" />;
+  const getStatusBadge = (s?: string) =>
+    s === 'BELUM_DIPROSES' ? <Badge type="penting" label="Belum Diproses" /> : s === 'PROSES' ? <Badge type="kilat" label="Sedang Proses" /> : <Badge type="biasa" label="Selesai" />;
 
-  const getStatusLabel = (status?: string) =>
-    status === 'BELUM_DIPROSES' ? 'Belum Diproses' : status === 'PROSES' ? 'Sedang Proses' : 'Selesai';
+  const getStatusLabel = (s?: string) => (s === 'BELUM_DIPROSES' ? 'Belum Diproses' : s === 'PROSES' ? 'Sedang Proses' : 'Selesai');
 
   return (
     <section className="panel">
-      <div className="panel-heading">
+      <div className="panel-heading flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <div className="flex items-center gap-2">
-            <h2>Riwayat Disposisi Fisik</h2>
+            <h2>Daftar Lembar Disposisi</h2>
             <button
               type="button"
-              className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-2 py-0.5 rounded-full transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-2.5 py-0.5 rounded-full transition-colors cursor-pointer"
               onClick={() => setShowInfo(true)}
               title="Klik untuk melihat penjelasan fungsi riwayat disposisi"
             >
               <Icon name="shield" size={12} />
-              <span>Info Fungsi</span>
+              <span>Info SOP &amp; Alur</span>
             </button>
           </div>
-          <p>Pencatatan lembar disposisi kertas Kepala Dinas & status tindak lanjut bidang dinas</p>
+          <p>Register 170 lembar instruksi resmi Kepala Dinas terhadap seluruh naskah masuk</p>
         </div>
-        <button className="btn outline" onClick={onExport} type="button">
+        <button className="btn outline w-full sm:w-auto justify-center" onClick={onExport} type="button">
           <Icon name="download" />
           Ekspor Excel
         </button>
@@ -120,13 +117,13 @@ export default function DispositionHistoryView({ letters, onSelect, onEdit, onEx
             <table>
               <thead>
                 <tr>
-                  <th>NO. AGENDA</th>
-                  <th>ASAL INSTANSI & PERIHAL</th>
-                  <th>PEJABAT PENDISPOSISI</th>
-                  <th>KEPADA BIDANG</th>
-                  <th>INSTRUKSI PIMPINAN</th>
-                  <th>STATUS TINDAK LANJUT</th>
-                  <th style={{ textAlign: 'right', paddingRight: '16px', width: '60px' }}>AKSI</th>
+                  <th style={{ width: '15%' }}>NO. AGENDA</th>
+                  <th style={{ width: '25%' }}>ASAL INSTANSI &amp; PERIHAL</th>
+                  <th style={{ width: '16%' }}>PEJABAT PENDISPOSISI</th>
+                  <th style={{ width: '14%' }}>KEPADA BIDANG</th>
+                  <th style={{ width: '15%' }}>INSTRUKSI PIMPINAN</th>
+                  <th style={{ width: '15%' }}>STATUS TINDAK LANJUT</th>
+                  <th style={{ textAlign: 'right', paddingRight: '14px', width: '72px', minWidth: '72px' }}>AKSI</th>
                 </tr>
               </thead>
               <tbody>
@@ -137,10 +134,13 @@ export default function DispositionHistoryView({ letters, onSelect, onEdit, onEx
                     onClick={() => onSelect(letter)}
                   >
                     <td>
-                      <b className="mono text-emerald-800 text-xs font-bold block">
-                        {letter.id} <span className="font-normal text-slate-400 text-[11px]">/SM/{letter.date ? letter.date.slice(0, 4) : '2026'}</span>
-                      </b>
-                      <p className="text-xs text-slate-500 mt-1">{letter.disposition?.date ? formatDate(letter.disposition.date) : (letter.date && formatDate(letter.date))}</p>
+                      <div className="flex items-baseline gap-1.5">
+                        <b className="mono text-emerald-800 text-xs font-bold">{letter.id}</b>
+                        <span className="font-normal text-slate-500 text-[11px]">/SM/{letter.date ? letter.date.slice(0, 4) : '2026'}</span>
+                      </div>
+                      <p className="text-xs text-slate-600 mt-1 whitespace-nowrap">
+                        {letter.disposition?.date ? formatDate(letter.disposition.date) : (letter.date && formatDate(letter.date))}
+                      </p>
                     </td>
                     <td>
                       <b className="text-slate-900 font-semibold">{letter.origin}</b>

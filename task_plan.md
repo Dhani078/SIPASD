@@ -377,6 +377,15 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 44: Physical Disposition History Polish & Reset Filters (100% COMPLETE)
+- [x] Eliminasi redundansi judul panel menjadi "Daftar Lembar Disposisi" dengan penjelasan 170 berkas.
+- [x] Penambahan tombol "Hapus Filter" saat pencarian atau filter status/tahun/bulan/bidang/sifat aktif.
+- [x] Tata letak tab filter status 2x2 simetris pada smartphone (<768px).
+- [x] Proporsi 7 kolom tabel dan penguncian lebar kolom AKSI 72px agar menu [...] selalu terlihat.
+- [x] Flex layout nomor agenda items-baseline dan whitespace-nowrap pada tanggal disposisi.
+- [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

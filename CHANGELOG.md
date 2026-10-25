@@ -12,6 +12,18 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.39.0] - 2026-10-23
+
+### Fixed
+- **Penyelarasan Riwayat Disposisi Fisik, Tombol Reset Filter & Keterbacaan Kolom Aksi (`DispositionHistoryView.tsx`, `DispositionFilters.tsx`)**:
+  * **Eliminasi Redundansi Header**: Mengubah judul dalam panel dari duplikat *"Riwayat Disposisi Fisik"* menjadi *"Daftar Lembar Disposisi"* dengan penegasan konteks *"Register 170 lembar instruksi resmi Kepala Dinas terhadap seluruh naskah masuk"*, serta tombol panduan alur SOP.
+  * **Tombol Cepat Reset Filter**: Menyediakan tombol *"Hapus Filter"* interaktif saat pengguna melakukan pencarian atau memilih filter status/tahun/bulan/bidang/sifat.
+  * **Tab Status 2x2 Simetris Mobile**: Mengubah tata letak 4 tab status pada ponsel menjadi grid 2x2 simetris sehingga ukuran tombol seragam dan pas di layar sentuh.
+  * **Proporsi 7 Kolom Tabel & Kolom AKSI Presisi**: Menerapkan persentase lebar terencana pada 7 kolom tabel dan lebar kolom `AKSI` 72px (`min-width: 72px`) agar tombol menu titik tiga `[...]` selalu terlihat tanpa terpotong batas overflow kontainer.
+  * **Tipografi Nomor Agenda & Pencegahan Potong Tanggal**: Memisahkan nomor agenda dan suffix kedinasan ke container flex `items-baseline gap-1.5` serta memasang `whitespace-nowrap` pada tanggal disposisi.
+
+---
+
 ## [2.38.0] - 2026-10-23
 
 ### Fixed

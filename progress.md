@@ -888,3 +888,26 @@
    - `npm run build`: 12 rute produksi sukses.
    - Seluruh 81 berkas di `src/` <= 200 baris kode.
 
+---
+
+## Sesi 42: Penyelarasan Riwayat Disposisi Fisik, Reset Filter & Keterbacaan Kolom
+**Tanggal**: 24 Oktober 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Perapian Header Panel Disposisi**:
+   - Mengubah judul panel menjadi *"Daftar Lembar Disposisi"* dengan konteks 170 lembar naskah masuk.
+   - Mengatur header responsif (bertumpuk rapi di mobile, sejajar di desktop).
+2. **Peningkatan Fungsionalitas & Filter**:
+   - Menambahkan tombol *"Hapus Filter"* saat ada pencarian atau filter aktif.
+   - Mengatur 4 tab status pada ponsel menjadi grid 2x2 simetris berbobot seragam.
+3. **Proporsi Kolom Tabel & Tipografi**:
+   - Mengunci lebar kolom AKSI ke 72px dan mengatur proporsi 7 kolom tabel agar menu titik tiga tidak terpotong.
+   - Membungkus nomor agenda dan suffix dinas dengan flex items-baseline serta mengunci tanggal dengan whitespace-nowrap.
+4. **Verifikasi Kualitas**:
+   - `npm test`: 6/6 test suites passed (100% HEALTHY).
+   - `tsc --noEmit`: 0 type errors.
+   - `aislop scan`: 100/100 Healthy (0 errors, 0 warnings).
+   - `npm run build`: 12 rute produksi sukses.
+   - Seluruh 81 berkas di `src/` <= 200 baris kode.
+

@@ -79,7 +79,7 @@ export default function UsersManagementView({ currentUser }: Props) {
           {filtered.map((account) => {
             const isMe = account.username === currentUser.username;
             return (
-              <div key={account.username} className="p-4 hover:bg-slate-50/80 transition-colors flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div key={account.username} className="account-row p-4 hover:bg-slate-50/80 transition-colors flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div className="flex items-start gap-3.5 flex-1 min-w-0">
                   <div className="top-avatar shrink-0 mt-0.5">{account.initials}</div>
                   <div className="flex-1 min-w-0">

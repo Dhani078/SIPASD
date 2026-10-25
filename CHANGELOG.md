@@ -12,6 +12,16 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.25.0] - 2026-10-23
+
+### Fixed
+- **Pembersihan Bocoran Backend & Format NIP Resmi BKN (`ProfileDropdown.tsx` & `ProfileView.tsx`)**:
+  * Menghapus kebocoran nama database backend mentah (`Aktif (TiDB Cloud)`) pada dropdown profil pengguna menjadi status resmi kedinasan: `Aktif Terverifikasi`.
+  * Memformat NIP 18 digit ke format standar resmi BKN Indonesia (`YYYYMMDD YYYYYY M XXX`), mengatasi glitch visual keterbacaan angka panjang.
+  * Menata pembungkus tombol aksi pada kartu profil agar responsif (`flex-wrap`) dan tidak terpotong pada batas kontainer.
+
+---
+
 ## [2.24.0] - 2026-10-23
 
 ### Fixed

@@ -10,6 +10,12 @@ interface Props {
   onLogout?: () => void;
 }
 
+function formatNip(nip?: string) {
+  if (!nip || nip === '-') return '-';
+  const c = nip.replace(/\s+/g, '');
+  return c.length === 18 ? `${c.slice(0, 8)} ${c.slice(8, 14)} ${c.slice(14, 15)} ${c.slice(15)}` : c;
+}
+
 export default function ProfileDropdown({ user, onClose, onNavigate, onLogout }: Props) {
   return (
     <div
@@ -33,7 +39,7 @@ export default function ProfileDropdown({ user, onClose, onNavigate, onLogout }:
       <div className="space-y-1 py-1 border-t border-slate-100 text-[11px] text-slate-600">
         <div className="flex justify-between px-2 py-0.5">
           <span className="text-slate-400">NIP / ID:</span>
-          <span className="font-mono text-slate-700">{user.nip || '-'}</span>
+          <span className="font-mono text-slate-700">{formatNip(user.nip)}</span>
         </div>
         <div className="flex justify-between px-2 py-0.5">
           <span className="text-slate-400">Unit Kerja:</span>
@@ -45,7 +51,7 @@ export default function ProfileDropdown({ user, onClose, onNavigate, onLogout }:
           <span className="text-slate-400">Status:</span>
           <span className="text-emerald-700 font-semibold flex items-center gap-1">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
-            Aktif (TiDB Cloud)
+            Aktif Terverifikasi
           </span>
         </div>
       </div>

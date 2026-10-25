@@ -273,6 +273,13 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 29: Profile View Polish & Backend Information Hygiene (100% COMPLETE)
+- [x] Menghilangkan kebocoran nama vendor backend `TiDB Cloud` di `ProfileDropdown.tsx` menjadi `Aktif Terverifikasi`.
+- [x] Memformat 18 digit NIP sesuai standar BKN `YYYYMMDD YYYYYY M XXX` di `ProfileView.tsx` dan `ProfileDropdown.tsx`.
+- [x] Menata baris tombol aksi profil agar responsif dan tidak terpotong kontainer.
+- [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

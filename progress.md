@@ -603,3 +603,21 @@
    - `npm run build`: 12 rute produksi sukses.
    - Seluruh 78 berkas di `src/` <= 200 baris kode.
 
+---
+
+## Sesi 27: Pembersihan Bocoran Backend & Standarisasi Format NIP BKN
+**Tanggal**: 24 Oktober 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Pembersihan Kebocoran Nama Backend**:
+   - Mengubah status koneksi di `ProfileDropdown.tsx` dari `Aktif (TiDB Cloud)` menjadi `Aktif Terverifikasi`.
+2. **Standarisasi Format NIP BKN Indonesia**:
+   - Menerapkan fungsi `formatNip` di `ProfileView.tsx` dan `ProfileDropdown.tsx` sehingga 18 digit terformat rapi (`19970101 202521 2 001`).
+3. **Verifikasi Kualitas**:
+   - `npm test`: 6/6 test suites passed (100% HEALTHY).
+   - `tsc --noEmit`: 0 type errors.
+   - `aislop scan`: 100/100 Healthy (0 errors, 0 warnings).
+   - `npm run build`: 12 rute produksi sukses.
+   - Seluruh 78 berkas di `src/` <= 200 baris kode.
+

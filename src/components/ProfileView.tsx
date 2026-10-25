@@ -9,6 +9,12 @@ interface Props {
   onLogout?: () => void;
 }
 
+function formatNip(nip?: string) {
+  if (!nip || nip === '-') return '-';
+  const c = nip.replace(/\s+/g, '');
+  return c.length === 18 ? `${c.slice(0, 8)} ${c.slice(8, 14)} ${c.slice(14, 15)} ${c.slice(15)}` : c;
+}
+
 export default function ProfileView({ user, onNavigate, onLogout }: Props) {
   return (
     <section className="panel space-y-6">
@@ -17,7 +23,7 @@ export default function ProfileView({ user, onNavigate, onLogout }: Props) {
           <h2>Kartu Profil & Identitas Pengguna</h2>
           <p>Informasi aparatur dan hak akses sistem kearsipan SIPASD Dispora Kalsel</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <button className="btn outline text-xs" onClick={() => onNavigate('dashboard')}>
             <Icon name="arrow" size={12} />
             Kembali ke Beranda
@@ -49,7 +55,7 @@ export default function ProfileView({ user, onNavigate, onLogout }: Props) {
             <div className="flex flex-wrap gap-4 mt-4 pt-3 border-t border-emerald-700/60 text-xs text-emerald-100">
               <div>
                 <span className="text-emerald-300">NIP / ID:</span>{' '}
-                <span className="font-mono font-bold text-white">{user.nip || '-'}</span>
+                <span className="font-mono font-bold text-white tracking-wider">{formatNip(user.nip)}</span>
               </div>
               <div>
                 <span className="text-emerald-300">Username:</span>{' '}

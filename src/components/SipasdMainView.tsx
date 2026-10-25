@@ -69,7 +69,7 @@ export default function SipasdMainView({
                 ? 'Informasi identitas aparatur, rincian kewenangan akses, dan riwayat sesi kedinasan.'
                 : page === 'history'
                   ? 'Pencatatan lembar disposisi kertas Kepala Dinas & status tindak lanjut bidang.'
-                  : page === 'excel'
+                  : page === 'agenda' || page === 'excel'
                     ? 'Ekspor dan pelaporan register buku agenda surat resmi dalam format Microsoft Excel.'
                     : page === 'expedition'
                       ? 'Pencatatan buku ekspedisi dan tanda terima distribusi surat keluar kedinasan.'

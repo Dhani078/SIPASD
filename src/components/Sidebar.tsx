@@ -20,6 +20,8 @@ export default function Sidebar({
   counts: Record<'in' | 'out', number>;
   onLogout?: () => void;
 }) {
+  const isAdmin = user.label === 'Super Admin' || user.label === 'Developer' || user.username === 'admin' || user.username === 'developer';
+
   return (
     <aside className={`sidebar ${drawer ? 'open' : ''}`}>
       <button className="sidebar-brand" onClick={() => go('dashboard')}>
@@ -37,26 +39,33 @@ export default function Sidebar({
         <Icon name="down" size={13} />
       </div>
       <nav className="side-nav">
-        {groups.map((g) => (
-          <div className="nav-group" key={g.title}>
-            <div className="nav-label">{g.title}</div>
-            {g.items.map(([label, icon, id, count]) => (
-              <button
-                className={`nav-item ${page === id ? 'active' : ''}`}
-                onClick={() => go(id)}
-                key={id}
-              >
-                <Icon name={icon as IconName} />
-                <span>{label}</span>
-                {count && (
-                  <span className="nav-count">
-                    {id === 'in' ? counts.in : counts.out}
-                  </span>
-                )}
-              </button>
-            ))}
-          </div>
-        ))}
+        {groups.map((g) => {
+          const visibleItems = g.items.filter(([, , id]) => {
+            if ((id === 'users' || id === 'audit') && !isAdmin) return false;
+            return true;
+          });
+          if (visibleItems.length === 0) return null;
+          return (
+            <div className="nav-group" key={g.title}>
+              <div className="nav-label">{g.title}</div>
+              {visibleItems.map(([label, icon, id, count]) => (
+                <button
+                  className={`nav-item ${page === id ? 'active' : ''}`}
+                  onClick={() => go(id)}
+                  key={id}
+                >
+                  <Icon name={icon as IconName} />
+                  <span>{label}</span>
+                  {count && (
+                    <span className="nav-count">
+                      {id === 'in' ? counts.in : counts.out}
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
+          );
+        })}
       </nav>
       <div className="sidebar-bottom">
         <button className="portal-link" onClick={() => go('landing')}>

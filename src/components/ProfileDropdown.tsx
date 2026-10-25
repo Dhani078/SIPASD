@@ -69,17 +69,19 @@ export default function ProfileDropdown({ user, onClose, onNavigate, onLogout }:
           <span>Buka Kartu Profil Lengkap</span>
         </button>
 
-        <button
-          type="button"
-          className="w-full flex items-center gap-2 px-2.5 py-2 text-xs text-slate-700 hover:bg-slate-50 rounded transition-colors text-left"
-          onClick={() => {
-            onClose();
-            onNavigate('audit');
-          }}
-        >
-          <Icon name="shield" size={14} />
-          <span>Jejak Audit Aktivitas Sesi</span>
-        </button>
+        {(user.label === 'Super Admin' || user.label === 'Developer' || user.username === 'admin' || user.username === 'developer') && (
+          <button
+            type="button"
+            className="w-full flex items-center gap-2 px-2.5 py-2 text-xs text-slate-700 hover:bg-slate-50 rounded transition-colors text-left"
+            onClick={() => {
+              onClose();
+              onNavigate('audit');
+            }}
+          >
+            <Icon name="shield" size={14} />
+            <span>Jejak Audit Aktivitas Sesi</span>
+          </button>
+        )}
 
         <button
           type="button"

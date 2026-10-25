@@ -5,8 +5,6 @@ import DistributionView from './DistributionView';
 import DispositionHistoryView from './DispositionHistoryView';
 import ProfileView from './ProfileView';
 import Icon from './Icon';
-import Badge from './Badge';
-import Modal from './Modal';
 import { classifications } from '@/data/constants';
 import { demoUsers } from '@/data/users';
 import type { LetterRecord, DemoUser } from '@/types';
@@ -38,11 +36,16 @@ export function ReferenceViews({
   onNavigate = () => {},
   onLogout,
 }: Props) {
+  const isAdmin = user.label === 'Super Admin' || user.label === 'Developer' || user.username === 'admin' || user.username === 'developer';
+
   if (page === 'classification')
     return (
       <section className="panel">
         <div className="panel-heading">
-          <h2>Master Klasifikasi Arsip Dispora</h2>
+          <div>
+            <h2>Master Klasifikasi Arsip Dispora</h2>
+            <p>Standar kode klasifikasi persuratan dinas Pemprov Kalimantan Selatan</p>
+          </div>
         </div>
         <div className="records">
           {classifications.map(([code, label]) => (
@@ -63,28 +66,81 @@ export function ReferenceViews({
     return <ProfileView user={user} onNavigate={onNavigate} onLogout={onLogout} />;
   }
 
-  if (page === 'users')
+  if (page === 'users' || page === 'audit') {
+    if (!isAdmin) {
+      return (
+        <section className="panel p-8 text-center my-6">
+          <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-amber-50 text-amber-700 flex items-center justify-center border border-amber-200">
+            <Icon name="shield" size={24} />
+          </div>
+          <h2 className="text-base font-bold text-slate-900 mb-1">Akses Terbatas: Khusus Administrator IT &amp; Developer</h2>
+          <p className="text-xs text-slate-600 max-w-md mx-auto mb-4">
+            Menu {page === 'users' ? 'Manajemen Pengguna' : 'Audit Trail Keamanan'} hanya dapat diakses oleh Administrator IT atau Pengembang Sistem resmi.
+          </p>
+          <button type="button" className="btn primary" onClick={() => onNavigate('dashboard')}>
+            Kembali ke Beranda
+          </button>
+        </section>
+      );
+    }
+
+    if (page === 'users') {
+      return (
+        <section className="panel">
+          <div className="panel-heading">
+            <div>
+              <h2>Manajemen Akun Terdaftar</h2>
+              <p>Daftar aparatur berwenang dan tingkat otorisasi akses kearsipan dinas</p>
+            </div>
+            <span className="small-count">{demoUsers.length} Akun</span>
+          </div>
+          <div className="records">
+            {demoUsers.map((account) => (
+              <div className="account-row" key={account.username}>
+                <div className="top-avatar">{account.initials}</div>
+                <div>
+                  <b>{account.name}</b>
+                  <p>{account.role} &bull; <span className="font-medium text-slate-500">{account.unitKerja}</span></p>
+                  <p className="mono">@{account.username}</p>
+                </div>
+                <span className={`badge ${account.label === 'Developer' ? 'kilat' : account.label === 'Super Admin' ? 'penting' : 'biasa'}`}>
+                  {account.label}
+                </span>
+              </div>
+            ))}
+          </div>
+        </section>
+      );
+    }
+
     return (
       <section className="panel">
         <div className="panel-heading">
-          <h2>Manajemen Akun Terdaftar</h2>
-          <Badge type="Biasa" />
+          <div>
+            <h2>Audit Trail &amp; Keamanan Sesi</h2>
+            <p>Jejak audit keamanan aktivitas kearsipan dinas terotentikasi</p>
+          </div>
+          <button className="btn outline" onClick={onExport}>
+            <Icon name="download" /> Ekspor Log
+          </button>
         </div>
         <div className="records">
-          {demoUsers.map((account) => (
-            <div className="account-row" key={account.username}>
-              <div className="top-avatar">{account.initials}</div>
-              <div>
-                <b>{account.name}</b>
-                <p>{account.role}</p>
-                <p className="mono">{account.username}</p>
-              </div>
-              <span className="badge biasa">Aktif - TiDB</span>
+          {[
+            `Sesi terotentikasi aktif - ${user.name} (${user.label})`,
+            'Indeks pindaian naskah fisik tersinkronisasi aman',
+            'Riwayat disposisi fisik tercatat resmi dalam audit trail',
+            'Enkripsi TLS 1.3 dan perlindungan otentikasi sesi aktif',
+          ].map((text) => (
+            <div className="audit-row" key={text}>
+              <Icon name="shield" />
+              <b>{text}</b>
+              <span className="badge biasa">Log Kedinasan</span>
             </div>
           ))}
         </div>
       </section>
     );
+  }
 
   if (page === 'distribution')
     return <DistributionView letters={letters} onExport={onExport} />;
@@ -97,103 +153,13 @@ export function ReferenceViews({
       <div className="panel-heading">
         <div>
           <h2>{title}</h2>
-          <p>
-            {page === 'audit'
-              ? 'Jejak audit keamanan aktivitas kearsipan di TiDB Cloud'
-              : 'Rekapitulasi arsip dinas'}
-          </p>
+          <p>Rekapitulasi arsip kedinasan Dispora Kalsel</p>
         </div>
         <button className="btn outline" onClick={onExport}>
-          <Icon name="download" />
-          Ekspor Excel
+          <Icon name="download" /> Ekspor Excel
         </button>
       </div>
-      {page === 'audit' ? (
-        <div className="records">
-          {[
-            `Sesi terotentikasi aktif - ${user.name}`,
-            'Indeks pindaian PDF tersinkronisasi Cloudinary',
-            'Riwayat disposisi tercatat di tabel TiDB',
-          ].map((text) => (
-            <div className="audit-row" key={text}>
-              <Icon name="shield" />
-              <b>{text}</b>
-              <span className="badge biasa">TiDB Log</span>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <ArchiveTable letters={letters} onSelect={onSelect} onPrint={onPrint} />
-      )}
+      <ArchiveTable letters={letters} onSelect={onSelect} onPrint={onPrint} />
     </section>
-  );
-}
-
-export function HelpModal({
-  kind,
-  onClose,
-}: {
-  kind: string;
-  onClose: () => void;
-}) {
-  return (
-    <Modal
-      title={
-        kind === 'classification'
-          ? 'Kode Klasifikasi Arsip'
-          : 'Panduan SOP Persuratan Dispora'
-      }
-      onClose={onClose}
-    >
-      {kind === 'classification' ? (
-        <div className="records">
-          {classifications.map(([code, label]) => (
-            <div className="audit-row" key={code}>
-              <Icon name="file" />
-              <b>
-                {code} - {label}
-              </b>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="sop-content">
-          {[
-            [
-              '01',
-              'Penerimaan & Pemeriksaan',
-              'Petugas TU memeriksa kelengkapan, nomor, tanggal, dan asal surat.',
-            ],
-            [
-              '02',
-              'Digitalisasi & Pengindeksan',
-              'Pindai dokumen dan isi metadata sesuai kode klasifikasi arsip.',
-            ],
-            [
-              '03',
-              'Disposisi Pimpinan',
-              'Kepala Dinas memberikan instruksi dan menentukan bidang tujuan.',
-            ],
-            [
-              '04',
-              'Tindak Lanjut & Pengarsipan',
-              'Bidang tujuan menindaklanjuti surat dan menyimpan bukti penyelesaian.',
-            ],
-          ].map(([number, title, text]) => (
-            <div key={number}>
-              <span>{number}</span>
-              <div>
-                <h3>{title}</h3>
-                <p>{text}</p>
-              </div>
-            </div>
-          ))}
-          <button className="btn primary" onClick={onClose}>
-            Saya Memahami Alur Persuratan
-            <Icon name="check" />
-          </button>
-        </div>
-      )}
-    </Modal>
   );
 }

@@ -84,7 +84,7 @@ export default function SipasdMainView({
             <span>{user.role}</span>
             <small>TERVERIFIKASI</small>
           </div>
-          {page !== 'profile' && (
+          {['dashboard', 'in', 'out'].includes(page) && (
             <button className="btn primary" onClick={() => setModal('new')}>
               <Icon name="plus" size={17} /> Indeks Surat Baru
             </button>

@@ -621,3 +621,22 @@
    - `npm run build`: 12 rute produksi sukses.
    - Seluruh 78 berkas di `src/` <= 200 baris kode.
 
+---
+
+## Sesi 28: Penegakan Hak Akses Berbasis Peran / RBAC Navigasi
+**Tanggal**: 24 Oktober 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Isolasi Menu Manajemen & Audit Sesuai Peran**:
+   - Menyembunyikan `Manajemen Pengguna` dan `Audit Trail Keamanan` di `Sidebar.tsx` dan `ProfileDropdown.tsx` untuk akun staf pengarsip (`Rana Nur Syifa`) dan peran non-admin lainnya.
+   - Memasang view guard di `ReferenceViews.tsx` yang memblokir akses ke `view=users` dan `view=audit` bagi non-admin dengan kartu "Akses Terbatas: Khusus Administrator IT & Developer".
+   - Mengganti label `Aktif - TiDB` di daftar user menjadi badge peran akun resmi, dan membatasi tombol `+ Indeks Surat Baru` hanya di halaman arsip.
+   - Mengekstrak `HelpModal.tsx` menjaga rasio modularitas seluruh 79 berkas $\le$ 165 LOC.
+2. **Verifikasi Kualitas**:
+   - `npm test`: 6/6 test suites passed (100% HEALTHY).
+   - `tsc --noEmit`: 0 type errors.
+   - `aislop scan`: 100/100 Healthy (0 errors, 0 warnings).
+   - `npm run build`: 12 rute produksi sukses.
+   - Seluruh 79 berkas di `src/` <= 200 baris kode.
+

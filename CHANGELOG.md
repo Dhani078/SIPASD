@@ -12,6 +12,18 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.26.0] - 2026-10-23
+
+### Fixed
+- **Penegakan Hak Akses Berbasis Peran / RBAC Navigasi (`Sidebar.tsx`, `ReferenceViews.tsx`, `ProfileDropdown.tsx`, `SipasdMainView.tsx`)**:
+  * Mengisolasi menu `Manajemen Pengguna` dan `Audit Trail Keamanan` di sidebar hanya untuk peran `Super Admin` dan `Developer`. Pengguna staf pengarsip (`Rana Nur Syifa`), kepala dinas, atau petugas TU tidak lagi melihat menu manajemen sistem.
+  * Memasang proteksi guard di `ReferenceViews.tsx`: jika peran non-admin mencoba mengakses `?view=users` atau `?view=audit`, sistem menampilkan kartu peringatan "Akses Terbatas: Khusus Administrator IT & Developer" dan tombol kembali ke beranda.
+  * Menghapus badge tidak relevan (`Badge type="Biasa"`) di header Manajemen Pengguna, mengganti status `Aktif - TiDB` menjadi label peran aparatur yang jelas.
+  * Membatasi tombol `+ Indeks Surat Baru` pada header utama agar hanya muncul di halaman persuratan (`dashboard`, `in`, `out`), tidak bocor ke halaman pengaturan/referensi.
+  * Mengekstrak komponen `HelpModal.tsx` (73 LOC) menjaga ukuran seluruh berkas di `src/` $\le$ 165 LOC.
+
+---
+
 ## [2.25.0] - 2026-10-23
 
 ### Fixed

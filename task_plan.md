@@ -280,6 +280,14 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 30: Role-Based Navigation Access Control / RBAC (100% COMPLETE)
+- [x] Menyembunyikan menu `Manajemen Pengguna` dan `Audit Trail Keamanan` di `Sidebar.tsx` dan `ProfileDropdown.tsx` untuk akun staf biasa/pengarsip.
+- [x] Memasang guard view proteksi di `ReferenceViews.tsx` jika non-admin mencoba membuka `?view=users` atau `?view=audit`.
+- [x] Mengganti label `Aktif - TiDB` di daftar user menjadi badge peran akun resmi, dan membatasi tombol `+ Indeks Surat Baru` hanya di halaman arsip.
+- [x] Mengekstrak `HelpModal.tsx` menjaga rasio modularitas seluruh 79 berkas $\le$ 165 LOC.
+- [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

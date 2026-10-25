@@ -3,7 +3,7 @@ import PrintDisposisiModal from './PrintDisposisiModal';
 import DocumentPreview from './DocumentPreview';
 import DeleteConfirmModal from './DeleteConfirmModal';
 import EditLetterModal from './EditLetterModal';
-import { HelpModal } from './ReferenceViews';
+import HelpModal from './HelpModal';
 import type { LetterRecord } from '@/types';
 
 interface Props {

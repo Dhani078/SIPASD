@@ -395,6 +395,13 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 46: Outbound Expedition Module Responsive Polish (100% COMPLETE)
+- [x] Penataan panel heading dan tombol aksi (Ekspor dan Catat) menjadi 2 kolom simetris pada smartphone (<768px).
+- [x] Pencegahan text-wrap pada indikator halaman paginasi (`1 / 17`) dan penambahan pemilih ukuran baris (10, 15, 25, 50).
+- [x] Pengalokasian proporsi 40% pada kolom tujuan/perihal dan 72px pada kolom aksi di `DistributionTable.tsx`.
+- [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

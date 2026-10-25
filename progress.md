@@ -931,3 +931,23 @@
    - `npm run build`: 12 rute produksi sukses.
    - Seluruh 82 berkas di `src/` <= 200 baris kode.
 
+---
+
+## Sesi 44: Optimasi Responsif Distribusi Ekspedisi & Proporsi Kolom Tabel
+**Tanggal**: 24 Oktober 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Penataan Header & Tombol Aksi Mobile**:
+   - Menata panel header dan tombol ekspor/catat menjadi 2 kolom simetris pada mobile.
+   - Memastikan tombol "+ Catat Distribusi" selalu terlihat dan mudah ditekan.
+2. **Proporsi Kolom Tabel & Paginasi**:
+   - Memperlebar kolom tujuan/perihal ke 40% dan mengunci kolom aksi ke 72px.
+   - Menambahkan pemilih ukuran baris (10, 15, 25, 50) dan mengunci teks `1 / 17` dari line-break.
+3. **Verifikasi Kualitas**:
+   - `npm test`: 6/6 test suites passed (100% HEALTHY).
+   - `tsc --noEmit`: 0 type errors.
+   - `aislop scan`: 100/100 Healthy (0 errors, 0 warnings).
+   - `npm run build`: 12 rute produksi sukses.
+   - Seluruh 82 berkas di `src/` <= 200 baris kode.
+

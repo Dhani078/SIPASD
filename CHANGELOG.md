@@ -12,6 +12,17 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.41.0] - 2026-10-23
+
+### Fixed
+- **Optimasi Responsif Distribusi Ekspedisi, Proporsi Kolom & Paginasi Baris (`DistributionView.tsx`, `DistributionTable.tsx`)**:
+  * **Pencegahan Flexbox Collapse Mobile**: Menata panel heading dan tombol aksi (*Ekspor Excel* dan *+ Catat Distribusi*) menjadi grid 2 kolom simetris pada layar ponsel, memastikan kedua tombol terlihat utuh dan judul tidak terhimpit.
+  * **Pencegahan Text Wrap Indikator Halaman**: Memasang `whitespace-nowrap` pada teks penghitung halaman paginasi (`1 / 17`) dan menambahkan dropdown pemilihan ukuran baris (10, 15, 25, 50 baris per halaman).
+  * **Proporsi 6 Kolom Tabel Ekspedisi**: Mengalokasikan 40% lebar kontainer pada kolom *TUJUAN INSTANSI & PERIHAL* dan 72px pada kolom *AKSI*, mencegah pemotongan elipsis prematur pada nama dinas panjang.
+  * **Penataan Status & Placeholder Kurir**: Menyelaraskan teks status ekspedisi dan keterangan kurir agar sel tabel informatif dan rapi.
+
+---
+
 ## [2.40.0] - 2026-10-23
 
 ### Added

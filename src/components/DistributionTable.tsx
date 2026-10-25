@@ -26,12 +26,12 @@ export default function DistributionTable({ letters, records, onSelect }: Props)
       <table>
         <thead>
           <tr>
-            <th scope="col">NO. AGENDA</th>
-            <th scope="col">TUJUAN INSTANSI &amp; PERIHAL</th>
-            <th scope="col">TANGGAL</th>
-            <th scope="col">STATUS &amp; KURIR</th>
-            <th scope="col">PENERIMA</th>
-            <th scope="col" style={{ textAlign: 'right', paddingRight: '16px' }}>AKSI</th>
+            <th scope="col" style={{ width: '14%' }}>NO. AGENDA</th>
+            <th scope="col" style={{ width: '40%' }}>TUJUAN INSTANSI &amp; PERIHAL</th>
+            <th scope="col" style={{ width: '15%' }}>TANGGAL</th>
+            <th scope="col" style={{ width: '16%' }}>STATUS &amp; KURIR</th>
+            <th scope="col" style={{ width: '15%' }}>PENERIMA</th>
+            <th scope="col" style={{ width: '72px', minWidth: '72px', textAlign: 'right', paddingRight: '14px' }}>AKSI</th>
           </tr>
         </thead>
         <tbody>
@@ -69,10 +69,10 @@ export default function DistributionTable({ letters, records, onSelect }: Props)
                       {rec.penerima_nama} {rec.penerima_telepon ? `(${rec.penerima_telepon})` : ''}
                     </span>
                   ) : (
-                    <span className="text-slate-400 text-xs">-</span>
+                    <span className="text-slate-400 text-xs italic">Belum ada</span>
                   )}
                 </td>
-                <td style={{ textAlign: 'right', paddingRight: '16px' }}>
+                <td style={{ textAlign: 'right', paddingRight: '14px' }}>
                   <button
                     type="button"
                     className="table-action-btn action-view inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-xs bg-emerald-50 text-emerald-800 hover:bg-emerald-100 border border-emerald-200 cursor-pointer font-medium"

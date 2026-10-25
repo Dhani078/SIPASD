@@ -12,6 +12,15 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.34.0] - 2026-10-23
+
+### Fixed
+- **Pembersihan Bocoran Vendor & Proteksi Sesi Halaman Login (`LoginPage.tsx` & `login/page.tsx`)**:
+  * Menghapus istilah teknis vendor database mentah pada kartu brand dan catatan uji peran di halaman login menjadi tata kelola resmi: `Penyimpanan Terenkripsi & Terpusat` dan `Terintegrasi Pangkalan Data SPBE`.
+  * Memasang server-side session guard pada rute `/login`: pengguna yang telah memiliki sesi terotentikasi langsung dialihkan secara aman ke `/dashboard`.
+
+---
+
 ## [2.33.0] - 2026-10-23
 
 ### Fixed

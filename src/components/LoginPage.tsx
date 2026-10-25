@@ -84,7 +84,7 @@ export default function LoginPage({
             </span>
             <span>
               <Icon name="file" />
-              TiDB Serverless &amp; Cloudinary Storage
+              Penyimpanan Terenkripsi &amp; Terpusat
             </span>
           </div>
           <small>PORTAL KEDINASAN - TA 2026</small>
@@ -180,7 +180,7 @@ export default function LoginPage({
             ))}
           </div>
           <small className="demo-note">
-            Kata sandi resmi: <b>Dispora2026!</b> | Terhubung TiDB Cloud Serverless.
+            Kata sandi resmi: <b>Dispora2026!</b> | Terintegrasi Pangkalan Data SPBE.
           </small>
         </form>
       </div>

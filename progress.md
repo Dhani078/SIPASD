@@ -781,3 +781,21 @@
    - `npm run build`: 12 rute produksi sukses.
    - Seluruh 80 berkas di `src/` <= 200 baris kode.
 
+---
+
+## Sesi 37: Pembersihan Bocoran Vendor & Proteksi Sesi Halaman Login
+**Tanggal**: 24 Oktober 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Penyempurnaan Tampilan Login**:
+   - Membersihkan teks vendor di kartu brand login (`TiDB Serverless & Cloudinary Storage` -> `Penyimpanan Terenkripsi & Terpusat`).
+   - Membersihkan catatan demo (`Terhubung TiDB Cloud Serverless` -> `Terintegrasi Pangkalan Data SPBE`).
+   - Memasang server-side redirect guard di `src/app/login/page.tsx` bagi user yang telah login.
+2. **Verifikasi Kualitas**:
+   - `npm test`: 6/6 test suites passed (100% HEALTHY).
+   - `tsc --noEmit`: 0 type errors.
+   - `aislop scan`: 100/100 Healthy (0 errors, 0 warnings).
+   - `npm run build`: 12 rute produksi sukses.
+   - Seluruh 80 berkas di `src/` <= 200 baris kode.
+

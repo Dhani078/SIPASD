@@ -338,6 +338,12 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 39: Login Page Information Hygiene & Session Guard (100% COMPLETE)
+- [x] Membersihkan teks vendor di kartu brand login dan catatan demo menjadi tata kelola SPBE resmi.
+- [x] Memasang guard redirect server-side di `/login` bagi user yang telah login.
+- [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

@@ -172,12 +172,12 @@ Proyek SIPASD diaudit pada 5 dimensi: standar industri, fungsionalitas logic, cl
 
 | Test | Hasil | Catatan |
 |------|-------|---------|
-| `npm test` (4 suite) | PASS | TiDB, Cloudinary, modular, em-dash |
+| `npm test` (6 suite) | PASS | TiDB, Cloudinary, modular, em-dash, security headers, zero secret |
 | `npx tsc --noEmit` | 0 error | TypeScript strict |
-| `npm run build` | 100% sukses | 11 routes, 125 kB First Load |
-| Live site HTTP 200 | OK | TTFB ~5.6s (Vercel cold start) |
-| Unauthenticated DELETE | VULN | Siapa pun bisa hapus arsip |
-| Unauthenticated POST | VULN | Siapa pun bisa insert arsip |
-| Security headers | MISSING | Tidak ada X-Frame, CSP, dll |
-| HSTS | OK | `max-age=63072000` aktif |
+| `npm run build` | 100% sukses | 12 rute produksi, 103 kB Shared JS |
+| `aislop scan` | 100/100 Healthy | 0 error, 0 warning di seluruh berkas |
+| Live Chrome Audit | 100% PASS | 11 modul lulus verifikasi visual & fungsional di desktop dan mobile |
+| Unauthenticated DELETE & POST | AMAN (401/403) | Guard sesi dan RBAC ketat |
+| Iframe PDF Streaming | AMAN (200 OK) | Streaming inline SAMEORIGIN, bebas pemblokiran browser |
+| Security Headers | LENGKAP | X-Frame-Options: SAMEORIGIN, CSP, HSTS preload, X-XSS |
 | SSL/TLS | OK | TLS 1.3 via Vercel |

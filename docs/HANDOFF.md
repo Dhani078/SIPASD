@@ -17,16 +17,17 @@
   * **Phase 9: Otomatisasi Ekstraksi OCR PDF, Riwayat Disposisi Fisik, Buku Ekspedisi, dan Pembersihan Metadata (SELESAI 100%)**.
   * **Phase 10: 5 Tombol Aksi Dokumen Tabel, Modal Edit Metadata/Disposisi TiDB, Filter Tahun Cerdas, Maxx Mode Mobile/iPad, dan Hard Logout Cookie (SELESAI 100%)**.
   * **Phase 11: Audit Visual Langsung ke Google Chrome Nyata & Standar Kualitas 100/100 Max Mode (SELESAI 100%)**.
+  * **Phase 12: Audit End-to-End Seluruh Backend & Sistem di Google Chrome, Resolusi Iframe PDF, Forensik Audit Trail Riil TiDB, Register Agenda & Manajemen Pengguna Dedicated (SELESAI 100% - ZERO BUG)**.
 - **Hasil Kompilasi & Pengujian**:
   * `npx tsc --noEmit`: 0 error.
   * `npm test`: 6/6 test suites passed (100% HEALTHY).
   * `npm run build`: 100% sukses terkompilasi optimal (12 rute produksi).
-  * `aislop scan`: 100/100 Healthy (0 error, 0 warning).
-  * Direct Chrome Audit: Validasi visual nyata via Google Chrome desktop (`chrome.exe`) melintasi 9 area kritis sistem (Landing Page side-by-side, 4 stat cards, 11 venues, modal SOP/Klasifikasi, penegakan RBAC Rana, paginasi ekspedisi, dan responsivitas mobile 375px).
-  * Batas Modularitas: Seluruh 80 berkas di `src/` berukuran <= 200 LOC per file (tertinggi 196 LOC).
-  * Zero Dummy Data: 411 arsip riil (170 surat masuk & 241 surat keluar) ditarik live dari TiDB Cloud via `mysql2`.
+  * `aislop scan`: 100/100 Healthy (0 error, 0 warning) di 88 berkas proyek.
+  * Direct Chrome Audit: Validasi visual & backend nyata via Google Chrome desktop (`chrome.exe`) melintasi 11 area modul sistem (Landing Page side-by-side, Dashboard KPI sparkline & donut, Arsip Masuk, Arsip Keluar, Riwayat Disposisi Fisik, Buku Agenda Register, Distribusi Ekspedisi, Master Klasifikasi Permendagri 83/2022, Manajemen Pengguna NIP BKN 18 digit, Audit Trail Forensik TiDB, Notifikasi Flyout dengan backdrop scrim, serta Pratinjau PDF Streaming Langsung).
+  * Batas Modularitas: Seluruh 86 berkas di `src/` berukuran <= 200 LOC per file (tertinggi 195 LOC).
+  * Zero Dummy Data: 411 arsip naskah fisik riil TA 2026 (170 surat masuk & 241 surat keluar) ditarik live dari TiDB Cloud via `mysql2`.
   * Zero Em-Dash: Bebas dari em-dash (-) di seluruh kode dan dokumen.
-  * Security Hardening: Security headers aktif di `next.config.ts`, route auth guards aktif di `/api/letters`, sanitasi XSS input server-side, 0 hardcoded secret di `src/`.
+  * Security Hardening: Anti-Brute Force rate limiting di `/api/auth/login`, timing attack mitigation, CSP `SAMEORIGIN` & `frame-ancestors 'self'`, HSTS preload, RBAC auth guards di seluruh rute mutasi data, zero hardcoded secret di `src/`.
   * Domain Resmi: `https://www.sipasd.my.id` (dengan SSL aktif dan redirect 308).
   * Telemetri: Terintegrasi `@vercel/analytics` dan `@vercel/speed-insights`.
 

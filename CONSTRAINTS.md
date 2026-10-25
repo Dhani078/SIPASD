@@ -10,9 +10,9 @@
 1. **ATURAN MUTLAK KONEKSI DATABASE NYATA & PEMBERANTASAN DATA DUMMY (ZERO DUMMY DATA INVARIANT)**:
    - **Dilarang Keras Menggunakan Data Tiruan (Dummy Data)**: Dilarang menampilkan data tiruan statis yang di-hardcode di memori browser (seperti `const letters = Array.from(...)` atau array dummy tiruan di komponen React).
    - **Koneksi Basis Data Nyata Wajib (100% Real Database Connected)**: Seluruh tabel katalog, kartu metrik KPI, grafik volume korespondensi, dropdown filter unit kerja, pencarian kata kunci, dan riwayat disposisi **wajib terhubung dan mengambil data secara real-time dari basis data TiDB Cloud Serverless (`sipasd`)**.
-   - **420 Dokumen Arsip Riil TA 2026 sebagai Sumber Kebenaran Tunggal**:
-     * 171 Surat Masuk pindaian riil TA 2026 di tabel `arsip_surat_masuk`.
-     * 249 Surat Keluar pindaian riil TA 2026 di tabel `arsip_surat_keluar`.
+   - **411 Dokumen Arsip Naskah Fisik Riil TA 2026 sebagai Sumber Kebenaran Tunggal**:
+     * 170 Surat Masuk pindaian riil TA 2026 di tabel `arsip_surat_masuk`.
+     * 241 Surat Keluar pindaian riil TA 2026 di tabel `arsip_surat_keluar`.
      * Seluruh dokumen pindaian PDF tertaut langsung ke URL penyimpanan Cloudinary aktif (`cloud_name: vqfpoekg`) dengan cadangan resmi 100% tersimpan di Google Drive akun dinas kuota 5 TB (subfolder `Surat Masuk` ID: `1deTFD7oICTXkkMs5HzS-bhtZzvCqfW9n` & `Surat Keluar` ID: `1rgWCFwULt8awBCVIuomy7cELKqEtbdkx`).
    - **Mutasi Data Nyata & Dual-Storage Otomatis**: Operasi tambah surat baru (*indeks arsip*) wajib mengeksekusi `INSERT` nyata ke tabel TiDB Cloud dan mengunggah berkas asli secara simultan ke Cloudinary (streaming pratinjau) dan Google Drive (cadangan resmi 5 TB). Operasi pencatatan disposisi wajib mengeksekusi `INSERT` ke tabel `riwayat_disposisi`.
 

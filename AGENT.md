@@ -9,7 +9,7 @@
 1. **Zero AI Slop & Zero Dummy Data (Aturan Mutlak Koneksi Database Nyata)**:
    - Dilarang membuat kode mockup pura-pura, file pura-pura, fungsi setengah jadi, atau array data tiruan di memori frontend.
    - **Seluruh data tabel, kartu KPI, filter, dan modal WAJIB terkoneksi 100% secara real-time ke basis data TiDB Cloud Serverless (`sipasd`)**.
-   - Dokumen yang disajikan adalah **420 berkas arsip pindaian nyata TA 2026** (171 Surat Masuk & 249 Surat Keluar) yang tertaut ke penyimpanan Cloudinary (`vqfpoekg`) dan cadangan resmi 100% di Google Drive akun dinas kuota 5 TB.
+   - Dokumen yang disajikan adalah **411 berkas arsip naskah fisik nyata TA 2026** (170 Surat Masuk & 241 Surat Keluar) yang tertaut ke penyimpanan Cloudinary (`vqfpoekg`) dan cadangan resmi 100% di Google Drive akun dinas kuota 5 TB.
 2. **Modularitas Maksimal (Maks 200 LOC per File)**:
    - Tidak boleh ada satu file komponen atau controller melebihi 200 baris kode. Pecah menjadi sub-komponen, *hooks*, modul utilitas, atau *server actions* yang terisolasi.
    - Mengacu pada 18 komponen modular di `C:\xampp\htdocs\Laporan Magang\SIPASD Web Application UI (1)`.

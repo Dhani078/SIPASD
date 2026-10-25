@@ -425,6 +425,14 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 50: Profile Card Elevation & BKN NIP Validation (100% COMPLETE)
+- [x] Validasi NIP BKN pengangkatan bulan 02 (`19970101 202502 2 001`) di kode dan TiDB Cloud.
+- [x] Penataan panel header responsif (stack vertikal di mobile) dengan touch target $\ge 42\text{px}$.
+- [x] Penegasan label jabatan fungsional vs peran otorisasi sistem di hero card.
+- [x] Penyeimbangan whitespace dan margin ikon pada kedua kartu rincian bawah.
+- [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

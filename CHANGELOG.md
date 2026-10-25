@@ -12,6 +12,17 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.45.0] - 2026-10-23
+
+### Fixed
+- **Validasi NIP BKN 18 Digit, Responsivitas Kartu Profil & Keseimbangan Whitespace (`ProfileView.tsx`, `users.ts`, TiDB Cloud)**:
+  * **Koreksi NIP BKN**: Mengoreksi kode bulan pengangkatan pada NIP aparatur dari `21` menjadi `02` (`19970101 202502 2 001`), selaras 100% dengan kaidah penomoran BKN nasional baik di kode maupun basis data TiDB Cloud.
+  * **Pencegahan Himpitan Panel Header Mobile (<640px)**: Mengatur header panel dan tombol aksi (*Beranda* & *Keluar Sesi*) dalam formasi stacked vertikal dengan tombol berukuran sentuh 42px touch-friendly, meniadakan kompresi teks deskripsi.
+  * **Harmonisasi Label Jabatan vs Peran**: Memperjelas pemisahan antara Jabatan Fungsional Kedinasan (*Analis Anggaran - Ahli Pertama*) dengan Tingkat Otoritas Sistem (*Otoritas: Pengarsip*).
+  * **Keseimbangan Whitespace & Margin Ikon**: Menyelaraskan jarak margin ikon judul (gap 2.5) dan menambahkan footer baris penyeimbang pada kartu Hak Akses dan Status Keamanan.
+
+---
+
 ## [2.44.0] - 2026-10-23
 
 ### Added

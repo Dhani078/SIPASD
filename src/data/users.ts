@@ -7,7 +7,7 @@ export const demoUsers: DemoUser[] = [
     role: 'Analis Anggaran - Ahli Pertama',
     label: 'Pengarsip',
     initials: 'RN',
-    nip: '199701012025212001',
+    nip: '199701012025022001',
     email: 'rana@dispora.kalselprov.go.id',
     unitKerja: 'Subbag Keuangan',
   },

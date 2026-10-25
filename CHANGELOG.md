@@ -12,6 +12,15 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.24.0] - 2026-10-23
+
+### Fixed
+- **Penggantian Ikon Hapus Terpilih dengan Ikon Tong Sampah Semantik (`ArchiveWorkspace.tsx` & `DeleteConfirmModal.tsx`)**:
+  * Mengganti ikon tanda silang (`Icon name="close"`) pada tombol aksi massal `Hapus X Terpilih` di toolbar arsip menjadi ikon tong sampah semantik (`Icon name="trash"`).
+  * Menyelaraskan ikon peringatan modal konfirmasi hapus (`DeleteConfirmModal.tsx`) menjadi ikon tong sampah merah (`Icon name="trash"`).
+
+---
+
 ## [2.23.0] - 2026-10-23
 
 ### Fixed

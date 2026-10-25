@@ -586,3 +586,20 @@
    - `npm run build`: 12 rute produksi sukses.
    - Seluruh 78 berkas di `src/` <= 200 baris kode.
 
+---
+
+## Sesi 26: Penyeragaman Ikon Tong Sampah pada Aksi Hapus Terpilih
+**Tanggal**: 24 Oktober 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Penggantian Ikon Tombol Hapus Terpilih**:
+   - Mengubah `Icon name="close"` menjadi `Icon name="trash"` pada tombol `Hapus X Terpilih` di `ArchiveWorkspace.tsx`.
+   - Mengubah ikon peringatan pada `DeleteConfirmModal.tsx` menjadi `Icon name="trash"`.
+2. **Verifikasi Kualitas**:
+   - `npm test`: 6/6 test suites passed (100% HEALTHY).
+   - `tsc --noEmit`: 0 type errors.
+   - `aislop scan`: 100/100 Healthy (0 errors, 0 warnings).
+   - `npm run build`: 12 rute produksi sukses.
+   - Seluruh 78 berkas di `src/` <= 200 baris kode.
+

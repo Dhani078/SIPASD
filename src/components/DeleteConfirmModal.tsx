@@ -26,7 +26,7 @@ export default function DeleteConfirmModal({
       <div className="p-4">
         <div className="flex items-start gap-3">
           <div className="p-2 bg-red-100 text-red-700 rounded-full flex-shrink-0">
-            <Icon name="close" size={20} />
+            <Icon name="trash" size={20} />
           </div>
           <div>
             <h3 className="font-bold text-slate-900 text-sm">

@@ -101,7 +101,7 @@ export default function ArchiveWorkspace({
         </button>
         {selectedIds.length > 0 && (
           <button className="btn danger" onClick={onBatchDelete}>
-            <Icon name="close" size={16} />
+            <Icon name="trash" size={16} />
             Hapus {selectedIds.length} Terpilih
           </button>
         )}

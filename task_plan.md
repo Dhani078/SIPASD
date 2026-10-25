@@ -267,6 +267,12 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 28: Bulk Delete Trash Icon Unification (100% COMPLETE)
+- [x] Mengubah `Icon name="close"` menjadi `Icon name="trash"` pada tombol `Hapus X Terpilih` (`ArchiveWorkspace.tsx`).
+- [x] Mengubah ikon modal konfirmasi hapus menjadi `Icon name="trash"` (`DeleteConfirmModal.tsx`).
+- [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

@@ -41,6 +41,24 @@ export async function GET(request: Request) {
       type: 'upload',
     });
 
+    try {
+      const pdfRes = await fetch(signedUrl);
+      if (pdfRes.ok) {
+        const buffer = await pdfRes.arrayBuffer();
+        return new Response(buffer, {
+          status: 200,
+          headers: {
+            'Content-Type': 'application/pdf',
+            'Content-Disposition': 'inline; filename="naskah-dinas.pdf"',
+            'X-Frame-Options': 'SAMEORIGIN',
+            'Cache-Control': 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400',
+          },
+        });
+      }
+    } catch {
+      // fallback to redirect
+    }
+
     const response = NextResponse.redirect(signedUrl, 307);
     response.headers.set('Cache-Control', 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400');
     return response;

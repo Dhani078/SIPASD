@@ -1056,3 +1056,21 @@
    - `npm run build`: 12 rute produksi sukses.
    - Seluruh 86 berkas di `src/` <= 200 baris kode.
 
+---
+
+## Sesi 50: Resolusi Pemblokiran Iframe PDF, Streaming Proxy & Kebijakan CSP
+**Tanggal**: 24 Oktober 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Penyelarasan Header Keamanan Iframe**:
+   - Mengubah `X-Frame-Options` ke `SAMEORIGIN` dan CSP `frame-ancestors 'self'` serta `frame-src 'self' blob: data: https://res.cloudinary.com https://drive.google.com` di `next.config.ts`.
+2. **Direct Server-Side PDF Streaming**:
+   - Mengubah rute `/api/pdf` mengalirkan buffer PDF inline langsung dari domain sendiri, mencegah pemblokiran cross-origin browser.
+3. **Verifikasi Kualitas**:
+   - `npm test`: 6/6 test suites passed (100% HEALTHY).
+   - `tsc --noEmit`: 0 type errors.
+   - `aislop scan`: 100/100 Healthy (0 errors, 0 warnings).
+   - `npm run build`: 12 rute produksi sukses.
+   - Seluruh 86 berkas di `src/` <= 200 baris kode.
+

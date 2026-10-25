@@ -12,6 +12,15 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.47.0] - 2026-10-23
+
+### Fixed
+- **Resolusi Pemblokiran Iframe PDF, Streaming Proxy Langsung & Kebijakan CSP (`next.config.ts`, `api/pdf/route.ts`)**:
+  * **Penyelarasan X-Frame-Options & CSP**: Mengubah `X-Frame-Options` dari `DENY` menjadi `SAMEORIGIN`, memperbarui CSP `frame-ancestors 'self'` dan menambahkan direktif `frame-src 'self' blob: data: https://res.cloudinary.com https://drive.google.com;`, meniadakan pesan galat peramban *"This content is blocked"*.
+  * **Streaming Buffer PDF Server-Side Langsung**: Memperbarui rute `/api/pdf` agar mengambil buffer PDF dan mengalirkannya langsung dari origin sendiri (`sipasd.my.id`) dengan header `Content-Type: application/pdf; Content-Disposition: inline`, mencegah pembatasan cross-origin sandbox pada PDF viewer internal Google Chrome.
+
+---
+
 ## [2.46.0] - 2026-10-23
 
 ### Fixed

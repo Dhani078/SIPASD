@@ -442,6 +442,13 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 52: PDF Iframe Unblocking & Direct Buffer Streaming (100% COMPLETE)
+- [x] Penyelarasan header keamanan iframe: `X-Frame-Options: SAMEORIGIN` dan `frame-ancestors 'self'`.
+- [x] Penambahan direktif `frame-src 'self' blob: data: https://res.cloudinary.com https://drive.google.com`.
+- [x] Streaming buffer PDF langsung dari `/api/pdf` dengan header `Content-Type: application/pdf; Content-Disposition: inline`.
+- [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

@@ -40,22 +40,27 @@ async def audit_notifications():
             if (!flyout) return { open: false };
 
             const rect = flyout.getBoundingClientRect();
-            const h3 = flyout.querySelector('h3');
-            const title = h3?.childNodes[0]?.textContent?.trim();
-            const countBadge = h3?.querySelector('span')?.innerText?.trim();
+            const h3 = flyout.querySelector('h3')?.innerText?.trim();
+            const countBadge = flyout.querySelector('span.rounded-full')?.innerText?.trim();
+            const markAllBtn = Array.from(flyout.querySelectorAll('button')).find(b => b.innerText.includes('Tandai'))?.innerText?.trim();
 
-            const items = Array.from(flyout.querySelectorAll('button')).map(btn => {
-                const textSpan = btn.querySelector('span');
-                const titleText = textSpan?.childNodes[0]?.textContent?.trim();
-                const timeText = textSpan?.querySelector('small')?.innerText?.trim();
-                const hasDot = Boolean(btn.querySelector('.live-dot'));
+            const items = Array.from(flyout.querySelectorAll('.divide-y button')).map(btn => {
+                const titleText = btn.querySelector('p.font-medium')?.innerText?.trim();
+                const timeText = btn.querySelector('p.text-slate-500')?.innerText?.trim();
+                const hasDot = Boolean(btn.querySelector('span.rounded-full.bg-emerald-600'));
                 return { titleText, timeText, hasDot };
             });
 
+            const footerBtn = Array.from(flyout.querySelectorAll('button')).find(b => b.innerText.includes('Buka'))?.innerText?.trim();
+            const hasBackdrop = Boolean(document.querySelector('.fixed.inset-0.z-40'));
+
             return {
                 open: true,
-                title,
+                title: h3,
                 countBadge,
+                markAllBtn,
+                footerBtn,
+                hasBackdrop,
                 position: { top: rect.top, right: window.innerWidth - rect.right, width: rect.width, height: rect.height },
                 itemCount: items.length,
                 items,
@@ -63,8 +68,8 @@ async def audit_notifications():
             };
         }''')
 
-        # 5. Mobile 375px: Close first, then resize, then open
-        await bell.click() # close
+        # 5. Mobile 375px: Close via backdrop click, then resize, then open
+        await page.click('.fixed.inset-0.z-40')
         await page.wait_for_timeout(500)
         await page.set_viewport_size({'width': 375, 'height': 812})
         await page.wait_for_timeout(1000)

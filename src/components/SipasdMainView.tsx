@@ -77,7 +77,9 @@ export default function SipasdMainView({
                         ? 'Master kode klasifikasi persuratan dinas berdasar Permendagri & Perda Kalsel.'
                         : page === 'users'
                           ? 'Otorisasi akses, hak peran kedinasan, dan data aparatur pengelola arsip Dispora Kalsel.'
-                          : 'Kelola, telusuri, dan tindak lanjuti arsip kedinasan secara terpusat.'}
+                          : page === 'audit'
+                            ? 'Rekam jejak forensik keamanan, integritas sesi aparatur, dan log aktivitas SPBE Dispora Kalsel.'
+                            : 'Kelola, telusuri, dan tindak lanjuti arsip kedinasan secara terpusat.'}
           </p>
         </div>
         <div className="heading-actions">

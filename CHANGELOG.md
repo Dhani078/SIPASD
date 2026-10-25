@@ -12,6 +12,18 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.44.0] - 2026-10-23
+
+### Added
+- **Modul Penuh Audit Trail Forensik Keamanan Riil TiDB (`api/audit`, `AuditTrailView.tsx`, `ReferenceViews.tsx`, `SipasdMainView.tsx`)**:
+  * **Endpoint API Audit Aman (`/api/audit`, 34 LOC)**: Menghubungkan basis data tabel riil `audit_logs` TiDB Cloud dengan otorisasi ketat RBAC (hanya Super Admin & Developer).
+  * **Pembangunan `AuditTrailView.tsx` (195 LOC)**: Menggantikan 4 checklist statis dummy dengan tabel forensik interaktif lengkap (Timestamp WITA presisi detik, event badge LOGIN_SUCCESS/LOGIN_FAILED/LOGOUT, alamat IP, nama aparatur, dan ringkasan perangkat/browser).
+  * **Bilah Pencarian & Filter Event**: Memfasilitasi pencarian lokal instan alamat IP, nama user, event action, dan filter tab status login.
+  * **Paginasi & Ekspor CSV Riil**: Menyediakan navigasi halaman (10/15/25/50 baris per halaman) dan tombol *Ekspor Log (.csv)* yang mengunduh dataset forensik riil.
+  * **Penyelarasan Subtitle Modul**: Mengubah deskripsi di `SipasdMainView.tsx` menjadi *"Rekam jejak forensik keamanan, integritas sesi aparatur, dan log aktivitas SPBE Dispora Kalsel."*
+
+---
+
 ## [2.43.0] - 2026-10-23
 
 ### Fixed

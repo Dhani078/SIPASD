@@ -6,6 +6,7 @@ import DispositionHistoryView from './DispositionHistoryView';
 import AgendaRegisterView from './AgendaRegisterView';
 import ClassificationView from './ClassificationView';
 import UsersManagementView from './UsersManagementView';
+import AuditTrailView from './AuditTrailView';
 import ProfileView from './ProfileView';
 import Icon from './Icon';
 import type { LetterRecord, DemoUser } from '@/types';
@@ -68,33 +69,7 @@ export function ReferenceViews({
       return <UsersManagementView currentUser={user} onNavigate={onNavigate} />;
     }
 
-    return (
-      <section className="panel">
-        <div className="panel-heading">
-          <div>
-            <h2>Audit Trail &amp; Keamanan Sesi</h2>
-            <p>Jejak audit keamanan aktivitas kearsipan dinas terotentikasi</p>
-          </div>
-          <button className="btn outline" onClick={onExport}>
-            <Icon name="download" /> Ekspor Log
-          </button>
-        </div>
-        <div className="records">
-          {[
-            `Sesi terotentikasi aktif - ${user.name} (${user.label})`,
-            'Indeks pindaian naskah fisik tersinkronisasi aman',
-            'Riwayat disposisi fisik tercatat resmi dalam audit trail',
-            'Enkripsi TLS 1.3 dan perlindungan otentikasi sesi aktif',
-          ].map((text) => (
-            <div className="audit-row" key={text}>
-              <Icon name="shield" />
-              <b>{text}</b>
-              <span className="badge biasa">Log Kedinasan</span>
-            </div>
-          ))}
-        </div>
-      </section>
-    );
+    return <AuditTrailView currentUser={user} />;
   }
 
   if (page === 'distribution')

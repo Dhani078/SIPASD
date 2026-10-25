@@ -73,9 +73,11 @@ export default function SipasdMainView({
                     ? 'Ekspor dan pelaporan register buku agenda surat resmi dalam format Microsoft Excel.'
                     : page === 'expedition'
                       ? 'Pencatatan buku ekspedisi dan tanda terima distribusi surat keluar kedinasan.'
-                      : page === 'master'
+                      : page === 'master' || page === 'classification'
                         ? 'Master kode klasifikasi persuratan dinas berdasar Permendagri & Perda Kalsel.'
-                        : 'Kelola, telusuri, dan tindak lanjuti arsip kedinasan secara terpusat.'}
+                        : page === 'users'
+                          ? 'Otorisasi akses, hak peran kedinasan, dan data aparatur pengelola arsip Dispora Kalsel.'
+                          : 'Kelola, telusuri, dan tindak lanjuti arsip kedinasan secara terpusat.'}
           </p>
         </div>
         <div className="heading-actions">

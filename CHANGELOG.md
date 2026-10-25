@@ -12,6 +12,18 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.43.0] - 2026-10-23
+
+### Fixed
+- **Elevasi Modul Manajemen Pengguna, Format NIP BKN & Modal Rincian Otorisasi (`UsersManagementView.tsx`, `ReferenceViews.tsx`, `SipasdMainView.tsx`)**:
+  * **Pembangunan `UsersManagementView.tsx` (134 LOC)**: Menghadirkan modul manajemen akun khusus administrator/developer lengkap dengan pencarian lokal instan (nama/NIP/username/unit) dan filter peran kedinasan.
+  * **Penataan NIP Standar BKN 18 Digit**: Memformat NIP aparatur dengan format resmi BKN (`XXXXXXXX XXXXXX X XXX`), serta email resmi Pemprov Kalsel.
+  * **Modal Rincian Otorisasi Aparatur**: Menyediakan dialog modal interaktif saat tombol *Rincian* diklik untuk memeriksa status akun, unit kerja, jabatan, dan tingkat hak akses kedinasan.
+  * **Penataan Responsif Mobile (<640px)**: Mencegah text-wrapping ganjil pada nama dinas dengan tata letak flex stacked vertikal dan penempatan badge peran yang seimbang.
+  * **Penyelarasan Subtitle Modul**: Mengganti deskripsi arsip generic menjadi *"Otorisasi akses, hak peran kedinasan, dan data aparatur pengelola arsip Dispora Kalsel."*
+
+---
+
 ## [2.42.0] - 2026-10-23
 
 ### Fixed

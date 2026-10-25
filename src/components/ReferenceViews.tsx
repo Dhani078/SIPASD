@@ -5,9 +5,9 @@ import DistributionView from './DistributionView';
 import DispositionHistoryView from './DispositionHistoryView';
 import AgendaRegisterView from './AgendaRegisterView';
 import ClassificationView from './ClassificationView';
+import UsersManagementView from './UsersManagementView';
 import ProfileView from './ProfileView';
 import Icon from './Icon';
-import { demoUsers } from '@/data/users';
 import type { LetterRecord, DemoUser } from '@/types';
 
 interface Props {
@@ -65,32 +65,7 @@ export function ReferenceViews({
     }
 
     if (page === 'users') {
-      return (
-        <section className="panel">
-          <div className="panel-heading">
-            <div>
-              <h2>Manajemen Akun Terdaftar</h2>
-              <p>Daftar aparatur berwenang dan tingkat otorisasi akses kearsipan dinas</p>
-            </div>
-            <span className="small-count">{demoUsers.length} Akun</span>
-          </div>
-          <div className="records">
-            {demoUsers.map((account) => (
-              <div className="account-row" key={account.username}>
-                <div className="top-avatar">{account.initials}</div>
-                <div>
-                  <b>{account.name}</b>
-                  <p>{account.role} &bull; <span className="font-medium text-slate-500">{account.unitKerja}</span></p>
-                  <p className="mono">@{account.username}</p>
-                </div>
-                <span className={`badge ${account.label === 'Developer' ? 'kilat' : account.label === 'Super Admin' ? 'penting' : 'biasa'}`}>
-                  {account.label}
-                </span>
-              </div>
-            ))}
-          </div>
-        </section>
-      );
+      return <UsersManagementView currentUser={user} onNavigate={onNavigate} />;
     }
 
     return (

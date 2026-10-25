@@ -865,3 +865,26 @@
    - `npm run build`: 12 rute produksi sukses.
    - Seluruh 81 berkas di `src/` <= 200 baris kode.
 
+---
+
+## Sesi 41: Sanitasi Naskah Surat Keluar, Tipografi & Scroll Affordance Mobile
+**Tanggal**: 24 Oktober 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Sanitasi Data Surat Keluar di TiDB Cloud**:
+   - Memperbaiki tujuan instansi agenda 7959, 8402, 7673 dari *"Dari, Tanggal"* ke instansi tujuan resmi.
+   - Menghilangkan kop instansi huruf kapital pada perihal agenda 8551.
+   - Melengkapi tujuan instansi terpotong pada agenda 8159.
+2. **Penyempurnaan Tipografi & UI**:
+   - Meningkatkan ukuran font agenda menjadi 12px font-weight 700 (#065f46) dengan sub-teks 10px.
+   - Meningkatkan nomor kode naskah menjadi 11px font-weight 500 (#64748b).
+   - Menyesuaikan label dropdown tahun menjadi *"Semua Tahun (TA)"* agar tidak terpotong panah chevron mobile.
+   - Memasang indikator bayangan geser tabel mobile (`box-shadow: inset -10px 0 8px -8px rgba(0,0,0,0.12)`).
+3. **Verifikasi Kualitas**:
+   - `npm test`: 6/6 test suites passed (100% HEALTHY).
+   - `tsc --noEmit`: 0 type errors.
+   - `aislop scan`: 100/100 Healthy (0 errors, 0 warnings).
+   - `npm run build`: 12 rute produksi sukses.
+   - Seluruh 81 berkas di `src/` <= 200 baris kode.
+

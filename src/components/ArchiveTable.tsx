@@ -71,7 +71,7 @@ export default function ArchiveTable({
               )}
               <th scope="col">NO. AGENDA</th>
               <th scope="col">ASAL / TUJUAN INSTANSI DAN PERIHAL</th>
-              <th scope="col">
+              <th scope="col" style={{ whiteSpace: 'nowrap' }}>
                 TANGGAL <Icon name="down" size={11} />
               </th>
               <th scope="col">SIFAT</th>
@@ -98,7 +98,7 @@ export default function ArchiveTable({
                   }}
                 >
                   {!compact && onToggleSelect && (
-                    <td style={{ textAlign: 'center' }}>
+                    <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
                       <input
                         type="checkbox"
                         checked={isChecked}

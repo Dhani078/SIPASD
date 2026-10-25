@@ -369,6 +369,14 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 43: Outbound Archive Hygiene & Visual Polish (100% COMPLETE)
+- [x] Sanitasi data naskah keluar di TiDB Cloud (agenda 7959, 8402, 7673, 8551, 8159).
+- [x] Peningkatan keterbacaan nomor agenda (12px bold #065f46) dan kode berkas (11px #64748b).
+- [x] Penyesuaian label opsi tahun menjadi ringkas ("Semua Tahun (TA)") bebas pemotongan chevron.
+- [x] Pemasangan visual scroll affordance bayangan kanan pada wrapper tabel mobile.
+- [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

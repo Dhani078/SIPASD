@@ -12,6 +12,17 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.38.0] - 2026-10-23
+
+### Fixed
+- **Sanitasi Data Kearsipan Surat Keluar, Keterbacaan Tipografi & Scroll Affordance Mobile (`ArchiveTable.tsx`, `YearFilterControl.tsx`, `globals.css`, TiDB Cloud)**:
+  * **Sanitasi Database TiDB**: Memperbaiki label form *"Dari, Tanggal"* pada agenda 7959, 8402, 7673 menjadi instansi tujuan yang sah (`Pengguna Anggaran / Sekretariat Dispora Kalsel`, `Sekretaris Dispora Kalsel`, dan `SKPD Terkait Pemprov Kalsel`). Menghilangkan bocoran kop huruf kapital pada perihal agenda 8551, serta melengkapi tujuan multi-instansi agenda 8159.
+  * **Peningkatan Keterbacaan Tipografi**: Memperbesar nomor agenda menjadi 12px font-weight 700 (#065f46) dengan sub-teks 10px (#64748b), serta nomor kode berkas `td small` menjadi 11px font-weight 500 (#64748b), meniadakan artefak pixelated dan glitch rendering pada seluruh layar.
+  * **Penyesuaian Label Tahun Mobile**: Menyederhanakan label opsi dropdown tahun menjadi `"Semua Tahun (TA)"` dan `"TA 2026 (Berjalan)"` sehingga pas di grid 2 kolom tanpa terpotong panah chevron kanan.
+  * **Indikator Scroll Tabel Mobile (Scroll Affordance)**: Memberikan efek gradien bayangan kanan `box-shadow: inset -10px 0 8px -8px rgba(0,0,0,0.12)` pada `.table-wrap` smartphone (<768px) sebagai petunjuk visual bahwa kolom aksi dan tanggal dapat digulir ke kanan.
+
+---
+
 ## [2.37.0] - 2026-10-23
 
 ### Fixed

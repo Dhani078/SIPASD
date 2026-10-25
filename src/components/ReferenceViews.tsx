@@ -4,9 +4,9 @@ import ArchiveTable from './ArchiveTable';
 import DistributionView from './DistributionView';
 import DispositionHistoryView from './DispositionHistoryView';
 import AgendaRegisterView from './AgendaRegisterView';
+import ClassificationView from './ClassificationView';
 import ProfileView from './ProfileView';
 import Icon from './Icon';
-import { classifications } from '@/data/constants';
 import { demoUsers } from '@/data/users';
 import type { LetterRecord, DemoUser } from '@/types';
 
@@ -40,28 +40,7 @@ export function ReferenceViews({
   const isAdmin = user.label === 'Super Admin' || user.label === 'Developer' || user.username === 'admin' || user.username === 'developer';
 
   if (page === 'classification')
-    return (
-      <section className="panel">
-        <div className="panel-heading">
-          <div>
-            <h2>Master Klasifikasi Arsip Dispora</h2>
-            <p>Standar kode klasifikasi persuratan dinas Pemprov Kalimantan Selatan</p>
-          </div>
-        </div>
-        <div className="records">
-          {classifications.map(([code, label]) => (
-            <button key={code} onClick={() => onClassify(code)}>
-              <span className="code-icon mono">{code}</span>
-              <div>
-                <b>{label}</b>
-                <p>Telusuri arsip kedinasan dengan kode {code}</p>
-              </div>
-              <Icon name="chevron" />
-            </button>
-          ))}
-        </div>
-      </section>
-    );
+    return <ClassificationView letters={letters} onClassify={onClassify} />;
 
   if (page === 'profile') {
     return <ProfileView user={user} onNavigate={onNavigate} onLogout={onLogout} />;

@@ -12,6 +12,18 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.42.0] - 2026-10-23
+
+### Fixed
+- **Pengurutan Numerik Kode Klasifikasi, Informasi Payung Hukum & Komponen Dedicated (`constants.ts`, `ClassificationView.tsx`, `ReferenceViews.tsx`)**:
+  * **Pengurutan Numerik Baku**: Menata urutan array kode klasifikasi dari acak menjadi teratur baku: `005` (Undangan), `045` (Kearsipan), `426` (Keolahragaan), `427` (Kepemudaan), `800` (Kepegawaian), `900` (Keuangan).
+  * **Pembangunan `ClassificationView.tsx` (162 LOC)**: Menyediakan modul dedicated lengkap dengan deskripsi mendalam ruang lingkup kearsipan tiap kode.
+  * **Pencarian Cepat Kode & Nama**: Menambahkan search box lokal untuk memfilter kode klasifikasi atau nama urusan dinas secara instan.
+  * **Penghitung Naskah Terkait**: Menampilkan badge jumlah naskah dinas terindeks yang terhubung dengan masing-masing kode klasifikasi.
+  * **Pencantuman Payung Hukum Resmi**: Menambahkan referensi payung hukum Permendagri No. 83 Tahun 2022 dan panduan baku penomoran naskah dinas Dispora Provinsi Kalimantan Selatan.
+
+---
+
 ## [2.41.0] - 2026-10-23
 
 ### Fixed

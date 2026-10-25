@@ -402,6 +402,13 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 47: Master Classification Elevation & Legal Grounding (100% COMPLETE)
+- [x] Penataan urutan numerik kode klasifikasi (005, 045, 426, 427, 800, 900) di `constants.ts`.
+- [x] Pembangunan modul dedicated `ClassificationView.tsx` (162 LOC) dengan pencarian lokal dan counter arsip dinas.
+- [x] Pencantuman rujukan hukum resmi Permendagri No. 83 Tahun 2022 dan format penomoran SPBE Kalsel.
+- [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

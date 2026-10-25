@@ -22,10 +22,10 @@ export const divisions = [
 
 export const classifications = [
   ['005', 'Undangan'],
+  ['045', 'Kearsipan'],
   ['426', 'Keolahragaan'],
   ['427', 'Kepemudaan'],
   ['800', 'Kepegawaian'],
-  ['045', 'Kearsipan'],
   ['900', 'Keuangan'],
 ] as const;
 

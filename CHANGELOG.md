@@ -12,6 +12,15 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.30.0] - 2026-10-23
+
+### Fixed
+- **Pengaktifan Dialog Modal SOP & Klasifikasi pada Landing Page Publik (`SipasdApp.tsx`)**:
+  * Menemukan dan memperbaiki isu di mana tombol "Standar SOP", "Klasifikasi", dan "Pelajari Alur Kerja" pada beranda publik tidak memicu pop-up dialog karena komponen modal hanya dimount dalam sesi terotentikasi.
+  * Me-render `{modal && <HelpModal kind={modal} onClose={() => setModal('')} />}` pada tampilan beranda publik, sehingga pengunjung dapat langsung membaca alur SOP persuratan dinas dan tabel kode klasifikasi 005 s/d 900 secara interaktif.
+
+---
+
 ## [2.29.0] - 2026-10-23
 
 ### Fixed

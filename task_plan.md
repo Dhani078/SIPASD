@@ -308,6 +308,12 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 34: Landing Page Modal Mounting & Interactive Audit (100% COMPLETE)
+- [x] Me-render `{modal && <HelpModal kind={modal} onClose={() => setModal('')} />}` saat `page === 'landing'` di `SipasdApp.tsx`.
+- [x] Verifikasi interaktivitas tombol SOP dan Klasifikasi beranda publik di Chrome nyata.
+- [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

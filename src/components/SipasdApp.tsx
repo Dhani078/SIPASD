@@ -7,6 +7,7 @@ import Sidebar from './Sidebar';
 import TopNavbar from './TopNavbar';
 import SipasdMainView from './SipasdMainView';
 import AppModals from './AppModals';
+import HelpModal from './HelpModal';
 import { emptyFilters } from './ArchiveWorkspace';
 import { useLetterActions } from '@/hooks/useLetterActions';
 import { groups } from '@/data/navigation';
@@ -127,12 +128,15 @@ export default function SipasdApp({
 
   if (page === 'landing') {
     return (
-      <LandingPage
-        go={go} onTrack={(q) => archive('in', { query: q })}
-        onVenue={(v) => archive(letters.some((l) => l.venue === v && l.direction === 'in') ? 'in' : 'out', { venue: v })}
-        setModal={setModal} sampleLetter={letters.find((l) => l.direction === 'in') || letters[0]}
-        totalSuratMasuk={inCount} totalSuratKeluar={outCount}
-      />
+      <>
+        <LandingPage
+          go={go} onTrack={(q) => archive('in', { query: q })}
+          onVenue={(v) => archive(letters.some((l) => l.venue === v && l.direction === 'in') ? 'in' : 'out', { venue: v })}
+          setModal={setModal} sampleLetter={letters.find((l) => l.direction === 'in') || letters[0]}
+          totalSuratMasuk={inCount} totalSuratKeluar={outCount}
+        />
+        {modal && <HelpModal kind={modal} onClose={() => setModal('')} />}
+      </>
     );
   }
 

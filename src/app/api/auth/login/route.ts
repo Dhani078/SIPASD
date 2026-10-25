@@ -3,38 +3,82 @@ import bcrypt from 'bcryptjs';
 import { queryOne } from '@/lib/db';
 import { setSessionCookie } from '@/lib/auth';
 import { logAudit } from '@/lib/audit';
+import { checkRateLimit, recordFailedAttempt, resetRateLimit, getClientIp } from '@/lib/rate-limit';
+
+const DUMMY_HASH = '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy';
+
+async function verifyPassword(pwd: string, isQuick: boolean, user: any): Promise<boolean> {
+  if (isQuick) return Boolean(user?.is_active);
+  const targetHash = user?.password_hash || DUMMY_HASH;
+  return bcrypt.compare(pwd, targetHash);
+}
+
+async function recordFailure(ip: string, username: string, user: any, agent: string) {
+  recordFailedAttempt(`ip:${ip}`);
+  const userFail = recordFailedAttempt(`user:${username.toLowerCase()}`);
+  await logAudit('LOGIN_FAILED', 'users', user?.id || null, null, ip, agent, {
+    username,
+    attempt: userFail.count,
+  });
+}
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const { username, password, isQuickLogin } = body;
+    const clientIp = getClientIp(request);
+    const userAgent = request.headers.get('user-agent') || 'Unknown';
 
-    if (!username) {
+    const ipLimit = checkRateLimit(`ip:${clientIp}`, 15, 15 * 60 * 1000);
+    if (!ipLimit.allowed) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: `Terlalu banyak percobaan masuk dari IP ini. Coba lagi dalam ${Math.ceil(ipLimit.resetSeconds / 60)} menit.`,
+        },
+        { status: 429, headers: { 'Retry-After': String(ipLimit.resetSeconds) } }
+      );
+    }
+
+    const body = await request.json().catch(() => ({}));
+    const rawUsername = String(body.username || '').trim().slice(0, 64);
+    const rawPassword = String(body.password || '').slice(0, 128);
+    const isQuick = Boolean(body.isQuickLogin && process.env.ALLOW_DEMO_LOGIN !== 'false');
+
+    if (!rawUsername) {
       return NextResponse.json({ success: false, message: 'Username wajib diisi' }, { status: 400 });
     }
 
-    const allowQuick = process.env.ALLOW_DEMO_LOGIN !== 'false';
-    const isQuick = isQuickLogin && allowQuick;
+    const userLimit = checkRateLimit(`user:${rawUsername.toLowerCase()}`, 5, 15 * 60 * 1000);
+    if (!userLimit.allowed) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: `Akun ini terkunci sementara karena terlalu banyak percobaan masuk gagal. Coba lagi dalam ${Math.ceil(userLimit.resetSeconds / 60)} menit.`,
+        },
+        { status: 429, headers: { 'Retry-After': String(userLimit.resetSeconds) } }
+      );
+    }
 
-    if (!isQuick && !password) {
+    if (!isQuick && !rawPassword) {
       return NextResponse.json({ success: false, message: 'Password wajib diisi' }, { status: 400 });
     }
 
     const user = await queryOne(
       'SELECT id, nip, nama_lengkap, username, email, password_hash, role, jabatan, unit_kerja, is_active FROM users WHERE username = ?',
-      [username]
+      [rawUsername]
     );
 
-    if (!user || !user.is_active) {
-      return NextResponse.json({ success: false, message: 'Kredensial tidak valid atau akun dinonaktifkan' }, { status: 401 });
+    const isMatch = await verifyPassword(rawPassword, isQuick, user);
+
+    if (!user || !user.is_active || !isMatch) {
+      await recordFailure(clientIp, rawUsername, user, userAgent);
+      return NextResponse.json(
+        { success: false, message: 'Kredensial tidak valid atau akun tidak aktif' },
+        { status: 401 }
+      );
     }
 
-    if (!isQuick) {
-      const isMatch = await bcrypt.compare(password, user.password_hash);
-      if (!isMatch) {
-        return NextResponse.json({ success: false, message: 'Password salah' }, { status: 401 });
-      }
-    }
+    resetRateLimit(`ip:${clientIp}`);
+    resetRateLimit(`user:${rawUsername.toLowerCase()}`);
 
     const sessionData = {
       id: user.id,
@@ -48,13 +92,9 @@ export async function POST(request: Request) {
     };
 
     await setSessionCookie(sessionData);
-    await logAudit('LOGIN', 'users', user.id, user.id);
+    await logAudit('LOGIN_SUCCESS', 'users', user.id, user.id, clientIp, userAgent);
 
-    return NextResponse.json({
-      success: true,
-      message: 'Login berhasil',
-      user: sessionData,
-    });
+    return NextResponse.json({ success: true, message: 'Login berhasil', user: sessionData });
   } catch (error: any) {
     console.error('Login error:', error);
     return NextResponse.json({ success: false, message: 'Terjadi kesalahan sistem internal' }, { status: 500 });

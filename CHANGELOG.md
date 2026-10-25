@@ -12,6 +12,17 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.35.0] - 2026-10-23
+
+### Security
+- **Pertahanan Menyeluruh Anti-Brute Force, Anti-Enumeration & Penguatan Header Keamanan (`rate-limit.ts`, `api/auth/login`, `next.config.ts`)**:
+  * **Anti-Brute Force Rate Limiting**: Membangun modul `src/lib/rate-limit.ts` (65 LOC) dengan sliding-window limiter. Membatasi maksimal 5 percobaan gagal per username dan 15 percobaan per IP dalam 15 menit (HTTP 429 Too Many Requests dengan header `Retry-After`).
+  * **Pencegahan User Enumeration (CWE-204) & Timing Attacks (CWE-208)**: Memasang perbandingan waktu konstan `bcrypt.compare` terhadap `DUMMY_HASH` jika username tidak ditemukan, serta menyeragamkan respon galat menjadi pesan generik aman.
+  * **Pencatatan Audit Keamanan**: Merekam event `LOGIN_FAILED` dan `LOGIN_SUCCESS` ke tabel `audit_logs` TiDB lengkap dengan alamat IP dan user agent.
+  * **Enterprise Security Headers**: Menambahkan Content-Security-Policy (CSP), Strict-Transport-Security (HSTS max-age 63072000 includeSubDomains preload), dan X-XSS-Protection pada `next.config.ts`.
+
+---
+
 ## [2.34.0] - 2026-10-23
 
 ### Fixed

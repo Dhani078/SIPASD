@@ -799,3 +799,25 @@
    - `npm run build`: 12 rute produksi sukses.
    - Seluruh 80 berkas di `src/` <= 200 baris kode.
 
+---
+
+## Sesi 38: Pengerasan Keamanan Menyeluruh & Anti-Brute Force Rate Limiting
+**Tanggal**: 24 Oktober 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Penerapan Anti-Brute Force & Lockout**:
+   - Membangun `src/lib/rate-limit.ts` (65 LOC) dengan sliding window rate limiter.
+   - Membatasi 5 gagal/akun dan 15 gagal/IP per 15 menit dengan status HTTP 429 dan `Retry-After`.
+2. **Mitigasi User Enumeration & Timing Attacks**:
+   - Menerapkan dummy bcrypt compare konstan saat user tidak ditemukan.
+   - Menyeragamkan pesan galat login menjadi pesan aman generik.
+3. **Penguatan Security Headers Enterprise**:
+   - Menambahkan CSP, HSTS, dan X-XSS-Protection di `next.config.ts`.
+4. **Verifikasi Kualitas**:
+   - `npm test`: 6/6 test suites passed (100% HEALTHY).
+   - `tsc --noEmit`: 0 type errors.
+   - `aislop scan`: 100/100 Healthy (0 errors, 0 warnings).
+   - `npm run build`: 12 rute produksi sukses.
+   - Seluruh 81 berkas di `src/` <= 200 baris kode.
+

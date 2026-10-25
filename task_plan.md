@@ -344,6 +344,13 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 40: Comprehensive Security Hardening & Anti-Brute Force (100% COMPLETE)
+- [x] Membangun modul rate limiter `src/lib/rate-limit.ts` (65 LOC) membatasi brute force login (5 gagal/akun, 15 gagal/IP).
+- [x] Mitigasi timing attack dan user enumeration via constant-time compare dan pesan galat generik.
+- [x] Penambahan enterprise security headers CSP, HSTS, dan X-XSS-Protection di `next.config.ts`.
+- [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

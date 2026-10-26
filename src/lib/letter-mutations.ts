@@ -6,7 +6,7 @@ import { randomUUID } from 'crypto';
 export async function insertNewLetter(
   data: Omit<LetterRecord, 'id'>,
   userId = 'usr-admin-01'
-): Promise<string> {
+): Promise<{ agendaNumber: string; id: string }> {
   const id = randomUUID();
   const dateStr = String(data.date || '');
   const parsedYear = parseInt(dateStr.slice(0, 4), 10);
@@ -38,7 +38,7 @@ export async function insertNewLetter(
       );
 
       await conn.commit();
-      return nomorAgenda;
+      return { agendaNumber: nomorAgenda, id };
     } else {
       const [maxRows] = await conn.query<any[]>(
         "SELECT COALESCE(MAX(CAST(SUBSTRING_INDEX(nomor_agenda, '/', 1) AS UNSIGNED)), 7500) as maxAgenda, COALESCE(MAX(nomor_urut), 250) as maxUrut FROM arsip_surat_keluar WHERE tahun = ? FOR UPDATE",
@@ -54,7 +54,7 @@ export async function insertNewLetter(
       );
 
       await conn.commit();
-      return nomorAgenda;
+      return { agendaNumber: nomorAgenda, id };
     }
   } catch (err) {
     await conn.rollback();
@@ -80,8 +80,8 @@ export async function deleteLettersBatch(ids: string[], direction: 'in' | 'out')
 
     if (direction === 'in') {
       const [rows] = await conn.query<any[]>(
-        'SELECT id FROM arsip_surat_masuk WHERE id IN (?) OR nomor_agenda IN (?)',
-        [ids, ids]
+        'SELECT id FROM arsip_surat_masuk WHERE id IN (?) OR nomor_agenda IN (?) OR SUBSTRING_INDEX(nomor_agenda, \'/\', 1) IN (?)',
+        [ids, ids, ids]
       );
       targetIds = rows.map((r: any) => r.id);
       if (targetIds.length > 0) {
@@ -90,8 +90,8 @@ export async function deleteLettersBatch(ids: string[], direction: 'in' | 'out')
       }
     } else {
       const [rows] = await conn.query<any[]>(
-        'SELECT id FROM arsip_surat_keluar WHERE id IN (?) OR nomor_agenda IN (?)',
-        [ids, ids]
+        'SELECT id FROM arsip_surat_keluar WHERE id IN (?) OR nomor_agenda IN (?) OR SUBSTRING_INDEX(nomor_agenda, \'/\', 1) IN (?)',
+        [ids, ids, ids]
       );
       targetIds = rows.map((r: any) => r.id);
       if (targetIds.length > 0) {
@@ -117,9 +117,9 @@ export async function updateLetter(
   const isIn = direction === 'in';
   const row = await queryOne<any>(
     isIn
-      ? 'SELECT id FROM arsip_surat_masuk WHERE id = ? OR nomor_agenda = ?'
-      : 'SELECT id FROM arsip_surat_keluar WHERE id = ? OR nomor_agenda = ?',
-    [id, id]
+      ? 'SELECT id FROM arsip_surat_masuk WHERE id = ? OR nomor_agenda = ? OR SUBSTRING_INDEX(nomor_agenda, \'/\', 1) = ?'
+      : 'SELECT id FROM arsip_surat_keluar WHERE id = ? OR nomor_agenda = ? OR SUBSTRING_INDEX(nomor_agenda, \'/\', 1) = ?',
+    [id, id, id]
   );
   if (!row) return false;
 

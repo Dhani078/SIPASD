@@ -36,7 +36,14 @@ export function useLetterActions(
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || 'Gagal menyimpan arsip');
-    const newRecord: LetterRecord = { ...record, fileUrl, driveUrl, id: data.agendaNumber || 'BARU' };
+    const agendaNum = (data.agendaNumber || 'BARU').split('/')[0];
+    const newRecord: LetterRecord = {
+      ...record,
+      fileUrl,
+      driveUrl,
+      id: agendaNum,
+      rawId: data.id,
+    };
     setLetters((prev) => [newRecord, ...prev]);
     tell(`Arsip ${newRecord.id} berhasil dicatat ke TiDB Cloud Serverless.`);
     return newRecord;
@@ -46,18 +53,20 @@ export function useLetterActions(
     if (!deleteTarget) return;
     setDeleting(true);
     try {
+      const targetId = deleteTarget.rawId || deleteTarget.id;
       const res = await fetch(
-        `/api/letters?id=${encodeURIComponent(deleteTarget.id)}&direction=${deleteTarget.direction}`,
+        `/api/letters?id=${encodeURIComponent(targetId)}&direction=${deleteTarget.direction}`,
         { method: 'DELETE' }
       );
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Gagal menghapus arsip');
-      setLetters((prev) => prev.filter((l) => l.id !== deleteTarget.id));
+      setLetters((prev) => prev.filter((l) => l.id !== deleteTarget.id && (!deleteTarget.rawId || l.rawId !== deleteTarget.rawId)));
       const deletedId = deleteTarget.id;
       setDeleteTarget(null);
       tell(`Arsip No. Agenda ${deletedId} berhasil dihapus dari TiDB.`);
-    } catch (err: any) {
-      tell(err.message || 'Gagal menghapus arsip.', false);
+    } catch (err: unknown) {
+      const errMsg = err instanceof Error ? err.message : 'Gagal menghapus arsip.';
+      tell(errMsg, false);
     } finally {
       setDeleting(false);
     }
@@ -67,7 +76,7 @@ export function useLetterActions(
     if (!batchTargets.length) return;
     setDeleting(true);
     try {
-      const ids = batchTargets.map((b) => b.id);
+      const ids = batchTargets.map((b) => b.rawId || b.id);
       const direction = batchTargets[0].direction;
       const res = await fetch('/api/letters', {
         method: 'DELETE',
@@ -76,13 +85,15 @@ export function useLetterActions(
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Gagal menghapus arsip massal');
-      const idSet = new Set(ids);
-      setLetters((prev) => prev.filter((l) => !idSet.has(l.id)));
+      const idSet = new Set(batchTargets.map((b) => b.id));
+      const rawIdSet = new Set(batchTargets.map((b) => b.rawId).filter(Boolean));
+      setLetters((prev) => prev.filter((l) => !idSet.has(l.id) && (!l.rawId || !rawIdSet.has(l.rawId))));
       const count = batchTargets.length;
       setBatchTargets([]);
       tell(`${count} arsip terpilih berhasil dihapus dari TiDB Cloud.`);
-    } catch (err: any) {
-      tell(err.message || 'Gagal menghapus arsip massal.', false);
+    } catch (err: unknown) {
+      const errMsg = err instanceof Error ? err.message : 'Gagal menghapus arsip massal.';
+      tell(errMsg, false);
     } finally {
       setDeleting(false);
     }
@@ -107,11 +118,12 @@ export function useLetterActions(
       fileUrl = upData.url;
       if (upData.driveUrl) driveUrl = upData.driveUrl;
     }
+    const targetId = editTarget?.rawId || id;
     const res = await fetch('/api/letters', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        id,
+        id: targetId,
         direction: editTarget?.direction || 'in',
         ...updates,
         ...(fileUrl ? { fileUrl } : {}),

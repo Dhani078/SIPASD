@@ -12,6 +12,16 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.51.0] - 2026-10-25
+
+### Fixed
+- **Resolusi Pencocokan ID Hapus & Perbarui Arsip Multi-Format (`src/lib/letter-mutations.ts`, `src/app/api/letters/route.ts`, `src/hooks/useLetterActions.ts`)**:
+  * **Pencocokan Agenda Cerdas SQL**: Memperbarui kueri `deleteLettersBatch` dan `updateLetter` agar mencocokkan `id`, `nomor_agenda` lengkap, dan `SUBSTRING_INDEX(nomor_agenda, '/', 1)`. Menghilangkan galat *"Arsip tidak ditemukan di database"* saat pengguna menghapus arsip melalui nomor agenda numerik pendek.
+  * **Pengembalian UUID Riil pada Perekaman Arsip**: Memperbarui rute POST `/api/letters` dan fungsi `insertNewLetter` agar mengembalikan `{ agendaNumber, id }` (UUID), sehingga state klien langsung memiliki pasangan `id` numerik dan `rawId` UUID database secara presisi.
+  * **Pembersihan State Klien Instan**: Hook `useLetterActions.ts` kini memfilter daftar surat berdasarkan `id` dan `rawId`, menjamin baris terhapus hilang seketika dari tabel tanpa perlu refresh manual.
+
+---
+
 ## [2.50.0] - 2026-10-25
 
 ### Fixed

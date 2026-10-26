@@ -37,11 +37,12 @@ export async function POST(request: Request) {
     body.number = sanitize(body.number);
     body.origin = sanitize(body.origin);
     body.subject = sanitize(body.subject);
-    const agendaNumber = await insertNewLetter(body, session.id);
+    const res = await insertNewLetter(body, session.id);
     return NextResponse.json({
       success: true,
       message: 'Arsip berhasil disimpan',
-      agendaNumber,
+      agendaNumber: res.agendaNumber,
+      id: res.id,
     });
   } catch (error: unknown) {
     console.error('API Letters POST error:', error);

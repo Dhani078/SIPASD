@@ -12,6 +12,20 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.52.0] - 2026-10-26
+
+### Fixed
+- **Sinkronisasi drive_url pada Pembaruan Naskah TiDB Cloud (`src/lib/letter-mutations.ts`)**:
+  * Menambahkan pembaruan kolom `drive_url = COALESCE(?, drive_url)` pada kueri SQL mutasi `updateLetter` untuk `arsip_surat_masuk` dan `arsip_surat_keluar`. Menjamin berkas baru yang diunggah saat pengeditan arsip tersimpan permanen di TiDB Cloud dan tidak hilang saat halaman dimuat ulang.
+- **Pengetatan Type-Safety Eksplisit & Eliminasi Loose Types (`src/components/EditLetterModal.tsx`, `src/components/NewLetterModal.tsx`, `src/lib/format.ts`, `src/lib/gdrive.ts`)**:
+  * Mengganti blok penanganan kesalahan `catch (e: any)` dan `catch (err: any)` dengan tipe `unknown` terproteksi `instanceof Error`.
+  * Menetapkan tipe definitif `LetterRecord[]` menggantikan `any[]` pada fungsi filter naskah `filterLetters`.
+  * Memperbaiki penanganan `lastError` pada modul cadangan Google Drive `src/lib/gdrive.ts`.
+- **Portabilitas Jalur Berkas Skrip Forensik (`scripts/clean_glued_text.py`, `scripts/deep_reindex_all.py`)**:
+  * Mengganti pembacaan path statis hardcoded `.env.local` menjadi `Path(__file__).resolve().parent.parent / '.env.local'`, menjamin eksekusi skrip Python berjalan mulus di direktori `E:\Hermesproject\SIPASD`.
+
+---
+
 ## [2.51.0] - 2026-10-25
 
 ### Fixed

@@ -92,7 +92,7 @@ export async function uploadToGoogleDrive(
   ]);
 
   const maxRetries = 2;
-  let lastError: any = null;
+  let lastError: Error | null = null;
 
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
@@ -136,7 +136,7 @@ export async function uploadToGoogleDrive(
     } catch (err: unknown) {
       const errMsg = err instanceof Error ? err.message : 'Unknown exception';
       console.error(`[GDrive] Upload exception (attempt ${attempt}/${maxRetries}):`, errMsg);
-      lastError = err;
+      lastError = err instanceof Error ? err : new Error(errMsg);
       if (attempt < maxRetries) {
         await new Promise((r) => setTimeout(r, 1000 * attempt));
       }

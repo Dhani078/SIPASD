@@ -1,9 +1,11 @@
 import pymysql
 import re
+from pathlib import Path
 from urllib.parse import urlparse
 
 db_url = None
-with open(r'C:\xampp\htdocs\SIPASD\.env.local', 'r') as f:
+env_path = Path(__file__).resolve().parent.parent / '.env.local'
+with open(env_path, 'r') as f:
     for l in f:
         if l.startswith('DATABASE_URL='):
             db_url = l.split('=', 1)[1].strip('"\x27\n').split('?')[0]

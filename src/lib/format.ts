@@ -1,3 +1,5 @@
+import type { LetterRecord } from '@/types';
+
 function formatIndoDate(date: string, month: 'long' | 'short'): string {
   try {
     const d = date.includes('T') ? new Date(date) : new Date(date + 'T00:00:00+08:00');
@@ -76,7 +78,7 @@ export function matchYearFilter(letterDate: string, filterYear?: string): boolea
 }
 
 export function filterLetters(
-  letters: any[],
+  letters: LetterRecord[],
   page: string,
   filters: { query?: string; year?: string; month?: string; urgency?: string; classification?: string; venue?: string; division?: string }
 ) {

@@ -56,8 +56,9 @@ export default function EditLetterModal({ letter, onClose, onSave }: Props) {
       }
       await onSave(letter.id, updates, file || undefined);
       onClose();
-    } catch (e: any) {
-      setErr(e.message || 'Gagal menyimpan perubahan.');
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : 'Gagal menyimpan perubahan.';
+      setErr(msg);
     } finally {
       setSaving(false);
     }

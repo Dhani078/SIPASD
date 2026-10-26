@@ -71,8 +71,9 @@ export default function NewLetterModal({ direction, onClose, onSave }: Props) {
               file
             );
             onClose();
-          } catch (err: any) {
-            setError(err.message || 'Gagal menyimpan arsip.');
+          } catch (err: unknown) {
+            const msg = err instanceof Error ? err.message : 'Gagal menyimpan arsip.';
+            setError(msg);
           } finally {
             setSaving(false);
           }

@@ -22,7 +22,7 @@ export async function GET() {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const isPrivileged = session.role === 'SUPER_ADMIN' || session.username === 'developer' || session.username === 'admin';
+  const isPrivileged = session.role === 'SUPER_ADMIN';
   if (!isPrivileged) {
     return NextResponse.json({ error: 'Forbidden: Khusus Administrator IT & Developer' }, { status: 403 });
   }

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { query } from '@/lib/db';
 import { logAudit } from '@/lib/audit';
 import { getSession } from '@/lib/auth';
+import { getClientIp } from '@/lib/rate-limit';
 
 interface ExpeditionRow {
   id: string;
@@ -86,7 +87,9 @@ export async function POST(request: Request) {
       [suratId, tanggalKirim, kurir, penerima, telepon, catatan]
     );
 
-    await logAudit('CATAT_EKSPEDISI', 'buku_ekspedisi', suratId, session.id);
+    const ip = getClientIp(request);
+    const agent = request.headers.get('user-agent') || 'Unknown';
+    await logAudit('CATAT_EKSPEDISI', 'buku_ekspedisi', suratId, session.id, ip, agent);
 
     return NextResponse.json({
       success: true,

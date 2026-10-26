@@ -3,6 +3,8 @@ import { uploadPdfBuffer } from '@/lib/cloudinary';
 import { uploadToGoogleDrive } from '@/lib/gdrive';
 import { getSession } from '@/lib/auth';
 import { getGdriveFolderUrl } from '@/data/constants';
+import { logAudit } from '@/lib/audit';
+import { getClientIp } from '@/lib/rate-limit';
 
 function canUpload(role?: string): boolean {
   return role === 'SUPER_ADMIN' || role === 'PETUGAS_ARSIP';
@@ -47,6 +49,10 @@ export async function POST(request: Request) {
     const gdriveFolderType = folder === 'surat_masuk' ? 'masuk' : 'keluar';
     const yearStr = String(formData.get('year') || '2026').slice(0, 4);
     const driveUrl = await uploadToGoogleDrive(buffer, file.name, gdriveFolderType, yearStr);
+
+    const ip = getClientIp(request);
+    const agent = request.headers.get('user-agent') || 'Unknown';
+    await logAudit('UNGGAH_BERKAS', folder, result.publicId, session.id, ip, agent, { fileName: file.name, size: file.size });
 
     return NextResponse.json({
       success: true,

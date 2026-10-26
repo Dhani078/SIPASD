@@ -12,6 +12,16 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.54.0] - 2026-10-26
+
+### Security
+- **Pengetatan Keamanan Endpoint & Input Boundary (`security-and-hardening`)**:
+  * **Audit Logging Ekspedisi & Unggah Berkas (`src/app/api/expedition/route.ts`, `src/app/api/upload/route.ts`)**: Meneruskan alamat IP nyata dan identitas peramban (*User Agent*) pada setiap aksi pencatatan ekspedisi surat dan pengunggahan berkas ke basis data TiDB.
+  * **Proteksi DoS Ukuran Teks AI Heuristik (`src/app/api/ai/suggest/route.ts`)**: Menetapkan batas maksimal 5.000 karakter pada payload klasifikasi perihal guna mencegah serangan kehabisan memori.
+  * **Penegakan RBAC Definitif Akses Forensik (`src/app/api/audit/route.ts`)**: Mengunci otorisasi penarikan log forensik audit hanya untuk peran resmi `SUPER_ADMIN` di level database, meniadakan bypass pencocokan string nama pengguna.
+
+---
+
 ## [2.53.0] - 2026-10-26
 
 ### Removed

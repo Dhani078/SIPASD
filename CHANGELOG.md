@@ -21,6 +21,10 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
   * Mengganti blok penanganan kesalahan `catch (e: any)` dan `catch (err: any)` dengan tipe `unknown` terproteksi `instanceof Error`.
   * Menetapkan tipe definitif `LetterRecord[]` menggantikan `any[]` pada fungsi filter naskah `filterLetters`.
   * Memperbaiki penanganan `lastError` pada modul cadangan Google Drive `src/lib/gdrive.ts`.
+- **Integrasi Jejak Forensik Audit Trail Lengkap (`src/app/api/auth/logout/route.ts`, `src/app/api/letters/route.ts`, `src/lib/audit.ts`)**:
+  * Menambahkan pencatatan event `LOGOUT` pada sesi keluar aparatur di `/api/auth/logout` sehingga filter *"Keluar Sesi"* pada modul Jejak Forensik TiDB terisi akurat.
+  * Menambahkan pencatatan jejak forensik `BUAT_ARSIP`, `EDIT_ARSIP`, dan `HAPUS_ARSIP` di `/api/letters` lengkap dengan metadata IP address dan User Agent.
+  * Mengetik ulang parameter `details` pada `src/lib/audit.ts` menjadi `Record<string, unknown> | unknown` untuk eliminasi `any`.
 - **Portabilitas Jalur Berkas Skrip Forensik (`scripts/clean_glued_text.py`, `scripts/deep_reindex_all.py`)**:
   * Mengganti pembacaan path statis hardcoded `.env.local` menjadi `Path(__file__).resolve().parent.parent / '.env.local'`, menjamin eksekusi skrip Python berjalan mulus di direktori `E:\Hermesproject\SIPASD`.
 

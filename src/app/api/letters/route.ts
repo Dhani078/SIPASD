@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { getRealLetters } from '@/lib/letters';
 import { insertNewLetter, deleteLettersBatch, updateLetter } from '@/lib/letter-mutations';
 import { getSession } from '@/lib/auth';
+import { logAudit } from '@/lib/audit';
+import { getClientIp } from '@/lib/rate-limit';
 
 function canManageLetters(role?: string): boolean {
   return role === 'SUPER_ADMIN' || role === 'PETUGAS_ARSIP';
@@ -38,6 +40,9 @@ export async function POST(request: Request) {
     body.origin = sanitize(body.origin);
     body.subject = sanitize(body.subject);
     const res = await insertNewLetter(body, session.id);
+    const ip = getClientIp(request);
+    const agent = request.headers.get('user-agent') || 'Unknown';
+    await logAudit('BUAT_ARSIP', body.direction === 'out' ? 'arsip_surat_keluar' : 'arsip_surat_masuk', res.id, session.id, ip, agent);
     return NextResponse.json({
       success: true,
       message: 'Arsip berhasil disimpan',
@@ -90,6 +95,10 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ success: false, message: 'Arsip tidak ditemukan di database' }, { status: 404 });
     }
 
+    const ip = getClientIp(request);
+    const agent = request.headers.get('user-agent') || 'Unknown';
+    await logAudit('HAPUS_ARSIP', direction === 'out' ? 'arsip_surat_keluar' : 'arsip_surat_masuk', ids.slice(0, 3).join(','), session.id, ip, agent);
+
     return NextResponse.json({ success: true, count, message: `${count} arsip berhasil dihapus dari TiDB` });
   } catch (error: unknown) {
     console.error('API Letters DELETE error:', error);
@@ -124,6 +133,11 @@ export async function PUT(request: Request) {
     if (!ok) {
       return NextResponse.json({ success: false, message: 'Arsip tidak ditemukan untuk diperbarui' }, { status: 404 });
     }
+
+    const ip = getClientIp(request);
+    const agent = request.headers.get('user-agent') || 'Unknown';
+    await logAudit('EDIT_ARSIP', direction === 'out' ? 'arsip_surat_keluar' : 'arsip_surat_masuk', id, session.id, ip, agent);
+
     return NextResponse.json({ success: true, message: 'Arsip berhasil diperbarui di TiDB Cloud' });
   } catch (error: unknown) {
     console.error('API Letters PUT error:', error);

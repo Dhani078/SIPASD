@@ -7,7 +7,7 @@ export async function logAudit(
   userId?: string | null,
   ipAddress: string = '127.0.0.1',
   userAgent: string = 'Web Browser',
-  details?: any
+  details?: Record<string, unknown> | unknown
 ) {
   try {
     const detailsJson = details ? JSON.stringify(details) : null;

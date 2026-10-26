@@ -12,6 +12,17 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.55.0] - 2026-10-26
+
+### Added
+- **Paket Dokumentasi Maxx Mode Arsitektur & Akademik Lengkap (`docs/`)**:
+  * **Architecture Decision Records (`docs/ARCHITECTURE_DECISIONS.md`)**: Menyusun 7 ADR standar industri (ADR-001 Next.js 15, ADR-002 TiDB Cloud Serverless, ADR-003 Dual Cloud Storage, ADR-004 Kompresi PDF Client-Side, ADR-005 Cookie JWT HttpOnly & RBAC, ADR-006 Transaksi Atomik `FOR UPDATE`, ADR-007 Multi-Format Agenda Matching).
+  * **Disaster Recovery & Maintenance Runbook (`docs/DISASTER_RECOVERY_RUNBOOK.md`)**: Menyusun panduan pemulihan bencana standar SPBE Kalsel dengan target RTO < 15 menit dan RPO < 1 jam, skenario failover database TiDB, rotasi kredensial berkala, dan kontak darurat kedinasan.
+  * **Matriks Kompetensi Akademik UNISKA (`docs/MATRIKS_KOMPETENSI_AKADEMIK_UNISKA.md`)**: Memetakan 6 capaian pembelajaran mata kuliah kurikulum TI S1 (RPL, Basis Data Lanjut, Pemrograman Web, Keamanan Sistem, SIM, QA) langsung ke bukti file kode nyata SIPASD serta lembar pembelaan sidang magang.
+  * **Spesifikasi Route Handlers Mutakhir (`docs/API_ROUTES.md`)**: Memutakhirkan spesifikasi 12 endpoint produksi dengan parameter query, skema JSON permintaan/respon riil, mitigasi DoS, dan jejak forensik.
+
+---
+
 ## [2.54.0] - 2026-10-26
 
 ### Security

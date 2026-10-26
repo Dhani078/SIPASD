@@ -12,6 +12,18 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.53.0] - 2026-10-26
+
+### Removed
+- **Eliminasi Dependensi Mati Zod (`package.json`, `package-lock.json`)**:
+  * Menghapus paket dependensi `zod` yang tidak lagi dipanggil di seluruh berkas kode sumber `src/`, sekaligus meniadakan peringatan keamanan High Severity `GHSA-mrhx-c7xc-m3w5`.
+
+### Refactored
+- **Optimasi Route Handler Logout Sesuai Standar aislop (`src/app/api/auth/logout/route.ts`)**:
+  * Mengganti deklarasi fungsi pembungkus tipis (*thin wrapper*) `async function GET(req)` menjadi `export const GET = POST;` sesuai konvensi Route Handler Next.js 15, mencapai skor audit `aislop` 100/100 (0 error, 0 warning).
+
+---
+
 ## [2.52.0] - 2026-10-26
 
 ### Fixed

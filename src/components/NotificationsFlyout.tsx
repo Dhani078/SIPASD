@@ -35,7 +35,10 @@ export default function NotificationsFlyout({
         onClick={onClose}
         role="presentation"
       />
-      <dialog open className="notifications z-50 m-0 border-0 bg-white" aria-label="Notifikasi Kedinasan">
+      <section
+        className="notifications absolute right-6 top-[58px] left-auto w-80 sm:w-[360px] bg-white border border-slate-200 rounded-lg shadow-xl z-50 overflow-hidden text-slate-800 animate-in fade-in slide-in-from-top-2 duration-150"
+        aria-label="Panel Notifikasi Kedinasan"
+      >
         <div className="flex items-center justify-between p-3 border-b border-slate-100 bg-slate-50/60">
           <div className="flex items-center gap-2">
             <h3>Notifikasi</h3>
@@ -106,7 +109,7 @@ export default function NotificationsFlyout({
             <Icon name="arrow" size={12} />
           </button>
         </div>
-      </dialog>
+      </section>
     </>
   );
 }

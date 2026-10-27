@@ -12,6 +12,15 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.61.0] - 2026-10-26
+
+### Fixed
+- **Resolusi Posisi Panel Notifikasi ke Kanan Atas (`NotificationsFlyout.tsx`, `globals.css`)**:
+  * **Eliminasi Bug Pergeseran ke Kiri**: Mengganti elemen bawaan `<dialog>` menjadi `<section aria-label="Panel Notifikasi Kedinasan">` dengan styling `absolute right-6 top-[58px] left-auto w-80 sm:w-[360px]`.
+  * **Penyebab & Solusi**: Elemen `<dialog>` pada browser Chrome menerapkan style default user-agent `inset-inline-start: 0px` (`left: 0`), yang saat dipadukan dengan utility `m-0` menarik paksa panel dropdown ke sisi kiri workspace dekat sidebar. Dengan penetapan `left: auto !important; right: 24px !important;`, panel notifikasi kini duduk presisi di pojok kanan atas tepat di bawah ikon lonceng dan avatar.
+
+---
+
 ## [2.60.0] - 2026-10-26
 
 ### Fixed

@@ -31,6 +31,7 @@
   * **Phase 23: Resolusi Layout Chip Instruksi Disposisi & Eliminasi False AI Recommendation (SELESAI 100% - VERIFIED)**.
   * **Phase 24: Integrasi Opsi B+C Pemindahan Berkas ke Kotak Sampah (Trash) Google Drive & Cloudinary (SELESAI 100% - VERIFIED)**.
   * **Phase 25: Penyelarasan Nama File Unduh PDF Dinamis Sesuai Naskah Fisik Asli (SELESAI 100% - VERIFIED)**.
+  * **Phase 26: Resolusi Posisi Panel Notifikasi Flyout ke Kanan Atas di Bawah Lonceng (SELESAI 100% - VERIFIED)**.
 - **Hasil Kompilasi & Pengujian**:
   * `npx tsc --noEmit`: 0 error.
   * `npm test`: 6/6 test suites passed (100% HEALTHY).

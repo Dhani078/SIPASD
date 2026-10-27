@@ -46,7 +46,3 @@ ON DUPLICATE KEY UPDATE
   password_hash = VALUES(password_hash),
   role = VALUES(role),
   is_active = 1;
-
--- Credentials:
--- pengarsip / dispora2026  -> tampil di web sebagai "Rana Nur Syifa"
--- developer / dev2026      -> tampil di web sebagai "Muhammad Rizki Ramadhani"

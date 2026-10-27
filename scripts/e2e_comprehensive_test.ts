@@ -86,7 +86,7 @@ async function runAllTests() {
     const res = await fetch(`${BASE_URL}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: 'kadis', password: 'Dispora2026!' }),
+      body: JSON.stringify({ username: 'kadis', password: process.env.TEST_KADIS_PASSWORD || 'Dispora2026!' }),
     });
     assert.strictEqual(res.status, 200, `Expected 200 OK, got ${res.status}`);
     const data = await res.json();

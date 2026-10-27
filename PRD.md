@@ -491,7 +491,7 @@ Korpus 420 pindaian scan PDF yang tersimpan di SIPASD menjadi objek data penelit
 
 | No | Modul / Skenario Pengujian | Masukan (Input) | Hasil yang Diharapkan | Status Hasil |
 | :---: | :--- | :--- | :--- | :---: |
-| **1** | Autentikasi Pengguna Valid | Username: `admin`, Password: `Dispora2026!` | Login sukses, cookie sesi diterbitkan, redirect ke dashboard. | **PASS (Valid)** |
+| **1** | Autentikasi Pengguna Valid | Username: `admin`, Password valid | Login sukses, cookie sesi diterbitkan, redirect ke dashboard. | **PASS (Valid)** |
 | **2** | Autentikasi Password Salah | Username: `kadis`, Password salah. | Menolak akses dengan pesan HTTP 401 "Kredensial tidak valid". | **PASS (Valid)** |
 | **3** | Pembatasan Hak Akses (RBAC) | Akun role `BIDANG` mengakses menu `/master/users`. | Sistem menolak akses dan mengarahkan ke halaman 403 Forbidden. | **PASS (Valid)** |
 | **4** | Pencarian Instan Berdasarkan Nomor | Memasukkan kata kunci `0973`. | Menyaring dan menampilkan berkas nomor 0973 dalam < 1 detik. | **PASS (Valid)** |

@@ -12,6 +12,15 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.62.0] - 2026-10-26
+
+### Security
+- **Pembersihan Total Teks Kata Sandi di Seluruh Antarmuka & Dokumen Publik (`LoginPage.tsx`, `README.md`, `PRD.md`, `docs/`)**:
+  * **Halaman Login Bersih**: Menghapus teks kata sandi eksplisit di halaman login `src/components/LoginPage.tsx` menjadi keterangan resmi *"Akses kedinasan terotentikasi &bull; Terintegrasi Pangkalan Data SPBE Dispora Kalsel"*.
+  * **Penyembunyian Seluruh Password di Dokumen GitHub**: Menghapus seluruh kolom dan penyebutan kata sandi akun di berkas `README.md`, `docs/PANDUAN_PENGGUNA.md`, `docs/PANDUAN_SIDANG_DAN_TANYA_JAWAB_PENGUJI.md`, `docs/TESTING_REPORT.md`, `docs/API_ROUTES.md`, dan `docs/sql/`. Seluruh kredensial akun tersimpan aman murni sebagai hash Bcrypt di basis data TiDB Cloud Serverless.
+
+---
+
 ## [2.61.0] - 2026-10-26
 
 ### Fixed

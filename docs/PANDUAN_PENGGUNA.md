@@ -48,7 +48,7 @@ Untuk mempermudah demonstrasi, evaluasi pimpinan, dan pengujian sidang, tersedia
 - Klik tombol **`[Kasubbag Keuangan]`**: Otomatis mengisi akun PPTK Subbag Keuangan (**Norika Fajriana, SH, MH**).
 - Klik tombol **`[Kabid Olahraga]`**: Otomatis mengisi akun Kepala Bidang Pembudayaan Olahraga (**Budiono, S.Pd, M.AP**).
 - Klik tombol **`[Super Admin]`**: Otomatis mengisi akun Administrator IT Sistem (`admin`).
-*(Kata sandi default untuk seluruh akun pengujian adalah: `Dispora2026!`)*.
+*(Kata sandi resmi kedinasan dikelola oleh Administrator IT dan dirahasiakan)*.
 
 ---
 

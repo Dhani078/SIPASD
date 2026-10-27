@@ -50,7 +50,7 @@ async function seed() {
 
   console.log('Seeding Official Users...');
   const salt = await bcrypt.genSalt(10);
-  const passwordHash = await bcrypt.hash('Dispora2026!', salt);
+  const passwordHash = await bcrypt.hash(process.env.SEED_DEFAULT_PASSWORD || 'Dispora2026!', salt);
 
   const usersList = [
     [
@@ -119,7 +119,7 @@ async function seed() {
     );
   }
 
-  console.log('Seeder completed successfully! Default password for all users: Dispora2026!');
+  console.log('Seeder completed successfully! Official user accounts initialized.');
   await connection.end();
 }
 

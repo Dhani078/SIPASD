@@ -180,7 +180,7 @@ export default function LoginPage({
             ))}
           </div>
           <small className="demo-note">
-            Kata sandi resmi: <b>Dispora2026!</b> | Terintegrasi Pangkalan Data SPBE.
+            Akses kedinasan terotentikasi &bull; Terintegrasi Pangkalan Data SPBE Dispora Kalsel.
           </small>
         </form>
       </div>

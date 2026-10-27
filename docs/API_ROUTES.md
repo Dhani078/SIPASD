@@ -35,7 +35,7 @@
   ```json
   {
     "username": "admin",
-    "password": "Dispora2026!"
+    "password": "********"
   }
   ```
 - **Respon Sukses (HTTP 200 OK)**:

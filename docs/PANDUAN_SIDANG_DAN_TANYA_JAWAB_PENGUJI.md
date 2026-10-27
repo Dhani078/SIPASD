@@ -96,4 +96,4 @@ Gunakan alur demonstrasi ini agar presentasi terlihat sistematis, percaya diri, 
 - [x] Buka peramban di tab utama: `https://www.sipasd.my.id`.
 - [x] Siapkan file presentasi `docs/PRESENTASI_SIDANG_MAGANG_SIPASD.pptx` atau buka cadangan `docs/PRESENTASI_SIDANG_MAGANG_SIPASD.html`.
 - [x] Cetak naskah `docs/LAPORAN_MAGANG_SIPASD_DISPORA_KALSEL.docx` yang sudah dijilid rapi.
-- [x] Akun demo pimpinan siap digunakan: username `kadis`, password `Dispora2026!`.
+- [x] Akun demo pimpinan siap digunakan via tombol akses cepat satu-klik.

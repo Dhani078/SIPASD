@@ -26,6 +26,7 @@ export default async function ArsipKeluarRoute() {
       initialLetters={letters}
       initialUser={user}
       initialPage="out"
+      isAuthenticated={true}
     />
   );
 }

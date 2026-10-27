@@ -24,7 +24,7 @@ export default async function HomePage({ searchParams }: Props) {
         label: session.role,
         initials: session.namaLengkap.slice(0, 2).toUpperCase(),
       }
-    : demoUsers[1];
+    : null;
 
   const initialPage = session ? (params?.view || 'dashboard') : 'landing';
 
@@ -33,6 +33,7 @@ export default async function HomePage({ searchParams }: Props) {
       initialLetters={letters}
       initialUser={user}
       initialPage={initialPage}
+      isAuthenticated={Boolean(session)}
     />
   );
 }

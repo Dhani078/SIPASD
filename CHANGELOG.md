@@ -12,6 +12,15 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.63.0] - 2026-10-26
+
+### Fixed
+- **Pengalihan Otomatis ke Halaman Login untuk Akses Arsip Publik (`SipasdApp.tsx`, `page.tsx`, `landing/page.tsx`, `login/page.tsx`)**:
+  * **Pencegahan Bypass Akun Default**: Menghilangkan inisialisasi akun developer `demoUsers[1]` saat pengguna belum login (`session === null`). State pengguna kini diawali sebagai `null` dengan status `authenticated = false`.
+  * **Guard Rute Klien & Pengalihan Lacak ke Login (Opsi 1)**: Ketika pengunjung yang belum login menekan tombol *"Lacak"* atau chip contoh pencarian (`0899`, `Dispora`, dll) di Beranda Publik, sistem otomatis mengalihkan navigasi ke halaman masuk `/login`, meniadakan pembukaan dashboard atau sidebar akun aparatur tanpa autentikasi.
+
+---
+
 ## [2.62.0] - 2026-10-26
 
 ### Security

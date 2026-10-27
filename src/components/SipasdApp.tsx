@@ -18,8 +18,9 @@ import type { LetterRecord, DemoUser, ArchiveFilters } from '@/types';
 
 interface Props {
   initialLetters: LetterRecord[];
-  initialUser?: DemoUser;
+  initialUser?: DemoUser | null;
   initialPage?: string;
+  isAuthenticated?: boolean;
 }
 
 const URL_MAP: Record<string, string> = {
@@ -32,12 +33,14 @@ const URL_MAP: Record<string, string> = {
 
 export default function SipasdApp({
   initialLetters,
-  initialUser = demoUsers[1],
+  initialUser = null,
   initialPage = 'dashboard',
+  isAuthenticated = false,
 }: Props) {
   const [page, setPage] = useState(initialPage);
   const [letters, setLetters] = useState<LetterRecord[]>(initialLetters);
-  const [user, setUser] = useState<DemoUser>(initialUser);
+  const [user, setUser] = useState<DemoUser>(initialUser || demoUsers[0]);
+  const [auth, setAuth] = useState(isAuthenticated || Boolean(initialUser));
   const [drawer, setDrawer] = useState(false);
   const [filters, setFilters] = useState<ArchiveFilters>(emptyFilters);
   const [selected, setSelected] = useState<LetterRecord | null>(null);
@@ -46,11 +49,7 @@ export default function SipasdApp({
   const [modal, setModal] = useState('');
   const [toast, setToast] = useState<{ msg: string; ok: boolean } | null>(null);
   const [pagination, setPagination] = useState(1);
-
-  const tell = (msg: string, ok = true) => {
-    setToast({ msg, ok });
-    setTimeout(() => setToast(null), 4000);
-  };
+  const tell = (msg: string, ok = true) => { setToast({ msg, ok }); setTimeout(() => setToast(null), 4000); };
 
   const {
     deleteTarget, setDeleteTarget, batchTargets, setBatchTargets,
@@ -59,13 +58,11 @@ export default function SipasdApp({
   } = useLetterActions(setLetters, tell);
 
   const go = (next: string) => {
-    setSelected(null); setSelectedIds([]); setFilters(emptyFilters);
-    setPagination(1); setDrawer(false); setPage(next);
+    const target = !auth && next !== 'landing' && next !== 'login' ? 'login' : next;
+    setSelected(null); setSelectedIds([]); setFilters(emptyFilters); setPagination(1); setDrawer(false); setPage(target);
     if (typeof window !== 'undefined') {
-      const dest = URL_MAP[next] || `/dashboard?view=${next}`;
-      if (window.location.pathname + window.location.search !== dest) {
-        window.history.pushState({ page: next }, '', dest);
-      }
+      const dest = URL_MAP[target] || `/dashboard?view=${target}`;
+      if (window.location.pathname + window.location.search !== dest) window.history.pushState({ page: target }, '', dest);
     }
   };
 
@@ -73,28 +70,21 @@ export default function SipasdApp({
     const handlePop = () => {
       const path = window.location.pathname;
       const v = new URLSearchParams(window.location.search).get('view');
-      if (v) setPage(v);
-      else if (path.includes('arsip-masuk')) setPage('in');
-      else if (path.includes('arsip-keluar')) setPage('out');
-      else if (path.includes('dashboard')) setPage('dashboard');
-      else if (path.includes('login')) setPage('login');
-      else if (path === '/') setPage('landing');
+      let t = v || (path.includes('arsip-masuk') ? 'in' : path.includes('arsip-keluar') ? 'out' : path.includes('dashboard') ? 'dashboard' : path.includes('login') ? 'login' : 'landing');
+      if (!auth && t !== 'landing' && t !== 'login') t = 'login';
+      setPage(t);
     };
     handlePop();
     window.addEventListener('popstate', handlePop);
     return () => window.removeEventListener('popstate', handlePop);
-  }, []);
+  }, [auth]);
 
   const archive = (next: string, values: Partial<ArchiveFilters> = {}) => {
     go(next);
     setFilters({ ...emptyFilters, ...values });
   };
 
-  const title =
-    page === 'dashboard'
-      ? 'Beranda Eksekutif'
-      : groups.flatMap((g) => g.items).find((i) => i[2] === page)?.[0] ?? 'Profil Pengguna';
-
+  const title = page === 'dashboard' ? 'Beranda Eksekutif' : groups.flatMap((g) => g.items).find((i) => i[2] === page)?.[0] ?? 'Profil Pengguna';
   const visible = filterLetters(letters, page, filters);
   const inCount = letters.filter((l) => l.direction === 'in').length;
   const outCount = letters.filter((l) => l.direction === 'out').length;
@@ -105,33 +95,26 @@ export default function SipasdApp({
     archive(saved.direction);
   };
 
-  const handleToggleSelect = (id: string) => {
-    setSelectedIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
-  };
-
+  const handleToggleSelect = (id: string) => setSelectedIds((p) => p.includes(id) ? p.filter((x) => x !== id) : [...p, id]);
   const handleToggleAll = () => {
     const visibleIds = visible.map((l) => l.id);
-    const allChecked = visibleIds.every((id) => selectedIds.includes(id));
+    const allChecked = visibleIds.length > 0 && visibleIds.every((id) => selectedIds.includes(id));
     setSelectedIds(allChecked ? selectedIds.filter((id) => !visibleIds.includes(id)) : [...new Set([...selectedIds, ...visibleIds])]);
   };
 
   const handleLogout = async () => {
-    try {
-      await fetch('/api/auth/logout', { method: 'POST' });
-    } catch {
-      // ignore network errors
-    }
-    if (typeof window !== 'undefined') {
-      window.location.href = '/';
-    }
+    try { await fetch('/api/auth/logout', { method: 'POST' }); } catch { /* ignore network error */ }
+    setAuth(false);
+    if (typeof window !== 'undefined') window.location.href = '/';
   };
 
   if (page === 'landing') {
     return (
       <>
         <LandingPage
-          go={go} onTrack={(q) => archive('in', { query: q })}
-          onVenue={(v) => archive(letters.some((l) => l.venue === v && l.direction === 'in') ? 'in' : 'out', { venue: v })}
+          go={go}
+          onTrack={(q) => (auth ? archive('in', { query: q }) : go('login'))}
+          onVenue={(v) => (auth ? archive(letters.some((l) => l.venue === v && l.direction === 'in') ? 'in' : 'out', { venue: v }) : go('login'))}
           setModal={setModal} sampleLetter={letters.find((l) => l.direction === 'in') || letters[0]}
           totalSuratMasuk={inCount} totalSuratKeluar={outCount}
         />
@@ -146,6 +129,7 @@ export default function SipasdApp({
         onBack={() => go('landing')}
         onLoginSuccess={(acc) => {
           setUser(acc);
+          setAuth(true);
           go('dashboard');
           tell(`Selamat datang, ${acc.name}. Sesi aktif di TiDB.`);
         }}
@@ -156,12 +140,7 @@ export default function SipasdApp({
   return (
     <div className="app-shell">
       {drawer && (
-        <button
-          type="button"
-          aria-label="Tutup navigasi drawer"
-          className="drawer-overlay"
-          onClick={() => setDrawer(false)}
-        />
+        <button type="button" aria-label="Tutup navigasi drawer" className="drawer-overlay" onClick={() => setDrawer(false)} />
       )}
       <Sidebar drawer={drawer} page={page} go={go} user={user} counts={{ in: inCount, out: outCount }} onLogout={handleLogout} />
       <div className="workspace">

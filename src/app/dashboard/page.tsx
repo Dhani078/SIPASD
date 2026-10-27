@@ -33,6 +33,7 @@ export default async function DashboardRoute({ searchParams }: Props) {
       initialLetters={letters}
       initialUser={user}
       initialPage={params?.view || 'dashboard'}
+      isAuthenticated={true}
     />
   );
 }

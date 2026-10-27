@@ -26,6 +26,7 @@ export default async function ArsipMasukRoute() {
       initialLetters={letters}
       initialUser={user}
       initialPage="in"
+      isAuthenticated={true}
     />
   );
 }

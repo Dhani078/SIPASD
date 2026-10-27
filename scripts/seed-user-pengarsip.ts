@@ -11,7 +11,7 @@ const rows = [
     password: process.env.SEED_PASSWORD_PENGARSIP || 'DefaultSeedPassword123!',
     role: 'SUPER_ADMIN',
     jabatan: 'Analis Anggaran - Ahli Pertama',
-    unit_kerja: 'Subbag Keuangan',
+    unit_kerja: 'Sekretariat',
   },
   {
     id: 'd7c9b5e2-8f14-4a3c-9e76-2d5f8a1c4567',

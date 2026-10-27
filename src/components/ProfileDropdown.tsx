@@ -37,10 +37,12 @@ export default function ProfileDropdown({ user, onClose, onNavigate, onLogout }:
       </div>
 
       <div className="space-y-1 py-1 border-t border-slate-100 text-[11px] text-slate-600">
-        <div className="flex justify-between px-2 py-0.5">
-          <span className="text-slate-400">NIP / ID:</span>
-          <span className="font-mono text-slate-700">{formatNip(user.nip)}</span>
-        </div>
+        {(user.username === 'developer' || user.label === 'Developer') && (
+          <div className="flex justify-between px-2 py-0.5">
+            <span className="text-slate-400">NIP / ID:</span>
+            <span className="font-mono text-slate-700">{formatNip(user.nip)}</span>
+          </div>
+        )}
         <div className="flex justify-between px-2 py-0.5">
           <span className="text-slate-400">Unit Kerja:</span>
           <span className="text-slate-700 font-medium truncate max-w-[160px] text-right">

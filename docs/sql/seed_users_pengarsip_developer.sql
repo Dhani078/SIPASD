@@ -14,7 +14,7 @@ INSERT INTO users (
   '$2a$10$EZ.Ytx12ZndicpNXKmA5/Oh81BvrCo.3HFTGogObl1GCbbT0/VWGG',
   'SUPER_ADMIN',
   'Analis Anggaran - Ahli Pertama',
-  'Subbag Keuangan',
+  'Sekretariat',
   1
 )
 ON DUPLICATE KEY UPDATE
@@ -22,6 +22,7 @@ ON DUPLICATE KEY UPDATE
   password_hash = VALUES(password_hash),
   role = VALUES(role),
   jabatan = VALUES(jabatan),
+  unit_kerja = VALUES(unit_kerja),
   is_active = 1;
 
 -- 2. DEVELOPER: Muhammad Rizki Ramadhani (mahasiswa magang UNISKA)

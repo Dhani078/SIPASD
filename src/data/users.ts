@@ -9,7 +9,7 @@ export const demoUsers: DemoUser[] = [
     initials: 'RN',
     nip: '199701012025022001',
     email: 'rana@dispora.kalselprov.go.id',
-    unitKerja: 'Subbag Keuangan',
+    unitKerja: 'Sekretariat',
   },
   {
     username: 'developer',

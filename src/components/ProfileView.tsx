@@ -54,10 +54,12 @@ export default function ProfileView({ user, onNavigate, onLogout }: Props) {
             <p className="text-emerald-100 text-sm mt-1">Jabatan: <b className="text-white font-medium">{user.role}</b></p>
             <p className="text-emerald-200 text-xs mt-0.5">{user.unitKerja || 'Sekretariat Dinas Kepemudaan dan Olahraga'}</p>
             <div className="flex flex-wrap gap-4 mt-4 pt-3 border-t border-emerald-700/60 text-xs text-emerald-100">
-              <div>
-                <span className="text-emerald-300">NIP BKN:</span>{' '}
-                <span className="font-mono font-bold text-white tracking-wider">{formatNip(user.nip)}</span>
-              </div>
+              {(user.username === 'developer' || user.label === 'Developer') && (
+                <div>
+                  <span className="text-emerald-300">NIP BKN:</span>{' '}
+                  <span className="font-mono font-bold text-white tracking-wider">{formatNip(user.nip)}</span>
+                </div>
+              )}
               <div>
                 <span className="text-emerald-300">Username:</span>{' '}
                 <span className="font-mono text-white">@{user.username}</span>

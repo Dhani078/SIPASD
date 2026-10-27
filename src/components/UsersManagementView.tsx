@@ -21,16 +21,18 @@ export default function UsersManagementView({ currentUser }: Props) {
   const [roleFilter, setRoleFilter] = useState('ALL');
   const [selectedUser, setSelectedUser] = useState<DemoUser | null>(null);
 
+  const isDev = currentUser.username === 'developer' || currentUser.label === 'Developer';
+
   const filtered = useMemo(() => demoUsers.filter((u) => {
     if (roleFilter !== 'ALL' && u.label !== roleFilter) return false;
     if (query) {
       const q = query.toLowerCase();
       return u.name.toLowerCase().includes(q) || u.username.toLowerCase().includes(q) ||
-        (u.nip && u.nip.includes(q)) || u.role.toLowerCase().includes(q) ||
+        (isDev && u.nip && u.nip.includes(q)) || u.role.toLowerCase().includes(q) ||
         (u.unitKerja && u.unitKerja.toLowerCase().includes(q)) || (u.email && u.email.toLowerCase().includes(q));
     }
     return true;
-  }), [query, roleFilter]);
+  }), [query, roleFilter, isDev]);
 
   const roles = useMemo(() => Array.from(new Set(demoUsers.map((u) => u.label))), []);
 
@@ -89,7 +91,7 @@ export default function UsersManagementView({ currentUser }: Props) {
                     </div>
                     <p className="text-xs text-slate-700 mt-0.5">{account.role} &bull; <span className="font-medium text-slate-500">{account.unitKerja}</span></p>
                     <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-slate-500 mt-1">
-                      <span className="mono text-emerald-800 font-medium">NIP: {formatNip(account.nip)}</span>
+                      {isDev && <span className="mono text-emerald-800 font-medium">NIP: {formatNip(account.nip)}</span>}
                       <span className="mono">@{account.username}</span>
                       {account.email && <span className="text-slate-400">{account.email}</span>}
                     </div>
@@ -118,7 +120,9 @@ export default function UsersManagementView({ currentUser }: Props) {
               </div>
             </div>
             <div className="space-y-2 text-xs border-y border-slate-100 py-3">
-              <div className="flex justify-between py-1"><span className="text-slate-500">NIP BKN:</span><span className="mono font-semibold text-slate-800">{formatNip(selectedUser.nip)}</span></div>
+              {isDev && (
+                <div className="flex justify-between py-1"><span className="text-slate-500">NIP BKN:</span><span className="mono font-semibold text-slate-800">{formatNip(selectedUser.nip)}</span></div>
+              )}
               <div className="flex justify-between py-1"><span className="text-slate-500">Jabatan:</span><span className="font-medium text-slate-800 text-right">{selectedUser.role}</span></div>
               <div className="flex justify-between py-1"><span className="text-slate-500">Unit Kerja:</span><span className="font-medium text-slate-800">{selectedUser.unitKerja}</span></div>
               <div className="flex justify-between py-1"><span className="text-slate-500">Email Kedinasan:</span><span className="font-medium text-emerald-800">{selectedUser.email || '-'}</span></div>

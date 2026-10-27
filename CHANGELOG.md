@@ -12,6 +12,15 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.56.0] - 2026-10-26
+
+### Changed
+- **Penyembunyian NIP Aparatur & Penyesuaian Unit Kerja Pengarsip (`ProfileDropdown.tsx`, `ProfileView.tsx`, `UsersManagementView.tsx`, `users.ts`, TiDB Cloud)**:
+  * **Proteksi Privasi NIP**: NIP kini disembunyikan dari seluruh antarmuka profil dan daftar akun untuk pengguna umum, dan secara eksklusif hanya dapat dilihat oleh akun berlabel `Developer` (`MR` / `developer`).
+  * **Koreksi Unit Kerja Pengarsip**: Menyesuaikan unit kerja akun pengarsip (`Rana Nur Syifa`) dari semula *"Subbag Keuangan"* menjadi *"Sekretariat"* secara permanen di TiDB Cloud, file master `src/data/users.ts`, dan skrip migrasi/seeder.
+
+---
+
 ## [2.55.0] - 2026-10-26
 
 ### Added

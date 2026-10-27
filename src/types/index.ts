@@ -52,6 +52,7 @@ export interface LetterRecord {
   fileUrl?: string; // Cloudinary CDN streaming URL
   driveUrl?: string; // Google Drive backup URL
   rawId?: string; // Database UUID
+  fileName?: string; // Nama berkas PDF asli
 }
 
 export interface ArchiveFilters {
@@ -105,6 +106,7 @@ export interface ArsipSuratKeluar {
   file_url: string;
   cloudinary_public_id?: string | null;
   drive_url?: string | null;
+  file_name_original?: string | null;
   file_size_bytes?: number;
   indexed_by: string;
   created_at: string;

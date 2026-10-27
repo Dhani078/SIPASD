@@ -24,9 +24,12 @@ interface Props {
 
 function downloadPdf(letter: LetterRecord, e: React.MouseEvent) {
   e.stopPropagation();
+  const fileName = letter.fileName || `${letter.id.replace(/\/(SM|SK)\/.*$/i, '')}.pdf`;
   const a = document.createElement('a');
-  a.href = letter.fileUrl ? `/api/pdf?url=${encodeURIComponent(letter.fileUrl)}` : '/placeholder-surat.pdf';
-  a.download = `${letter.id.replace(/\/(SM|SK)\/.*$/i, '')}.pdf`;
+  a.href = letter.fileUrl
+    ? `/api/pdf?url=${encodeURIComponent(letter.fileUrl)}&name=${encodeURIComponent(fileName)}`
+    : '/placeholder-surat.pdf';
+  a.download = fileName;
   a.target = '_blank';
   a.click();
 }

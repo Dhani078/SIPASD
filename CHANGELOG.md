@@ -12,6 +12,16 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.60.0] - 2026-10-26
+
+### Fixed
+- **Penyelarasan Nama File PDF Unduhan Sesuai Nama Berkas Asli (`/api/pdf`, `letters.ts`, `ArchiveTable.tsx`, `PdfPreviewPanel.tsx`, TiDB Cloud)**:
+  * **Eliminasi Nama Generik `naskah-dinas.pdf`**: Memperbaiki header `Content-Disposition` di rute `/api/pdf` agar dinamis menggunakan nama berkas naskah asli (`filename="${downloadFilename}"; filename*=UTF-8''${encodedName}`) alih-alih nilai baku statis `naskah-dinas.pdf`.
+  * **Sinkronisasi Kolom `file_name_original` di TiDB Cloud**: Menambahkan kolom `file_name_original` pada tabel `arsip_surat_keluar` dan melakukan backfill 100% nama berkas riil scan staf (contoh: `8812,9100(Sek).pdf`, `8710,8841,9619(sek).pdf`, `9161(Sek).pdf`, `7476(sek).pdf`).
+  * **Penerusan Nama Berkas pada Seluruh Tombol Unduh & Viewer**: Memperbarui komponen `ArchiveTable.tsx`, `RowActionMenu.tsx`, dan `PdfPreviewPanel.tsx` agar menyertakan parameter `&name=` pada tautan streaming serta mengatur atribut `a.download`, sehingga saat ditekan tombol unduh atau tombol *Save As* peramban, nama berkas langsung terisi nama asli PDF tanpa perlu diketik ulang secara manual.
+
+---
+
 ## [2.59.0] - 2026-10-26
 
 ### Added

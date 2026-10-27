@@ -35,7 +35,7 @@ export function useLetterActions(
     const res = await fetch('/api/letters', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...record, fileUrl, driveUrl }),
+      body: JSON.stringify({ ...record, fileUrl, driveUrl, fileName: file ? file.name : undefined }),
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || 'Gagal menyimpan arsip');
@@ -46,6 +46,7 @@ export function useLetterActions(
       driveUrl,
       id: agendaNum,
       rawId: data.id,
+      fileName: file ? file.name : `${agendaNum}.pdf`,
     };
     setLetters((prev) => [newRecord, ...prev]);
     tell(`Arsip ${newRecord.id} berhasil dicatat ke TiDB Cloud Serverless.`);
@@ -131,6 +132,7 @@ export function useLetterActions(
         ...updates,
         ...(fileUrl ? { fileUrl } : {}),
         ...(driveUrl ? { driveUrl } : {}),
+        ...(file ? { fileName: file.name } : {}),
       }),
     });
     const data = await res.json();
@@ -138,7 +140,15 @@ export function useLetterActions(
 
     setLetters((prev) =>
       prev.map((l) =>
-        l.id === id ? { ...l, ...updates, ...(fileUrl ? { fileUrl } : {}), ...(driveUrl ? { driveUrl } : {}) } : l
+        l.id === id
+          ? {
+              ...l,
+              ...updates,
+              ...(fileUrl ? { fileUrl } : {}),
+              ...(driveUrl ? { driveUrl } : {}),
+              ...(file ? { fileName: file.name } : {}),
+            }
+          : l
       )
     );
     tell(`Arsip No. Agenda ${id} berhasil diperbarui di TiDB Cloud.`);

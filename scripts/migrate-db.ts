@@ -116,6 +116,7 @@ async function migrate() {
       file_url VARCHAR(255) NOT NULL,
       cloudinary_public_id VARCHAR(255) NULL,
       drive_url VARCHAR(255) NULL,
+      file_name_original VARCHAR(255) NULL,
       file_size_bytes BIGINT NULL DEFAULT 0,
       indexed_by VARCHAR(36) NOT NULL,
       created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,

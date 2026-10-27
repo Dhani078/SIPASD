@@ -18,9 +18,11 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onEdit, onDe
   const [pdfLoading, setPdfLoading] = useState(true);
   const [fitMode, setFitMode] = useState<'page' | 'width'>('page');
   const [maximized, setMaximized] = useState(false);
+  const cleanAgenda = letter.id.replace(/\/(SM|SK)\/.*$/i, '');
+  const fileName = letter.fileName || `${cleanAgenda}.pdf`;
 
   const pdfUrl = letter.fileUrl
-    ? `/api/pdf?url=${encodeURIComponent(letter.fileUrl)}`
+    ? `/api/pdf?url=${encodeURIComponent(letter.fileUrl)}&name=${encodeURIComponent(fileName)}`
     : '/placeholder-surat.pdf';
 
   const letterYear = letter.date ? letter.date.slice(0, 4) : '2026';
@@ -38,7 +40,6 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onEdit, onDe
   }
 
   const viewHash = fitMode === 'page' ? '#view=Fit&zoom=page-fit' : '#view=FitH';
-  const cleanAgenda = letter.id.replace(/\/(SM|SK)\/.*$/i, '');
 
   return (
     <Modal
@@ -92,7 +93,7 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onEdit, onDe
             onClick={() => {
               const a = document.createElement('a');
               a.href = pdfUrl;
-              a.download = `${cleanAgenda}.pdf`;
+              a.download = fileName;
               a.target = '_blank';
               a.click();
             }}

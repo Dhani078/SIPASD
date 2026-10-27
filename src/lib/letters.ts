@@ -5,43 +5,21 @@ import { classifyText } from '@/lib/classifier';
 import { toLocalDateString } from '@/lib/format';
 
 interface SuratMasukDbRow {
-  id: string;
-  nomor_agenda: string;
-  nomor_surat: string;
-  tanggal_surat: string | Date | null;
-  tanggal_diterima: string | Date | null;
-  asal_instansi: string;
-  perihal: string;
-  ringkasan_isi: string | null;
-  sifat_surat: string | null;
-  file_url: string | null;
-  cloudinary_public_id: string | null;
-  drive_url: string | null;
-  file_name_original: string | null;
-  pejabat_pendisposisi: string | null;
-  tanggal_disposisi: string | Date | null;
-  instruksi_tercatat: string | null;
-  catatan_tertulis: string | null;
-  status_penyelesaian: string | null;
-  nama_bidang_disposisi: string | null;
+  id: string; nomor_agenda: string; nomor_surat: string;
+  tanggal_surat: string | Date | null; tanggal_diterima: string | Date | null;
+  asal_instansi: string; perihal: string; ringkasan_isi: string | null; sifat_surat: string | null;
+  file_url: string | null; cloudinary_public_id: string | null; drive_url: string | null;
+  file_name_original: string | null; pejabat_pendisposisi: string | null;
+  tanggal_disposisi: string | Date | null; instruksi_tercatat: string | null;
+  catatan_tertulis: string | null; status_penyelesaian: string | null; nama_bidang_disposisi: string | null;
 }
 
 interface SuratKeluarDbRow {
-  id: string;
-  nomor_agenda: string;
-  nomor_surat: string;
-  nomor_urut: number;
-  tahun: number;
-  tanggal_surat: string | Date | null;
-  tujuan_instansi: string;
-  perihal: string;
-  ringkasan_isi: string | null;
-  file_url: string | null;
-  cloudinary_public_id: string | null;
-  drive_url: string | null;
-  kode_klasifikasi: string | null;
-  nama_klasifikasi: string | null;
-  nama_bidang: string | null;
+  id: string; nomor_agenda: string; nomor_surat: string; nomor_urut: number; tahun: number;
+  tanggal_surat: string | Date | null; tujuan_instansi: string; perihal: string; ringkasan_isi: string | null;
+  file_url: string | null; cloudinary_public_id: string | null; drive_url: string | null;
+  file_name_original: string | null;
+  kode_klasifikasi: string | null; nama_klasifikasi: string | null; nama_bidang: string | null;
 }
 
 function mapDivision(name?: string | null): string {
@@ -122,7 +100,7 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
     query<SuratKeluarDbRow>(`
       SELECT sk.id, sk.nomor_agenda, sk.nomor_surat, sk.nomor_urut, sk.tahun,
              sk.tanggal_surat, sk.tujuan_instansi, sk.perihal, sk.ringkasan_isi,
-             sk.file_url, sk.cloudinary_public_id, sk.drive_url,
+             sk.file_url, sk.cloudinary_public_id, sk.drive_url, sk.file_name_original,
              k.kode as kode_klasifikasi, k.nama_klasifikasi,
              b.nama_bidang
       FROM arsip_surat_keluar sk
@@ -160,6 +138,7 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
       },
       fileUrl: r.file_url || undefined,
       driveUrl: r.drive_url || GDRIVE_FOLDERS.smUrl,
+      fileName: r.file_name_original || `${agendaNum}.pdf`,
     };
   });
 
@@ -191,6 +170,7 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
       },
       fileUrl: r.file_url || undefined,
       driveUrl: r.drive_url || GDRIVE_FOLDERS.skUrl,
+      fileName: r.file_name_original || `${agendaNum}.pdf`,
     };
   });
 

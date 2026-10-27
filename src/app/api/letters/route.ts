@@ -73,12 +73,14 @@ export async function DELETE(request: Request) {
     const idsParam = searchParams.get('ids');
     let ids: string[] = [];
     let direction = (searchParams.get('direction') as 'in' | 'out') || 'in';
+    let trashDrive = searchParams.get('trashDrive') === 'true';
 
     if (request.headers.get('content-type')?.includes('application/json')) {
       const body = await request.json().catch(() => ({}));
       if (Array.isArray(body.ids)) ids = body.ids;
       if (body.id) ids.push(body.id);
       if (body.direction) direction = body.direction;
+      if (body.trashDrive !== undefined) trashDrive = Boolean(body.trashDrive);
     }
 
     if (!ids.length) {
@@ -90,7 +92,7 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ success: false, message: 'Parameter id atau ids wajib diisi' }, { status: 400 });
     }
 
-    const count = await deleteLettersBatch(ids, direction);
+    const count = await deleteLettersBatch(ids, direction, trashDrive);
     if (!count) {
       return NextResponse.json({ success: false, message: 'Arsip tidak ditemukan di database' }, { status: 404 });
     }

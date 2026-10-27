@@ -25,8 +25,8 @@ interface Props {
   setSelectedIds: (ids: string[]) => void;
   onSaveLetter: (record: Omit<LetterRecord, 'id'>, file?: File) => Promise<void>;
   onUpdateLetter: (id: string, updates: Partial<LetterRecord>, file?: File) => Promise<void>;
-  confirmDelete: () => Promise<void>;
-  confirmBatchDelete: () => Promise<void>;
+  confirmDelete: (trashDrive?: boolean) => Promise<void>;
+  confirmBatchDelete: (trashDrive?: boolean) => Promise<void>;
 }
 
 export default function AppModals({
@@ -84,7 +84,7 @@ export default function AppModals({
           letter={deleteTarget}
           deleting={deleting}
           onClose={() => setDeleteTarget(null)}
-          onConfirm={confirmDelete}
+          onConfirm={(trashDrive) => confirmDelete(trashDrive)}
         />
       )}
       {batchTargets.length > 0 && (
@@ -93,8 +93,8 @@ export default function AppModals({
           batch={batchTargets}
           deleting={deleting}
           onClose={() => { setBatchTargets([]); setSelectedIds([]); }}
-          onConfirm={async () => {
-            await confirmBatchDelete();
+          onConfirm={async (trashDrive) => {
+            await confirmBatchDelete(trashDrive);
             setSelectedIds([]);
           }}
         />

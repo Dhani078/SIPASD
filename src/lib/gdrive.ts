@@ -146,3 +146,28 @@ export async function uploadToGoogleDrive(
   console.error(`[GDrive] Upload failed after ${maxRetries} retries:`, lastError?.message);
   return null;
 }
+
+export function extractGoogleDriveFileId(url?: string | null): string | null {
+  if (!url) return null;
+  const match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  return match ? match[1] : null;
+}
+
+export async function trashGoogleDriveFile(fileId: string): Promise<boolean> {
+  const token = await getAccessToken();
+  if (!token) return false;
+  try {
+    const res = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}`, {
+      method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ trashed: true }),
+    });
+    return res.ok;
+  } catch (err) {
+    console.error('[GDrive] Trash exception:', err);
+    return false;
+  }
+}

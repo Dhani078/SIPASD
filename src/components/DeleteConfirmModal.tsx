@@ -1,5 +1,6 @@
 'use client';
 
+import { useId, useState } from 'react';
 import Modal from './Modal';
 import Icon from './Icon';
 import type { LetterRecord } from '@/types';
@@ -9,7 +10,7 @@ interface Props {
   batch?: LetterRecord[];
   deleting: boolean;
   onClose: () => void;
-  onConfirm: () => Promise<void> | void;
+  onConfirm: (trashDrive?: boolean) => Promise<void> | void;
 }
 
 export default function DeleteConfirmModal({
@@ -19,6 +20,8 @@ export default function DeleteConfirmModal({
   onClose,
   onConfirm,
 }: Props) {
+  const [trashDrive, setTrashDrive] = useState(true);
+  const cbId = useId();
   const isBatch = batch && batch.length > 1;
   const count = batch?.length || 1;
   return (
@@ -47,6 +50,24 @@ export default function DeleteConfirmModal({
           </div>
         </div>
 
+        <div className="mt-3.5 p-3 bg-slate-50 border border-slate-200 rounded-md text-xs text-slate-700 flex items-start gap-2.5">
+          <input
+            id={cbId}
+            type="checkbox"
+            checked={trashDrive}
+            onChange={(e) => setTrashDrive(e.target.checked)}
+            className="mt-0.5 rounded text-emerald-600 cursor-pointer"
+          />
+          <label htmlFor={cbId} className="flex-1 cursor-pointer">
+            <b className="font-semibold text-slate-900 block">
+              Pindahkan file PDF ke Kotak Sampah (Trash) Google Drive
+            </b>
+            <span className="text-[11px] text-slate-500 block mt-0.5 font-normal">
+              File fisik tidak langsung dimusnahkan, melainkan masuk ke folder Sampah Drive dan dapat dipulihkan dalam 30 hari.
+            </span>
+          </label>
+        </div>
+
         <div className="modal-actions mt-4 flex justify-end gap-2">
           <button type="button" className="btn outline" onClick={onClose} disabled={deleting}>
             Batal
@@ -54,7 +75,7 @@ export default function DeleteConfirmModal({
           <button
             type="button"
             className="btn primary bg-red-600 hover:bg-red-700 border-red-600 text-white"
-            onClick={onConfirm}
+            onClick={() => onConfirm(trashDrive)}
             disabled={deleting}
           >
             {deleting ? 'Menghapus...' : isBatch ? `Ya, Hapus ${count} Arsip` : 'Ya, Hapus Arsip'}

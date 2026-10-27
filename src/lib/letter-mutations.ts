@@ -1,6 +1,8 @@
 import { getDbPool, query, queryOne } from '@/lib/db';
 import type { LetterRecord } from '@/types';
 import { getGdriveFolderUrl } from '@/data/constants';
+import { trashGoogleDriveFile, extractGoogleDriveFileId } from '@/lib/gdrive';
+import { deletePdf } from '@/lib/cloudinary';
 import { randomUUID } from 'crypto';
 
 export async function insertNewLetter(
@@ -64,43 +66,59 @@ export async function insertNewLetter(
   }
 }
 
-export async function deleteLetter(id: string, direction: 'in' | 'out'): Promise<boolean> {
-  const count = await deleteLettersBatch([id], direction);
+async function purgeTargetRecords(
+  conn: any,
+  isMasuk: boolean,
+  ids: string[]
+): Promise<{ id: string; cloudinary_public_id?: string; drive_url?: string }[]> {
+  const selectSql = isMasuk
+    ? "SELECT id, cloudinary_public_id, drive_url FROM arsip_surat_masuk WHERE id IN (?) OR nomor_agenda IN (?) OR SUBSTRING_INDEX(nomor_agenda, '/', 1) IN (?)"
+    : "SELECT id, cloudinary_public_id, drive_url FROM arsip_surat_keluar WHERE id IN (?) OR nomor_agenda IN (?) OR SUBSTRING_INDEX(nomor_agenda, '/', 1) IN (?)";
+
+  const [rows] = await conn.query(selectSql, [ids, ids, ids]);
+  const targetIds = rows.map((r: any) => r.id);
+
+  if (targetIds.length > 0) {
+    if (isMasuk) {
+      await conn.query('DELETE FROM riwayat_disposisi WHERE surat_masuk_id IN (?)', [targetIds]);
+      await conn.query('DELETE FROM arsip_surat_masuk WHERE id IN (?)', [targetIds]);
+    } else {
+      await conn.query('DELETE FROM buku_ekspedisi WHERE surat_keluar_id IN (?)', [targetIds]);
+      await conn.query('DELETE FROM arsip_surat_keluar WHERE id IN (?)', [targetIds]);
+    }
+  }
+  return rows;
+}
+
+export async function deleteLetter(id: string, direction: 'in' | 'out', trashDrive = false): Promise<boolean> {
+  const count = await deleteLettersBatch([id], direction, trashDrive);
   return count > 0;
 }
 
-export async function deleteLettersBatch(ids: string[], direction: 'in' | 'out'): Promise<number> {
+export async function deleteLettersBatch(ids: string[], direction: 'in' | 'out', trashDrive = false): Promise<number> {
   if (!ids.length) return 0;
   const pool = getDbPool();
   const conn = await pool.getConnection();
 
   try {
     await conn.beginTransaction();
-    let targetIds: string[] = [];
+    const isMasuk = direction === 'in';
+    const targetRows = await purgeTargetRecords(conn, isMasuk, ids);
+    await conn.commit();
 
-    if (direction === 'in') {
-      const [rows] = await conn.query<any[]>(
-        'SELECT id FROM arsip_surat_masuk WHERE id IN (?) OR nomor_agenda IN (?) OR SUBSTRING_INDEX(nomor_agenda, \'/\', 1) IN (?)',
-        [ids, ids, ids]
-      );
-      targetIds = rows.map((r: any) => r.id);
-      if (targetIds.length > 0) {
-        await conn.query('DELETE FROM riwayat_disposisi WHERE surat_masuk_id IN (?)', [targetIds]);
-        await conn.query('DELETE FROM arsip_surat_masuk WHERE id IN (?)', [targetIds]);
-      }
-    } else {
-      const [rows] = await conn.query<any[]>(
-        'SELECT id FROM arsip_surat_keluar WHERE id IN (?) OR nomor_agenda IN (?) OR SUBSTRING_INDEX(nomor_agenda, \'/\', 1) IN (?)',
-        [ids, ids, ids]
-      );
-      targetIds = rows.map((r: any) => r.id);
-      if (targetIds.length > 0) {
-        await conn.query('DELETE FROM buku_ekspedisi WHERE surat_keluar_id IN (?)', [targetIds]);
-        await conn.query('DELETE FROM arsip_surat_keluar WHERE id IN (?)', [targetIds]);
+    if (trashDrive && targetRows.length > 0) {
+      for (const row of targetRows) {
+        if (row.drive_url) {
+          const fileId = extractGoogleDriveFileId(row.drive_url);
+          if (fileId) await trashGoogleDriveFile(fileId).catch(() => false);
+        }
+        if (row.cloudinary_public_id) {
+          await deletePdf(row.cloudinary_public_id).catch(() => false);
+        }
       }
     }
-    await conn.commit();
-    return targetIds.length;
+
+    return targetRows.length;
   } catch (err) {
     await conn.rollback();
     throw err;

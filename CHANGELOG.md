@@ -12,6 +12,16 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.59.0] - 2026-10-26
+
+### Added
+- **Integrasi Opsi Pemindahan Berkas ke Kotak Sampah (Trash) Google Drive & Cloudinary (`DeleteConfirmModal.tsx`, `gdrive.ts`, `letter-mutations.ts`, `/api/letters`)**:
+  * **Checkbox Kendali Pengguna di Modal Hapus (Opsi B)**: Menambahkan kotak centang opsional *"Pindahkan file PDF ke Kotak Sampah (Trash) Google Drive"* di `DeleteConfirmModal.tsx`, lengkap dengan aksesibilitas label `htmlFor`.
+  * **Mekanisme Pemindahan ke Trash Google Drive (Opsi C)**: Menambahkan fungsi `trashGoogleDriveFile` dan `extractGoogleDriveFileId` di `src/lib/gdrive.ts` yang memanggil Google Drive API v3 (`PATCH /files/{id}` dengan payload `{ trashed: true }`). Berkas fisik di Drive tidak hilang permanen melainkan masuk ke folder Sampah (Trash) dan dapat dipulihkan dalam 30 hari sebagai jaring pengaman (*safety net*).
+  * **Pembersihan Bersih Cloudinary & TiDB**: Jika dicentang, berkas PDF di Cloudinary juga dibersihkan (`cloudinary.uploader.destroy`) secara sinkron setelah transaksi commit basis data TiDB selesai.
+
+---
+
 ## [2.58.0] - 2026-10-26
 
 ### Fixed

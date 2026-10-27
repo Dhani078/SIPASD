@@ -2,6 +2,9 @@ import { useState } from 'react';
 import type { LetterRecord } from '@/types';
 import { compressPdfIfNeeded } from '@/lib/pdf-compress';
 
+const formatDeleteMsg = (subject: string, trash: boolean) =>
+  trash ? `${subject} dihapus & berkas dipindahkan ke Trash Google Drive.` : `${subject} berhasil dihapus dari TiDB.`;
+
 export function useLetterActions(
   setLetters: React.Dispatch<React.SetStateAction<LetterRecord[]>>,
   tell: (msg: string, ok?: boolean) => void
@@ -49,13 +52,13 @@ export function useLetterActions(
     return newRecord;
   };
 
-  const confirmDelete = async () => {
+  const confirmDelete = async (trashDrive = false) => {
     if (!deleteTarget) return;
     setDeleting(true);
     try {
       const targetId = deleteTarget.rawId || deleteTarget.id;
       const res = await fetch(
-        `/api/letters?id=${encodeURIComponent(targetId)}&direction=${deleteTarget.direction}`,
+        `/api/letters?id=${encodeURIComponent(targetId)}&direction=${deleteTarget.direction}&trashDrive=${trashDrive}`,
         { method: 'DELETE' }
       );
       const data = await res.json();
@@ -63,7 +66,7 @@ export function useLetterActions(
       setLetters((prev) => prev.filter((l) => l.id !== deleteTarget.id && (!deleteTarget.rawId || l.rawId !== deleteTarget.rawId)));
       const deletedId = deleteTarget.id;
       setDeleteTarget(null);
-      tell(`Arsip No. Agenda ${deletedId} berhasil dihapus dari TiDB.`);
+      tell(formatDeleteMsg(`Arsip No. Agenda ${deletedId}`, trashDrive));
     } catch (err: unknown) {
       const errMsg = err instanceof Error ? err.message : 'Gagal menghapus arsip.';
       tell(errMsg, false);
@@ -72,7 +75,7 @@ export function useLetterActions(
     }
   };
 
-  const confirmBatchDelete = async () => {
+  const confirmBatchDelete = async (trashDrive = false) => {
     if (!batchTargets.length) return;
     setDeleting(true);
     try {
@@ -81,7 +84,7 @@ export function useLetterActions(
       const res = await fetch('/api/letters', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ids, direction }),
+        body: JSON.stringify({ ids, direction, trashDrive }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Gagal menghapus arsip massal');
@@ -90,7 +93,7 @@ export function useLetterActions(
       setLetters((prev) => prev.filter((l) => !idSet.has(l.id) && (!l.rawId || !rawIdSet.has(l.rawId))));
       const count = batchTargets.length;
       setBatchTargets([]);
-      tell(`${count} arsip terpilih berhasil dihapus dari TiDB Cloud.`);
+      tell(formatDeleteMsg(`${count} arsip terpilih`, trashDrive));
     } catch (err: unknown) {
       const errMsg = err instanceof Error ? err.message : 'Gagal menghapus arsip massal.';
       tell(errMsg, false);

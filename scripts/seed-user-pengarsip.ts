@@ -10,7 +10,7 @@ const rows = [
     email: 'rana@dispora.kalselprov.go.id',
     password: process.env.SEED_PASSWORD_PENGARSIP || 'DefaultSeedPassword123!',
     role: 'SUPER_ADMIN',
-    jabatan: 'Analis Anggaran - Ahli Pertama',
+    jabatan: 'Analis Anggaran - Sekretariat',
     unit_kerja: 'Sekretariat',
   },
   {

@@ -39,7 +39,7 @@ Kondisi eksisting penyimpanan Google Drive:
 
 | Username | Password | Nama Tampilan Web | Role | Jabatan |
 |----------|----------|-------------------|------|---------|
-| `pengarsip` | `Dispora2026!` | Rana Nur Syifa | SUPER_ADMIN | Analis Anggaran - Ahli Pertama (Pemberi Tugas) |
+| `pengarsip` | `Dispora2026!` | Rana Nur Syifa | SUPER_ADMIN | Analis Anggaran - Sekretariat (Pengelola Arsip Digital) |
 | `developer` | `Dispora2026!` | Muhammad Rizki Ramadhani | SUPER_ADMIN | Mahasiswa Magang TI UNISKA (Developer) |
 
 Username login memakai identitas generik, sedangkan nama yang tampil di antarmuka web diambil dari kolom `nama_lengkap` (nama pegawai sebenarnya).

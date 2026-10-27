@@ -4,8 +4,8 @@ export const demoUsers: DemoUser[] = [
   {
     username: 'pengarsip',
     name: 'Rana Nur Syifa',
-    role: 'Analis Anggaran - Ahli Pertama',
-    label: 'Pengarsip',
+    role: 'Analis Anggaran - Sekretariat',
+    label: 'Pengelola Arsip Digital',
     initials: 'RN',
     nip: '199701012025022001',
     email: 'rana@dispora.kalselprov.go.id',

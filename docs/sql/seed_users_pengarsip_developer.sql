@@ -13,7 +13,7 @@ INSERT INTO users (
   'rana@dispora.kalselprov.go.id',
   '$2a$10$EZ.Ytx12ZndicpNXKmA5/Oh81BvrCo.3HFTGogObl1GCbbT0/VWGG',
   'SUPER_ADMIN',
-  'Analis Anggaran - Ahli Pertama',
+  'Analis Anggaran - Sekretariat',
   'Sekretariat',
   1
 )

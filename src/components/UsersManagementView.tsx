@@ -98,7 +98,7 @@ export default function UsersManagementView({ currentUser }: Props) {
                   </div>
                 </div>
                 <div className="flex items-center gap-2.5 self-start sm:self-center shrink-0">
-                  <span className={`badge ${account.label === 'Developer' ? 'kilat' : account.label === 'Super Admin' ? 'penting' : 'biasa'}`}>{account.label}</span>
+                  <span className={`badge ${account.label === 'Developer' ? 'kilat' : account.label === 'Super Admin' || account.label === 'Pengelola Arsip Digital' ? 'penting' : 'biasa'}`}>{account.label}</span>
                   <button type="button" onClick={() => setSelectedUser(account)} className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium rounded border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 transition-colors cursor-pointer">
                     Rincian
                   </button>

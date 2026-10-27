@@ -3,6 +3,7 @@ import { query } from '@/lib/db';
 import { logAudit } from '@/lib/audit';
 import { getSession } from '@/lib/auth';
 import { getClientIp } from '@/lib/rate-limit';
+import { toLocalDateString } from '@/lib/format';
 
 interface ExpeditionRow {
   id: string;
@@ -37,7 +38,7 @@ export async function GET() {
       success: true,
       records: rows.map((r) => ({
         ...r,
-        tanggal_kirim: r.tanggal_kirim ? new Date(r.tanggal_kirim).toISOString().slice(0, 10) : null,
+        tanggal_kirim: r.tanggal_kirim ? toLocalDateString(r.tanggal_kirim) : null,
       })),
     });
   } catch (error: unknown) {

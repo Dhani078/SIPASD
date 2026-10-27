@@ -2,6 +2,7 @@ import { query } from '@/lib/db';
 import type { LetterRecord, Urgency } from '@/types';
 import { GDRIVE_FOLDERS } from '@/data/constants';
 import { classifyText } from '@/lib/classifier';
+import { toLocalDateString } from '@/lib/format';
 
 interface SuratMasukDbRow {
   id: string;
@@ -133,8 +134,8 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
 
   const smList: LetterRecord[] = smRows.map((r) => {
     const agendaNum = r.nomor_agenda.split('/')[0] || r.id.slice(0, 6);
-    const dateStr = r.tanggal_surat ? new Date(r.tanggal_surat).toISOString().slice(0, 10) : '2026-08-01';
-    const dispDate = r.tanggal_disposisi ? new Date(r.tanggal_disposisi).toISOString().slice(0, 10) : dateStr;
+    const dateStr = toLocalDateString(r.tanggal_surat) || '2026-08-01';
+    const dispDate = toLocalDateString(r.tanggal_disposisi) || dateStr;
     const combinedText = `${r.perihal} ${r.ringkasan_isi || ''} ${r.asal_instansi}`;
     const div = mapDivision(r.nama_bidang_disposisi);
     return {
@@ -164,7 +165,7 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
 
   const skList: LetterRecord[] = skRows.map((r) => {
     const agendaNum = r.nomor_agenda.split('/')[0] || r.id.slice(0, 6);
-    const dateStr = r.tanggal_surat ? new Date(r.tanggal_surat).toISOString().slice(0, 10) : '2026-08-01';
+    const dateStr = toLocalDateString(r.tanggal_surat) || '2026-08-01';
     const combinedText = `${r.perihal} ${r.ringkasan_isi || ''} ${r.tujuan_instansi}`;
     const div = mapOutgoingDivision(combinedText);
     const type: Urgency = mapOutgoingUrgency(combinedText);

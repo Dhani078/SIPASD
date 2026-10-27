@@ -12,6 +12,15 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.57.0] - 2026-10-26
+
+### Fixed
+- **Normalisasi Konversi Tanggal Timezone & Koreksi Metadata Naskah Agenda 1211 (`letters.ts`, `format.ts`, `expedition/route.ts`, TiDB Cloud)**:
+  * **Eliminasi Pergeseran Tanggal UTC -1 Hari**: Mengganti pemanggilan `new Date().toISOString().slice(0, 10)` dengan utilitas deterministik `toLocalDateString` di `src/lib/format.ts`. Mencegah tanggal MySQL lokal WITA terpotong mundur 1 hari akibat konversi UTC otomatis.
+  * **Koreksi Metadata Riil Agenda 1211**: Memperbaiki nomor surat naskah fisik dari semula tertukar menjadi `700.1.1.2 / 04303 / IP / 2026`, tanggal surat fisik `2026-10-01` (01 Oktober 2026), tanggal terima `2026-10-02`, dan sifat surat `Penting` sesuai dokumen autentik Inspektorat Kalsel.
+
+---
+
 ## [2.56.0] - 2026-10-26
 
 ### Changed

@@ -60,33 +60,29 @@ export default function NewLetterDisposisiFields({
         <span className="block text-[11px] font-semibold text-slate-700 mb-1.5">
           Instruksi Kedinasan:
         </span>
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap gap-2">
           {INSTRUCTION_OPTIONS.map((item) => {
             const isChecked = checks.includes(item);
             return (
-              <label
+              <button
+                type="button"
                 key={item}
-                className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium cursor-pointer border transition-all ${
+                onClick={() => onToggleCheck(item)}
+                className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium cursor-pointer border transition-all ${
                   isChecked
                     ? 'bg-emerald-800 text-white border-emerald-800 shadow-xs'
-                    : 'bg-white text-slate-700 border-slate-300 hover:border-emerald-600'
+                    : 'bg-white text-slate-700 border-slate-300 hover:border-emerald-600 hover:bg-slate-50'
                 }`}
               >
-                <input
-                  type="checkbox"
-                  className="sr-only"
-                  checked={isChecked}
-                  onChange={() => onToggleCheck(item)}
-                />
                 <span
-                  className={`w-3.5 h-3.5 rounded-full flex items-center justify-center text-[9px] font-bold ${
+                  className={`w-3.5 h-3.5 rounded-full flex items-center justify-center text-[9px] font-bold shrink-0 ${
                     isChecked ? 'bg-white text-emerald-900' : 'border border-slate-300'
                   }`}
                 >
                   {isChecked ? '✓' : ''}
                 </span>
                 <span>{item}</span>
-              </label>
+              </button>
             );
           })}
         </div>

@@ -12,6 +12,15 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.58.0] - 2026-10-26
+
+### Fixed
+- **Resolusi Layout Tombol Instruksi Disposisi & Eliminasi Rekomendasi AI Palsu (`NewLetterDisposisiFields.tsx`, `globals.css`, `classifier.ts`)**:
+  * **Perbaikan Tombol Instruksi Kedinasan**: Mengubah elemen chip instruksi dari `<label>` menjadi `<button type="button">` semantik dengan penguncian flex horizontal `!inline-flex !flex-row !items-center`. Menghilangkan bug CSS di mana tombol gepeng vertikal akibat tabrakan selector `.new-form label`.
+  * **Eliminasi Rekomendasi AI Tanpa Kecocokan**: Memperbaiki fungsi `classifyText` agar mengembalikan `null` jika tidak ada satupun kata kunci resmi yang cocok (`score === 0`). Menghentikan kemunculan kotak rekomendasi palsu *"005 (Undangan) - 50% cocok"* saat pengguna menginput kata umum atau teks pengujian (misal: `"banyak"`).
+
+---
+
 ## [2.57.0] - 2026-10-26
 
 ### Fixed

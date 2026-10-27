@@ -47,14 +47,14 @@ const CATEGORY_VOCAB: Record<string, { name: string; division: string; words: st
   },
 };
 
-export function classifyText(text: string): ClassificationResult {
+export function classifyText(text: string): ClassificationResult | null {
   const tokens = text
     .toLowerCase()
     .replace(/[^a-z0-9\s]/g, ' ')
     .split(/\s+/)
     .filter((w) => w.length > 2);
 
-  let bestCode = '005';
+  let bestCode: string | null = null;
   let bestScore = 0;
 
   for (const [code, cat] of Object.entries(CATEGORY_VOCAB)) {
@@ -69,6 +69,10 @@ export function classifyText(text: string): ClassificationResult {
       bestScore = score;
       bestCode = code;
     }
+  }
+
+  if (!bestCode || bestScore === 0) {
+    return null;
   }
 
   // Refine division if venue is mentioned
@@ -86,7 +90,7 @@ export function classifyText(text: string): ClassificationResult {
     recommendedDivision = 'Pembudayaan Olahraga';
   }
 
-  const confidence = bestScore > 0 ? Math.min(98, 60 + bestScore * 5) : 50;
+  const confidence = Math.min(98, 60 + bestScore * 5);
 
   return {
     code: bestCode,

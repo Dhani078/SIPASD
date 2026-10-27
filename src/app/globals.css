@@ -3505,6 +3505,13 @@ td .icon-btn {
   padding: 0 6px;
   color: #047857;
 }
+.disposition-fields button {
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  width: auto !important;
+}
+
 .instruction-checks {
   display: grid;
   grid-template-columns: 1fr 1fr;

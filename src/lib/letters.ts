@@ -147,7 +147,7 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
       date: dateStr,
       type: mapUrgency(r.sifat_surat),
       direction: 'in',
-      classification: classifyText(combinedText).code || '005',
+      classification: classifyText(combinedText)?.code || '005',
       venue: detectVenue(combinedText),
       division: div,
       disposition: {

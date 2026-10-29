@@ -1,7 +1,7 @@
 # ARCHITECTURE DECISION RECORDS (ADR): SIPASD
 **Sistem Informasi Pengelolaan Arsip Surat Dispora Provinsi Kalimantan Selatan**  
 *Format: Michael Nygard Architecture Decision Record (MADR 3.0.0)*  
-*Penyusun: Muhammad Rizki Ramadhani (NPM: 2110010078 / Dhani078)*  
+*Penyusun: Muhammad Rizki Ramadhani (NPM: 2310010406 / Dhani078)*  
 *Institusi: Program Studi Teknik Informatika, FTI UNISKA Muhammad Arsyad Al Banjari Banjarmasin*  
 *Mitra Magang: Sekretariat Dinas Kepemudaan dan Olahraga Provinsi Kalimantan Selatan*
 

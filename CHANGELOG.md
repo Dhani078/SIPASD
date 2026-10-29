@@ -12,6 +12,15 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.64.0] - 2026-10-26
+
+### Docs
+- **Penyelarasan Judul Resmi Laporan PKL Sesuai Pedoman FTI UNISKA Revisi 2.0 (`compile_laporan_docx.py`, `docs/`)**:
+  * **Judul Akademik Resmi Terpilih**: Mengesahkan judul *"RANCANG BANGUN SISTEM INFORMASI PENGELOLAAN ARSIP PERSURATAN DAN DISPOSISI BERBASIS WEB PADA DINAS KEPEMUDAAN DAN OLAHRAGA PROVINSI KALIMANTAN SELATAN"* sesuai kaidah Pedoman PKL FTI UNISKA Halaman 12 (huruf kapital utuh, bebas singkatan, mencakup objek dan lokus instansi).
+  * **Kompilasi Dokumen Naskah**: Mengompilasi ulang berkas Word resmi `docs/LAPORAN_MAGANG_SIPASD_DISPORA_KALSEL.docx`, serta memperbarui judul dan NPM (`2310010406`) pada Bab 1 Pendahuluan, Matriks Kompetensi, dan Slide Presentasi Sidang.
+
+---
+
 ## [2.63.0] - 2026-10-26
 
 ### Fixed

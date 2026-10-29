@@ -1,8 +1,8 @@
 # MATRIKS KOMPETENSI AKADEMIK & PERTANGGUNGJAWABAN ILMIAH
 **Laporan Praktik Kerja Lapangan (PKL) / Magang Mahasiswa S1 Teknik Informatika**  
 *Program Studi: Teknik Informatika, Fakultas Teknologi Informasi, UNISKA Banjarmasin*  
-*Nama Mahasiswa: Muhammad Rizki Ramadhani (NPM: 2110010078)*  
-*Judul Proyek: Sistem Informasi Pengelolaan Arsip Surat Dispora (SIPASD) Berbasis Web Responsif pada Sekretariat Dinas Kepemudaan dan Olahraga Provinsi Kalimantan Selatan*
+*Nama Mahasiswa: Muhammad Rizki Ramadhani (NPM: 2310010406)*  
+*Judul Proyek: Rancang Bangun Sistem Informasi Pengelolaan Arsip Persuratan dan Disposisi Berbasis Web pada Dinas Kepemudaan dan Olahraga Provinsi Kalimantan Selatan*
 
 ---
 

@@ -93,27 +93,43 @@ export default function ReportsManagementView({ currentUser: _currentUser }: Pro
         onRefresh={() => setReloadKey((k) => k + 1)}
       />
 
-      <div className="bg-white border border-slate-200 rounded-xl p-8 shadow-sm print:border-none print:shadow-none print:p-0">
-        <div className="border-b-2 border-slate-900 pb-3 mb-6 text-center">
-          <h3 className="text-xs uppercase tracking-widest text-slate-600 font-bold">Pemerintah Provinsi Kalimantan Selatan</h3>
-          <h2 className="text-base font-extrabold uppercase text-slate-900">Dinas Kepemudaan dan Olahraga</h2>
-          <p className="text-[11px] text-slate-500">
-            Jalan Pramuka No. 4 RT. 20, Kel. Sungai Lulut, Kec. Banjarmasin Timur, Kota Banjarmasin, Kalimantan Selatan 70238
-          </p>
+      {/* Sheet Laporan: Format Baku Panel Web & Print */}
+      <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm print:border-none print:shadow-none print:p-0">
+        {/* Kop Surat Cetak Resmi Pemprov Kalsel (Tampil elegan saat cetak, dan tersembunyi/minimal di web) */}
+        <div className="hidden print:flex items-center justify-between border-b-2 border-slate-900 pb-3 mb-6">
+          <div className="w-16 flex-shrink-0 flex items-center justify-center">
+            {/* Logo Kalsel Resmi */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo-kalsel.svg" alt="Logo Pemprov Kalsel" className="w-14 h-16 object-contain" />
+          </div>
+          <div className="flex-1 text-center px-4">
+            <h3 className="text-xs uppercase tracking-widest text-slate-800 font-bold">Pemerintah Provinsi Kalimantan Selatan</h3>
+            <h2 className="text-base font-extrabold uppercase text-slate-950">Dinas Kepemudaan dan Olahraga</h2>
+            <p className="text-[11px] text-slate-600">
+              Jalan Pramuka No. 4 RT. 20, Kel. Sungai Lulut, Kec. Banjarmasin Timur, Kota Banjarmasin, Kalimantan Selatan 70238
+            </p>
+          </div>
+          <div className="w-16 flex-shrink-0" />
         </div>
 
-        <div className="mb-4 text-center">
-          <h1 className="text-sm font-bold uppercase tracking-wider text-slate-900">
-            {reportType === '1' && 'Buku Agenda Register Surat Masuk'}
-            {reportType === '2' && 'Buku Agenda Register Surat Keluar Kedinasan'}
-            {reportType === '3' && 'Laporan Rekapitulasi Distribusi Disposisi per Bidang'}
-            {reportType === '4' && 'Laporan Pengawasan & Kepatuhan Batas Waktu Disposisi'}
-            {reportType === '5' && 'Laporan Rekapitulasi Volume Naskah per Kode Klasifikasi'}
-            {reportType === '6' && 'Laporan Rekapitulasi Riwayat Audit Trail Sistem'}
-          </h1>
-          <p className="text-xs text-slate-500">
-            {startDate && endDate ? `Periode: ${startDate} s/d ${endDate}` : 'Periode: Tahun Anggaran 2026'}
-          </p>
+        {/* Judul Laporan Terpilih */}
+        <div className="mb-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-100 pb-3 print:border-none print:text-center print:pb-0">
+          <div>
+            <h1 className="text-sm sm:text-base font-bold uppercase tracking-wide text-slate-900">
+              {reportType === '1' && 'Buku Agenda Register Surat Masuk'}
+              {reportType === '2' && 'Buku Agenda Register Surat Keluar Kedinasan'}
+              {reportType === '3' && 'Laporan Rekapitulasi Distribusi Disposisi per Bidang'}
+              {reportType === '4' && 'Laporan Pengawasan & Kepatuhan Batas Waktu Disposisi'}
+              {reportType === '5' && 'Laporan Rekapitulasi Volume Naskah per Kode Klasifikasi'}
+              {reportType === '6' && 'Laporan Rekapitulasi Riwayat Audit Trail Sistem'}
+            </h1>
+            <p className="text-xs text-slate-500 font-medium">
+              {startDate && endDate ? `Periode: ${startDate} s/d ${endDate}` : 'Periode: Tahun Anggaran 2026'}
+            </p>
+          </div>
+          <div className="text-xs text-slate-500 print:hidden flex items-center gap-2">
+            <span className="font-semibold text-slate-700">{data.length} Baris Data</span>
+          </div>
         </div>
 
         {loading ? (

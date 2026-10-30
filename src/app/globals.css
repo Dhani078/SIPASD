@@ -3203,8 +3203,17 @@ td .icon-btn {
   .public,
   .login-page,
   .toast,
+  .sidebar,
+  .topbar,
+  .page-heading,
+  .system-banner,
   .modal-overlay:not(.print-overlay) {
     display: none !important;
+  }
+  main.main-content {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
   }
   .print-overlay {
     position: static;

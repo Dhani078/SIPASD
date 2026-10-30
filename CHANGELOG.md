@@ -14,8 +14,11 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
   4. Laporan Monitoring & Kepatuhan Batas Waktu Disposisi (dengan kalkulasi selisih hari & indikator keterlambatan dinamis).
   5. Laporan Rekapitulasi Volume Naskah per Kode Klasifikasi Kearsipan (agregat urusan kedinasan).
   6. Laporan Rekapitulasi Log Aktivitas Pengguna (audit trail keamanan sistem kearsipan).
+- Perbaikan tata letak UI laporan kearsipan:
+  * Kop surat resmi berlogo Pemprov Kalsel disembunyikan dari antarmuka web biasa (`hidden print:flex`), otomatis muncul presisi saat klik tombol Cetak (Print / PDF).
+  * Penyelarasan tinggi tombol *Muat Ulang Data* dengan input filter (`h-[34px]`).
+  * Perbaikan keterbacaan tabel: penambahan `break-all` pada nomor surat panjang, `whitespace-nowrap` pada tanggal/agenda, dan padding konsisten `p-2.5`.
 - Filter waktu fleksibel (Hari Ini, Bulan Berjalan, TA 2026, dan Kustom Tanggal) serta filter status kepatuhan.
-- Tata letak cetak dokumen fisik standar format Kop Surat Resmi Pemprov Kalsel / Dispora dan tanda tangan pengesahan pejabat.
 - Komponen modular `<= 200 LOC` (`ReportsManagementView.tsx`, `ReportsFilterBar.tsx`, `ReportTablesPrimary.tsx`, `ReportTablesSecondary.tsx`, `reports-queries.ts`, `reports-queries-secondary.ts`).
 
 ### Planned (Phase 6)

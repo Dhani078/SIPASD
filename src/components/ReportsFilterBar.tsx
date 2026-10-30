@@ -140,17 +140,17 @@ export default function ReportsFilterBar({
               <option value="LOGOUT">Logout</option>
             </select>
           </div>
-        ) : (
-          <div className="flex items-end">
-            <button
-              type="button"
-              onClick={onRefresh}
-              className="w-full py-2 bg-slate-800 text-white rounded-lg text-xs font-medium hover:bg-slate-900"
-            >
-              Muat Ulang Data
-            </button>
-          </div>
-        )}
+        ) : null}
+
+        <div className="flex items-end">
+          <button
+            type="button"
+            onClick={onRefresh}
+            className="w-full py-2 bg-slate-800 text-white rounded-lg text-xs font-medium hover:bg-slate-900 transition flex items-center justify-center gap-1.5 h-[34px]"
+          >
+            <Icon name="clock" size={14} /> Muat Ulang Data
+          </button>
+        </div>
       </div>
     </div>
   );

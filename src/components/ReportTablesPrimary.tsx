@@ -18,15 +18,15 @@ export function ReportTableMasuk({ data, summary }: { data: Record<string, unkno
       <tbody className="divide-y divide-slate-200">
         {data.map((r, i) => (
           <tr key={i} className="hover:bg-slate-50">
-            <td className="p-2 border-r border-slate-200 text-center text-slate-500">{i + 1}</td>
-            <td className="p-2 border-r border-slate-200 font-medium text-slate-800">{String(r.nomor_agenda)}</td>
-            <td className="p-2 border-r border-slate-200 whitespace-nowrap">{String(r.tanggal_diterima).slice(0, 10)}</td>
-            <td className="p-2 border-r border-slate-200 font-mono text-[11px]">{String(r.nomor_surat)}</td>
-            <td className="p-2 border-r border-slate-200 whitespace-nowrap">{String(r.tanggal_surat).slice(0, 10)}</td>
-            <td className="p-2 border-r border-slate-200">{String(r.asal_instansi)}</td>
-            <td className="p-2 border-r border-slate-200 text-slate-700">{String(r.perihal)}</td>
-            <td className="p-2 text-center">
-              <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${r.sifat_surat === 'KILAT' ? 'bg-red-100 text-red-700' : r.sifat_surat === 'PENTING' ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-700'}`}>
+            <td className="p-2.5 border-r border-slate-200 text-center text-slate-500">{i + 1}</td>
+            <td className="p-2.5 border-r border-slate-200 font-medium text-slate-900 whitespace-nowrap">{String(r.nomor_agenda)}</td>
+            <td className="p-2.5 border-r border-slate-200 whitespace-nowrap text-slate-700">{String(r.tanggal_diterima).slice(0, 10)}</td>
+            <td className="p-2.5 border-r border-slate-200 font-mono text-[11px] text-slate-800 break-all">{String(r.nomor_surat)}</td>
+            <td className="p-2.5 border-r border-slate-200 whitespace-nowrap text-slate-700">{String(r.tanggal_surat).slice(0, 10)}</td>
+            <td className="p-2.5 border-r border-slate-200 text-slate-800 font-medium">{String(r.asal_instansi)}</td>
+            <td className="p-2.5 border-r border-slate-200 text-slate-700 leading-relaxed">{String(r.perihal)}</td>
+            <td className="p-2.5 text-center whitespace-nowrap">
+              <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${r.sifat_surat === 'KILAT' ? 'bg-red-100 text-red-700' : r.sifat_surat === 'PENTING' ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-700'}`}>
                 {String(r.sifat_surat)}
               </span>
             </td>
@@ -63,14 +63,14 @@ export function ReportTableKeluar({ data }: { data: Record<string, unknown>[] })
       <tbody className="divide-y divide-slate-200">
         {data.map((r, i) => (
           <tr key={i} className="hover:bg-slate-50">
-            <td className="p-2 border-r border-slate-200 text-center text-slate-500">{i + 1}</td>
-            <td className="p-2 border-r border-slate-200 font-medium text-slate-800">{String(r.nomor_agenda)}</td>
-            <td className="p-2 border-r border-slate-200 font-mono text-[11px]">{String(r.nomor_surat)}</td>
-            <td className="p-2 border-r border-slate-200 whitespace-nowrap">{String(r.tanggal_surat).slice(0, 10)}</td>
-            <td className="p-2 border-r border-slate-200 text-[11px]">{String(r.kode_klasifikasi)} - {String(r.nama_klasifikasi)}</td>
-            <td className="p-2 border-r border-slate-200">{String(r.bidang_pemrakarsa)}</td>
-            <td className="p-2 border-r border-slate-200">{String(r.tujuan_instansi)}</td>
-            <td className="p-2 text-slate-700">{String(r.perihal)}</td>
+            <td className="p-2.5 border-r border-slate-200 text-center text-slate-500">{i + 1}</td>
+            <td className="p-2.5 border-r border-slate-200 font-medium text-slate-900 whitespace-nowrap">{String(r.nomor_agenda)}</td>
+            <td className="p-2.5 border-r border-slate-200 font-mono text-[11px] text-slate-800 break-all">{String(r.nomor_surat)}</td>
+            <td className="p-2.5 border-r border-slate-200 whitespace-nowrap text-slate-700">{String(r.tanggal_surat).slice(0, 10)}</td>
+            <td className="p-2.5 border-r border-slate-200 text-[11px] font-mono text-emerald-800 whitespace-nowrap">{String(r.kode_klasifikasi)} - {String(r.nama_klasifikasi)}</td>
+            <td className="p-2.5 border-r border-slate-200 text-slate-800 font-medium">{String(r.bidang_pemrakarsa)}</td>
+            <td className="p-2.5 border-r border-slate-200 text-slate-800">{String(r.tujuan_instansi)}</td>
+            <td className="p-2.5 text-slate-700 leading-relaxed">{String(r.perihal)}</td>
           </tr>
         ))}
       </tbody>

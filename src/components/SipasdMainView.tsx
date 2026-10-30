@@ -67,8 +67,10 @@ export default function SipasdMainView({
               ? `Selamat datang, ${user.name}. Berikut ringkasan persuratan Dispora hari ini.`
               : page === 'profile'
                 ? 'Informasi identitas aparatur, rincian kewenangan akses, dan riwayat sesi kedinasan.'
-                : page === 'history'
-                  ? 'Pencatatan lembar disposisi kertas Kepala Dinas & status tindak lanjut bidang.'
+                : page === 'reports'
+                  ? 'Kompilasi 5 laporan kearsipan resmi & audit trail kedinasan siap cetak dan ekspor Excel.'
+                  : page === 'history'
+                    ? 'Pencatatan lembar disposisi kertas Kepala Dinas & status tindak lanjut bidang.'
                   : page === 'agenda' || page === 'excel'
                     ? 'Ekspor dan pelaporan register buku agenda surat resmi dalam format Microsoft Excel.'
                     : page === 'expedition'

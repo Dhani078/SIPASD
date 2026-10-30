@@ -4,6 +4,7 @@ import ArchiveTable from './ArchiveTable';
 import DistributionView from './DistributionView';
 import DispositionHistoryView from './DispositionHistoryView';
 import AgendaRegisterView from './AgendaRegisterView';
+import ReportsManagementView from './ReportsManagementView';
 import ClassificationView from './ClassificationView';
 import UsersManagementView from './UsersManagementView';
 import AuditTrailView from './AuditTrailView';
@@ -77,6 +78,9 @@ export function ReferenceViews({
 
   if (page === 'history')
     return <DispositionHistoryView letters={letters} onSelect={onSelect} onEdit={onEdit} onExport={onExport} />;
+
+  if (page === 'reports')
+    return <ReportsManagementView currentUser={user} />;
 
   if (page === 'agenda')
     return <AgendaRegisterView letters={letters} onSelect={onSelect} onPrint={onPrint} onExport={onExport} />;

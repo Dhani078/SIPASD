@@ -6,6 +6,18 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ## [Unreleased]
 
+### Added (Phase 30)
+- Modul dan rute resmi Pusat Laporan Eksekutif (`/laporan` dan `/api/reports`) mencakup 5 laporan kearsipan inti dan 1 laporan cadangan audit trail:
+  1. Buku Agenda Register Surat Masuk (detail per naskah + summary total sifat).
+  2. Buku Agenda Register Surat Keluar (detail penomoran + summary total per bidang pemrakarsa).
+  3. Laporan Rekapitulasi Distribusi Disposisi per Bidang Kedinasan (agregat manajerial beban kerja).
+  4. Laporan Monitoring & Kepatuhan Batas Waktu Disposisi (dengan kalkulasi selisih hari & indikator keterlambatan dinamis).
+  5. Laporan Rekapitulasi Volume Naskah per Kode Klasifikasi Kearsipan (agregat urusan kedinasan).
+  6. Laporan Rekapitulasi Log Aktivitas Pengguna (audit trail keamanan sistem kearsipan).
+- Filter waktu fleksibel (Hari Ini, Bulan Berjalan, TA 2026, dan Kustom Tanggal) serta filter status kepatuhan.
+- Tata letak cetak dokumen fisik standar format Kop Surat Resmi Pemprov Kalsel / Dispora dan tanda tangan pengesahan pejabat.
+- Komponen modular `<= 200 LOC` (`ReportsManagementView.tsx`, `ReportsFilterBar.tsx`, `ReportTablesPrimary.tsx`, `ReportTablesSecondary.tsx`, `reports-queries.ts`, `reports-queries-secondary.ts`).
+
 ### Planned (Phase 6)
 - Pengujian antarmuka multi-resolusi (mobile 375px s/d desktop 1440px) bebas horizontal overflow.
 - Deployment produksi ke Vercel via repositori GitHub `Dhani078/SIPASD`.

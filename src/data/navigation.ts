@@ -11,7 +11,8 @@ export const groups = [
   {
     title: 'REKAPITULASI',
     items: [
-      ['Buku Agenda Excel', 'chart', 'agenda'],
+      ['Pusat Laporan Eksekutif', 'chart', 'reports'],
+      ['Buku Agenda Excel', 'file', 'agenda'],
       ['Distribusi Ekspedisi', 'out', 'distribution'],
     ],
   },

@@ -35,8 +35,8 @@ jobs:
         env:
           CI: true
           NEXT_TELEMETRY_DISABLED: 1
-          DATABASE_URL: "mysql://mock:***@localhost:4000/sipasd"
-          JWT_SECRET: "ci_pipeline_jwt_secret_build_key_minimum_32_chars"
-          CLOUDINARY_CLOUD_NAME: "mock_cloud"
-          CLOUDINARY_API_KEY: "123456789"
-          CLOUDINARY_API_SECRET: "mock_secret"
+          DATABASE_URL: ${{ secrets.DATABASE_URL || 'mysql://mock:mock@localhost:4000/sipasd' }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET || 'ci_dummy_ephemeral_build_token_key_min_32' }}
+          CLOUDINARY_CLOUD_NAME: ${{ secrets.CLOUDINARY_CLOUD_NAME || 'mock_cloud' }}
+          CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY || '123456789' }}
+          CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET || 'mock_secret' }}

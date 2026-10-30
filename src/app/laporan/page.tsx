@@ -12,6 +12,11 @@ export default async function LaporanRoute() {
     redirect('/login');
   }
 
+  // Khusus Akun Developer Resmi
+  if (session.username !== 'developer') {
+    redirect('/dashboard');
+  }
+
   const letters = await getRealLetters();
   const user = demoUsers.find((u) => u.username === session.username) || {
     username: session.username,

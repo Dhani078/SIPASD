@@ -10,6 +10,11 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  // Restriksi Keras: Khusus Developer
+  if (session.username !== 'developer') {
+    return NextResponse.json({ error: 'Forbidden: Khusus Akun Developer' }, { status: 403 });
+  }
+
   const { searchParams } = new URL(req.url);
   const type = searchParams.get('type') || '1';
   const startDate = searchParams.get('startDate') || undefined;

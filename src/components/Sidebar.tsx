@@ -20,7 +20,8 @@ export default function Sidebar({
   counts: Record<'in' | 'out', number>;
   onLogout?: () => void;
 }) {
-  const isAdmin = user.label === 'Super Admin' || user.label === 'Developer' || user.username === 'admin' || user.username === 'developer';
+  const isDeveloper = user.username === 'developer' || user.label === 'Developer';
+  const isAdmin = isDeveloper || user.label === 'Super Admin' || user.username === 'admin';
 
   return (
     <aside className={`sidebar ${drawer ? 'open' : ''}`}>
@@ -41,6 +42,7 @@ export default function Sidebar({
       <nav className="side-nav">
         {groups.map((g) => {
           const visibleItems = g.items.filter(([, , id]) => {
+            if (id === 'reports' && !isDeveloper) return false;
             if ((id === 'users' || id === 'audit') && !isAdmin) return false;
             return true;
           });

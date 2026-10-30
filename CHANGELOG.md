@@ -14,6 +14,7 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
   4. Laporan Monitoring & Kepatuhan Batas Waktu Disposisi (dengan kalkulasi selisih hari & indikator keterlambatan dinamis).
   5. Laporan Rekapitulasi Volume Naskah per Kode Klasifikasi Kearsipan (agregat urusan kedinasan).
   6. Laporan Rekapitulasi Log Aktivitas Pengguna (audit trail keamanan sistem kearsipan).
+- Restriksi Hak Akses Keras: Menu navigasi dan endpoint `/api/reports` dikunci khusus akun `developer` (`session.username === 'developer'`). Pengguna kedinasan lain (pengarsip, pimpinan, admin) tidak melihat menu ini dan dialihkan ke `/dashboard` (403 Forbidden).
 - Perbaikan tata letak UI laporan kearsipan:
   * Kop surat resmi berlogo Pemprov Kalsel disembunyikan dari antarmuka web biasa (`hidden print:flex`), otomatis muncul presisi saat klik tombol Cetak (Print / PDF).
   * Penyelarasan tinggi tombol *Muat Ulang Data* dengan input filter (`h-[34px]`).

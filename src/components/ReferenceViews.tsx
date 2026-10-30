@@ -39,13 +39,34 @@ export function ReferenceViews({
   onNavigate = () => {},
   onLogout,
 }: Props) {
-  const isAdmin = user.label === 'Super Admin' || user.label === 'Developer' || user.username === 'admin' || user.username === 'developer';
+  const isDeveloper = user.username === 'developer' || user.label === 'Developer';
+  const isAdmin = isDeveloper || user.label === 'Super Admin' || user.username === 'admin';
 
   if (page === 'classification')
     return <ClassificationView letters={letters} onClassify={onClassify} />;
 
   if (page === 'profile') {
     return <ProfileView user={user} onNavigate={onNavigate} onLogout={onLogout} />;
+  }
+
+  if (page === 'reports') {
+    if (!isDeveloper) {
+      return (
+        <section className="panel p-8 text-center my-6">
+          <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-amber-50 text-amber-700 flex items-center justify-center border border-amber-200">
+            <Icon name="shield" size={24} />
+          </div>
+          <h2 className="text-base font-bold text-slate-900 mb-1">Akses Terbatas: Khusus Developer</h2>
+          <p className="text-xs text-slate-600 max-w-md mx-auto mb-4">
+            Menu Pusat Laporan Eksekutif sedang dalam tahap pengujian dan saat ini hanya dapat diakses oleh akun Developer resmi.
+          </p>
+          <button type="button" className="btn primary" onClick={() => onNavigate('dashboard')}>
+            Kembali ke Beranda
+          </button>
+        </section>
+      );
+    }
+    return <ReportsManagementView currentUser={user} />;
   }
 
   if (page === 'users' || page === 'audit') {
@@ -78,9 +99,6 @@ export function ReferenceViews({
 
   if (page === 'history')
     return <DispositionHistoryView letters={letters} onSelect={onSelect} onEdit={onEdit} onExport={onExport} />;
-
-  if (page === 'reports')
-    return <ReportsManagementView currentUser={user} />;
 
   if (page === 'agenda')
     return <AgendaRegisterView letters={letters} onSelect={onSelect} onPrint={onPrint} onExport={onExport} />;

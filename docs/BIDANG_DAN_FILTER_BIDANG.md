@@ -73,7 +73,16 @@ Hasil pemeriksaan langsung ke TiDB pada saat perubahan ini dibuat:
 - Sebaran bidang pemrakarsa surat keluar: id 7 sebanyak 117, id 1 sebanyak 66, id 6 sebanyak 49, id 5 sebanyak 9, id 4 sebanyak 7, id 3 sebanyak 2, id 8 sebanyak 2, id 2 sebanyak 1.
 - Uji pemetaan: nama Bidang Pengembangan dan Pemberdayaan Pemuda terbaca sebagai Pengembangan Pemuda, nama Sekretariat Dispora terbaca sebagai Sekretariat, dan penyaringan per bidang pada Laporan 1 mengembalikan jumlah baris yang konsisten dengan sebaran di atas.
 
-6. BATASAN DAN RENCANA PERAPIAN
+6. HASIL UJI ANTARMUKA LANGSUNG
+
+Pengujian dijalankan dengan scripts/audit_bidang_chrome.py memakai Chrome nyata dan sesi akun developer, diukur pada lebar 1280 dan 375 piksel.
+
+- Arsip surat masuk: filter bidang tampil dengan sepuluh pilihan, penanda bidang muncul pada baris tabel, luber horizontal nol piksel.
+- Arsip surat keluar: filter bidang tampil dengan sepuluh pilihan, penanda bidang muncul pada baris tabel, luber horizontal nol piksel.
+- Pusat laporan: filter bidang tampil, kolom Bidang Tujuan Disposisi tampil, tabel memuat 170 baris agenda surat masuk, luber horizontal nol piksel.
+- Catatan rute: membuka /laporan lewat tautan langsung sebelumnya selalu jatuh ke halaman landing karena URL_MAP dan pemetaan popstate belum mengenal segmen laporan. Perbaikan sudah diterapkan di src/components/SipasdApp.tsx.
+
+7. BATASAN DAN RENCANA PERAPIAN
 
 - Bidang gabungan id 4 sebaiknya dipecah pada tahun anggaran berikutnya agar Pengembangan Pemuda dan Pemberdayaan Pemuda berdiri sendiri. Pemecahan wajib disertai migrasi disposisi lama, bukan sekadar mengubah master bidang.
 - Label ringkas sengaja dipakai pada antarmuka. Nama panjang tetap menjadi sumber kebenaran pada database dan pada kop laporan cetak.

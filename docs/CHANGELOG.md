@@ -13,6 +13,8 @@ Format: `[YYYY-MM-DD] Fitur/Perbaikan - Deskripsi`
 - Tabel arsip: penanda bidang berwarna hijau pada setiap baris agar verifikasi unit kerja tidak perlu membuka detail dokumen.
 - Pusat Laporan: filter Bidang atau Unit Kerja untuk Laporan 1 sampai Laporan 4, serta kolom Bidang Tujuan Disposisi pada Laporan 1 yang diambil dari disposisi terakhir per surat sehingga jumlah agenda tidak berlipat.
 - Pemetaan label: urutan pemeriksaan mapDivision diperbaiki agar Pemberdayaan Pemuda tidak tertukar dengan Pengembangan Pemuda, dan mapDivision diekspor untuk dipakai lapisan API laporan.
+- Perbaikan rute pusat laporan: URL_MAP dan pemetaan popstate di SipasdApp kini mengenali /laporan sebagai halaman reports. Sebelumnya membuka /laporan langsung selalu jatuh ke halaman landing karena pemetaan path tidak mengenal segmen laporan, sehingga pusat laporan hanya bisa dibuka lewat klik menu.
+- Verifikasi antarmuka langsung: scripts/audit_bidang_chrome.py mengukur halaman nyata. Arsip surat masuk dan arsip surat keluar menampilkan filter bidang dengan sepuluh pilihan serta penanda bidang pada baris tabel. Pusat laporan menampilkan filter bidang, kolom Bidang Tujuan Disposisi, dan 170 baris data agenda. Nol piksel luber horizontal pada lebar 1280 dan 375.
 - Warna grafik distribusi dashboard diperluas menjadi sembilan warna berbeda per bidang, menggantikan gradasi hijau yang menyulitkan pembacaan.
 - Dokumentasi baru: docs/BIDANG_DAN_FILTER_BIDANG.md memuat struktur sembilan unit kerja, aturan pemetaan dua arah, titik penggunaan, serta bukti sebaran data riil.
 - Verifikasi: tsc --noEmit bersih, next build sukses, suite verify-system lulus enam dari enam pemeriksaan, seluruh 95 berkas src/ tetap di bawah 200 baris, dan nol em-dash.

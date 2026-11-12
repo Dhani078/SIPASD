@@ -27,6 +27,7 @@ const URL_MAP: Record<string, string> = {
   dashboard: '/dashboard',
   in: '/arsip-masuk',
   out: '/arsip-keluar',
+  reports: '/laporan',
   landing: '/',
   login: '/login',
 };
@@ -70,7 +71,7 @@ export default function SipasdApp({
     const handlePop = () => {
       const path = window.location.pathname;
       const v = new URLSearchParams(window.location.search).get('view');
-      let t = v || (path.includes('arsip-masuk') ? 'in' : path.includes('arsip-keluar') ? 'out' : path.includes('dashboard') ? 'dashboard' : path.includes('login') ? 'login' : 'landing');
+      let t = v || (path.includes('arsip-masuk') ? 'in' : path.includes('arsip-keluar') ? 'out' : path.includes('laporan') ? 'reports' : path.includes('dashboard') ? 'dashboard' : path.includes('login') ? 'login' : 'landing');
       if (!auth && t !== 'landing' && t !== 'login') t = 'login';
       setPage(t);
     };

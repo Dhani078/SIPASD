@@ -45,13 +45,12 @@ export default function DashboardView({
   ];
 
   const segments = useMemo(() => {
-    const colors = ['#146c51', '#51977e', '#98bbaa', '#d6ab61', '#e4d3ae'];
-    const total = active.length;
-    const res: string[] = [];
+    const colors = ['#146c51', '#2563eb', '#d97706', '#7c3aed', '#059669', '#dc2626', '#0891b2', '#4f46e5', '#ca8a04'];
+    const total = active.length, res: string[] = [];
     let cur = 0;
     for (let i = 0; i < counts.length; i++) {
       const nxt = cur + (total ? (counts[i] / total) * 100 : 0);
-      res.push(`${colors[i]} ${cur}% ${nxt}%`);
+      res.push(`${colors[i % colors.length]} ${cur}% ${nxt}%`);
       cur = nxt;
     }
     return res;

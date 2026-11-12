@@ -22,12 +22,17 @@ interface SuratKeluarDbRow {
   kode_klasifikasi: string | null; nama_klasifikasi: string | null; nama_bidang: string | null;
 }
 
-function mapDivision(name?: string | null): string {
+export function mapDivision(name?: string | null): string {
   if (!name) return 'Sekretariat';
+  if (name.includes('Keuangan') || name.includes('KEU')) return 'Subbagian Keuangan';
+  if (name.includes('Umum') || name.includes('Kepegawaian')) return 'Subbagian Umum & Kepegawaian';
+  if (name.includes('Perencanaan') || name.includes('Pelaporan')) return 'Subbagian Perencanaan & Pelaporan';
   if (name.includes('Pembudayaan')) return 'Pembudayaan Olahraga';
   if (name.includes('Prestasi')) return 'Peningkatan Prestasi';
+  if (name.includes('Pengembangan')) return 'Pengembangan Pemuda';
+  if (name.includes('Pemberdayaan')) return 'Pemberdayaan Pemuda';
   if (name.includes('Pemuda')) return 'Pengembangan Pemuda';
-  if (name.includes('Sarana')) return 'Sarana & Prasarana';
+  if (name.includes('Sarana') || name.includes('Prasarana')) return 'Sarana & Prasarana';
   return 'Sekretariat';
 }
 
@@ -61,10 +66,14 @@ function detectClassification(number: string, text: string): string {
 
 function mapOutgoingDivision(text: string): string {
   const t = text.toLowerCase();
-  if (['pemuda', 'pramuka', 'wirausaha', 'kepemudaan'].some((k) => t.includes(k))) return 'Pengembangan Pemuda';
-  if (['prestasi', 'atlet', 'koni', 'kejurprov', 'pelatda'].some((k) => t.includes(k))) return 'Peningkatan Prestasi';
-  if (['pembudayaan', 'senam', 'masyarakat', 'rekreasi'].some((k) => t.includes(k))) return 'Pembudayaan Olahraga';
-  if (['sarana', 'prasarana', 'kendaraan', 'pesanan', 'rehabilitasi', 'order'].some((k) => t.includes(k))) return 'Sarana & Prasarana';
+  if (['keuangan', 'spj', 'bku', 'gaji', 'retribusi', 'anggaran', 'karcis', 'pembayaran', 'honor'].some((k) => t.includes(k))) return 'Subbagian Keuangan';
+  if (['kepegawaian', 'cuti', 'pangkat', 'skum', 'kp', 'kgb', 'tata usaha', 'ekspedisi', 'kenaikan'].some((k) => t.includes(k))) return 'Subbagian Umum & Kepegawaian';
+  if (['renja', 'renstra', 'lakip', 'sakip', 'lppd', 'perencanaan', 'pelaporan', 'monev', 'dpa'].some((k) => t.includes(k))) return 'Subbagian Perencanaan & Pelaporan';
+  if (['pemberdayaan', 'paskibraka', 'wawasan kebangsaan', 'imtaq'].some((k) => t.includes(k))) return 'Pemberdayaan Pemuda';
+  if (['pemuda', 'pramuka', 'wirausaha', 'kepemudaan', 'knpi', 'pelopor'].some((k) => t.includes(k))) return 'Pengembangan Pemuda';
+  if (['prestasi', 'atlet', 'koni', 'kejurprov', 'pelatda', 'npc', 'popda', 'pomnas'].some((k) => t.includes(k))) return 'Peningkatan Prestasi';
+  if (['pembudayaan', 'senam', 'masyarakat', 'rekreasi', 'tradisional', 'kormi'].some((k) => t.includes(k))) return 'Pembudayaan Olahraga';
+  if (['sarana', 'prasarana', 'kendaraan', 'pesanan', 'rehabilitasi', 'order', 'venue', 'gor', 'stadion', 'lapangan'].some((k) => t.includes(k))) return 'Sarana & Prasarana';
   return 'Sekretariat';
 }
 
@@ -146,7 +155,7 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
     const agendaNum = r.nomor_agenda.split('/')[0] || r.id.slice(0, 6);
     const dateStr = toLocalDateString(r.tanggal_surat) || '2026-08-01';
     const combinedText = `${r.perihal} ${r.ringkasan_isi || ''} ${r.tujuan_instansi}`;
-    const div = mapOutgoingDivision(combinedText);
+    const div = r.nama_bidang && r.nama_bidang !== 'Sekretariat Dispora' ? mapDivision(r.nama_bidang) : mapOutgoingDivision(combinedText);
     const type: Urgency = mapOutgoingUrgency(combinedText);
     const cls = detectClassification(r.nomor_surat, combinedText);
     return {

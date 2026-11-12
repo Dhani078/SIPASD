@@ -1,6 +1,7 @@
 'use client';
 
 import Icon from './Icon';
+import { divisions } from '@/data/constants';
 
 interface Props {
   reportType: string;
@@ -15,6 +16,8 @@ interface Props {
   setStatusFilter: (v: string) => void;
   actionFilter: string;
   setActionFilter: (v: string) => void;
+  divisionFilter: string;
+  setDivisionFilter: (v: string) => void;
   onRefresh: () => void;
 }
 
@@ -31,6 +34,8 @@ export default function ReportsFilterBar({
   setStatusFilter,
   actionFilter,
   setActionFilter,
+  divisionFilter,
+  setDivisionFilter,
   onRefresh,
 }: Props) {
   return (
@@ -108,6 +113,23 @@ export default function ReportsFilterBar({
             />
           </div>
         </div>
+
+        {['1', '2', '3', '4'].includes(reportType) && (
+          <div>
+            <label htmlFor="select-division-filter" className="block text-slate-600 font-medium mb-1">Filter Bidang / Unit Kerja:</label>
+            <select
+              id="select-division-filter"
+              value={divisionFilter}
+              onChange={(e) => setDivisionFilter(e.target.value)}
+              className="w-full px-3 py-2 border border-slate-300 rounded-lg text-slate-800 bg-slate-50"
+            >
+              <option value="">Semua Bidang &amp; Subbagian</option>
+              {divisions.map((d) => (
+                <option key={d} value={d}>{d}</option>
+              ))}
+            </select>
+          </div>
+        )}
 
         {reportType === '4' ? (
           <div>

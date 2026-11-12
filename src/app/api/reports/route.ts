@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
 import { toLocalDateString } from '@/lib/format';
+import { mapDivision } from '@/lib/letters';
 import { getReportMasuk, getReportKeluar, getReportDisposisi } from '@/lib/reports-queries';
 import { getReportKepatuhan, getReportKlasifikasi, getReportAudit } from '@/lib/reports-queries-secondary';
 
@@ -21,25 +22,33 @@ export async function GET(req: NextRequest) {
   const endDate = searchParams.get('endDate') || undefined;
   const status = searchParams.get('status') || 'SEMUA';
   const action = searchParams.get('action') || 'SEMUA';
+  const division = searchParams.get('division') || '';
   const todayDate = toLocalDateString(new Date());
+
+  const bid = (r: Record<string, unknown>) =>
+    (r.bidang_pemrakarsa || r.bidang_tujuan || r.nama_bidang) as string | undefined;
+  const byDivision = (rows: unknown): Record<string, unknown>[] => {
+    const list = (Array.isArray(rows) ? rows : []) as Record<string, unknown>[];
+    return division ? list.filter((r) => mapDivision(bid(r)) === division) : list;
+  };
 
   try {
     switch (type) {
       case '1': {
         const { rows, summary } = await getReportMasuk(startDate, endDate);
-        return NextResponse.json({ success: true, data: rows, summary });
+        return NextResponse.json({ success: true, data: byDivision(rows), summary });
       }
       case '2': {
         const { rows, summary } = await getReportKeluar(startDate, endDate);
-        return NextResponse.json({ success: true, data: rows, summary });
+        return NextResponse.json({ success: true, data: byDivision(rows), summary });
       }
       case '3': {
         const rows = await getReportDisposisi(startDate, endDate);
-        return NextResponse.json({ success: true, data: rows });
+        return NextResponse.json({ success: true, data: byDivision(rows) });
       }
       case '4': {
         const rows = await getReportKepatuhan(todayDate, status, startDate, endDate);
-        return NextResponse.json({ success: true, data: rows });
+        return NextResponse.json({ success: true, data: byDivision(rows) });
       }
       case '5': {
         const rows = await getReportKlasifikasi(startDate, endDate);

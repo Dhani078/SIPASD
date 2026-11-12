@@ -120,7 +120,14 @@ export default function ArchiveTable({
                   <td>
                     <b className="text-slate-900 font-semibold">{letter.origin}</b>
                     <p title={letter.subject} className="text-slate-700 text-xs mt-0.5">{letter.subject}</p>
-                    {!compact && <small className="mono block text-[11px] text-slate-500 mt-0.5">{letter.number}</small>}
+                    <div className="flex items-center gap-1.5 flex-wrap mt-1">
+                      {!compact && <small className="mono text-[11px] text-slate-500">{letter.number}</small>}
+                      {letter.division && (
+                        <span className="inline-flex items-center text-[10px] font-medium px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200">
+                          {letter.division}
+                        </span>
+                      )}
+                    </div>
                   </td>
                   <td className="mono date-cell">{shortDate(letter.date)}</td>
                   <td>

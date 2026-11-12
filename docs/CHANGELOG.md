@@ -5,6 +5,20 @@ Format: `[YYYY-MM-DD] Fitur/Perbaikan - Deskripsi`
 
 ---
 
+## [2026-11-12] Dimensi Bidang Kerja: Dropdown Terkendali, Filter Arsip, dan Kolom Bidang pada Laporan
+
+- Sumber data bidang tidak lagi ditulis mati sebagai angka 1 atau 2 pada mutasi basis data. Nilai bidang kini diturunkan dari pilihan pengguna melalui fungsi parseBidangId, sehingga disposisi dan surat keluar tersimpan pada unit kerja yang benar.
+- Modal Indeks Berkas Baru: blok Perekaman Lembar Disposisi Awal mengirim bidang tujuan ke tabel riwayat_disposisi, dan muncul pilihan Bidang Pemrakarsa khusus saat jenis arsip Surat Keluar dipilih.
+- Modal Edit Arsip: satu dropdown bidang dengan label adaptif, yaitu Bidang Tujuan Disposisi untuk surat masuk dan Bidang Pemrakarsa untuk surat keluar. Perubahan langsung menyentuh kolom kepada_bidang_id atau bidang_pemrakarsa_id.
+- Tabel arsip: penanda bidang berwarna hijau pada setiap baris agar verifikasi unit kerja tidak perlu membuka detail dokumen.
+- Pusat Laporan: filter Bidang atau Unit Kerja untuk Laporan 1 sampai Laporan 4, serta kolom Bidang Tujuan Disposisi pada Laporan 1 yang diambil dari disposisi terakhir per surat sehingga jumlah agenda tidak berlipat.
+- Pemetaan label: urutan pemeriksaan mapDivision diperbaiki agar Pemberdayaan Pemuda tidak tertukar dengan Pengembangan Pemuda, dan mapDivision diekspor untuk dipakai lapisan API laporan.
+- Warna grafik distribusi dashboard diperluas menjadi sembilan warna berbeda per bidang, menggantikan gradasi hijau yang menyulitkan pembacaan.
+- Dokumentasi baru: docs/BIDANG_DAN_FILTER_BIDANG.md memuat struktur sembilan unit kerja, aturan pemetaan dua arah, titik penggunaan, serta bukti sebaran data riil.
+- Verifikasi: tsc --noEmit bersih, next build sukses, suite verify-system lulus enam dari enam pemeriksaan, seluruh 95 berkas src/ tetap di bawah 200 baris, dan nol em-dash.
+
+---
+
 ## [2026-10-22] Addendum: Tombol Edit Arsip Dokumen di Seluruh Tabel & Modal Viewer
 
 - **Endpoint RESTful PUT (`/api/letters`) & Mutasi TiDB (`updateLetter`)**:

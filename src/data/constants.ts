@@ -14,9 +14,13 @@ export const venues = [
 
 export const divisions = [
   'Sekretariat',
+  'Subbagian Umum & Kepegawaian',
+  'Subbagian Keuangan',
+  'Subbagian Perencanaan & Pelaporan',
   'Pembudayaan Olahraga',
   'Peningkatan Prestasi',
   'Pengembangan Pemuda',
+  'Pemberdayaan Pemuda',
   'Sarana & Prasarana',
 ];
 

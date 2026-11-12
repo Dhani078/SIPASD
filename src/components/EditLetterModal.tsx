@@ -3,6 +3,7 @@
 import { useId, useState } from 'react';
 import Modal from './Modal';
 import Icon from './Icon';
+import { divisions } from '@/data/constants';
 import type { LetterRecord, Urgency } from '@/types';
 
 type DispStatus = 'BELUM_DIPROSES' | 'PROSES' | 'SELESAI';
@@ -19,6 +20,7 @@ export default function EditLetterModal({ letter, onClose, onSave }: Props) {
   const [subject, setSubject] = useState(letter.subject);
   const [date, setDate] = useState(letter.date);
   const [type, setType] = useState<Urgency>(letter.type);
+  const [division, setDivision] = useState(letter.division || 'Sekretariat');
   const [official, setOfficial] = useState(letter.disposition?.official || '');
   const [dispStatus, setDispStatus] = useState<DispStatus>(letter.disposition?.status || 'PROSES');
   const [notes, setNotes] = useState(letter.disposition?.notes || '');
@@ -43,12 +45,13 @@ export default function EditLetterModal({ letter, onClose, onSave }: Props) {
         subject: subject.trim(),
         date,
         type,
+        division,
       };
       if (letter?.direction === 'in') {
         updates.disposition = {
           official: official.trim() || '-',
           date: letter.disposition?.date || date,
-          division: letter.division || 'Sekretariat',
+          division,
           instructions: letter.disposition?.instructions || ['Tindak Lanjuti'],
           notes: notes.trim(),
           status: dispStatus,
@@ -94,21 +97,26 @@ export default function EditLetterModal({ letter, onClose, onSave }: Props) {
           <div>
             <label htmlFor={`${uid}-urg`} className="block font-semibold mb-1 text-slate-600">Sifat Naskah</label>
             <select id={`${uid}-urg`} value={type} onChange={(e) => setType(e.target.value as Urgency)} className="w-full bg-white border border-slate-300 rounded px-2.5 py-1.5 text-xs">
-              <option value="Biasa">Biasa</option>
-              <option value="Penting">Penting</option>
-              <option value="Segera">Segera</option>
-              <option value="Kilat">Kilat</option>
+              <option value="Biasa">Biasa</option><option value="Penting">Penting</option><option value="Segera">Segera</option><option value="Kilat">Kilat</option>
             </select>
           </div>
           <div>
-            <label htmlFor={`${uid}-file`} className="block font-semibold mb-1 text-slate-600">Ganti PDF (Opsional)</label>
-            <input id={`${uid}-file`} type="file" accept=".pdf" onChange={(e) => setFile(e.target.files?.[0] || null)} className="w-full text-xs" />
-            {file && file.size > 4 * 1024 * 1024 && (
-              <span className="text-[10px] bg-amber-100 text-amber-800 font-medium px-1.5 py-0.5 rounded mt-0.5 inline-block">
-                {(file.size / (1024 * 1024)).toFixed(1)} MB - Auto-Kompresi Aktif
-              </span>
-            )}
+            <label htmlFor={`${uid}-div`} className="block font-semibold mb-1 text-slate-600">
+              {letter.direction === 'in' ? 'Bidang Tujuan Disposisi' : 'Bidang Pemrakarsa'}
+            </label>
+            <select id={`${uid}-div`} value={division} onChange={(e) => setDivision(e.target.value)} className="w-full bg-white border border-slate-300 rounded px-2.5 py-1.5 text-xs">
+              {divisions.map((d) => <option key={d} value={d}>{d}</option>)}
+            </select>
           </div>
+        </div>
+        <div>
+          <label htmlFor={`${uid}-file`} className="block font-semibold mb-1 text-slate-600">Ganti PDF (Opsional)</label>
+          <input id={`${uid}-file`} type="file" accept=".pdf" onChange={(e) => setFile(e.target.files?.[0] || null)} className="w-full text-xs" />
+          {file && file.size > 4 * 1024 * 1024 && (
+            <span className="text-[10px] bg-amber-100 text-amber-800 font-medium px-1.5 py-0.5 rounded mt-0.5 inline-block">
+              {(file.size / (1024 * 1024)).toFixed(1)} MB - Auto-Kompresi Aktif
+            </span>
+          )}
         </div>
 
         {letter.direction === 'in' && (

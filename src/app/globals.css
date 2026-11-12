@@ -1057,18 +1057,14 @@ td .icon-btn {
   flex-shrink: 0;
   background: #146c51;
 }
-.d1 {
-  background: #51977e;
-}
-.d2 {
-  background: #98bbaa;
-}
-.d3 {
-  background: #d6ab61;
-}
-.d4 {
-  background: #e4d3ae;
-}
+.d1 { background: #2563eb; }
+.d2 { background: #d97706; }
+.d3 { background: #7c3aed; }
+.d4 { background: #059669; }
+.d5 { background: #dc2626; }
+.d6 { background: #0891b2; }
+.d7 { background: #4f46e5; }
+.d8 { background: #ca8a04; }
 .division-list button > span {
   flex: 1;
   color: #334155;

@@ -12,6 +12,7 @@ export function ReportTableMasuk({ data, summary }: { data: Record<string, unkno
           <th className="p-2 border-r border-slate-200">Tgl Surat</th>
           <th className="p-2 border-r border-slate-200">Asal Instansi</th>
           <th className="p-2 border-r border-slate-200">Perihal</th>
+          <th className="p-2 border-r border-slate-200">Bidang Tujuan Disposisi</th>
           <th className="p-2 text-center">Sifat</th>
         </tr>
       </thead>
@@ -25,6 +26,7 @@ export function ReportTableMasuk({ data, summary }: { data: Record<string, unkno
             <td className="p-2.5 border-r border-slate-200 whitespace-nowrap text-slate-700">{String(r.tanggal_surat).slice(0, 10)}</td>
             <td className="p-2.5 border-r border-slate-200 text-slate-800 font-medium">{String(r.asal_instansi)}</td>
             <td className="p-2.5 border-r border-slate-200 text-slate-700 leading-relaxed">{String(r.perihal)}</td>
+            <td className="p-2.5 border-r border-slate-200 text-[11px] text-emerald-800">{r.bidang_tujuan ? String(r.bidang_tujuan) : '-'}</td>
             <td className="p-2.5 text-center whitespace-nowrap">
               <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${r.sifat_surat === 'KILAT' ? 'bg-red-100 text-red-700' : r.sifat_surat === 'PENTING' ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-700'}`}>
                 {String(r.sifat_surat)}
@@ -36,7 +38,7 @@ export function ReportTableMasuk({ data, summary }: { data: Record<string, unkno
       {summary && (
         <tfoot className="bg-slate-100 font-semibold border-t-2 border-slate-300 text-slate-800">
           <tr>
-            <td colSpan={7} className="p-2.5 text-right">Total Berkas Surat Masuk:</td>
+            <td colSpan={8} className="p-2.5 text-right">Total Berkas Surat Masuk:</td>
             <td className="p-2.5 text-center font-bold">{String(summary.total ?? data.length)}</td>
           </tr>
         </tfoot>

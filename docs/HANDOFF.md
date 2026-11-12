@@ -16,6 +16,7 @@
   * **Phase 8: Deep Audit Keamanan, UX/Performa & Pengujian Ekstensif (SELESAI 100%)**.
   * **Phase 9: Otomatisasi Ekstraksi OCR PDF, Riwayat Disposisi Fisik, Buku Ekspedisi, dan Pembersihan Metadata (SELESAI 100%)**.
   * **Phase 10: 5 Tombol Aksi Dokumen Tabel, Modal Edit Metadata/Disposisi TiDB, Filter Tahun Cerdas, Maxx Mode Mobile/iPad, dan Hard Logout Cookie (SELESAI 100%)**.
+  * **Phase 14: Dimensi Bidang Kerja Terkendali, Filter Bidang Arsip dan Laporan, Kolom Bidang Tujuan pada Laporan 1, serta Dokumentasi Pemetaan Bidang (SELESAI 100%)**.
   * **Phase 11: Audit Visual Langsung ke Google Chrome Nyata & Standar Kualitas 100/100 Max Mode (SELESAI 100%)**.
   * **Phase 12: Audit End-to-End Seluruh Backend & Sistem di Google Chrome, Resolusi Iframe PDF, Forensik Audit Trail Riil TiDB, Register Agenda & Manajemen Pengguna Dedicated (SELESAI 100% - ZERO BUG)**.
   * **Phase 13: Full Audit Bundle (Keamanan Fail-Closed, Type-Safety Absolut, Zero Casts, dan Verifikasi Chrome 100/100) (SELESAI 100% - VERIFIED)**.

@@ -17,6 +17,7 @@ export default function ReportsManagementView({ currentUser: _currentUser }: Pro
   const [endDate, setEndDate] = useState<string>('');
   const [statusFilter, setStatusFilter] = useState<string>('SEMUA');
   const [actionFilter, setActionFilter] = useState<string>('SEMUA');
+  const [divisionFilter, setDivisionFilter] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<Record<string, unknown>[]>([]);
   const [summary, setSummary] = useState<Record<string, unknown> | null>(null);
@@ -56,6 +57,7 @@ export default function ReportsManagementView({ currentUser: _currentUser }: Pro
         if (endDate) p.set('endDate', endDate);
         if (reportType === '4') p.set('status', statusFilter);
         if (reportType === '6') p.set('action', actionFilter);
+        if (divisionFilter) p.set('division', divisionFilter);
 
         const res = await fetch(`/api/reports?${p.toString()}`);
         const json = await res.json();
@@ -73,7 +75,7 @@ export default function ReportsManagementView({ currentUser: _currentUser }: Pro
     return () => {
       ignore = true;
     };
-  }, [reportType, startDate, endDate, statusFilter, actionFilter, reloadKey]);
+  }, [reportType, startDate, endDate, statusFilter, actionFilter, divisionFilter, reloadKey]);
 
   return (
     <div className="space-y-6">
@@ -90,6 +92,8 @@ export default function ReportsManagementView({ currentUser: _currentUser }: Pro
         setStatusFilter={setStatusFilter}
         actionFilter={actionFilter}
         setActionFilter={setActionFilter}
+        divisionFilter={divisionFilter}
+        setDivisionFilter={setDivisionFilter}
         onRefresh={() => setReloadKey((k) => k + 1)}
       />
 

@@ -6,10 +6,14 @@ export async function getReportMasuk(startDate?: string, endDate?: string) {
   const dateEnd = endDate || '2030-12-31';
 
   const [rows] = await pool.query(
-    `SELECT nomor_agenda, tanggal_diterima, nomor_surat, tanggal_surat, asal_instansi, perihal, sifat_surat
-     FROM arsip_surat_masuk
-     WHERE tanggal_diterima BETWEEN ? AND ?
-     ORDER BY tanggal_diterima ASC, id ASC`,
+    `SELECT s.nomor_agenda, s.tanggal_diterima, s.nomor_surat, s.tanggal_surat, s.asal_instansi, s.perihal, s.sifat_surat,
+            (SELECT bd.nama_bidang FROM riwayat_disposisi rd
+             LEFT JOIN bidang_dispora bd ON rd.kepada_bidang_id = bd.id
+             WHERE rd.surat_masuk_id = s.id
+             ORDER BY rd.tanggal_disposisi DESC LIMIT 1) AS bidang_tujuan
+     FROM arsip_surat_masuk s
+     WHERE s.tanggal_diterima BETWEEN ? AND ?
+     ORDER BY s.tanggal_diterima ASC, s.id ASC`,
     [dateStart, dateEnd]
   );
 

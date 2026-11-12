@@ -97,6 +97,20 @@ CREATE TABLE IF NOT EXISTS `bidang_dispora` (
   UNIQUE KEY `uk_bidang_kode` (`kode_bidang`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+Isi master bidang saat ini, sembilan baris, id berurutan:
+
+- id 1 Sekretariat Dispora
+- id 2 Bidang Pembudayaan Olahraga
+- id 3 Bidang Peningkatan Prestasi Olahraga
+- id 4 Bidang Pengembangan dan Pemberdayaan Pemuda (gabungan warisan data awal)
+- id 5 Bidang Sarana dan Prasarana Olahraga
+- id 6 Subbagian Keuangan
+- id 7 Subbagian Umum dan Kepegawaian
+- id 8 Subbagian Perencanaan dan Pelaporan
+- id 9 Bidang Pemberdayaan Pemuda (berdiri sendiri)
+
+Kode yang menulis dan membaca kolom bidang wajib memakai pasangan fungsi mapDivision dan parseBidangId di src/lib/letters.ts serta src/lib/letter-mutations.ts. Jangan menulis angka id secara langsung. Uraian lengkap ada di docs/BIDANG_DAN_FILTER_BIDANG.md.
+
 -- 3. TABEL: klasifikasi_arsip (Kode Permendagri / Pergub Kalsel)
 CREATE TABLE IF NOT EXISTS `klasifikasi_arsip` (
   `id` INT AUTO_INCREMENT NOT NULL,

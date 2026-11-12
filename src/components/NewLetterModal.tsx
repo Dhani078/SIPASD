@@ -4,7 +4,7 @@ import { useId, useRef, useState } from 'react';
 import Modal from './Modal';
 import Icon from './Icon';
 import NewLetterDisposisiFields from './NewLetterDisposisiFields';
-import { classifications, venues } from '@/data/constants';
+import { classifications, venues, divisions } from '@/data/constants';
 import { classifyText, type ClassificationResult } from '@/lib/classifier';
 import type { Direction, LetterRecord, Urgency } from '@/types';
 
@@ -58,7 +58,7 @@ export default function NewLetterModal({ direction, onClose, onSave }: Props) {
                 direction: kind,
                 classification: classCode,
                 venue: val('venue') || '-',
-                division: val('division') || 'Sekretariat',
+                division: (kind === 'out' ? val('division') : val('disposisi_division')) || 'Sekretariat',
                 type: (val('urgency') || 'Biasa') as Urgency,
                 disposition: {
                   official: val('official') || 'Pebriadin Hapiz, AP, M.Si',
@@ -84,17 +84,13 @@ export default function NewLetterModal({ direction, onClose, onSave }: Props) {
           <div>
             <label htmlFor={`${uid}-kind`} className="block text-[11px] font-semibold text-slate-700 mb-1">Jenis Arsip</label>
             <select id={`${uid}-kind`} name="direction" value={kind} onChange={(e) => setKind(e.target.value as Direction)} className="w-full">
-              <option value="in">Surat Masuk</option>
-              <option value="out">Surat Keluar</option>
+              <option value="in">Surat Masuk</option><option value="out">Surat Keluar</option>
             </select>
           </div>
           <div>
             <label htmlFor={`${uid}-urg`} className="block text-[11px] font-semibold text-slate-700 mb-1">Sifat Surat</label>
             <select id={`${uid}-urg`} name="urgency" className="w-full">
-              <option>Biasa</option>
-              <option>Penting</option>
-              <option>Segera</option>
-              <option>Kilat</option>
+              <option>Biasa</option><option>Penting</option><option>Segera</option><option>Kilat</option>
             </select>
           </div>
           <div>
@@ -142,6 +138,12 @@ export default function NewLetterModal({ direction, onClose, onSave }: Props) {
               {venues.map((v) => <option key={v}>{v}</option>)}
             </select>
           </div>
+          {kind === 'out' && (
+            <div className="col-span-2">
+              <label htmlFor={`${uid}-div`} className="block text-[11px] font-semibold text-slate-700 mb-1">Bidang Pemrakarsa / Pengusul</label>
+              <select id={`${uid}-div`} name="division" className="w-full">{divisions.map((d) => <option key={d} value={d}>{d}</option>)}</select>
+            </div>
+          )}
         </div>
 
         <div

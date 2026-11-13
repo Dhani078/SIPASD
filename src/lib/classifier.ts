@@ -32,17 +32,17 @@ const CATEGORY_VOCAB: Record<string, { name: string; division: string; words: st
   },
   '800': {
     name: 'Kepegawaian',
-    division: 'Sekretariat',
+    division: 'Subbagian Umum & Kepegawaian',
     words: ['tugas', 'pegawai', 'pns', 'asn', 'cuti', 'mutasi', 'diklat', 'sppd', 'jabatan', 'kenaikan'],
   },
   '900': {
     name: 'Keuangan',
-    division: 'Sekretariat',
+    division: 'Subbagian Keuangan',
     words: ['spj', 'anggaran', 'dana', 'hibah', 'pencairan', 'tagihan', 'honor', 'pajak', 'belanja', 'kwitansi'],
   },
   '045': {
     name: 'Kearsipan',
-    division: 'Sekretariat',
+    division: 'Subbagian Umum & Kepegawaian',
     words: ['arsip', 'naskah', 'retensi', 'dokumen', 'peminjaman', 'penyerahan', 'ekspedisi'],
   },
 };

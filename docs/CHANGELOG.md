@@ -5,6 +5,24 @@ Format: `[YYYY-MM-DD] Fitur/Perbaikan - Deskripsi`
 
 ---
 
+## [2026-11-17] Sistem Nomor Agenda 5 Digit Blok 50 per Hari Kerja dan Migrasi 423 Naskah
+
+- Sistem Nomor Agenda Blok 50 Slot Harian: Menerapkan sistem penomoran agenda berbasis hari kerja resmi (Senin s.d. Jumat). Setiap hari kerja mendapatkan alokasi kuota 50 nomor agenda.
+- Format 5 Digit Integer: Format standar nomor agenda menggunakan 5 digit angka (00001 s.d. 13050) untuk mengakomodasi 261 hari kerja setahun (261 x 50 = 13.050 nomor), baik untuk Surat Masuk ({5_DIGIT}/SM/DISPORA/2026) maupun Surat Keluar ({5_DIGIT}/SK/DISPORA/2026).
+- Penanganan Akhir Pekan (Roll-Forward): Hari Sabtu dan Minggu tidak memiliki kuota. Surat yang bertanggal akhir pekan otomatis digulirkan ke hari Senin berikutnya dan menggunakan slot nomor hari Senin tersebut.
+- Penanganan Underflow & Overflow:
+  * Underflow: Hari berikutnya tetap melompat ke slot harinya (misal dari 00030 langsung ke 00051). Slot kosong tersimpan untuk naskah susulan bertanggal sama.
+  * Overflow: Naskah ke-51 dan seterusnya pada hari yang sama menggunakan format sub-indeks pecahan (contoh: 00050.01, 00050.02).
+- Migrasi Menyeluruh 423 Naskah Riil TiDB Cloud:
+  * 170 Surat Masuk ditata ulang sesuai urutan tanggal diterima dan slot hari kerja. Tingkat keunikan 170/170 (100% unik, 0 duplikat).
+  * 253 Surat Keluar ditata ulang sesuai urutan tanggal surat dan slot hari kerja. Tingkat keunikan 253/253 (100% unik, 0 duplikat).
+  * Seluruh nomor lama dibackup pada scripts/backup_agendas_before_mig.json.
+- Pratinjau Real-Time pada Antarmuka: Modal Indeks Berkas Baru menampilkan lencana informasi hari kerja ke-N dan rentang slot agenda harian secara dinamis saat tanggal dipilih pengguna.
+- Modul Inti & Mutasi: Dibuat src/lib/workday-slot.ts dan dimutakhirkan src/lib/letter-mutations.ts untuk integrasi mutasi basis data otomatis.
+- Verifikasi & Kepatuhan: TypeScript bersih, ESLint 0 warning/error, test suite verify-system 6/6 lulus, 100% berkas src/ <= 200 LOC, dan 0 em-dash.
+
+---
+
 ## [2026-11-17] Penyelarasan Alur Posisi Surat dan Fitur Unggah Manual PDF Lembar Disposisi
 
 - Perubahan Alur Posisi Surat: Komponen Instruksi Kedinasan pada formulir Indeks Berkas Baru digantikan oleh Posisi Surat dengan tiga opsi alur kedinasan riil Dispora Kalsel: Diterima Persuratan, Kepala Dinas, dan Selesai.

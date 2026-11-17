@@ -6,6 +6,7 @@ import Icon from './Icon';
 import NewLetterDisposisiFields from './NewLetterDisposisiFields';
 import { classifications, venues, divisions } from '@/data/constants';
 import { classifyText, type ClassificationResult } from '@/lib/classifier';
+import { getWorkdayIndex, format5Digit } from '@/lib/workday-slot';
 import type { Direction, LetterRecord, Urgency } from '@/types';
 
 interface Props {
@@ -25,8 +26,14 @@ export default function NewLetterModal({ direction, onClose, onSave }: Props) {
   const [aiRec, setAiRec] = useState<ClassificationResult | null>(null);
   const [classCode, setClassCode] = useState('005');
   const [today] = useState(() => new Date().toISOString().slice(0, 10));
+  const [pickedDate, setPickedDate] = useState(() => new Date().toISOString().slice(0, 10));
   const fileInput = useRef<HTMLInputElement>(null);
   const uid = useId();
+
+  const [pY, pM, pD] = pickedDate.split('-').map(Number);
+  const wDay = getWorkdayIndex(pY || 2026, pM || 1, pD || 1);
+  const sStart = (wDay - 1) * 50 + 1;
+  const sEnd = wDay * 50;
 
   const handleSubject = (text: string) => {
     setAiRec(text.trim().length >= 4 ? classifyText(text) : null);
@@ -47,29 +54,17 @@ export default function NewLetterModal({ direction, onClose, onSave }: Props) {
           setSaving(true);
           try {
             const dStatus = posisiSurat === 'Diterima Persuratan' ? 'BELUM_DIPROSES' : posisiSurat === 'Kepala Dinas' ? 'PROSES' : 'SELESAI';
-            await onSave(
-              {
-                number: val('number'),
-                origin: val('origin'),
-                subject: val('subject'),
-                date: val('date') || today,
-                direction: kind,
-                classification: classCode,
-                venue: val('venue') || '-',
-                division: (kind === 'out' ? val('division') : val('disposisi_division')) || 'Sekretariat',
-                type: (val('urgency') || 'Biasa') as Urgency,
-                disposition: {
-                  official: val('official') || 'Pebriadin Hapiz, AP, M.Si',
-                  date: val('received') || today,
-                  division: val('disposisi_division') || 'Sekretariat',
-                  instructions: [posisiSurat],
-                  notes: val('notes') || '',
-                  status: dStatus,
-                },
+            await onSave({
+              number: val('number'), origin: val('origin'), subject: val('subject'),
+              date: val('date') || today, direction: kind, classification: classCode,
+              venue: val('venue') || '-', division: (kind === 'out' ? val('division') : val('disposisi_division')) || 'Sekretariat',
+              type: (val('urgency') || 'Biasa') as Urgency,
+              disposition: {
+                official: val('official') || 'Pebriadin Hapiz, AP, M.Si', date: val('received') || today,
+                division: val('disposisi_division') || 'Sekretariat', instructions: [posisiSurat],
+                notes: val('notes') || '', status: dStatus,
               },
-              file,
-              dispFile || undefined
-            );
+            }, file, dispFile || undefined);
             onClose();
           } catch (err: unknown) {
             const msg = err instanceof Error ? err.message : 'Gagal menyimpan arsip.';
@@ -117,22 +112,21 @@ export default function NewLetterModal({ direction, onClose, onSave }: Props) {
             <label htmlFor={`${uid}-rec`} className="block text-[11px] font-semibold text-slate-700 mb-1">
               {kind === 'in' ? 'Tanggal Diterima' : 'Tanggal Diterbitkan'}
             </label>
-            <input id={`${uid}-rec`} name="received" type="date" defaultValue={today} required className="w-full" />
+            <input id={`${uid}-rec`} name="received" type="date" value={pickedDate} onChange={(e) => setPickedDate(e.target.value)} required className="w-full" />
+          </div>
+          <div className="col-span-2 bg-emerald-50 border border-emerald-200 text-emerald-950 px-2.5 py-1 rounded flex items-center justify-between text-[11px]">
+            <span><b>Hari Kerja ke-{wDay}:</b> Slot Agenda {format5Digit(sStart)} s.d. {format5Digit(sEnd)}</span>
+            <span className="font-mono font-bold text-emerald-800">5 Digit (Blok 50)</span>
           </div>
           <div>
             <label htmlFor={`${uid}-cls`} className="block text-[11px] font-semibold text-slate-700 mb-1">Klasifikasi Arsip</label>
             <select id={`${uid}-cls`} name="classification" value={classCode} onChange={(e) => setClassCode(e.target.value)} className="w-full">
-              {classifications.map(([code, label]) => (
-                <option value={code} key={code}>{code} - {label}</option>
-              ))}
+              {classifications.map(([code, label]) => (<option value={code} key={code}>{code} - {label}</option>))}
             </select>
           </div>
           <div>
             <label htmlFor={`${uid}-ven`} className="block text-[11px] font-semibold text-slate-700 mb-1">Venue Olahraga</label>
-            <select id={`${uid}-ven`} name="venue" className="w-full">
-              <option value="-">- Tidak Terkait Venue -</option>
-              {venues.map((v) => <option key={v}>{v}</option>)}
-            </select>
+            <select id={`${uid}-ven`} name="venue" className="w-full"><option value="-">- Tidak Terkait Venue -</option>{venues.map((v) => <option key={v}>{v}</option>)}</select>
           </div>
           {kind === 'out' && (
             <div className="col-span-2">

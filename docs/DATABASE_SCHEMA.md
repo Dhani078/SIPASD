@@ -240,3 +240,18 @@ CREATE TABLE IF NOT EXISTS `audit_logs` (
   INDEX `idx_audit_tgl` (`created_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ```
+
+---
+
+## 3. Konvensi Format Kolom nomor_agenda (Sistem Blok 50 Slot Harian)
+
+Sesuai aturan operasional per 17 November 2026:
+- Kolom `nomor_agenda` pada tabel `arsip_surat_masuk` dan `arsip_surat_keluar` menggunakan format standar 5 digit angka:
+  * Surat Masuk: `{5_DIGIT}/SM/DISPORA/{TAHUN}` (contoh: `04351/SM/DISPORA/2026`)
+  * Surat Keluar: `{5_DIGIT}/SK/DISPORA/{TAHUN}` (contoh: `04351/SK/DISPORA/2026`)
+- Setiap hari kerja (Senin s.d. Jumat) mendapatkan kuota 50 nomor tetap:
+  * Hari Kerja ke-$N$: Slot agenda $((N-1) \times 50 + 1)$ s.d. $(N \times 50)$.
+  * Hari Sabtu dan Minggu digulirkan (*roll-forward*) ke hari Senin berikutnya.
+  * Overflow (>50 naskah/hari): menggunakan sub-indeks pecahan (`00050.01`, `00050.02`, dst.).
+  * Dokumentasi lengkap: lihat `docs/ATURAN_NOMOR_AGENDA_BLOK_50.md`.
+

@@ -3,6 +3,7 @@ import type { LetterRecord } from '@/types';
 import { getGdriveFolderUrl } from '@/data/constants';
 import { trashGoogleDriveFile, extractGoogleDriveFileId } from '@/lib/gdrive';
 import { deletePdf } from '@/lib/cloudinary';
+import { calculateNextWorkdayAgenda } from '@/lib/workday-slot';
 import { randomUUID } from 'crypto';
 
 function parseBidangId(name?: string): number {
@@ -38,12 +39,12 @@ export async function insertNewLetter(
     await conn.beginTransaction();
 
     if (data.direction === 'in') {
-      const [maxRows] = await conn.query<any[]>(
-        "SELECT COALESCE(MAX(CAST(SUBSTRING_INDEX(nomor_agenda, '/', 1) AS UNSIGNED)), 1250) as maxAgenda FROM arsip_surat_masuk WHERE nomor_agenda LIKE ? FOR UPDATE",
+      const targetDate = data.disposition?.date || data.date || dateStr;
+      const [rows] = await conn.query<any[]>(
+        'SELECT nomor_agenda FROM arsip_surat_masuk WHERE nomor_agenda LIKE ? FOR UPDATE',
         [`%/${year}`]
       );
-      const nextAgenda = Number(maxRows[0]?.maxAgenda || 1250) + 1;
-      const nomorAgenda = `${nextAgenda}/SM/DISPORA/${year}`;
+      const nomorAgenda = calculateNextWorkdayAgenda(targetDate, 'in', rows.map((r) => r.nomor_agenda)).agendaNumber;
 
       await conn.query(
         'INSERT INTO arsip_surat_masuk (id, nomor_agenda, nomor_surat, tanggal_surat, tanggal_diterima, asal_instansi, perihal, ringkasan_isi, sifat_surat, file_url, cloudinary_public_id, drive_url, file_name_original, indexed_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?)',
@@ -65,13 +66,13 @@ export async function insertNewLetter(
       await conn.commit();
       return { agendaNumber: nomorAgenda, id };
     } else {
-      const [maxRows] = await conn.query<any[]>(
-        "SELECT COALESCE(MAX(CAST(SUBSTRING_INDEX(nomor_agenda, '/', 1) AS UNSIGNED)), 7500) as maxAgenda, COALESCE(MAX(nomor_urut), 250) as maxUrut FROM arsip_surat_keluar WHERE tahun = ? FOR UPDATE",
+      const targetDate = data.date || dateStr;
+      const [rows] = await conn.query<any[]>(
+        'SELECT nomor_agenda, nomor_urut FROM arsip_surat_keluar WHERE tahun = ? FOR UPDATE',
         [year]
       );
-      const nextAgenda = Number(maxRows[0]?.maxAgenda || 7500) + 1;
-      const nextUrut = Number(maxRows[0]?.maxUrut || 250) + 1;
-      const nomorAgenda = `${nextAgenda}/SK/DISPORA/${year}`;
+      const nomorAgenda = calculateNextWorkdayAgenda(targetDate, 'out', rows.map((r) => r.nomor_agenda)).agendaNumber;
+      const nextUrut = rows.reduce((max, r) => Math.max(max, Number(r.nomor_urut || 0)), 0) + 1;
       const pId = parseBidangId(data.division);
       const kId = parseKlasifikasiId(data.classification);
 

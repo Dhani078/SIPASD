@@ -136,52 +136,52 @@ async def main():
         assert "Hari Kerja ke-200" in badge_text_4, "Expected Hari Kerja ke-200"
         assert "09951 s.d. 10000" in badge_text_4, "Expected Slot 09951 s.d. 10000"
 
-        # 2.3.b Test Otomatisasi & Dropdown Mode Nomor Surat
-        print("  --> Menguji Otomatisasi Nomor Surat & Dropdown Mode (Auto vs Manual)...")
-        num_input = page.locator("input[name='number']")
-        mode_select = page.locator("select[title='Pilih mode penomoran surat']")
+        # 2.3.b Test Otomatisasi & Dropdown Mode Nomor Surat (Tunggal & Rapi)
+        print("  --> Menguji Otomatisasi Nomor Surat Tunggal (Dropdown Otomatis & Ketik Manual)...")
+        num_select = page.locator("select[name='number']")
         cls_select = page.locator("select[name='classification']")
 
         # Pada tanggal 2026-10-07 (Hari Kerja 200), slot agenda mulai 09951
-        num_val_1 = await num_input.input_value()
-        print(f"    ✓ Nilai Awal Nomor Surat (Otomatis): '{num_val_1}'")
+        assert await num_select.is_visible(), "Dropdown nomor surat otomatis harus terlihat sebagai kontrol tunggal"
+        num_val_1 = await num_select.input_value()
+        print(f"    ✓ Nilai Awal Nomor Surat (Dropdown Otomatis): '{num_val_1}'")
         assert "005/" in num_val_1, f"Expected 005/ in {num_val_1}"
         assert "/DISPORA/2026" in num_val_1, f"Expected /DISPORA/2026 in {num_val_1}"
-        assert await num_input.is_editable() == False, "Input nomor surat harus readOnly saat mode otomatis"
 
         # Ubah Klasifikasi ke 045 (Kearsipan)
         await cls_select.select_option("045")
         await asyncio.sleep(0.2)
-        num_val_2 = await num_input.input_value()
-        print(f"    ✓ Klasifikasi 045 terpilih: '{num_val_2}' (Otomatis ganti 045)")
+        num_val_2 = await num_select.input_value()
+        print(f"    ✓ Klasifikasi 045 terpilih: '{num_val_2}' (Dropdown otomatis sinkron 045)")
         assert num_val_2.startswith("045/"), f"Nomor surat harus berawalan 045/, didapat: {num_val_2}"
 
         # Ubah Klasifikasi ke 426 (Keolahragaan)
         await cls_select.select_option("426")
         await asyncio.sleep(0.2)
-        num_val_3 = await num_input.input_value()
-        print(f"    ✓ Klasifikasi 426 terpilih: '{num_val_3}' (Otomatis ganti 426)")
+        num_val_3 = await num_select.input_value()
+        print(f"    ✓ Klasifikasi 426 terpilih: '{num_val_3}' (Dropdown otomatis sinkron 426)")
         assert num_val_3.startswith("426/"), f"Nomor surat harus berawalan 426/, didapat: {num_val_3}"
 
-        # Beralih ke Mode Manual melalui Dropdown
-        print("    --> Menguji beralih ke Mode Manual...")
-        await mode_select.select_option("manual")
+        # Beralih ke Mode Manual melalui pilihan di dalam dropdown yang sama
+        print("    --> Menguji beralih ke Mode Manual dari dalam dropdown...")
+        await num_select.select_option("__manual__")
         await asyncio.sleep(0.2)
-        assert await num_input.is_editable() == True, "Input nomor surat harus dapat diketik saat mode manual"
+        num_input = page.locator("input[name='number']")
+        assert await num_input.is_visible(), "Input teks nomor surat harus muncul menggantikan dropdown saat mode manual"
         await num_input.fill("000.8.3.4/999/DISKOMINFO/2026")
         await asyncio.sleep(0.2)
         manual_val = await num_input.input_value()
         print(f"    ✓ Mode Manual aktif & terisi: '{manual_val}'")
         assert manual_val == "000.8.3.4/999/DISKOMINFO/2026"
 
-        # Beralih kembali ke Mode Otomatis
+        # Beralih kembali ke Mode Otomatis via tombol '↺ Otomatis'
         print("    --> Menguji beralih kembali ke Mode Otomatis...")
-        await mode_select.select_option("auto")
+        await page.locator("button:has-text('↺ Otomatis')").click()
         await asyncio.sleep(0.2)
-        auto_back_val = await num_input.input_value()
-        print(f"    ✓ Mode Otomatis kembali sinkron: '{auto_back_val}'")
+        assert await num_select.is_visible(), "Dropdown otomatis harus kembali tampil setelah klik '↺ Otomatis'"
+        auto_back_val = await num_select.input_value()
+        print(f"    ✓ Dropdown Otomatis kembali aktif: '{auto_back_val}'")
         assert auto_back_val.startswith("426/"), "Nomor surat otomatis harus kembali sinkron dengan klasifikasi"
-        assert await num_input.is_editable() == False
 
         await page.screenshot(path="public/audit_auto_nomor_surat.png")
         print("    ✓ Screenshot otomatisasi nomor surat tersimpan di public/audit_auto_nomor_surat.png")

@@ -87,30 +87,23 @@ export default function NewLetterModal({ direction, onClose, onSave, letters }: 
             <select id={`${uid}-urg`} name="urgency" className="w-full"><option>Biasa</option><option>Penting</option><option>Segera</option><option>Kilat</option></select>
           </div>
           <div>
-            <div className="flex items-center justify-between mb-1">
-              <label htmlFor={`${uid}-num`} className="block text-[11px] font-semibold text-slate-700">Nomor Surat</label>
-              <select
-                value={numMode}
-                onChange={(e) => {
-                  const m = e.target.value as 'auto' | 'manual';
-                  setNumMode(m);
-                  if (m === 'manual' && !manualNum) setManualNum(autoNum);
-                }}
-                className="text-[10px] py-0.5 px-1.5 border border-slate-300 rounded bg-white text-slate-700 cursor-pointer"
-                title="Pilih mode penomoran surat"
-              >
-                <option value="auto">Otomatis (Sistem)</option>
-                <option value="manual">Manual (Ketik)</option>
-              </select>
-            </div>
-            <input
-              id={`${uid}-num`} name="number" required
-              value={numMode === 'auto' ? autoNum : manualNum}
-              onChange={(e) => { if (numMode === 'manual') setManualNum(e.target.value); }}
-              readOnly={numMode === 'auto'}
-              placeholder={numMode === 'auto' ? autoNum : 'Contoh: 005/182/DISPORA/2026'}
-              className={`w-full font-mono text-xs ${numMode === 'auto' ? 'bg-slate-50 text-slate-800' : 'bg-white'}`}
-            />
+            {numMode === 'auto' ? (
+              <>
+                <label htmlFor={`${uid}-num`} className="block text-[11px] font-semibold text-slate-700 mb-1">Nomor Surat</label>
+                <select id={`${uid}-num`} name="number" value={autoNum} onChange={(e) => { if (e.target.value === '__manual__') { setNumMode('manual'); setManualNum(autoNum); } }} className="w-full font-mono text-xs cursor-pointer">
+                  <option value={autoNum}>{autoNum} (Otomatis)</option>
+                  <option value="__manual__">✏️ Ketik Nomor Manual...</option>
+                </select>
+              </>
+            ) : (
+              <>
+                <div className="flex items-center justify-between mb-1">
+                  <label htmlFor={`${uid}-num`} className="block text-[11px] font-semibold text-slate-700">Nomor Surat</label>
+                  <button type="button" onClick={() => setNumMode('auto')} className="text-[10px] text-emerald-700 hover:text-emerald-900 font-semibold underline">↺ Otomatis</button>
+                </div>
+                <input id={`${uid}-num`} name="number" required autoFocus value={manualNum} onChange={(e) => setManualNum(e.target.value)} placeholder="Ketik nomor surat manual..." className="w-full font-mono text-xs" />
+              </>
+            )}
           </div>
           <div>
             <label htmlFor={`${uid}-orig`} className="block text-[11px] font-semibold text-slate-700 mb-1">{kind === 'in' ? 'Asal Instansi / Pengirim' : 'Tujuan Instansi'}</label>

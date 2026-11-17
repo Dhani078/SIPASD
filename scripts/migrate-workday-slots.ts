@@ -22,15 +22,16 @@ async function migrate() {
 
     // 1. Migrasi Surat Masuk
     console.log('[1/2] Memproses Migrasi 170 Arsip Surat Masuk...');
+    await conn.query("UPDATE arsip_surat_masuk SET nomor_agenda = CONCAT('T_', SUBSTRING(id, 1, 20))");
     const [smRows] = await conn.query<any[]>(
-      'SELECT id, nomor_agenda, tanggal_diterima FROM arsip_surat_masuk ORDER BY tanggal_diterima ASC, CAST(SUBSTRING_INDEX(nomor_agenda, "/", 1) AS UNSIGNED) ASC FOR UPDATE'
+      "SELECT id, nomor_agenda, DATE_FORMAT(tanggal_diterima, '%Y-%m-%d') as dStr FROM arsip_surat_masuk ORDER BY tanggal_diterima ASC, id ASC FOR UPDATE"
     );
 
     const smWorkdayUsage: Record<number, number> = {};
     const smNewAgendas = new Set<string>();
 
     for (const r of smRows) {
-      const dStr = r.tanggal_diterima instanceof Date ? r.tanggal_diterima.toISOString().slice(0, 10) : String(r.tanggal_diterima).slice(0, 10);
+      const dStr = r.dStr;
       const [y, m, d] = dStr.split('-').map(Number);
       const year = y || 2026;
       const workday = getWorkdayIndex(year, m, d);
@@ -55,15 +56,16 @@ async function migrate() {
 
     // 2. Migrasi Surat Keluar
     console.log('\n[2/2] Memproses Migrasi 253 Arsip Surat Keluar...');
+    await conn.query("UPDATE arsip_surat_keluar SET nomor_agenda = CONCAT('T_', SUBSTRING(id, 1, 20))");
     const [skRows] = await conn.query<any[]>(
-      'SELECT id, nomor_agenda, tanggal_surat FROM arsip_surat_keluar ORDER BY tanggal_surat ASC, CAST(SUBSTRING_INDEX(nomor_agenda, "/", 1) AS UNSIGNED) ASC FOR UPDATE'
+      "SELECT id, nomor_agenda, DATE_FORMAT(tanggal_surat, '%Y-%m-%d') as dStr FROM arsip_surat_keluar ORDER BY tanggal_surat ASC, id ASC FOR UPDATE"
     );
 
     const skWorkdayUsage: Record<number, number> = {};
     const skNewAgendas = new Set<string>();
 
     for (const r of skRows) {
-      const dStr = r.tanggal_surat instanceof Date ? r.tanggal_surat.toISOString().slice(0, 10) : String(r.tanggal_surat).slice(0, 10);
+      const dStr = r.dStr;
       const [y, m, d] = dStr.split('-').map(Number);
       const year = y || 2026;
       const workday = getWorkdayIndex(year, m, d);

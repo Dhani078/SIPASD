@@ -11,7 +11,7 @@ type DispStatus = 'BELUM_DIPROSES' | 'PROSES' | 'SELESAI';
 interface Props {
   letter: LetterRecord;
   onClose: () => void;
-  onSave: (id: string, updates: Partial<LetterRecord>, file?: File) => Promise<void>;
+  onSave: (id: string, updates: Partial<LetterRecord>, file?: File, dispFile?: File) => Promise<void>;
 }
 
 export default function EditLetterModal({ letter, onClose, onSave }: Props) {
@@ -25,6 +25,7 @@ export default function EditLetterModal({ letter, onClose, onSave }: Props) {
   const [dispStatus, setDispStatus] = useState<DispStatus>(letter.disposition?.status || 'PROSES');
   const [notes, setNotes] = useState(letter.disposition?.notes || '');
   const [file, setFile] = useState<File | null>(null);
+  const [dispFile, setDispFile] = useState<File | null>(null);
   const [saving, setSaving] = useState(false);
   const [err, setErr] = useState('');
 
@@ -57,7 +58,7 @@ export default function EditLetterModal({ letter, onClose, onSave }: Props) {
           status: dispStatus,
         };
       }
-      await onSave(letter.id, updates, file || undefined);
+      await onSave(letter.id, updates, file || undefined, dispFile || undefined);
       onClose();
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : 'Gagal menyimpan perubahan.';
@@ -128,10 +129,10 @@ export default function EditLetterModal({ letter, onClose, onSave }: Props) {
                 <input id={`${uid}-off`} type="text" value={official} onChange={(e) => setOfficial(e.target.value)} placeholder="Cth: Kepala Dinas" className="w-full bg-white border border-slate-300 rounded px-2 py-1 text-xs" />
               </div>
               <div>
-                <label htmlFor={`${uid}-status`} className="block text-[11px] font-medium text-slate-600 mb-0.5">Status Disposisi</label>
+                <label htmlFor={`${uid}-status`} className="block text-[11px] font-medium text-slate-600 mb-0.5">Posisi Surat / Status</label>
                 <select id={`${uid}-status`} value={dispStatus} onChange={(e) => setDispStatus(e.target.value as DispStatus)} className="w-full bg-white border border-slate-300 rounded px-2 py-1 text-xs">
-                  <option value="BELUM_DIPROSES">Belum Diproses</option>
-                  <option value="PROSES">Sedang Proses</option>
+                  <option value="BELUM_DIPROSES">Diterima Persuratan</option>
+                  <option value="PROSES">Kepala Dinas</option>
                   <option value="SELESAI">Selesai</option>
                 </select>
               </div>
@@ -139,6 +140,23 @@ export default function EditLetterModal({ letter, onClose, onSave }: Props) {
             <div>
               <label htmlFor={`${uid}-notes`} className="block text-[11px] font-medium text-slate-600 mb-0.5">Catatan Instruksi</label>
               <input id={`${uid}-notes`} type="text" value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Catatan arahan pimpinan..." className="w-full bg-white border border-slate-300 rounded px-2 py-1 text-xs" />
+            </div>
+            <div>
+              <label htmlFor={`${uid}-dispfile`} className="block text-[11px] font-medium text-slate-600 mb-0.5">
+                Scan Lembar Disposisi Manual (PDF / Opsional)
+              </label>
+              <input
+                id={`${uid}-dispfile`}
+                type="file"
+                accept=".pdf"
+                onChange={(e) => setDispFile(e.target.files?.[0] || null)}
+                className="w-full text-xs"
+              />
+              {(letter.dispositionFileUrl || letter.disposition?.fileUrl) && !dispFile && (
+                <span className="text-[10px] text-emerald-800 font-medium block mt-0.5">
+                  Berita: Berkas PDF scan disposisi fisik sudah terlampir.
+                </span>
+              )}
             </div>
           </div>
         )}

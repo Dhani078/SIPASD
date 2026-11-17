@@ -90,8 +90,8 @@ export default function SipasdApp({
   const inCount = letters.filter((l) => l.direction === 'in').length;
   const outCount = letters.filter((l) => l.direction === 'out').length;
 
-  const onSaveLetter = async (record: Omit<LetterRecord, 'id'>, file?: File) => {
-    const saved = await handleSave(record, file);
+  const onSaveLetter = async (record: Omit<LetterRecord, 'id'>, file?: File, dispFile?: File) => {
+    const saved = await handleSave(record, file, dispFile);
     setModal('');
     archive(saved.direction);
   };

@@ -53,9 +53,13 @@ export async function insertNewLetter(
       const dispId = randomUUID();
       const instStr = data.disposition?.instructions?.join(', ') || 'Tindak Lanjuti';
       const kId = parseBidangId(data.disposition?.division || data.division);
+      const dStatus = data.disposition?.status || 'BELUM_DIPROSES';
+      const dFile = data.dispositionFileUrl || data.disposition?.fileUrl || null;
+      const dDrive = data.dispositionDriveUrl || data.disposition?.driveUrl || null;
+      const dName = data.dispositionFileName || data.disposition?.fileName || null;
       await conn.query(
-        'INSERT INTO riwayat_disposisi (id, surat_masuk_id, pejabat_pendisposisi, tanggal_disposisi, kepada_bidang_id, instruksi_tercatat, catatan_tertulis, status_penyelesaian) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-        [dispId, id, data.disposition?.official || '-', data.disposition?.date || data.date, kId, instStr, data.disposition?.notes || '', 'PROSES']
+        'INSERT INTO riwayat_disposisi (id, surat_masuk_id, pejabat_pendisposisi, tanggal_disposisi, kepada_bidang_id, instruksi_tercatat, catatan_tertulis, status_penyelesaian, file_disposisi_url, disposisi_drive_url, disposisi_file_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        [dispId, id, data.disposition?.official || '-', data.disposition?.date || data.date, kId, instStr, data.disposition?.notes || '', dStatus, dFile, dDrive, dName]
       );
 
       await conn.commit();
@@ -171,9 +175,12 @@ export async function updateLetter(
       const d = data.disposition;
       const instStr = d.instructions?.join(', ') || 'Tindak Lanjuti';
       const kId = d.division || data.division ? parseBidangId(d.division || data.division) : null;
+      const dFile = data.dispositionFileUrl || d.fileUrl || null;
+      const dDrive = data.dispositionDriveUrl || d.driveUrl || null;
+      const dName = data.dispositionFileName || d.fileName || null;
       await query(
-        'UPDATE riwayat_disposisi SET pejabat_pendisposisi = COALESCE(?, pejabat_pendisposisi), kepada_bidang_id = COALESCE(?, kepada_bidang_id), instruksi_tercatat = ?, catatan_tertulis = ?, status_penyelesaian = COALESCE(?, status_penyelesaian) WHERE surat_masuk_id = ?',
-        [d.official || null, kId, instStr, d.notes || '', d.status || 'SELESAI', row.id]
+        'UPDATE riwayat_disposisi SET pejabat_pendisposisi = COALESCE(?, pejabat_pendisposisi), kepada_bidang_id = COALESCE(?, kepada_bidang_id), instruksi_tercatat = ?, catatan_tertulis = ?, status_penyelesaian = COALESCE(?, status_penyelesaian), file_disposisi_url = COALESCE(?, file_disposisi_url), disposisi_drive_url = COALESCE(?, disposisi_drive_url), disposisi_file_name = COALESCE(?, disposisi_file_name) WHERE surat_masuk_id = ?',
+        [d.official || null, kId, instStr, d.notes || '', d.status || 'SELESAI', dFile, dDrive, dName, row.id]
       );
     }
   } else {

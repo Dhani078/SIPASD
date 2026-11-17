@@ -11,25 +11,22 @@ import type { Direction, LetterRecord, Urgency } from '@/types';
 interface Props {
   direction: Direction;
   onClose: () => void;
-  onSave: (letter: Omit<LetterRecord, 'id'>, file?: File) => Promise<void> | void;
+  onSave: (letter: Omit<LetterRecord, 'id'>, file?: File, dispFile?: File) => Promise<void> | void;
 }
 
 export default function NewLetterModal({ direction, onClose, onSave }: Props) {
   const [kind, setKind] = useState<Direction>(direction);
   const [file, setFile] = useState<File>();
+  const [dispFile, setDispFile] = useState<File | null>(null);
   const [isDrag, setIsDrag] = useState(false);
   const [error, setError] = useState('');
-  const [checks, setChecks] = useState<string[]>(['Tindak Lanjuti']);
+  const [posisiSurat, setPosisiSurat] = useState('Diterima Persuratan');
   const [saving, setSaving] = useState(false);
   const [aiRec, setAiRec] = useState<ClassificationResult | null>(null);
   const [classCode, setClassCode] = useState('005');
   const [today] = useState(() => new Date().toISOString().slice(0, 10));
   const fileInput = useRef<HTMLInputElement>(null);
   const uid = useId();
-
-  const toggleCheck = (item: string) => {
-    setChecks((prev) => (prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]));
-  };
 
   const handleSubject = (text: string) => {
     setAiRec(text.trim().length >= 4 ? classifyText(text) : null);
@@ -49,6 +46,7 @@ export default function NewLetterModal({ direction, onClose, onSave }: Props) {
           }
           setSaving(true);
           try {
+            const dStatus = posisiSurat === 'Diterima Persuratan' ? 'BELUM_DIPROSES' : posisiSurat === 'Kepala Dinas' ? 'PROSES' : 'SELESAI';
             await onSave(
               {
                 number: val('number'),
@@ -64,11 +62,13 @@ export default function NewLetterModal({ direction, onClose, onSave }: Props) {
                   official: val('official') || 'Pebriadin Hapiz, AP, M.Si',
                   date: val('received') || today,
                   division: val('disposisi_division') || 'Sekretariat',
-                  instructions: checks,
+                  instructions: [posisiSurat],
                   notes: val('notes') || '',
+                  status: dStatus,
                 },
               },
-              file
+              file,
+              dispFile || undefined
             );
             onClose();
           } catch (err: unknown) {
@@ -83,15 +83,11 @@ export default function NewLetterModal({ direction, onClose, onSave }: Props) {
         <div className="form-grid">
           <div>
             <label htmlFor={`${uid}-kind`} className="block text-[11px] font-semibold text-slate-700 mb-1">Jenis Arsip</label>
-            <select id={`${uid}-kind`} name="direction" value={kind} onChange={(e) => setKind(e.target.value as Direction)} className="w-full">
-              <option value="in">Surat Masuk</option><option value="out">Surat Keluar</option>
-            </select>
+            <select id={`${uid}-kind`} name="direction" value={kind} onChange={(e) => setKind(e.target.value as Direction)} className="w-full"><option value="in">Surat Masuk</option><option value="out">Surat Keluar</option></select>
           </div>
           <div>
             <label htmlFor={`${uid}-urg`} className="block text-[11px] font-semibold text-slate-700 mb-1">Sifat Surat</label>
-            <select id={`${uid}-urg`} name="urgency" className="w-full">
-              <option>Biasa</option><option>Penting</option><option>Segera</option><option>Kilat</option>
-            </select>
+            <select id={`${uid}-urg`} name="urgency" className="w-full"><option>Biasa</option><option>Penting</option><option>Segera</option><option>Kilat</option></select>
           </div>
           <div>
             <label htmlFor={`${uid}-num`} className="block text-[11px] font-semibold text-slate-700 mb-1">Nomor Surat</label>
@@ -180,7 +176,14 @@ export default function NewLetterModal({ direction, onClose, onSave }: Props) {
           )}
         </div>
 
-        {kind === 'in' && <NewLetterDisposisiFields checks={checks} onToggleCheck={toggleCheck} />}
+        {kind === 'in' && (
+          <NewLetterDisposisiFields
+            posisiSurat={posisiSurat}
+            onPosisiSuratChange={setPosisiSurat}
+            disposisiFile={dispFile}
+            onDisposisiFileChange={setDispFile}
+          />
+        )}
 
         <div className="modal-actions mt-3 flex justify-end gap-2">
           <button type="button" className="btn outline" onClick={onClose} disabled={saving}>Batal</button>

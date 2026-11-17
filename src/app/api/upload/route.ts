@@ -22,7 +22,7 @@ export async function POST(request: Request) {
 
     const formData = await request.formData();
     const file = formData.get('file') as File | null;
-    const folder = (formData.get('folder') as 'surat_masuk' | 'surat_keluar') || 'surat_masuk';
+    const folder = (formData.get('folder') as 'surat_masuk' | 'surat_keluar' | 'disposisi') || 'surat_masuk';
 
     if (!file) {
       return NextResponse.json({ success: false, message: 'Berkas PDF wajib diunggah.' }, { status: 400 });

@@ -23,8 +23,8 @@ interface Props {
   setDeleteTarget: (l: LetterRecord | null) => void;
   setBatchTargets: (b: LetterRecord[]) => void;
   setSelectedIds: (ids: string[]) => void;
-  onSaveLetter: (record: Omit<LetterRecord, 'id'>, file?: File) => Promise<void>;
-  onUpdateLetter: (id: string, updates: Partial<LetterRecord>, file?: File) => Promise<void>;
+  onSaveLetter: (record: Omit<LetterRecord, 'id'>, file?: File, dispFile?: File) => Promise<void>;
+  onUpdateLetter: (id: string, updates: Partial<LetterRecord>, file?: File, dispFile?: File) => Promise<void>;
   confirmDelete: (trashDrive?: boolean) => Promise<void>;
   confirmBatchDelete: (trashDrive?: boolean) => Promise<void>;
 }

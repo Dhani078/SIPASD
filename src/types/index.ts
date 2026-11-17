@@ -35,6 +35,9 @@ export interface Disposition {
   instructions: string[];
   notes: string;
   status?: 'BELUM_DIPROSES' | 'PROSES' | 'SELESAI';
+  fileUrl?: string | null;
+  driveUrl?: string | null;
+  fileName?: string | null;
 }
 
 export interface LetterRecord {
@@ -53,6 +56,9 @@ export interface LetterRecord {
   driveUrl?: string; // Google Drive backup URL
   rawId?: string; // Database UUID
   fileName?: string; // Nama berkas PDF asli
+  dispositionFileUrl?: string | null; // Manual uploaded disposition PDF
+  dispositionDriveUrl?: string | null;
+  dispositionFileName?: string | null;
 }
 
 export interface ArchiveFilters {
@@ -86,6 +92,9 @@ export interface ArsipSuratMasuk {
   nama_bidang_disposisi?: string | null;
   instruksi_tercatat?: string | null;
   status_penyelesaian?: string | null;
+  file_disposisi_url?: string | null;
+  disposisi_drive_url?: string | null;
+  disposisi_file_name?: string | null;
 }
 
 export interface ArsipSuratKeluar {
@@ -123,6 +132,9 @@ export interface RiwayatDisposisi {
   instruksi_tercatat: string;
   catatan_tertulis?: string | null;
   status_penyelesaian: string;
+  file_disposisi_url?: string | null;
+  disposisi_drive_url?: string | null;
+  disposisi_file_name?: string | null;
   keterangan_tindak_lanjut?: string | null;
   created_at: string;
 }

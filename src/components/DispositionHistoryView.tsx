@@ -66,9 +66,9 @@ export default function DispositionHistoryView({ letters, onSelect, onEdit, onEx
   }), [suratMasuk]);
 
   const getStatusBadge = (s?: string) =>
-    s === 'BELUM_DIPROSES' ? <Badge type="penting" label="Belum Diproses" /> : s === 'PROSES' ? <Badge type="kilat" label="Sedang Proses" /> : <Badge type="biasa" label="Selesai" />;
+    s === 'BELUM_DIPROSES' ? <Badge type="penting" label="Diterima Persuratan" /> : s === 'PROSES' ? <Badge type="kilat" label="Kepala Dinas" /> : <Badge type="biasa" label="Selesai" />;
 
-  const getStatusLabel = (s?: string) => (s === 'BELUM_DIPROSES' ? 'Belum Diproses' : s === 'PROSES' ? 'Sedang Proses' : 'Selesai');
+  const getStatusLabel = (s?: string) => (s === 'BELUM_DIPROSES' ? 'Diterima Persuratan' : s === 'PROSES' ? 'Kepala Dinas' : 'Selesai');
 
   return (
     <section className="panel">
@@ -122,7 +122,7 @@ export default function DispositionHistoryView({ letters, onSelect, onEdit, onEx
                   <th style={{ width: '16%' }}>PEJABAT PENDISPOSISI</th>
                   <th style={{ width: '14%' }}>KEPADA BIDANG</th>
                   <th style={{ width: '15%' }}>INSTRUKSI PIMPINAN</th>
-                  <th style={{ width: '15%' }}>STATUS TINDAK LANJUT</th>
+                  <th style={{ width: '15%' }}>POSISI SURAT</th>
                   <th style={{ textAlign: 'right', paddingRight: '14px', width: '72px', minWidth: '72px' }}>AKSI</th>
                 </tr>
               </thead>

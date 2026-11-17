@@ -9,7 +9,7 @@ cloudinary.config({
 
 export async function uploadPdfBuffer(
   buffer: Buffer,
-  folder: 'surat_masuk' | 'surat_keluar',
+  folder: 'surat_masuk' | 'surat_keluar' | 'disposisi',
   filename: string
 ): Promise<{ url: string; publicId: string }> {
   const cleanName = filename.replace(/\.pdf$/i, '').replace(/[^a-zA-Z0-9_-]/g, '_');

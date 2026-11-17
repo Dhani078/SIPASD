@@ -91,21 +91,26 @@ export default function Letter({
             <p>Tujuan disposisi kedinasan</p>
           </div>
           <div className="paper-box">
-            <b>Instruksi / Informasi:</b>
+            <b>Posisi Surat / Alur:</b>
             <p>
               {[
-                'Tindak Lanjuti',
-                'Hadiri / Wakili',
-                'Pelajari',
-                'Koordinasikan',
-              ].map((i) => (
-                <span key={i} className="print-check">
-                  {letter.disposition?.instructions?.includes(i) ? '[X]' : '[ ]'}{' '}
-                  {i}{' '}
-                </span>
-              ))}
+                'Diterima Persuratan',
+                'Kepala Dinas',
+                'Selesai',
+              ].map((i) => {
+                const isMarked =
+                  letter.disposition?.instructions?.includes(i) ||
+                  (i === 'Diterima Persuratan' && letter.disposition?.status === 'BELUM_DIPROSES') ||
+                  (i === 'Kepala Dinas' && letter.disposition?.status === 'PROSES') ||
+                  (i === 'Selesai' && (!letter.disposition?.status || letter.disposition?.status === 'SELESAI'));
+                return (
+                  <span key={i} className="print-check">
+                    {isMarked ? '[X]' : '[ ]'} {i}{' '}
+                  </span>
+                );
+              })}
             </p>
-            <p>Instruksi sesuai catatan pimpinan</p>
+            <p>Alur proses naskah dinas fisik</p>
           </div>
           <div className="handwriting">{letter.disposition?.notes || '-'}</div>
         </>

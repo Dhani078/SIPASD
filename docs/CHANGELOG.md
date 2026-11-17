@@ -5,6 +5,18 @@ Format: `[YYYY-MM-DD] Fitur/Perbaikan - Deskripsi`
 
 ---
 
+## [2026-11-17] Penyelarasan Alur Posisi Surat dan Fitur Unggah Manual PDF Lembar Disposisi
+
+- Perubahan Alur Posisi Surat: Komponen Instruksi Kedinasan pada formulir Indeks Berkas Baru digantikan oleh Posisi Surat dengan tiga opsi alur kedinasan riil Dispora Kalsel: Diterima Persuratan, Kepala Dinas, dan Selesai.
+- Sinkronisasi Status Disposisi: Posisi surat dipetakan langsung ke kolom status_penyelesaian di tabel riwayat_disposisi (BELUM_DIPROSES untuk Diterima Persuratan, PROSES untuk Kepala Dinas, dan SELESAI untuk Selesai).
+- Pembaruan Antarmuka Riwayat Disposisi: Tab filter dan badge tabel pada menu Riwayat Disposisi Fisik kini menyajikan label Diterima Persuratan, Kepala Dinas, dan Selesai menggantikan teks lama Belum Diproses dan Sedang Proses.
+- Unggah Manual PDF Disposisi: Menambahkan area unggah berkas scan fisik lembar disposisi asli pada modal Indeks Berkas Baru dan modal Edit Arsip, memungkinkan arsiparis melampirkan berkas scan kertas disposisi bertanda tangan Kepala Dinas.
+- Skema Basis Data TiDB Cloud: Penambahan kolom file_disposisi_url, disposisi_drive_url, dan disposisi_file_name pada tabel riwayat_disposisi dengan migrasi aman tanpa mengubah data riil yang ada.
+- Penampil Dokumen Multi-Berkas: PdfPreviewPanel kini menyediakan tombol navigasi cepat untuk beralih antara melihat berkas naskah Surat Masuk dan scan fisik Lembar Disposisi asli dalam satu antarmuka pratinjau digital terintegrasi.
+- Verifikasi Penuh: tsc --noEmit bersih, next build sukses, pengujian sistem verify-system 6/6 lulus, seluruh berkas src/ taat batas <= 200 LOC, 0 em-dash, dan uji visual Chrome Headless terverifikasi sukses.
+
+---
+
 ## [2026-11-12] Dimensi Bidang Kerja: Dropdown Terkendali, Filter Arsip, dan Kolom Bidang pada Laporan
 
 - Sumber data bidang tidak lagi ditulis mati sebagai angka 1 atau 2 pada mutasi basis data. Nilai bidang kini diturunkan dari pilihan pengguna melalui fungsi parseBidangId, sehingga disposisi dan surat keluar tersimpan pada unit kerja yang benar.

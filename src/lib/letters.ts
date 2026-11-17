@@ -12,6 +12,7 @@ interface SuratMasukDbRow {
   file_name_original: string | null; pejabat_pendisposisi: string | null;
   tanggal_disposisi: string | Date | null; instruksi_tercatat: string | null;
   catatan_tertulis: string | null; status_penyelesaian: string | null; nama_bidang_disposisi: string | null;
+  file_disposisi_url: string | null; disposisi_drive_url: string | null; disposisi_file_name: string | null;
 }
 
 interface SuratKeluarDbRow {
@@ -89,8 +90,7 @@ function mapUrgency(sifat?: string | null): Urgency {
   const s = (sifat || 'BIASA').toUpperCase();
   if (s === 'KILAT') return 'Kilat';
   if (s === 'SEGERA') return 'Segera';
-  if (s === 'PENTING') return 'Penting';
-  return 'Biasa';
+  return s === 'PENTING' ? 'Penting' : 'Biasa';
 }
 
 export async function getRealLetters(): Promise<LetterRecord[]> {
@@ -100,7 +100,8 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
              sm.asal_instansi, sm.perihal, sm.ringkasan_isi, sm.sifat_surat, sm.file_url,
              sm.cloudinary_public_id, sm.drive_url, sm.file_name_original,
              rd.pejabat_pendisposisi, rd.tanggal_disposisi, rd.instruksi_tercatat,
-             rd.catatan_tertulis, rd.status_penyelesaian, b.nama_bidang as nama_bidang_disposisi
+             rd.catatan_tertulis, rd.status_penyelesaian, rd.file_disposisi_url,
+             rd.disposisi_drive_url, rd.disposisi_file_name, b.nama_bidang as nama_bidang_disposisi
       FROM arsip_surat_masuk sm
       LEFT JOIN riwayat_disposisi rd ON sm.id = rd.surat_masuk_id
       LEFT JOIN bidang_dispora b ON rd.kepada_bidang_id = b.id
@@ -144,10 +145,16 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
         instructions: (r.instruksi_tercatat || 'Tindak Lanjuti').split(/[;,]+/).map((s: string) => s.trim()).filter(Boolean),
         notes: r.catatan_tertulis || 'Disposisi tercatat di sistem.',
         status: (r.status_penyelesaian === 'PROSES' || r.status_penyelesaian === 'BELUM_DIPROSES' ? r.status_penyelesaian : 'SELESAI') as 'SELESAI' | 'BELUM_DIPROSES' | 'PROSES',
+        fileUrl: r.file_disposisi_url || undefined,
+        driveUrl: r.disposisi_drive_url || undefined,
+        fileName: r.disposisi_file_name || undefined,
       },
       fileUrl: r.file_url || undefined,
       driveUrl: r.drive_url || GDRIVE_FOLDERS.smUrl,
       fileName: r.file_name_original || `${agendaNum}.pdf`,
+      dispositionFileUrl: r.file_disposisi_url || undefined,
+      dispositionDriveUrl: r.disposisi_drive_url || undefined,
+      dispositionFileName: r.disposisi_file_name || undefined,
     };
   });
 

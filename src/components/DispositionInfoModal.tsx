@@ -18,14 +18,14 @@ export default function DispositionInfoModal({ onClose }: Props) {
             <p>
               Riwayat Disposisi mencatat lembar disposisi kertas fisik yang distaples di surat masuk.
               Setiap entri merekam: pejabat pendisposisi, tanggal, bidang tujuan, instruksi, catatan tertulis,
-              dan status penyelesaian (Belum Diproses, Sedang Proses, Selesai).
+              dan posisi surat (Diterima Persuratan, Kepala Dinas, Selesai).
             </p>
           </div>
         </div>
         <div className="text-xs space-y-1.5 text-slate-600 bg-slate-50 p-3 rounded border border-slate-200">
           <p>• <b>Pejabat Pendisposisi:</b> Pimpinan yang memberi arahan (Kepala Dinas, Sekretaris, atau Kabid).</p>
           <p>• <b>Kepada Bidang:</b> Unit kerja pelaksana instruksi tindak lanjut.</p>
-          <p>• <b>Status Tindak Lanjut:</b> Monitoring progres pelaksanaan disposisi hingga tuntas.</p>
+          <p>• <b>Posisi Surat:</b> Monitoring alur perjalanan naskah (Diterima Persuratan, Kepala Dinas, hingga Selesai).</p>
         </div>
         <div className="modal-actions pt-2 flex justify-end">
           <button

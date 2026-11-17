@@ -7,12 +7,10 @@ import Icon from './Icon';
 import { divisions } from '@/data/constants';
 import type { LetterRecord } from '@/types';
 
-const INSTRUCTION_OPTIONS = [
-  'Tindak Lanjuti',
-  'Hadiri / Wakili',
-  'Pelajari',
-  'Koordinasikan',
-  'Arsipkan',
+const POSISI_SURAT_OPTIONS = [
+  'Diterima Persuratan',
+  'Kepala Dinas',
+  'Selesai',
 ];
 
 export default function PrintDisposisiModal({
@@ -86,6 +84,15 @@ export default function PrintDisposisiModal({
         >
           {editMode ? 'Selesai Edit' : 'Edit Disposisi'}
         </button>
+        {letter.dispositionFileUrl && (
+          <button
+            type="button"
+            className="text-btn text-emerald-800 font-semibold"
+            onClick={() => window.open(`/api/pdf?url=${encodeURIComponent(letter.dispositionFileUrl!)}&name=${encodeURIComponent(letter.dispositionFileName || 'disposisi.pdf')}`, '_blank')}
+          >
+            Buka Scan PDF Asli
+          </button>
+        )}
       </div>
 
       {editMode && (
@@ -112,9 +119,9 @@ export default function PrintDisposisiModal({
             </select>
           </label>
           <div>
-            <span className="block text-xs font-semibold text-slate-700 mb-2">Instruksi Kedinasan</span>
+            <span className="block text-xs font-semibold text-slate-700 mb-2">Posisi Surat</span>
             <div className="flex flex-wrap gap-2">
-              {INSTRUCTION_OPTIONS.map((item) => (
+              {POSISI_SURAT_OPTIONS.map((item) => (
                 <button
                   key={item}
                   type="button"

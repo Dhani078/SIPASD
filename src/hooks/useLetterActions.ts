@@ -5,6 +5,19 @@ import { compressPdfIfNeeded } from '@/lib/pdf-compress';
 const formatDeleteMsg = (subject: string, trash: boolean) =>
   trash ? `${subject} dihapus & berkas dipindahkan ke Trash Google Drive.` : `${subject} berhasil dihapus dari TiDB.`;
 
+async function uploadPdf(file: File, folder: 'surat_masuk' | 'surat_keluar' | 'disposisi', year: string, tell: (m: string) => void) {
+  tell(`Memeriksa lampiran ${file.name}...`);
+  const ready = await compressPdfIfNeeded(file, (p) => tell(p.message));
+  const fd = new FormData();
+  fd.append('file', ready);
+  fd.append('folder', folder);
+  fd.append('year', year);
+  const res = await fetch('/api/upload', { method: 'POST', body: fd });
+  const data = await res.json();
+  if (!res.ok || !data.success) throw new Error(data.message || 'Gagal mengunggah berkas PDF.');
+  return { url: data.url as string, driveUrl: (data.driveUrl as string) || undefined };
+}
+
 export function useLetterActions(
   setLetters: React.Dispatch<React.SetStateAction<LetterRecord[]>>,
   tell: (msg: string, ok?: boolean) => void
@@ -14,28 +27,36 @@ export function useLetterActions(
   const [deleting, setDeleting] = useState(false);
   const [editTarget, setEditTarget] = useState<LetterRecord | null>(null);
 
-  const handleSave = async (record: Omit<LetterRecord, 'id'>, file?: File) => {
+  const handleSave = async (record: Omit<LetterRecord, 'id'>, file?: File, dispFile?: File) => {
     let fileUrl = record.fileUrl;
     let driveUrl = record.driveUrl;
+    let dispUrl = record.dispositionFileUrl;
+    let dispDrive = record.dispositionDriveUrl;
+    const year = record.date ? record.date.slice(0, 4) : '2026';
+
     if (file) {
-      tell('Memeriksa dan menyiapkan lampiran naskah...');
-      const readyFile = await compressPdfIfNeeded(file, (p) => tell(p.message));
-      const fd = new FormData();
-      fd.append('file', readyFile);
-      fd.append('folder', record.direction === 'in' ? 'surat_masuk' : 'surat_keluar');
-      fd.append('year', record.date ? record.date.slice(0, 4) : '2026');
-      const upRes = await fetch('/api/upload', { method: 'POST', body: fd });
-      const upData = await upRes.json();
-      if (!upRes.ok || !upData.success) {
-        throw new Error(upData.message || 'Gagal mengunggah berkas PDF.');
-      }
-      fileUrl = upData.url;
-      if (upData.driveUrl) driveUrl = upData.driveUrl;
+      const up = await uploadPdf(file, record.direction === 'in' ? 'surat_masuk' : 'surat_keluar', year, tell);
+      fileUrl = up.url;
+      if (up.driveUrl) driveUrl = up.driveUrl;
     }
+    if (dispFile) {
+      const upD = await uploadPdf(dispFile, 'disposisi', year, tell);
+      dispUrl = upD.url;
+      if (upD.driveUrl) dispDrive = upD.driveUrl;
+    }
+
     const res = await fetch('/api/letters', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...record, fileUrl, driveUrl, fileName: file ? file.name : undefined }),
+      body: JSON.stringify({
+        ...record,
+        fileUrl,
+        driveUrl,
+        fileName: file ? file.name : undefined,
+        dispositionFileUrl: dispUrl,
+        dispositionDriveUrl: dispDrive,
+        dispositionFileName: dispFile ? dispFile.name : undefined,
+      }),
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || 'Gagal menyimpan arsip');
@@ -47,6 +68,9 @@ export function useLetterActions(
       id: agendaNum,
       rawId: data.id,
       fileName: file ? file.name : `${agendaNum}.pdf`,
+      dispositionFileUrl: dispUrl,
+      dispositionDriveUrl: dispDrive,
+      dispositionFileName: dispFile ? dispFile.name : undefined,
     };
     setLetters((prev) => [newRecord, ...prev]);
     tell(`Arsip ${newRecord.id} berhasil dicatat ke TiDB Cloud Serverless.`);
@@ -103,24 +127,21 @@ export function useLetterActions(
     }
   };
 
-  const handleUpdate = async (id: string, updates: Partial<LetterRecord>, file?: File) => {
+  const handleUpdate = async (id: string, updates: Partial<LetterRecord>, file?: File, dispFile?: File) => {
     let fileUrl = updates.fileUrl;
     let driveUrl = updates.driveUrl;
+    let dispUrl = updates.dispositionFileUrl;
+    let dispDrive = updates.dispositionDriveUrl;
+    const year = (updates.date || editTarget?.date || '').slice(0, 4) || '2026';
     if (file) {
-      tell('Memeriksa dan menyiapkan lampiran naskah...');
-      const readyFile = await compressPdfIfNeeded(file, (p) => tell(p.message));
-      const fd = new FormData();
-      fd.append('file', readyFile);
-      fd.append('folder', editTarget?.direction === 'in' ? 'surat_masuk' : 'surat_keluar');
-      const targetDate = updates.date || editTarget?.date || '';
-      fd.append('year', targetDate ? targetDate.slice(0, 4) : '2026');
-      const upRes = await fetch('/api/upload', { method: 'POST', body: fd });
-      const upData = await upRes.json();
-      if (!upRes.ok || !upData.success) {
-        throw new Error(upData.message || 'Gagal mengunggah berkas PDF pembaruan.');
-      }
-      fileUrl = upData.url;
-      if (upData.driveUrl) driveUrl = upData.driveUrl;
+      const up = await uploadPdf(file, editTarget?.direction === 'in' ? 'surat_masuk' : 'surat_keluar', year, tell);
+      fileUrl = up.url;
+      if (up.driveUrl) driveUrl = up.driveUrl;
+    }
+    if (dispFile) {
+      const upD = await uploadPdf(dispFile, 'disposisi', year, tell);
+      dispUrl = upD.url;
+      if (upD.driveUrl) dispDrive = upD.driveUrl;
     }
     const targetId = editTarget?.rawId || id;
     const res = await fetch('/api/letters', {
@@ -133,6 +154,9 @@ export function useLetterActions(
         ...(fileUrl ? { fileUrl } : {}),
         ...(driveUrl ? { driveUrl } : {}),
         ...(file ? { fileName: file.name } : {}),
+        ...(dispUrl ? { dispositionFileUrl: dispUrl } : {}),
+        ...(dispDrive ? { dispositionDriveUrl: dispDrive } : {}),
+        ...(dispFile ? { dispositionFileName: dispFile.name } : {}),
       }),
     });
     const data = await res.json();
@@ -147,6 +171,9 @@ export function useLetterActions(
               ...(fileUrl ? { fileUrl } : {}),
               ...(driveUrl ? { driveUrl } : {}),
               ...(file ? { fileName: file.name } : {}),
+              ...(dispUrl ? { dispositionFileUrl: dispUrl } : {}),
+              ...(dispDrive ? { dispositionDriveUrl: dispDrive } : {}),
+              ...(dispFile ? { dispositionFileName: dispFile.name } : {}),
             }
           : l
       )
@@ -156,16 +183,8 @@ export function useLetterActions(
   };
 
   return {
-    deleteTarget,
-    setDeleteTarget,
-    batchTargets,
-    setBatchTargets,
-    deleting,
-    handleSave,
-    confirmDelete,
-    confirmBatchDelete,
-    editTarget,
-    setEditTarget,
-    handleUpdate,
+    deleteTarget, setDeleteTarget, batchTargets, setBatchTargets,
+    deleting, handleSave, confirmDelete, confirmBatchDelete,
+    editTarget, setEditTarget, handleUpdate,
   };
 }

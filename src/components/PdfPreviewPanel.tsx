@@ -18,27 +18,21 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onEdit, onDe
   const [pdfLoading, setPdfLoading] = useState(true);
   const [fitMode, setFitMode] = useState<'page' | 'width'>('page');
   const [maximized, setMaximized] = useState(false);
+  const [activeDoc, setActiveDoc] = useState<'letter' | 'disp'>('letter');
   const cleanAgenda = letter.id.replace(/\/(SM|SK)\/.*$/i, '');
   const fileName = letter.fileName || `${cleanAgenda}.pdf`;
 
   const pdfUrl = letter.fileUrl
     ? `/api/pdf?url=${encodeURIComponent(letter.fileUrl)}&name=${encodeURIComponent(fileName)}`
     : '/placeholder-surat.pdf';
+  const dispUrl = letter.dispositionFileUrl
+    ? `/api/pdf?url=${encodeURIComponent(letter.dispositionFileUrl)}&name=${encodeURIComponent(letter.dispositionFileName || 'disposisi.pdf')}`
+    : null;
+  const currentUrl = activeDoc === 'disp' && dispUrl ? dispUrl : pdfUrl;
 
   const letterYear = letter.date ? letter.date.slice(0, 4) : '2026';
   const defaultFolderUrl = getGdriveFolderUrl(letter.direction === 'in' ? 'masuk' : 'keluar', letterYear);
-  let driveUrl = (letter.driveUrl || '').trim();
-  if (
-    !driveUrl ||
-    driveUrl === 'https://drive.google.com' ||
-    driveUrl === 'https://drive.google.com/' ||
-    driveUrl.endsWith('/home') ||
-    driveUrl.includes('folders/1deTFD7oICTXkkMs5HzS') ||
-    driveUrl.includes('folders/1rgWCFwULt8awBCVIuomy')
-  ) {
-    driveUrl = defaultFolderUrl;
-  }
-
+  const driveUrl = (letter.driveUrl || '').trim().startsWith('http') ? letter.driveUrl! : defaultFolderUrl;
   const viewHash = fitMode === 'page' ? '#view=Fit&zoom=page-fit' : '#view=FitH';
 
   return (
@@ -80,7 +74,7 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onEdit, onDe
             type="button"
             className="hover:border-emerald-500 hover:text-emerald-800 transition-colors"
             title="Buka dokumen di tab peramban baru"
-            onClick={() => window.open(pdfUrl, '_blank', 'noopener,noreferrer')}
+            onClick={() => window.open(currentUrl, '_blank', 'noopener,noreferrer')}
           >
             <Icon name="eye" size={13} />
             <span>Tab Baru</span>
@@ -92,8 +86,8 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onEdit, onDe
             title="Unduh dokumen asli"
             onClick={() => {
               const a = document.createElement('a');
-              a.href = pdfUrl;
-              a.download = fileName;
+              a.href = currentUrl;
+              a.download = activeDoc === 'disp' ? (letter.dispositionFileName || 'disposisi.pdf') : fileName;
               a.target = '_blank';
               a.click();
             }}
@@ -101,6 +95,25 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onEdit, onDe
             <Icon name="download" size={13} />
             <span>Unduh PDF</span>
           </button>
+
+          {dispUrl && (
+            <div className="flex rounded border border-slate-300 p-0.5 bg-slate-100 text-xs">
+              <button
+                type="button"
+                className={`px-2 py-0.5 rounded transition-all ${activeDoc === 'letter' ? 'bg-white font-semibold text-emerald-900 shadow-xs' : 'text-slate-600'}`}
+                onClick={() => { setActiveDoc('letter'); setPdfLoading(true); }}
+              >
+                Surat Masuk
+              </button>
+              <button
+                type="button"
+                className={`px-2 py-0.5 rounded transition-all ${activeDoc === 'disp' ? 'bg-white font-semibold text-emerald-900 shadow-xs' : 'text-slate-600'}`}
+                onClick={() => { setActiveDoc('disp'); setPdfLoading(true); }}
+              >
+                Scan Disposisi
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="flex items-center gap-2">
@@ -150,8 +163,8 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onEdit, onDe
               </div>
             )}
             <iframe
-              key={`${viewHash}-${maximized}`}
-              src={`${pdfUrl}${viewHash}&toolbar=1&navpanes=0`}
+              key={`${viewHash}-${maximized}-${activeDoc}`}
+              src={`${currentUrl}${viewHash}&toolbar=1&navpanes=0`}
               title={`Dokumen PDF ${cleanAgenda}`}
               className="w-full h-full border rounded bg-white shadow-inner"
               style={{ width: '100%', height: '100%', border: '1px solid #cbd5e1' }}

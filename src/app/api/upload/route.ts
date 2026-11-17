@@ -5,6 +5,7 @@ import { getSession } from '@/lib/auth';
 import { getGdriveFolderUrl } from '@/data/constants';
 import { logAudit } from '@/lib/audit';
 import { getClientIp } from '@/lib/rate-limit';
+import { isImageFile, convertImageBufferToPdf } from '@/lib/image-to-pdf';
 
 function canUpload(role?: string): boolean {
   return role === 'SUPER_ADMIN' || role === 'PETUGAS_ARSIP';
@@ -25,11 +26,16 @@ export async function POST(request: Request) {
     const folder = (formData.get('folder') as 'surat_masuk' | 'surat_keluar' | 'disposisi') || 'surat_masuk';
 
     if (!file) {
-      return NextResponse.json({ success: false, message: 'Berkas PDF wajib diunggah.' }, { status: 400 });
+      return NextResponse.json({ success: false, message: 'Berkas naskah atau foto wajib diunggah.' }, { status: 400 });
     }
 
-    if (!file.name.toLowerCase().endsWith('.pdf')) {
-      return NextResponse.json({ success: false, message: 'Hanya berkas berformat PDF yang diizinkan.' }, { status: 400 });
+    const isPdf = file.name.toLowerCase().endsWith('.pdf');
+    const isImg = isImageFile(file);
+    if (!isPdf && !isImg) {
+      return NextResponse.json({
+        success: false,
+        message: 'Hanya berkas berformat PDF atau gambar (JPG, PNG, WebP) yang diizinkan.',
+      }, { status: 400 });
     }
 
     if (file.size > 20 * 1024 * 1024) {
@@ -37,26 +43,36 @@ export async function POST(request: Request) {
     }
 
     const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
+    let buffer: Buffer = Buffer.from(bytes);
+    let finalFileName = file.name;
 
-    const magic = buffer.subarray(0, 5).toString('ascii');
-    if (magic !== '%PDF-') {
-      return NextResponse.json({ success: false, message: 'Isi berkas bukan dokumen PDF yang valid.' }, { status: 400 });
+    if (isImg) {
+      const conv = await convertImageBufferToPdf(buffer, file.name);
+      buffer = conv.buffer;
+      finalFileName = conv.fileName;
+    } else {
+      const magic = buffer.subarray(0, 5).toString('ascii');
+      if (magic !== '%PDF-') {
+        return NextResponse.json({ success: false, message: 'Isi berkas bukan dokumen PDF yang valid.' }, { status: 400 });
+      }
     }
 
-    const result = await uploadPdfBuffer(buffer, folder, file.name);
-
+    const result = await uploadPdfBuffer(buffer, folder, finalFileName);
     const gdriveFolderType = folder === 'surat_masuk' ? 'masuk' : 'keluar';
     const yearStr = String(formData.get('year') || '2026').slice(0, 4);
-    const driveUrl = await uploadToGoogleDrive(buffer, file.name, gdriveFolderType, yearStr);
+    const driveUrl = await uploadToGoogleDrive(buffer, finalFileName, gdriveFolderType, yearStr);
 
     const ip = getClientIp(request);
     const agent = request.headers.get('user-agent') || 'Unknown';
-    await logAudit('UNGGAH_BERKAS', folder, result.publicId, session.id, ip, agent, { fileName: file.name, size: file.size });
+    await logAudit('UNGGAH_BERKAS', folder, result.publicId, session.id, ip, agent, {
+      fileName: finalFileName,
+      size: buffer.length,
+      originalType: isImg ? 'IMAGE_CONVERTED_TO_PDF' : 'PDF',
+    });
 
     return NextResponse.json({
       success: true,
-      message: 'Berkas PDF berhasil diunggah ke Cloudinary dan Google Drive',
+      message: isImg ? 'Foto berhasil dipindai menjadi dokumen PDF dan diunggah.' : 'Berkas PDF berhasil diunggah.',
       url: result.url,
       publicId: result.publicId,
       driveUrl: driveUrl || getGdriveFolderUrl(gdriveFolderType, yearStr),

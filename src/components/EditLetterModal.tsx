@@ -111,8 +111,8 @@ export default function EditLetterModal({ letter, onClose, onSave }: Props) {
           </div>
         </div>
         <div>
-          <label htmlFor={`${uid}-file`} className="block font-semibold mb-1 text-slate-600">Ganti PDF (Opsional)</label>
-          <input id={`${uid}-file`} type="file" accept=".pdf" onChange={(e) => setFile(e.target.files?.[0] || null)} className="w-full text-xs" />
+          <label htmlFor={`${uid}-file`} className="block font-semibold mb-1 text-slate-600">Ganti Berkas (PDF / Foto Opsional)</label>
+          <input id={`${uid}-file`} type="file" accept=".pdf,image/jpeg,image/png,image/webp" onChange={(e) => setFile(e.target.files?.[0] || null)} className="w-full text-xs" />
           {file && file.size > 4 * 1024 * 1024 && (
             <span className="text-[10px] bg-amber-100 text-amber-800 font-medium px-1.5 py-0.5 rounded mt-0.5 inline-block">
               {(file.size / (1024 * 1024)).toFixed(1)} MB - Auto-Kompresi Aktif
@@ -126,11 +126,11 @@ export default function EditLetterModal({ letter, onClose, onSave }: Props) {
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <label htmlFor={`${uid}-off`} className="block text-[11px] font-medium text-slate-600 mb-0.5">Pejabat Pendisposisi</label>
-                <input id={`${uid}-off`} type="text" value={official} onChange={(e) => setOfficial(e.target.value)} placeholder="Cth: Kepala Dinas" className="w-full bg-white border border-slate-300 rounded px-2 py-1 text-xs" />
+                <input id={`${uid}-off`} type="text" value={official} onChange={(e) => setOfficial(e.target.value)} placeholder="Cth: Kepala Dinas" className="w-full bg-white border border-slate-300 rounded px-2.5 py-1.5 text-xs" />
               </div>
               <div>
                 <label htmlFor={`${uid}-status`} className="block text-[11px] font-medium text-slate-600 mb-0.5">Posisi Surat / Status</label>
-                <select id={`${uid}-status`} value={dispStatus} onChange={(e) => setDispStatus(e.target.value as DispStatus)} className="w-full bg-white border border-slate-300 rounded px-2 py-1 text-xs">
+                <select id={`${uid}-status`} value={dispStatus} onChange={(e) => setDispStatus(e.target.value as DispStatus)} className="w-full bg-white border border-slate-300 rounded px-2.5 py-1.5 text-xs">
                   <option value="BELUM_DIPROSES">Diterima Persuratan</option>
                   <option value="PROSES">Kepala Dinas</option>
                   <option value="SELESAI">Selesai</option>
@@ -139,16 +139,16 @@ export default function EditLetterModal({ letter, onClose, onSave }: Props) {
             </div>
             <div>
               <label htmlFor={`${uid}-notes`} className="block text-[11px] font-medium text-slate-600 mb-0.5">Catatan Instruksi</label>
-              <input id={`${uid}-notes`} type="text" value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Catatan arahan pimpinan..." className="w-full bg-white border border-slate-300 rounded px-2 py-1 text-xs" />
+              <input id={`${uid}-notes`} type="text" value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Catatan arahan pimpinan..." className="w-full bg-white border border-slate-300 rounded px-2.5 py-1.5 text-xs" />
             </div>
             <div>
               <label htmlFor={`${uid}-dispfile`} className="block text-[11px] font-medium text-slate-600 mb-0.5">
-                Scan Lembar Disposisi Manual (PDF / Opsional)
+                Scan Lembar Disposisi (PDF / Foto Opsional)
               </label>
               <input
                 id={`${uid}-dispfile`}
                 type="file"
-                accept=".pdf"
+                accept=".pdf,image/jpeg,image/png,image/webp"
                 onChange={(e) => setDispFile(e.target.files?.[0] || null)}
                 className="w-full text-xs"
               />
@@ -162,12 +162,9 @@ export default function EditLetterModal({ letter, onClose, onSave }: Props) {
         )}
 
         <div className="modal-actions pt-2 flex justify-end gap-2">
-          <button type="button" className="btn outline text-xs" onClick={onClose} disabled={saving}>
-            Batal
-          </button>
-          <button type="submit" className="btn primary text-xs flex items-center gap-1.5" disabled={saving}>
-            <Icon name="check" size={14} />
-            <span>{saving ? 'Menyimpan...' : 'Simpan Perubahan'}</span>
+          <button type="button" className="btn outline text-xs" onClick={onClose} disabled={saving}>Batal</button>
+          <button type="submit" className="btn primary text-xs flex items-center gap-1" disabled={saving}>
+            <Icon name="check" size={14} /> <span>{saving ? 'Menyimpan...' : 'Simpan Perubahan'}</span>
           </button>
         </div>
       </form>

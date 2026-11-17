@@ -1,9 +1,10 @@
 'use client';
 
-import { useId, useRef, useState } from 'react';
+import { useId, useState } from 'react';
 import Modal from './Modal';
 import Icon from './Icon';
 import NewLetterDisposisiFields from './NewLetterDisposisiFields';
+import LetterFileUpload from './LetterFileUpload';
 import { classifications, venues, divisions } from '@/data/constants';
 import { classifyText, type ClassificationResult } from '@/lib/classifier';
 import { getWorkdayIndex, format5Digit, calculateNextWorkdayAgenda } from '@/lib/workday-slot';
@@ -20,7 +21,6 @@ export default function NewLetterModal({ direction, onClose, onSave, letters }: 
   const [kind, setKind] = useState<Direction>(direction);
   const [file, setFile] = useState<File>();
   const [dispFile, setDispFile] = useState<File | null>(null);
-  const [isDrag, setIsDrag] = useState(false);
   const [error, setError] = useState('');
   const [posisiSurat, setPosisiSurat] = useState('Diterima Persuratan');
   const [saving, setSaving] = useState(false);
@@ -30,7 +30,6 @@ export default function NewLetterModal({ direction, onClose, onSave, letters }: 
   const [pickedDate, setPickedDate] = useState(() => new Date().toISOString().slice(0, 10));
   const [numMode, setNumMode] = useState<'auto' | 'manual'>('auto');
   const [manualNum, setManualNum] = useState('');
-  const fileInput = useRef<HTMLInputElement>(null);
   const uid = useId();
 
   const [pY, pM, pD] = pickedDate.split('-').map(Number);
@@ -149,27 +148,7 @@ export default function NewLetterModal({ direction, onClose, onSave, letters }: 
           )}
         </div>
 
-        <div
-          className={`file-box mt-2 p-3 border-2 border-dashed rounded text-center transition-all ${isDrag ? 'border-emerald-600 bg-emerald-50/70' : 'border-slate-300 bg-slate-50/50'}`}
-          onDragOver={(e) => { e.preventDefault(); setIsDrag(true); }}
-          onDragLeave={() => setIsDrag(false)}
-          onDrop={(e) => { e.preventDefault(); setIsDrag(false); const f = e.dataTransfer.files?.[0]; if (f?.name.toLowerCase().endsWith('.pdf')) setFile(f); }}
-        >
-          <input type="file" ref={fileInput} accept="application/pdf" className="hidden" onChange={(e) => setFile(e.target.files?.[0])} />
-          {file ? (
-            <div className="flex items-center justify-center gap-2 text-xs text-emerald-900 bg-emerald-100 py-1.5 px-3 rounded">
-              <Icon name="file" size={14} /><span className="font-semibold truncate max-w-xs">{file.name}</span>
-              <span className="text-emerald-700 text-[11px]">({(file.size / 1024).toFixed(0)} KB)</span>
-              {file.size > 4 * 1024 * 1024 && <span className="bg-amber-200 text-amber-900 text-[10px] px-1 rounded font-medium">Auto-Kompres</span>}
-              <button type="button" className="ml-1 text-red-600 hover:text-red-800" onClick={() => setFile(undefined)} title="Hapus berkas">✕</button>
-            </div>
-          ) : (
-            <>
-              <button type="button" className="btn outline" onClick={() => fileInput.current?.click()}><Icon name="file" size={14} /> Pilih Lampiran PDF</button>
-              <span className="block text-xs text-slate-500 mt-1">{isDrag ? 'Lepaskan berkas PDF di sini...' : 'Tarik & lepas PDF di sini atau klik pilih (maks 20 MB)'}</span>
-            </>
-          )}
-        </div>
+        <LetterFileUpload file={file} onFileChange={setFile} />
 
         {kind === 'in' && (
           <NewLetterDisposisiFields

@@ -260,7 +260,7 @@ async def run_master_audit():
         disp_data = await page.evaluate("""() => {
             const rows = document.querySelectorAll('table tbody tr').length;
             const statusButtons = Array.from(document.querySelectorAll('button')).filter(b => 
-                ['Semua', 'Belum Diproses', 'Sedang Proses', 'Selesai'].some(s => b.innerText.includes(s))
+                ['Semua', 'Diterima Persuratan', 'Kepala Dinas', 'Selesai'].some(s => b.innerText.includes(s))
             ).map(b => b.innerText.trim());
             const hasActionBtn = Boolean(document.querySelector('table tbody tr:first-child button'));
             return {

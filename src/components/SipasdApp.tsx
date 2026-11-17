@@ -167,7 +167,7 @@ export default function SipasdApp({
         toast={toast} setModal={setModal} setSelected={setSelected} setPrintLetter={setPrintLetter}
         setEditTarget={setEditTarget} setDeleteTarget={setDeleteTarget} setBatchTargets={setBatchTargets}
         setSelectedIds={setSelectedIds} onSaveLetter={onSaveLetter} onUpdateLetter={handleUpdate}
-        confirmDelete={confirmDelete} confirmBatchDelete={confirmBatchDelete}
+        confirmDelete={confirmDelete} confirmBatchDelete={confirmBatchDelete} letters={letters}
       />
     </div>
   );

@@ -5,6 +5,20 @@ Format: `[YYYY-MM-DD] Fitur/Perbaikan - Deskripsi`
 
 ---
 
+## [2026-11-17] Otomatisasi Generator Nomor Surat ({Klasifikasi}/{Slot}/DISPORA/{Tahun}) dan Dropdown Mode
+
+- Generator Otomatis Nomor Surat: Pada formulir Indeks Berkas Baru, input Nomor Surat otomatis terisi dengan format standar kedinasan Dispora: `{kode_klasifikasi}/{slot_agenda}/DISPORA/{tahun}`.
+  * Kode Klasifikasi: Dinamis mengikuti pilihan Klasifikasi Arsip (misal 005, 045, 426, 800, 900) atau rekomendasi AI.
+  * Slot Agenda: Menghitung slot naskah aktif pada tanggal hari kerja tersebut secara presisi.
+  * DISPORA: Tetap sebagai penanda instansi resmi.
+  * Tahun: Mengikuti tahun dari tanggal naskah terpilih secara otomatis (2026, 2027, dst.).
+- Dropdown Mode Penomoran (Otomatis vs Manual): Disediakan dropdown pemilih mode di samping label Nomor Surat:
+  * Otomatis (Sistem): Bidang input terkunci aman (read-only) dengan nilai dinamis tersinkronisasi otomatis.
+  * Manual (Ketik): Bidang input terbuka untuk pengetikan nomor eksternal secara bebas (misal naskah masuk dari instansi luar).
+- Audit Google Chrome: Teruji dan lolos 100% pada peramban Chrome nyata dengan skrip scripts/audit_e2e_workday_slots.py.
+
+---
+
 ## [2026-11-17] Sistem Nomor Agenda 5 Digit Blok 50 per Hari Kerja dan Migrasi 423 Naskah
 
 - Sistem Nomor Agenda Blok 50 Slot Harian: Menerapkan sistem penomoran agenda berbasis hari kerja resmi (Senin s.d. Jumat). Setiap hari kerja mendapatkan alokasi kuota 50 nomor agenda.

@@ -27,6 +27,7 @@ interface Props {
   onUpdateLetter: (id: string, updates: Partial<LetterRecord>, file?: File, dispFile?: File) => Promise<void>;
   confirmDelete: (trashDrive?: boolean) => Promise<void>;
   confirmBatchDelete: (trashDrive?: boolean) => Promise<void>;
+  letters?: LetterRecord[];
 }
 
 export default function AppModals({
@@ -50,6 +51,7 @@ export default function AppModals({
   onUpdateLetter,
   confirmDelete,
   confirmBatchDelete,
+  letters,
 }: Props) {
   return (
     <>
@@ -74,6 +76,7 @@ export default function AppModals({
           direction={page === 'out' ? 'out' : 'in'}
           onClose={() => setModal('')}
           onSave={onSaveLetter}
+          letters={letters}
         />
       )}
       {printLetter && (

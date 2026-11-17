@@ -6,16 +6,17 @@ import Icon from './Icon';
 import NewLetterDisposisiFields from './NewLetterDisposisiFields';
 import { classifications, venues, divisions } from '@/data/constants';
 import { classifyText, type ClassificationResult } from '@/lib/classifier';
-import { getWorkdayIndex, format5Digit } from '@/lib/workday-slot';
+import { getWorkdayIndex, format5Digit, calculateNextWorkdayAgenda } from '@/lib/workday-slot';
 import type { Direction, LetterRecord, Urgency } from '@/types';
 
 interface Props {
   direction: Direction;
   onClose: () => void;
   onSave: (letter: Omit<LetterRecord, 'id'>, file?: File, dispFile?: File) => Promise<void> | void;
+  letters?: LetterRecord[];
 }
 
-export default function NewLetterModal({ direction, onClose, onSave }: Props) {
+export default function NewLetterModal({ direction, onClose, onSave, letters }: Props) {
   const [kind, setKind] = useState<Direction>(direction);
   const [file, setFile] = useState<File>();
   const [dispFile, setDispFile] = useState<File | null>(null);
@@ -27,17 +28,19 @@ export default function NewLetterModal({ direction, onClose, onSave }: Props) {
   const [classCode, setClassCode] = useState('005');
   const [today] = useState(() => new Date().toISOString().slice(0, 10));
   const [pickedDate, setPickedDate] = useState(() => new Date().toISOString().slice(0, 10));
+  const [numMode, setNumMode] = useState<'auto' | 'manual'>('auto');
+  const [manualNum, setManualNum] = useState('');
   const fileInput = useRef<HTMLInputElement>(null);
   const uid = useId();
 
   const [pY, pM, pD] = pickedDate.split('-').map(Number);
-  const wDay = getWorkdayIndex(pY || 2026, pM || 1, pD || 1);
-  const sStart = (wDay - 1) * 50 + 1;
-  const sEnd = wDay * 50;
-
-  const handleSubject = (text: string) => {
-    setAiRec(text.trim().length >= 4 ? classifyText(text) : null);
-  };
+  const safeYear = !isNaN(pY) && pY >= 2000 && pY <= 2200 ? pY : 2026;
+  const wDay = getWorkdayIndex(safeYear, pM || 1, pD || 1);
+  const sStart = (wDay - 1) * 50 + 1, sEnd = wDay * 50;
+  const existingAgendas = (letters || []).filter((l) => l.direction === kind).map((l) => `${l.id}/${kind.toUpperCase()}/DISPORA/${l.date?.slice(0, 4) || safeYear}`);
+  const nextSlotInfo = calculateNextWorkdayAgenda(pickedDate, kind, existingAgendas);
+  const currentSlot = nextSlotInfo.agendaNumber.split('/')[0];
+  const autoNum = `${classCode}/${currentSlot}/DISPORA/${safeYear}`;
 
   return (
     <Modal title="Indeks Berkas Baru" onClose={onClose}>
@@ -67,8 +70,7 @@ export default function NewLetterModal({ direction, onClose, onSave }: Props) {
             }, file, dispFile || undefined);
             onClose();
           } catch (err: unknown) {
-            const msg = err instanceof Error ? err.message : 'Gagal menyimpan arsip.';
-            setError(msg);
+            setError(err instanceof Error ? err.message : 'Gagal menyimpan arsip.');
           } finally {
             setSaving(false);
           }
@@ -85,18 +87,38 @@ export default function NewLetterModal({ direction, onClose, onSave }: Props) {
             <select id={`${uid}-urg`} name="urgency" className="w-full"><option>Biasa</option><option>Penting</option><option>Segera</option><option>Kilat</option></select>
           </div>
           <div>
-            <label htmlFor={`${uid}-num`} className="block text-[11px] font-semibold text-slate-700 mb-1">Nomor Surat</label>
-            <input id={`${uid}-num`} name="number" required placeholder="Contoh: 005/182/DISPORA/2026" className="w-full" />
+            <div className="flex items-center justify-between mb-1">
+              <label htmlFor={`${uid}-num`} className="block text-[11px] font-semibold text-slate-700">Nomor Surat</label>
+              <select
+                value={numMode}
+                onChange={(e) => {
+                  const m = e.target.value as 'auto' | 'manual';
+                  setNumMode(m);
+                  if (m === 'manual' && !manualNum) setManualNum(autoNum);
+                }}
+                className="text-[10px] py-0.5 px-1.5 border border-slate-300 rounded bg-white text-slate-700 cursor-pointer"
+                title="Pilih mode penomoran surat"
+              >
+                <option value="auto">Otomatis (Sistem)</option>
+                <option value="manual">Manual (Ketik)</option>
+              </select>
+            </div>
+            <input
+              id={`${uid}-num`} name="number" required
+              value={numMode === 'auto' ? autoNum : manualNum}
+              onChange={(e) => { if (numMode === 'manual') setManualNum(e.target.value); }}
+              readOnly={numMode === 'auto'}
+              placeholder={numMode === 'auto' ? autoNum : 'Contoh: 005/182/DISPORA/2026'}
+              className={`w-full font-mono text-xs ${numMode === 'auto' ? 'bg-slate-50 text-slate-800' : 'bg-white'}`}
+            />
           </div>
           <div>
-            <label htmlFor={`${uid}-orig`} className="block text-[11px] font-semibold text-slate-700 mb-1">
-              {kind === 'in' ? 'Asal Instansi / Pengirim' : 'Tujuan Instansi'}
-            </label>
+            <label htmlFor={`${uid}-orig`} className="block text-[11px] font-semibold text-slate-700 mb-1">{kind === 'in' ? 'Asal Instansi / Pengirim' : 'Tujuan Instansi'}</label>
             <input id={`${uid}-orig`} name="origin" required placeholder="Nama instansi kedinasan" className="w-full" />
           </div>
           <div className="col-span-2">
             <label htmlFor={`${uid}-subj`} className="block text-[11px] font-semibold text-slate-700 mb-1">Perihal</label>
-            <input id={`${uid}-subj`} name="subject" required placeholder="Ringkasan perihal..." onChange={(e) => handleSubject(e.target.value)} className="w-full" />
+            <input id={`${uid}-subj`} name="subject" required placeholder="Ringkasan perihal..." onChange={(e) => setAiRec(e.target.value.trim().length >= 4 ? classifyText(e.target.value) : null)} className="w-full" />
           </div>
           {aiRec && (
             <div className="col-span-2 p-2 bg-emerald-50 border border-emerald-300 rounded flex items-center justify-between text-xs">
@@ -109,9 +131,7 @@ export default function NewLetterModal({ direction, onClose, onSave }: Props) {
             <input id={`${uid}-date`} name="date" type="date" defaultValue={today} required className="w-full" />
           </div>
           <div>
-            <label htmlFor={`${uid}-rec`} className="block text-[11px] font-semibold text-slate-700 mb-1">
-              {kind === 'in' ? 'Tanggal Diterima' : 'Tanggal Diterbitkan'}
-            </label>
+            <label htmlFor={`${uid}-rec`} className="block text-[11px] font-semibold text-slate-700 mb-1">{kind === 'in' ? 'Tanggal Diterima' : 'Tanggal Diterbitkan'}</label>
             <input id={`${uid}-rec`} name="received" type="date" value={pickedDate} onChange={(e) => setPickedDate(e.target.value)} required className="w-full" />
           </div>
           <div className="col-span-2 bg-emerald-50 border border-emerald-200 text-emerald-950 px-2.5 py-1 rounded flex items-center justify-between text-[11px]">
@@ -137,35 +157,23 @@ export default function NewLetterModal({ direction, onClose, onSave }: Props) {
         </div>
 
         <div
-          className={`file-box mt-2 p-3 border-2 border-dashed rounded text-center transition-all ${
-            isDrag ? 'border-emerald-600 bg-emerald-50/70' : 'border-slate-300 bg-slate-50/50'
-          }`}
+          className={`file-box mt-2 p-3 border-2 border-dashed rounded text-center transition-all ${isDrag ? 'border-emerald-600 bg-emerald-50/70' : 'border-slate-300 bg-slate-50/50'}`}
           onDragOver={(e) => { e.preventDefault(); setIsDrag(true); }}
           onDragLeave={() => setIsDrag(false)}
-          onDrop={(e) => {
-            e.preventDefault();
-            setIsDrag(false);
-            const dropped = e.dataTransfer.files?.[0];
-            if (dropped && dropped.name.toLowerCase().endsWith('.pdf')) setFile(dropped);
-          }}
+          onDrop={(e) => { e.preventDefault(); setIsDrag(false); const f = e.dataTransfer.files?.[0]; if (f?.name.toLowerCase().endsWith('.pdf')) setFile(f); }}
         >
           <input type="file" ref={fileInput} accept="application/pdf" className="hidden" onChange={(e) => setFile(e.target.files?.[0])} />
           {file ? (
             <div className="flex items-center justify-center gap-2 text-xs text-emerald-900 bg-emerald-100 py-1.5 px-3 rounded">
-              <Icon name="file" size={14} />
-              <span className="font-semibold truncate max-w-xs">{file.name}</span>
+              <Icon name="file" size={14} /><span className="font-semibold truncate max-w-xs">{file.name}</span>
               <span className="text-emerald-700 text-[11px]">({(file.size / 1024).toFixed(0)} KB)</span>
               {file.size > 4 * 1024 * 1024 && <span className="bg-amber-200 text-amber-900 text-[10px] px-1 rounded font-medium">Auto-Kompres</span>}
               <button type="button" className="ml-1 text-red-600 hover:text-red-800" onClick={() => setFile(undefined)} title="Hapus berkas">✕</button>
             </div>
           ) : (
             <>
-              <button type="button" className="btn outline" onClick={() => fileInput.current?.click()}>
-                <Icon name="file" size={14} /> Pilih Lampiran PDF
-              </button>
-              <span className="block text-xs text-slate-500 mt-1">
-                {isDrag ? 'Lepaskan berkas PDF di sini...' : 'Tarik & lepas PDF di sini atau klik pilih (maks 20 MB)'}
-              </span>
+              <button type="button" className="btn outline" onClick={() => fileInput.current?.click()}><Icon name="file" size={14} /> Pilih Lampiran PDF</button>
+              <span className="block text-xs text-slate-500 mt-1">{isDrag ? 'Lepaskan berkas PDF di sini...' : 'Tarik & lepas PDF di sini atau klik pilih (maks 20 MB)'}</span>
             </>
           )}
         </div>

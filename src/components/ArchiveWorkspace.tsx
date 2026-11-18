@@ -22,7 +22,8 @@ interface Props {
   filters: ArchiveFilters;
   onFilters: (filters: ArchiveFilters) => void;
   selected: LetterRecord | null;
-  onSelect: (letter: LetterRecord | null) => void;
+  onSelect: (letter: LetterRecord) => void;
+  onSelectDisp?: (letter: LetterRecord) => void;
   selectedIds: string[];
   onToggleSelect: (id: string) => void;
   onToggleAll: () => void;
@@ -43,6 +44,7 @@ export default function ArchiveWorkspace({
   onFilters,
   selected,
   onSelect,
+  onSelectDisp,
   selectedIds,
   onToggleSelect,
   onToggleAll,
@@ -158,6 +160,7 @@ export default function ArchiveWorkspace({
           selectedId={selected?.id}
           selectedIds={selectedIds}
           onSelect={onSelect}
+          onSelectDisp={onSelectDisp}
           onToggleSelect={onToggleSelect}
           onToggleAll={onToggleAll}
           onPrint={onPrint}

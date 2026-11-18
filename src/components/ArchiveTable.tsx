@@ -13,6 +13,7 @@ interface Props {
   selectedId?: string;
   selectedIds?: string[];
   onSelect: (letter: LetterRecord) => void;
+  onSelectDisp?: (letter: LetterRecord) => void;
   onToggleSelect?: (id: string) => void;
   onToggleAll?: () => void;
   onPrint?: (letter: LetterRecord) => void;
@@ -40,6 +41,7 @@ export default function ArchiveTable({
   selectedId,
   selectedIds = [],
   onSelect,
+  onSelectDisp,
   onToggleSelect,
   onToggleAll,
   onPrint,
@@ -127,6 +129,21 @@ export default function ArchiveTable({
                           {letter.division}
                         </span>
                       )}
+                      {letter.dispositionFileUrl && (
+                        <button
+                          type="button"
+                          className="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded bg-emerald-100 text-emerald-900 border border-emerald-300 hover:bg-emerald-200 transition-colors"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (onSelectDisp) onSelectDisp(letter);
+                            else onSelect(letter);
+                          }}
+                          title="Klik untuk membuka dokumen scan lembar disposisi fisik"
+                        >
+                          <Icon name="file" size={10} />
+                          <span>Scan Disposisi (PDF)</span>
+                        </button>
+                      )}
                     </div>
                   </td>
                   <td className="mono date-cell">{shortDate(letter.date)}</td>
@@ -138,6 +155,7 @@ export default function ArchiveTable({
                       <RowActionMenu
                         letter={letter}
                         onSelect={onSelect}
+                        onSelectDisp={onSelectDisp}
                         onPrint={onPrint}
                         onEdit={onEdit}
                         onDelete={onDelete}
@@ -151,11 +169,6 @@ export default function ArchiveTable({
             })}
           </tbody>
         </table>
-        {!visible.length && (
-          <div className="empty">
-            Tidak ada arsip yang sesuai dengan filter. Ubah atau hapus filter untuk melihat arsip lainnya.
-          </div>
-        )}
       </div>
       {!compact && onPage && (
         <Pagination current={current} total={pages} totalItems={letters.length} onPage={onPage} />

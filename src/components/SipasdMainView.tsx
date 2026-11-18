@@ -17,6 +17,7 @@ interface Props {
   setFilters: (f: ArchiveFilters) => void;
   selected: LetterRecord | null;
   setSelected: (l: LetterRecord | null) => void;
+  onSelectDisp?: (l: LetterRecord) => void;
   selectedIds: string[];
   onToggleSelect: (id: string) => void;
   onToggleAll: () => void;
@@ -42,6 +43,7 @@ export default function SipasdMainView({
   setFilters,
   selected,
   setSelected,
+  onSelectDisp,
   selectedIds,
   onToggleSelect,
   onToggleAll,
@@ -136,6 +138,7 @@ export default function SipasdMainView({
           }}
           selected={selected}
           onSelect={setSelected}
+          onSelectDisp={onSelectDisp}
           selectedIds={selectedIds}
           onToggleSelect={onToggleSelect}
           onToggleAll={onToggleAll}
@@ -155,6 +158,7 @@ export default function SipasdMainView({
           letters={visible}
           user={user}
           onSelect={setSelected}
+          onSelectDisp={onSelectDisp}
           onClassify={(c) => archive('in', { classification: c })}
           onExport={() => void exportExcel(visible)}
           onPrint={setPrintLetter}

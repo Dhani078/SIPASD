@@ -7,10 +7,11 @@ import type { LetterRecord } from '@/types';
 interface Props {
   letter: LetterRecord;
   onSelect: (letter: LetterRecord) => void;
+  onSelectDisp?: (letter: LetterRecord) => void;
   onEdit?: (letter: LetterRecord) => void;
 }
 
-export default function DispositionRowMenu({ letter, onSelect, onEdit }: Props) {
+export default function DispositionRowMenu({ letter, onSelect, onSelectDisp, onEdit }: Props) {
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -44,10 +45,25 @@ export default function DispositionRowMenu({ letter, onSelect, onEdit }: Props) 
         <div
           role="menu"
           tabIndex={-1}
-          className="absolute right-0 top-full mt-1 w-44 bg-white rounded-lg shadow-xl border border-slate-200 py-1 z-50 animate-in fade-in zoom-in-95 duration-100"
+          className="absolute right-0 top-full mt-1 w-48 bg-white rounded-lg shadow-xl border border-slate-200 py-1 z-50 animate-in fade-in zoom-in-95 duration-100"
           onKeyDown={(_e) => _e.stopPropagation()}
           onClick={(_e) => _e.stopPropagation()}
         >
+          {letter.dispositionFileUrl && (
+            <button
+              type="button"
+              className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-emerald-900 bg-emerald-50/70 hover:bg-emerald-100 text-left transition-colors cursor-pointer font-bold border-b border-emerald-100"
+              onClick={() => {
+                setOpen(false);
+                if (onSelectDisp) onSelectDisp(letter);
+                else onSelect(letter);
+              }}
+            >
+              <span className="text-emerald-700"><Icon name="file" size={14} /></span>
+              <span>Lihat Scan Disposisi (PDF)</span>
+            </button>
+          )}
+
           <button
             type="button"
             className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-slate-800 hover:bg-slate-50 text-left transition-colors cursor-pointer font-medium"
@@ -57,7 +73,7 @@ export default function DispositionRowMenu({ letter, onSelect, onEdit }: Props) 
             }}
           >
             <span className="text-emerald-700"><Icon name="eye" size={14} /></span>
-            <span>Detail Disposisi</span>
+            <span>Lihat Naskah Surat</span>
           </button>
 
           {onEdit && (

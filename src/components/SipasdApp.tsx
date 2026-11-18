@@ -45,6 +45,7 @@ export default function SipasdApp({
   const [drawer, setDrawer] = useState(false);
   const [filters, setFilters] = useState<ArchiveFilters>(emptyFilters);
   const [selected, setSelected] = useState<LetterRecord | null>(null);
+  const [selectedDoc, setSelectedDoc] = useState<'letter' | 'disp'>('letter');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [printLetter, setPrintLetter] = useState<LetterRecord | null>(null);
   const [modal, setModal] = useState('');
@@ -60,7 +61,7 @@ export default function SipasdApp({
 
   const go = (next: string) => {
     const target = !auth && next !== 'landing' && next !== 'login' ? 'login' : next;
-    setSelected(null); setSelectedIds([]); setFilters(emptyFilters); setPagination(1); setDrawer(false); setPage(target);
+    setSelected(null); setSelectedDoc('letter'); setSelectedIds([]); setFilters(emptyFilters); setPagination(1); setDrawer(false); setPage(target);
     if (typeof window !== 'undefined') {
       const dest = URL_MAP[target] || `/dashboard?view=${target}`;
       if (window.location.pathname + window.location.search !== dest) window.history.pushState({ page: target }, '', dest);
@@ -152,7 +153,9 @@ export default function SipasdApp({
         />
         <SipasdMainView
           page={page} title={title} user={user} letters={letters} visible={visible}
-          filters={filters} setFilters={setFilters} selected={selected} setSelected={setSelected}
+          filters={filters} setFilters={setFilters} selected={selected}
+          setSelected={(l) => { setSelected(l); setSelectedDoc('letter'); }}
+          onSelectDisp={(l) => { setSelected(l); setSelectedDoc('disp'); }}
           selectedIds={selectedIds} onToggleSelect={handleToggleSelect} onToggleAll={handleToggleAll}
           onBatchDelete={() => setBatchTargets(letters.filter((l) => selectedIds.includes(l.id)))}
           setPrintLetter={setPrintLetter} onEdit={setEditTarget} onDelete={setDeleteTarget}
@@ -162,7 +165,7 @@ export default function SipasdApp({
       </div>
 
       <AppModals
-        modal={modal} selected={selected} printLetter={printLetter} editTarget={editTarget}
+        modal={modal} selected={selected} selectedDoc={selectedDoc} printLetter={printLetter} editTarget={editTarget}
         deleteTarget={deleteTarget} batchTargets={batchTargets} deleting={deleting} page={page}
         toast={toast} setModal={setModal} setSelected={setSelected} setPrintLetter={setPrintLetter}
         setEditTarget={setEditTarget} setDeleteTarget={setDeleteTarget} setBatchTargets={setBatchTargets}

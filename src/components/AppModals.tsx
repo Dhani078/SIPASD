@@ -9,6 +9,7 @@ import type { LetterRecord } from '@/types';
 interface Props {
   modal: string;
   selected: LetterRecord | null;
+  selectedDoc?: 'letter' | 'disp';
   printLetter: LetterRecord | null;
   editTarget: LetterRecord | null;
   deleteTarget: LetterRecord | null;
@@ -33,6 +34,7 @@ interface Props {
 export default function AppModals({
   modal,
   selected,
+  selectedDoc = 'letter',
   printLetter,
   editTarget,
   deleteTarget,
@@ -58,6 +60,7 @@ export default function AppModals({
       {selected && (
         <DocumentPreview
           letter={selected}
+          initialDoc={selectedDoc}
           onClose={() => setSelected(null)}
           onPrint={() => { const item = selected; setSelected(null); setPrintLetter(item); }}
           onEdit={() => { const item = selected; setSelected(null); setEditTarget(item); }}

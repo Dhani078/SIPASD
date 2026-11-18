@@ -13,11 +13,12 @@ import type { LetterRecord } from '@/types';
 interface Props {
   letters: LetterRecord[];
   onSelect: (letter: LetterRecord) => void;
+  onSelectDisp?: (letter: LetterRecord) => void;
   onEdit?: (letter: LetterRecord) => void;
   onExport: () => void;
 }
 
-export default function DispositionHistoryView({ letters, onSelect, onEdit, onExport }: Props) {
+export default function DispositionHistoryView({ letters, onSelect, onSelectDisp, onEdit, onExport }: Props) {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('ALL');
   const [searchQuery, setSearchQuery] = useState('');
   const [yearFilter, setYearFilter] = useState('');
@@ -39,8 +40,7 @@ export default function DispositionHistoryView({ letters, onSelect, onEdit, onEx
       if (divisionFilter && l.disposition?.division !== divisionFilter) return false;
       if (urgencyFilter && l.type !== urgencyFilter) return false;
       if (searchQuery) {
-        const q = searchQuery.toLowerCase();
-        const disp = l.disposition;
+        const q = searchQuery.toLowerCase(), disp = l.disposition;
         return (
           l.id.toLowerCase().includes(q) || l.subject.toLowerCase().includes(q) ||
           l.origin.toLowerCase().includes(q) || disp?.official?.toLowerCase().includes(q) ||
@@ -67,7 +67,6 @@ export default function DispositionHistoryView({ letters, onSelect, onEdit, onEx
 
   const getStatusBadge = (s?: string) =>
     s === 'BELUM_DIPROSES' ? <Badge type="penting" label="Diterima Persuratan" /> : s === 'PROSES' ? <Badge type="kilat" label="Kepala Dinas" /> : <Badge type="biasa" label="Selesai" />;
-
   const getStatusLabel = (s?: string) => (s === 'BELUM_DIPROSES' ? 'Diterima Persuratan' : s === 'PROSES' ? 'Kepala Dinas' : 'Selesai');
 
   return (
@@ -89,8 +88,7 @@ export default function DispositionHistoryView({ letters, onSelect, onEdit, onEx
           <p>Register 170 lembar instruksi resmi Kepala Dinas terhadap seluruh naskah masuk</p>
         </div>
         <button className="btn outline w-full sm:w-auto justify-center" onClick={onExport} type="button">
-          <Icon name="download" />
-          Ekspor Excel
+          <Icon name="download" /> Ekspor Excel
         </button>
       </div>
 
@@ -107,9 +105,7 @@ export default function DispositionHistoryView({ letters, onSelect, onEdit, onEx
 
       {filtered.length === 0 ? (
         <div className="empty">
-          {statusFilter === 'ALL'
-            ? 'Belum ada surat masuk dengan disposisi yang cocok dengan kriteria filter.'
-            : `Tidak ada data disposisi dengan status "${getStatusLabel(statusFilter)}".`}
+          {statusFilter === 'ALL' ? 'Belum ada surat masuk dengan disposisi yang cocok dengan kriteria filter.' : `Tidak ada data disposisi dengan status "${getStatusLabel(statusFilter)}".`}
         </div>
       ) : (
         <>
@@ -122,17 +118,13 @@ export default function DispositionHistoryView({ letters, onSelect, onEdit, onEx
                   <th style={{ width: '16%' }}>PEJABAT PENDISPOSISI</th>
                   <th style={{ width: '14%' }}>KEPADA BIDANG</th>
                   <th style={{ width: '15%' }}>INSTRUKSI PIMPINAN</th>
-                  <th style={{ width: '15%' }}>POSISI SURAT</th>
+                  <th style={{ width: '15%' }}>POSISI SURAT &amp; BERKAS</th>
                   <th style={{ textAlign: 'right', paddingRight: '14px', width: '72px', minWidth: '72px' }}>AKSI</th>
                 </tr>
               </thead>
               <tbody>
                 {paginated.map((letter) => (
-                  <tr
-                    key={letter.id}
-                    className="cursor-pointer hover:bg-slate-50 transition-colors"
-                    onClick={() => onSelect(letter)}
-                  >
+                  <tr key={letter.id} className="cursor-pointer hover:bg-slate-50 transition-colors" onClick={() => onSelect(letter)}>
                     <td>
                       <div className="flex items-baseline gap-1.5">
                         <b className="mono text-emerald-800 text-xs font-bold">{letter.id}</b>
@@ -153,24 +145,28 @@ export default function DispositionHistoryView({ letters, onSelect, onEdit, onEx
                       <span className="text-xs font-semibold text-emerald-900">{letter.disposition?.division || '-'}</span>
                     </td>
                     <td>
-                      <span
-                        className="text-xs text-slate-700 bg-slate-100 px-2 py-1 rounded inline-block"
-                        title={letter.disposition?.instructions?.join(', ') || 'Tindak lanjuti & Koordinasikan'}
-                      >
+                      <span className="text-xs text-slate-700 bg-slate-100 px-2 py-1 rounded inline-block" title={letter.disposition?.instructions?.join(', ') || 'Tindak lanjuti & Koordinasikan'}>
                         {letter.disposition?.instructions?.join(', ') || 'Tindak lanjuti & Koordinasikan'}
                       </span>
                     </td>
                     <td>
                       {getStatusBadge(letter.disposition?.status)}
-                      <span className="text-[11px] text-slate-500 block mt-0.5">Sifat: {letter.type}</span>
+                      {letter.dispositionFileUrl ? (
+                        <button
+                          type="button"
+                          className="mt-1.5 inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-900 border border-emerald-300 hover:bg-emerald-200 transition-colors"
+                          onClick={(e) => { e.stopPropagation(); onSelectDisp ? onSelectDisp(letter) : onSelect(letter); }}
+                          title="Klik untuk membuka dokumen scan lembar disposisi fisik"
+                        >
+                          <Icon name="file" size={11} /> <span>Scan Disposisi (PDF)</span>
+                        </button>
+                      ) : (
+                        <span className="text-[11px] text-slate-500 block mt-0.5">Sifat: {letter.type}</span>
+                      )}
                     </td>
                     <td>
                       <div className="row-actions">
-                        <DispositionRowMenu
-                          letter={letter}
-                          onSelect={onSelect}
-                          onEdit={onEdit}
-                        />
+                        <DispositionRowMenu letter={letter} onSelect={onSelect} onSelectDisp={onSelectDisp} onEdit={onEdit} />
                       </div>
                     </td>
                   </tr>
@@ -178,16 +174,7 @@ export default function DispositionHistoryView({ letters, onSelect, onEdit, onEx
               </tbody>
             </table>
           </div>
-
-          <DispositionPagination
-            currentCount={paginated.length}
-            totalFiltered={filtered.length}
-            page={currentPage}
-            totalPages={totalPages}
-            pageSize={pageSize}
-            onPageChange={setPage}
-            onPageSizeChange={(s) => { setPageSize(s); setPage(1); }}
-          />
+          <DispositionPagination currentCount={paginated.length} totalFiltered={filtered.length} page={currentPage} totalPages={totalPages} pageSize={pageSize} onPageChange={setPage} onPageSizeChange={(s) => { setPageSize(s); setPage(1); }} />
         </>
       )}
       {showInfo && <DispositionInfoModal onClose={() => setShowInfo(false)} />}

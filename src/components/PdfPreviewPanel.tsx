@@ -12,13 +12,13 @@ interface Props {
   onPrint: () => void;
   onEdit?: () => void;
   onDelete?: () => void;
+  initialDoc?: 'letter' | 'disp';
 }
 
-export default function PdfPreviewPanel({ letter, onClose, onPrint, onEdit, onDelete }: Props) {
+export default function PdfPreviewPanel({ letter, onClose, onPrint, onEdit, onDelete, initialDoc = 'letter' }: Props) {
   const [pdfLoading, setPdfLoading] = useState(true);
   const [fitMode, setFitMode] = useState<'page' | 'width'>('page');
   const [maximized, setMaximized] = useState(false);
-  const [activeDoc, setActiveDoc] = useState<'letter' | 'disp'>('letter');
   const cleanAgenda = letter.id.replace(/\/(SM|SK)\/.*$/i, '');
   const fileName = letter.fileName || `${cleanAgenda}.pdf`;
 
@@ -28,6 +28,8 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onEdit, onDe
   const dispUrl = letter.dispositionFileUrl
     ? `/api/pdf?url=${encodeURIComponent(letter.dispositionFileUrl)}&name=${encodeURIComponent(letter.dispositionFileName || 'disposisi.pdf')}`
     : null;
+
+  const [activeDoc, setActiveDoc] = useState<'letter' | 'disp'>(initialDoc === 'disp' && dispUrl ? 'disp' : 'letter');
   const currentUrl = activeDoc === 'disp' && dispUrl ? dispUrl : pdfUrl;
 
   const letterYear = letter.date ? letter.date.slice(0, 4) : '2026';
@@ -97,20 +99,22 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onEdit, onDe
           </button>
 
           {dispUrl && (
-            <div className="flex rounded border border-slate-300 p-0.5 bg-slate-100 text-xs">
+            <div className="flex rounded border border-emerald-300 p-0.5 bg-emerald-50 text-xs shadow-xs">
               <button
                 type="button"
-                className={`px-2 py-0.5 rounded transition-all ${activeDoc === 'letter' ? 'bg-white font-semibold text-emerald-900 shadow-xs' : 'text-slate-600'}`}
+                className={`px-2.5 py-1 rounded transition-all flex items-center gap-1 ${activeDoc === 'letter' ? 'bg-white font-bold text-emerald-950 shadow-xs' : 'text-emerald-800 hover:bg-emerald-100'}`}
                 onClick={() => { setActiveDoc('letter'); setPdfLoading(true); }}
               >
-                Surat Masuk
+                <Icon name="file" size={12} />
+                <span>Naskah Surat</span>
               </button>
               <button
                 type="button"
-                className={`px-2 py-0.5 rounded transition-all ${activeDoc === 'disp' ? 'bg-white font-semibold text-emerald-900 shadow-xs' : 'text-slate-600'}`}
+                className={`px-2.5 py-1 rounded transition-all flex items-center gap-1 ${activeDoc === 'disp' ? 'bg-white font-bold text-emerald-950 shadow-xs' : 'text-emerald-800 hover:bg-emerald-100'}`}
                 onClick={() => { setActiveDoc('disp'); setPdfLoading(true); }}
               >
-                Scan Disposisi
+                <Icon name="shield" size={12} />
+                <span>Scan Lembar Disposisi</span>
               </button>
             </div>
           )}
@@ -121,7 +125,6 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onEdit, onDe
             <button
               type="button"
               className="hover:border-amber-500 hover:text-amber-800 transition-colors"
-              title="Edit metadata berkas arsip ini"
               onClick={onEdit}
             >
               <Icon name="edit" size={13} />
@@ -133,7 +136,6 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onEdit, onDe
             <button
               type="button"
               className="btn-danger-outline transition-colors"
-              title="Hapus berkas arsip ini dari sistem"
               onClick={onDelete}
             >
               <Icon name="trash" size={13} />
@@ -144,7 +146,6 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onEdit, onDe
           <button
             type="button"
             className="btn-disposisi-primary transition-all active:scale-95"
-            title="Buka lembar cetak disposisi pimpinan"
             onClick={onPrint}
           >
             <Icon name="print" size={14} />
@@ -154,12 +155,12 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onEdit, onDe
       </div>
 
       <div className="pdf-frame-wrap" style={{ flex: 1, width: '100%', minHeight: '0', position: 'relative' }}>
-        {letter.fileUrl ? (
+        {currentUrl ? (
           <>
             {pdfLoading && (
               <div className="pdf-loading" style={{ position: 'absolute', inset: 0, zIndex: 2, background: '#fff' }}>
                 <div className="pdf-spinner" />
-                <span>Memuat dokumen PDF dari Cloudinary CDN...</span>
+                <span>Memuat dokumen {activeDoc === 'disp' ? 'scan disposisi' : 'naskah surat'}...</span>
               </div>
             )}
             <iframe
@@ -174,20 +175,18 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onEdit, onDe
         ) : (
           <div className="empty p-8 text-center text-slate-500">
             <Icon name="file" size={32} />
-            <p className="mt-2 font-medium">Dokumen fisik sedang dalam antrean sinkronisasi Cloudinary.</p>
-            <p className="text-xs text-slate-400 mt-1">Nomor Surat: {letter.number}</p>
+            <p className="mt-2 font-medium">Dokumen fisik belum diunggah atau dalam antrean sinkronisasi.</p>
           </div>
         )}
       </div>
 
       <div className="preview-foot mt-2 pt-2 border-t flex items-center justify-between text-xs">
-        <span className="tag green">Cloudinary CDN Aktif (Signed Stream)</span>
+        <span className="tag green">{activeDoc === 'disp' ? 'Dokumen: Scan Lembar Disposisi Fisik' : 'Dokumen: Naskah Surat Utama'}</span>
         <a
           href={driveUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="drive-link text-emerald-800 font-medium flex items-center gap-1"
-          title="Buka cadangan di Google Drive dinas"
         >
           <Icon name="shield" size={12} />
           <span>Buka Cadangan Google Drive</span>

@@ -18,6 +18,7 @@ interface Props {
   letters: LetterRecord[];
   user: DemoUser;
   onSelect: (letter: LetterRecord) => void;
+  onSelectDisp?: (letter: LetterRecord) => void;
   onClassify: (code: string) => void;
   onExport: () => void;
   onPrint: (letter: LetterRecord) => void;
@@ -32,6 +33,7 @@ export function ReferenceViews({
   letters,
   user,
   onSelect,
+  onSelectDisp,
   onClassify,
   onExport,
   onPrint,
@@ -98,7 +100,7 @@ export function ReferenceViews({
     return <DistributionView letters={letters} onExport={onExport} />;
 
   if (page === 'history')
-    return <DispositionHistoryView letters={letters} onSelect={onSelect} onEdit={onEdit} onExport={onExport} />;
+    return <DispositionHistoryView letters={letters} onSelect={onSelect} onSelectDisp={onSelectDisp} onEdit={onEdit} onExport={onExport} />;
 
   if (page === 'agenda')
     return <AgendaRegisterView letters={letters} onSelect={onSelect} onPrint={onPrint} onExport={onExport} />;
@@ -114,7 +116,7 @@ export function ReferenceViews({
           <Icon name="download" /> Ekspor Excel
         </button>
       </div>
-      <ArchiveTable letters={letters} onSelect={onSelect} onPrint={onPrint} />
+      <ArchiveTable letters={letters} onSelect={onSelect} onSelectDisp={onSelectDisp} onPrint={onPrint} />
     </section>
   );
 }

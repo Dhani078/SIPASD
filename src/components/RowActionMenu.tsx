@@ -7,6 +7,7 @@ import type { LetterRecord } from '@/types';
 interface Props {
   letter: LetterRecord;
   onSelect: (letter: LetterRecord) => void;
+  onSelectDisp?: (letter: LetterRecord) => void;
   onPrint?: (letter: LetterRecord) => void;
   onEdit?: (letter: LetterRecord) => void;
   onDelete?: (letter: LetterRecord) => void;
@@ -17,6 +18,7 @@ interface Props {
 export default function RowActionMenu({
   letter,
   onSelect,
+  onSelectDisp,
   onPrint,
   onEdit,
   onDelete,
@@ -55,7 +57,7 @@ export default function RowActionMenu({
         <div
           role="menu"
           tabIndex={-1}
-          className="absolute right-0 top-full mt-1 w-48 bg-white rounded-lg shadow-xl border border-slate-200 py-1 z-50 animate-in fade-in zoom-in-95 duration-100"
+          className="absolute right-0 top-full mt-1 w-52 bg-white rounded-lg shadow-xl border border-slate-200 py-1 z-50 animate-in fade-in zoom-in-95 duration-100"
           onKeyDown={(_e) => _e.stopPropagation()}
           onClick={(_e) => _e.stopPropagation()}
         >
@@ -70,6 +72,21 @@ export default function RowActionMenu({
             <span className="text-emerald-700"><Icon name="eye" size={14} /></span>
             <span>Lihat Berkas (PDF)</span>
           </button>
+
+          {letter.dispositionFileUrl && (
+            <button
+              type="button"
+              className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-emerald-900 bg-emerald-50/70 hover:bg-emerald-100 text-left transition-colors cursor-pointer font-semibold border-y border-emerald-100"
+              onClick={() => {
+                setOpen(false);
+                if (onSelectDisp) onSelectDisp(letter);
+                else onSelect(letter);
+              }}
+            >
+              <span className="text-emerald-700"><Icon name="file" size={14} /></span>
+              <span>Lihat Scan Disposisi (PDF)</span>
+            </button>
+          )}
 
           {onPrint && (
             <button

@@ -196,9 +196,13 @@ async def run_master_audit():
             };
         }""")
         
-        # Test PDF streaming viewer modal
+        # Test PDF streaming viewer modal (select a letter that has an active digital PDF)
         print("--> Testing in-browser PDF streaming modal on Surat Masuk...")
-        await page.click(".table-wrap table tbody tr:first-child")
+        row_with_file = page.locator(".table-wrap table tbody tr").filter(has_not_text="Belum Ada Berkas").first
+        if await row_with_file.count() > 0:
+            await row_with_file.click()
+        else:
+            await page.click(".table-wrap table tbody tr:first-child")
         await page.wait_for_selector(".pdf-modal-popup, iframe", timeout=8000)
         await page.wait_for_timeout(2000)
         

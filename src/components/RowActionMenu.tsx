@@ -102,17 +102,19 @@ export default function RowActionMenu({
             </button>
           )}
 
-          <button
-            type="button"
-            className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-slate-700 hover:bg-slate-50 text-left transition-colors cursor-pointer"
-            onClick={(e) => {
-              setOpen(false);
-              onDownload(letter, e);
-            }}
-          >
-            <span className="text-teal-600"><Icon name="download" size={14} /></span>
-            <span>Unduh Berkas Asli (PDF)</span>
-          </button>
+          {letter.fileUrl && (
+            <button
+              type="button"
+              className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-slate-700 hover:bg-slate-50 text-left transition-colors cursor-pointer"
+              onClick={(e) => {
+                setOpen(false);
+                onDownload(letter, e);
+              }}
+            >
+              <span className="text-teal-600"><Icon name="download" size={14} /></span>
+              <span>Unduh Berkas Asli (PDF)</span>
+            </button>
+          )}
 
           {onEdit && (
             <button
@@ -124,7 +126,7 @@ export default function RowActionMenu({
               }}
             >
               <span className="text-amber-600"><Icon name="edit" size={14} /></span>
-              <span>Ubah Metadata Arsip</span>
+              <span>{!letter.fileUrl ? 'Lengkapi / Unggah Berkas' : 'Ubah Metadata Arsip'}</span>
             </button>
           )}
 

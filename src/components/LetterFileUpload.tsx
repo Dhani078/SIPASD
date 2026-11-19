@@ -16,8 +16,8 @@ interface Props {
 export default function LetterFileUpload({
   file,
   onFileChange,
-  label = 'Pilih Lampiran PDF atau Foto Naskah (Bisa Banyak Foto)',
-  hint = 'Tarik & lepas PDF/Foto di sini (Bisa pilih banyak foto JPG/PNG sekaligus via Smart Scanner)',
+  label = 'Pilih Lampiran Berkas',
+  hint = 'Tarik & lepas PDF atau foto naskah di sini (Opsional)',
   accept = 'application/pdf,image/jpeg,image/png,image/webp',
 }: Props) {
   const [isDrag, setIsDrag] = useState(false);

@@ -24,7 +24,7 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onEdit, onDe
 
   const pdfUrl = letter.fileUrl
     ? `/api/pdf?url=${encodeURIComponent(letter.fileUrl)}&name=${encodeURIComponent(fileName)}`
-    : '/placeholder-surat.pdf';
+    : null;
   const dispUrl = letter.dispositionFileUrl
     ? `/api/pdf?url=${encodeURIComponent(letter.dispositionFileUrl)}&name=${encodeURIComponent(letter.dispositionFileName || 'disposisi.pdf')}`
     : null;
@@ -52,52 +52,26 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onEdit, onDe
 
       <div className="document-tools my-1.5 flex items-center justify-between flex-wrap gap-2">
         <div className="flex items-center gap-1.5 flex-wrap">
-          <button
-            type="button"
-            className="hover:border-emerald-500 hover:text-emerald-800 transition-colors"
-            title="Ubah skala halaman utuh atau lebar penuh"
-            onClick={() => setFitMode((m) => (m === 'page' ? 'width' : 'page'))}
-          >
-            <Icon name="eye" size={13} />
-            <span>{fitMode === 'page' ? '1 Lembar Utuh' : 'Lebar Penuh'}</span>
-          </button>
-
-          <button
-            type="button"
-            className="hover:border-emerald-500 hover:text-emerald-800 transition-colors"
-            title={maximized ? 'Kembalikan ukuran normal' : 'Perluas tampilan PDF layar penuh'}
-            onClick={() => setMaximized((v) => !v)}
-          >
-            <Icon name={maximized ? 'minimize' : 'maximize'} size={13} />
-            <span>{maximized ? 'Kecilkan' : 'Layar Penuh'}</span>
-          </button>
-
-          <button
-            type="button"
-            className="hover:border-emerald-500 hover:text-emerald-800 transition-colors"
-            title="Buka dokumen di tab peramban baru"
-            onClick={() => window.open(currentUrl, '_blank', 'noopener,noreferrer')}
-          >
-            <Icon name="eye" size={13} />
-            <span>Tab Baru</span>
-          </button>
-
-          <button
-            type="button"
-            className="hover:border-emerald-500 hover:text-emerald-800 transition-colors"
-            title="Unduh dokumen asli"
-            onClick={() => {
-              const a = document.createElement('a');
-              a.href = currentUrl;
-              a.download = activeDoc === 'disp' ? (letter.dispositionFileName || 'disposisi.pdf') : fileName;
-              a.target = '_blank';
-              a.click();
-            }}
-          >
-            <Icon name="download" size={13} />
-            <span>Unduh PDF</span>
-          </button>
-
+          {currentUrl ? (
+            <>
+              <button type="button" className="hover:border-emerald-500 hover:text-emerald-800 transition-colors" title="Skala halaman" onClick={() => setFitMode((m) => (m === 'page' ? 'width' : 'page'))}>
+                <Icon name="eye" size={13} /> <span>{fitMode === 'page' ? '1 Lembar Utuh' : 'Lebar Penuh'}</span>
+              </button>
+              <button type="button" className="hover:border-emerald-500 hover:text-emerald-800 transition-colors" title={maximized ? 'Kecilkan' : 'Layar Penuh'} onClick={() => setMaximized((v) => !v)}>
+                <Icon name={maximized ? 'minimize' : 'maximize'} size={13} /> <span>{maximized ? 'Kecilkan' : 'Layar Penuh'}</span>
+              </button>
+              <button type="button" className="hover:border-emerald-500 hover:text-emerald-800 transition-colors" title="Tab baru" onClick={() => window.open(currentUrl, '_blank', 'noopener,noreferrer')}>
+                <Icon name="eye" size={13} /> <span>Tab Baru</span>
+              </button>
+              <button type="button" className="hover:border-emerald-500 hover:text-emerald-800 transition-colors" title="Unduh berkas" onClick={() => { const a = document.createElement('a'); a.href = currentUrl; a.download = activeDoc === 'disp' ? (letter.dispositionFileName || 'disposisi.pdf') : fileName; a.target = '_blank'; a.click(); }}>
+                <Icon name="download" size={13} /> <span>Unduh PDF</span>
+              </button>
+            </>
+          ) : (
+            <span className="text-[11px] font-medium text-amber-800 bg-amber-50 px-2.5 py-1 rounded border border-amber-200">
+              ⚠️ Belum Ada Berkas Digital
+            </span>
+          )}
           {dispUrl && (
             <div className="flex rounded border border-emerald-300 p-0.5 bg-emerald-50 text-xs shadow-xs">
               <button
@@ -173,9 +147,23 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onEdit, onDe
             />
           </>
         ) : (
-          <div className="empty p-8 text-center text-slate-500">
-            <Icon name="file" size={32} />
-            <p className="mt-2 font-medium">Dokumen fisik belum diunggah atau dalam antrean sinkronisasi.</p>
+          <div className="flex flex-col items-center justify-center p-8 text-center text-slate-500 h-full border border-dashed border-slate-300 rounded bg-slate-50/50">
+            <div className="w-12 h-12 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center mb-2.5">
+              <Icon name="file" size={22} />
+            </div>
+            <p className="font-bold text-slate-800 text-sm">Berkas Fisik Belum Dilampirkan</p>
+            <p className="text-slate-500 text-xs mt-1 max-w-sm">
+              Arsip ini diindeks tanpa berkas digital. Berkas PDF atau foto naskah dapat diunggah kapan saja melalui menu edit.
+            </p>
+            {onEdit && (
+              <button
+                type="button"
+                className="btn primary text-xs mt-3.5 flex items-center gap-1.5 cursor-pointer py-1.5 px-3.5 shadow-xs"
+                onClick={onEdit}
+              >
+                <Icon name="edit" size={13} /> <span>Unggah Berkas Sekarang</span>
+              </button>
+            )}
           </div>
         )}
       </div>

@@ -129,6 +129,14 @@ export default function ArchiveTable({
                           {letter.division}
                         </span>
                       )}
+                      {!letter.fileUrl && (
+                        <span
+                          className="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-300"
+                          title="Arsip ini belum memiliki lampiran berkas digital (klik untuk melengkapi)"
+                        >
+                          <span>⚠️ Belum Ada Berkas</span>
+                        </span>
+                      )}
                       {letter.dispositionFileUrl && (
                         <button
                           type="button"

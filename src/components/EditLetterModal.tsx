@@ -111,7 +111,14 @@ export default function EditLetterModal({ letter, onClose, onSave }: Props) {
           </div>
         </div>
         <div>
-          <label htmlFor={`${uid}-file`} className="block font-semibold mb-1 text-slate-600">Ganti Berkas (PDF / Foto Opsional)</label>
+          <label htmlFor={`${uid}-file`} className="block font-semibold mb-1 text-slate-600">
+            {letter.fileUrl ? 'Ganti Berkas (PDF / Foto Opsional)' : 'Unggah Berkas Lampiran (PDF / Foto)'}
+          </label>
+          {!letter.fileUrl && !file && (
+            <span className="text-[11px] text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 block mb-1.5 font-medium">
+              ⚠️ Status: Belum ada berkas lampiran terunggah pada arsip ini.
+            </span>
+          )}
           <input id={`${uid}-file`} type="file" accept=".pdf,image/jpeg,image/png,image/webp" onChange={(e) => setFile(e.target.files?.[0] || null)} className="w-full text-xs" />
           {file && file.size > 4 * 1024 * 1024 && (
             <span className="text-[10px] bg-amber-100 text-amber-800 font-medium px-1.5 py-0.5 rounded mt-0.5 inline-block">

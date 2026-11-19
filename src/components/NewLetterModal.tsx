@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, useState } from 'react';
+import { useId, useState, useEffect } from 'react';
 import Modal from './Modal';
 import Icon from './Icon';
 import NewLetterDisposisiFields from './NewLetterDisposisiFields';
@@ -26,11 +26,23 @@ export default function NewLetterModal({ direction, onClose, onSave, letters }: 
   const [saving, setSaving] = useState(false);
   const [aiRec, setAiRec] = useState<ClassificationResult | null>(null);
   const [classCode, setClassCode] = useState('005');
+  const [classList, setClassList] = useState<Array<[string, string]>>(() => classifications.map(([c, n]) => [c, n]));
   const [today] = useState(() => new Date().toISOString().slice(0, 10));
   const [pickedDate, setPickedDate] = useState(() => new Date().toISOString().slice(0, 10));
   const [numMode, setNumMode] = useState<'auto' | 'manual'>('auto');
   const [manualNum, setManualNum] = useState('');
   const uid = useId();
+
+  useEffect(() => {
+    fetch('/api/classification')
+      .then((r) => r.json())
+      .then((res) => {
+        if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+          setClassList(res.data.map((r: any) => [String(r.kode), String(r.nama_klasifikasi)]));
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const [pY, pM, pD] = pickedDate.split('-').map(Number);
   const safeYear = !isNaN(pY) && pY >= 2000 && pY <= 2200 ? pY : 2026;
@@ -133,7 +145,7 @@ export default function NewLetterModal({ direction, onClose, onSave, letters }: 
           <div>
             <label htmlFor={`${uid}-cls`} className="block text-[11px] font-semibold text-slate-700 mb-1">Klasifikasi Arsip</label>
             <select id={`${uid}-cls`} name="classification" value={classCode} onChange={(e) => setClassCode(e.target.value)} className="w-full">
-              {classifications.map(([code, label]) => (<option value={code} key={code}>{code} - {label}</option>))}
+              {classList.map(([code, label]) => (<option value={code} key={code}>{code} - {label}</option>))}
             </select>
           </div>
           <div>

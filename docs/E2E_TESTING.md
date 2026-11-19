@@ -27,8 +27,8 @@ Sistem SIPASD menerapkan **3 lapis testing** untuk memastikan kualitas produksi:
 |---|------|---------------|-----------|
 | 1 | TiDB Connection | 170 SM + 241 SK + 7 Users + 5 Bidang + 6 Klasifikasi | Cloud DB accessible & seeded |
 | 2 | Cloudinary Signed URL | Valid signature generated | Anti-401 PDF streaming |
-| 3 | Code Modular Ratio | All 104 src/ files <= 200 LOC | Zero god objects, maintainability |
-| 4 | Zero Em-Dash Invariant | 0 em-dash in 176 files | Readability (hindari karakter em-dash pada kode/dokumen) |
+| 3 | Code Modular Ratio | All 107 src/ files <= 200 LOC | Zero god objects, maintainability |
+| 4 | Zero Em-Dash Invariant | 0 em-dash in 179 files | Readability (hindari karakter em-dash pada kode/dokumen) |
 | 5 | Security Headers | API auth guards active | Gateway & route-level protection |
 | 6 | Zero Hardcoded Secrets | Pure env var consumption | No credentials in src/ |
 
@@ -51,10 +51,10 @@ Dinas Kepemudaan dan Olahraga Provinsi Kalsel (2026)
 - Cloudinary Signed URL generated: OK (Anti-401 compliant).
 
 [TEST 3] Auditing Code Modular Ratio (The Floor: <= 200 LOC per file)...
-- Modular Check OK: All 104 files in src/ are <= 200 LOC.
+- Modular Check OK: All 107 files in src/ are <= 200 LOC.
 
 [TEST 4] Auditing Zero Em-Dash Quality Invariant...
-- Zero Em-Dash Invariant OK: 0 em-dash across all 176 project files.
+- Zero Em-Dash Invariant OK: 0 em-dash across all 179 project files.
 
 [TEST 5] Auditing Security Headers & Route Auth Guards...
 - Security Headers & API Auth Guards OK: Enforced at gateway and routes.
@@ -183,7 +183,7 @@ Screenshots saved to: C:\xampp\htdocs\SIPASD\tests\e2e\screenshots
 
 ### 3. Dedicated Google Chrome E2E Automated Suites (Playwright)
 
-Sistem dilengkapi dengan 5 skrip otomasi peramban Google Chrome nyata (Playwright async) untuk menguji fitur-fitur kritis persuratan digital:
+Sistem dilengkapi dengan 6 skrip otomasi peramban Google Chrome nyata (Playwright async) untuk menguji fitur-fitur kritis persuratan digital:
 
 #### A. Master Chrome Audit (`scripts/master_chrome_audit.py`)
 - **Cakupan**: 11 Modul Antarmuka (Landing Page, Login RBAC, Dashboard Eksekutif, Arsip Surat Masuk, Arsip Surat Keluar, Riwayat Disposisi Fisik, Buku Ekspedisi, Master Klasifikasi, Manajemen Pengguna, Audit Trail Forensik, Pusat Laporan Eksekutif) dan 6 API Endpoint langsung.
@@ -204,6 +204,10 @@ Sistem dilengkapi dengan 5 skrip otomasi peramban Google Chrome nyata (Playwrigh
 
 #### E. Audit Kolom Posisi Disposisi & Nomor Surat Keluar (`scripts/audit_table_columns.py`)
 - **Cakupan**: Memverifikasi keberadaan kolom `POSISI DISPOSISI` pada tabel Surat Masuk dan `BIDANG PEMRAKARSA` pada tabel Surat Keluar, penempatan kolom di antara Perihal dan Tanggal, format nomor agenda urut `/SM/` pada Surat Masuk, format nomor surat resmi lengkap dan subteks `Agenda #` pada Surat Keluar, serta integritas lencana status.
+- **Hasil Pengujian**: 100% SUKSES (ALL PASSED), 0 console error.
+
+#### F. Audit Manajemen Master Klasifikasi Arsip (`scripts/audit_e2e_classification.py`)
+- **Cakupan**: Memvalidasi isolasi RBAC (tombol `+ Tambah Klasifikasi` tidak muncul untuk Petugas TU), memvalidasi kehadiran tombol untuk akun Developer dan Akun Rana, menguji penambahan kode klasifikasi baru via modal, penyimpanan ke basis data TiDB Cloud, verifikasi kemunculan kode di daftar, dan pembersihan data uji coba.
 - **Hasil Pengujian**: 100% SUKSES (ALL PASSED), 0 console error.
 
 ---

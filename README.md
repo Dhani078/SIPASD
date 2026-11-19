@@ -124,6 +124,12 @@ Kata sandi setiap akun kedinasan disimpan dalam bentuk salted hash Bcrypt dan di
 - **Format Khusus Surat Keluar**: Kolom pertama menampilkan Nomor Surat Keluar resmi lengkap secara tegas (misal `005/11502/DISPORA/2026`) dengan subteks nomor slot agenda (`Agenda #...`), sementara kolom ketiga secara otomatis berganti tajuk menjadi `BIDANG PEMRAKARSA`.
 - **Kolom Perihal Bersih & Bebas Redundansi**: Redundansi nomor surat dan tag bidang di kolom perihal dibersihkan sehingga tabel tampil rapi, proporsional, dan informatif.
 
+### 14. Manajemen Master Klasifikasi Arsip (Otorisasi Developer & Akun Rana)
+- **Otorisasi Khusus RBAC**: Tombol penambahan kode klasifikasi baru (`+ Tambah Klasifikasi`) secara ketat diproteksi hanya dapat diakses oleh akun **Developer** (`developer`) dan akun **Rana** (`pengarsip` / Rana Nur Syifa) sebagai Pengelola Arsip Digital.
+- **Penyimpanan Terpusat TiDB Cloud Serverless**: Input kode, nama/judul urusan dinas, uraian naskah, dan masa retensi langsung dimutasikan ke tabel `klasifikasi_arsip` dengan perlindungan anti-duplikasi kode.
+- **Integrasi Dropdown Indeks Real-Time**: Kode klasifikasi baru yang ditambahkan langsung tersinkronisasi ke dropdown formulir perekaman surat baru (`NewLetterModal.tsx`) dan penelusuran katalog.
+- **Audit Forensik Keamanan**: Setiap penambahan kode klasifikasi tercatat permanen di jejak audit trail forensik sistem.
+
 ---
 
 ## 🛠️ Tumpukan Teknologi (Cloud-Native & Zero Cost)
@@ -145,8 +151,8 @@ npm test
 Test suite verifikasi 6 dimensi:
 1. **TiDB Connection**: 170 Surat Masuk, 241 Surat Keluar, 7 Users, 5 Bidang, 6 Klasifikasi
 2. **Cloudinary Signed URL**: Anti-401 streaming signature valid
-3. **Code Modular Ratio**: Semua 104 files di src/ <= 200 LOC (zero god objects)
-4. **Zero Em-Dash Invariant**: 0 em-dash di 176 project files (readability)
+3. **Code Modular Ratio**: Semua 107 files di src/ <= 200 LOC (zero god objects)
+4. **Zero Em-Dash Invariant**: 0 em-dash di 179 project files (readability)
 5. **Security Headers**: API auth guards aktif di gateway & routes
 6. **Zero Hardcoded Secrets**: Semua credentials via env vars
 
@@ -166,6 +172,9 @@ python scripts/audit_e2e_optional_file.py
 
 # 5. Audit Kolom Posisi Disposisi & Nomor Surat Keluar
 python scripts/audit_table_columns.py
+
+# 6. Audit Penambahan Master Klasifikasi (RBAC Developer & Rana)
+python scripts/audit_e2e_classification.py
 ```
 Seluruh pengujian peramban Google Chrome berjalan otomatis (*headless/headed*) dengan tingkat kelulusan **100% SUKSES (ALL PASSED)** dan **0 console errors**.
 

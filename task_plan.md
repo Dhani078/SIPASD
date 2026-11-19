@@ -487,6 +487,15 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi Compliance Suite (`npm test`): 6/6 test suites passed (100% HEALTHY), 104 files <= 200 LOC, 0 em-dash across 176 files.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 57: Penambahan Master Klasifikasi Arsip (Otorisasi Khusus Developer & Akun Rana) (100% COMPLETE)
+- [x] Pembangunan komponen modal `NewClassificationModal.tsx` (161 LOC) untuk input data kode klasifikasi baru.
+- [x] Otorisasi ketat: Tombol penambahan hanya muncul dan aktif untuk akun Developer (`developer`) dan akun Rana (`pengarsip`).
+- [x] Backend route `POST /api/classification` dan `GET /api/classification` (`route.ts`, 74 LOC) terhubung ke TiDB Cloud.
+- [x] Sinkronisasi dropdown klasifikasi dinamis pada formulir perekaman surat baru (`NewLetterModal.tsx`).
+- [x] Penyesuaian `src/lib/letter-mutations.ts` untuk pemetaan dinamis ID klasifikasi baru.
+- [x] Verifikasi Playwright Chrome: `scripts/audit_e2e_classification.py` 100% SUKSES, `npm test` 6/6 PASS, 107 files <= 200 LOC, 0 em-dash across 179 files.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

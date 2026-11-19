@@ -5,6 +5,15 @@ Format: `[YYYY-MM-DD] Fitur/Perbaikan - Deskripsi`
 
 ---
 
+## [2026-11-20] Penambahan Master Klasifikasi Arsip (Otorisasi Developer & Akun Rana)
+
+- Otorisasi Berbasis Akun Khusus: Menambahkan tombol dan formulir modal `+ Tambah Klasifikasi` (`NewClassificationModal.tsx`) yang secara khusus hanya terbuka untuk akun Developer (`developer`) dan akun Rana (`pengarsip` / Rana Nur Syifa).
+- Endpoint Backend TiDB: Rute `POST /api/classification` memvalidasi sesi autentikasi dan otorisasi, memeriksa duplikasi kode, menyimpan data ke tabel `klasifikasi_arsip`, dan mencatat jejak audit forensik.
+- Sinkronisasi Form Surat Baru: Dropdown kode klasifikasi pada formulir Indeks Surat Baru (`NewLetterModal.tsx`) dan `ClassificationView.tsx` kini secara dinamis memuat seluruh klasifikasi resmi langsung dari database.
+- Verifikasi E2E Playwright: Skrip `scripts/audit_e2e_classification.py` lulus 100% SUKSES, membuktikan pemblokiran akses Petugas TU dan keberhasilan input dari akun Developer dan Akun Rana.
+
+---
+
 ## [2026-11-20] Audit Menyeluruh Full End-to-End (Backend, Frontend & Chrome Playwright)
 
 - Penyelarasan Master Chrome Audit: Mengarahkan pemilih baris arsip pada `scripts/master_chrome_audit.py` untuk menguji streaming PDF pada naskah yang memiliki file aktif, menghasilkan kelulusan penuh 11/11 modul antarmuka UI dan 6/6 backend API (ALL_PASS).

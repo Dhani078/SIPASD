@@ -197,6 +197,22 @@ Modul ini mengelola 249 berkas surat keluar dinas yang diterbitkan Dispora Kalse
    - `900`: Surat Pengantar Pertanggungjawaban Keuangan & SPJ.
 3. Klik tombol **"Lihat Dokumen"** pada baris surat untuk membaca pindaian surat yang telah bertanda tangan dan berstempel basah.
 
+### 8.2 Panduan Penambahan Kode Klasifikasi Arsip Baru (Khusus Developer & Akun Rana)
+Sesuai Permendagri No. 83 Tahun 2022 dan kebutuhan pemekaran urusan persuratan dinas, kode klasifikasi baru dapat ditambahkan oleh aparatur yang memiliki wewenang khusus:
+1. **Hak Otorisasi**:
+   - Fitur penambahan kode klasifikasi hanya muncul dan dapat dijalankan oleh akun **Developer** (`developer`) dan akun **Rana** (`pengarsip` / Rana Nur Syifa sebagai Pengelola Arsip Digital).
+   - Pengguna dengan peran lain (Petugas TU, Pimpinan, dan Staf Bidang) hanya memiliki hak baca (*read-only*).
+2. **Langkah Menambahkan Kode Klasifikasi Baru**:
+   - Masuk ke sistem menggunakan akun Developer atau Akun Rana.
+   - Klik menu **"Master Klasifikasi Arsip"** pada sidebar kiri.
+   - Klik tombol hijau **"+ Tambah Klasifikasi"** di pojok kanan atas panel.
+   - Pada jendela modal yang muncul, isi data berikut:
+     * **Kode Klasifikasi**: Masukkan angka kode urusan (contoh: `428`).
+     * **Nama / Judul Klasifikasi**: Masukkan nama urusan dinas (contoh: `Kewirausahaan Pemuda`).
+     * **Uraian Ringkas**: Uraikan ruang lingkup naskah atau kegiatan yang masuk dalam klasifikasi ini.
+   - Klik tombol **"Simpan Klasifikasi"**.
+   - Kode baru otomatis tersimpan permanen di basis data TiDB Cloud dan seketika tersedia pada dropdown pemilihan klasifikasi saat mengindeks surat baru.
+
 ---
 
 ## 9. PANDUAN EKSPOR BUKU AGENDA KE FORMAT EXCEL (.XLSX)

@@ -45,7 +45,7 @@ export function ReferenceViews({
   const isAdmin = isDeveloper || user.label === 'Super Admin' || user.username === 'admin';
 
   if (page === 'classification')
-    return <ClassificationView letters={letters} onClassify={onClassify} />;
+    return <ClassificationView letters={letters} onClassify={onClassify} user={user} />;
 
   if (page === 'profile') {
     return <ProfileView user={user} onNavigate={onNavigate} onLogout={onLogout} />;

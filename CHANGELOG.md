@@ -8,6 +8,21 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.68.0] - 2026-11-20
+
+### Added
+- **Manajemen Penambahan Master Klasifikasi Arsip (Otorisasi Developer & Akun Rana)**:
+  * Menghadirkan tombol dan modal `+ Tambah Klasifikasi` (`NewClassificationModal.tsx`) pada antarmuka Master Klasifikasi Arsip (`ClassificationView.tsx`).
+  * Otorisasi ketat berbasis peran & pengguna: Hanya akun **Developer** (`developer`) dan akun **Rana** (`pengarsip` / Rana Nur Syifa) yang berwenang menambahkan kode klasifikasi arsip. Pengguna lain (seperti Petugas TU, Kadis, Kabid, Kasubbag) tidak memiliki akses.
+  * Endpoint backend `POST /api/classification` dan `GET /api/classification` terhubung langsung dengan basis data TiDB Cloud Serverless (`klasifikasi_arsip`).
+  * Proteksi integritas kode unik (*anti-duplicate check*) dan pencatatan permanen ke log audit trail forensik (`TAMBAH_KLASIFIKASI`).
+  * Integrasi formulir rekam surat baru: Dropdown klasifikasi pada `NewLetterModal.tsx` otomatis sinkron memuat kode klasifikasi baru dari TiDB Cloud.
+  * Mutasi surat keluar (`letter-mutations.ts`) kini secara dinamis mengaitkan `kode_klasifikasi_id` ke record klasifikasi di database.
+- **Pengujian E2E Otomatis**:
+  * Skrip audit `scripts/audit_e2e_classification.py` membuktikan isolasi hak akses (Petugas TU ditolak, Akun Rana dan Developer diizinkan) dan penyimpanan real-time ke TiDB Cloud dengan kelulusan 100% SUKSES (ALL PASSED).
+
+---
+
 ## [2.67.1] - 2026-11-20
 
 ### Fixed & Tested

@@ -66,6 +66,7 @@ Tabel berikut menyajikan hasil pengujian fungsional pada 15 skenario kritis sist
 | **TC-17** | Perekaman Surat Tanpa Berkas (Opsional) | Menyimpan surat baru tanpa mengunggah berkas PDF maupun foto. | Surat tersimpan sukses di TiDB Cloud dan baris tabel menampilkan lencana '⚠️ Belum Ada Berkas'. | Data tersimpan aman, lencana amber muncul di tabel, pratinjau menampilkan tombol unggah cepat. | **PASS** |
 | **TC-18** | Pelengkapan Berkas Digital Susulan via Edit | Membuka modal edit pada surat tanpa berkas, memilih file lampiran, dan menyimpan. | Berkas terunggah ke Cloudinary & TiDB, lencana '⚠️ Belum Ada Berkas' otomatis hilang. | Status diperbarui, lencana penanda hilang, dokumen langsung siap dibaca/diunduh. | **PASS** |
 | **TC-19** | Kolom Posisi Disposisi & Format Nomor Surat Keluar | Membuka katalog Surat Masuk dan Surat Keluar, memverifikasi posisi kolom ketiga dan format nomor surat. | Kolom Posisi Disposisi / Bidang Pemrakarsa muncul di antara Perihal dan Tanggal; Surat Keluar menampilkan Nomor Surat Lengkap di kolom pertama. | Tajuk kolom dinamis, status lencana semantik terverifikasi, nomor surat keluar tampil jelas dan terformat. | **PASS** |
+| **TC-20** | Penambahan Master Klasifikasi Arsip (Developer & Rana) | Mengakses modul klasifikasi dengan akun Petugas TU, Akun Rana, dan Developer; menginput kode baru `428`. | Tombol hanya muncul untuk Developer dan Akun Rana; kode baru tersimpan di TiDB Cloud dan muncul di form indeks surat baru. | Proteksi RBAC terbukti aktif, modal berfungsi lancar, kode `428` tersimpan dan terverifikasi di daftar. | **PASS** |
 
 ---
 
@@ -127,7 +128,7 @@ Total Execution Time: 2.741 seconds | Zero Uncaught Page Errors
 
 ### 4.2 Hasil Pengujian Otomasi Google Chrome (Playwright E2E)
 
-Selain naskah interaksi dasar, sistem SIPASD dilengkapi dengan 5 skrip otomasi peramban Google Chrome nyata (`Chromium Headless / Headed`) yang menguji seluruh fitur spesifik kearsipan:
+Selain naskah interaksi dasar, sistem SIPASD dilengkapi dengan 6 skrip otomasi peramban Google Chrome nyata (`Chromium Headless / Headed`) yang menguji seluruh fitur spesifik kearsipan:
 
 | Skrip Pengujian | Lingkup & Fitur yang Diuji | Status & Metrik Kelulusan |
 | :--- | :--- | :---: |
@@ -136,6 +137,7 @@ Selain naskah interaksi dasar, sistem SIPASD dilengkapi dengan 5 skrip otomasi p
 | `scripts/audit_e2e_optional_file.py` | Perekaman Tanpa Berkas, Lencana `⚠️ Belum Ada Berkas`, Modal Pratinjau, Alur Edit | **100% SUKSES (0 Error)** |
 | `scripts/audit_e2e_multipage_scanner.py` | Multi-Foto Naskah, Filter Kanvas Real-Time, Navigasi Halaman, Kompilasi PDF A4 | **100% SUKSES (0 Error)** |
 | `scripts/audit_e2e_photo_scan.py` | Pindai Foto Naskah, Berkas Scan Disposisi Fisik, Tombol Akses Cepat Disposisi PDF | **100% SUKSES (0 Error)** |
+| `scripts/audit_e2e_classification.py` | Hak Akses Khusus Developer & Rana, Modal Tambah Klasifikasi, Mutasi TiDB | **100% SUKSES (0 Error)** |
 
 ---
 
@@ -156,6 +158,6 @@ Berdasarkan pengujian empiris langsung pada operasional Sekretariat Dispora Kals
 
 ## 6. KESIMPULAN HASIL PENGUJIAN
 
-1. Seluruh 19 skenario pengujian fungsional *Black Box Testing* dinyatakan **100% LULUS (PASS)** tanpa ditemukan kesalahan logika (*logic flaws*) maupun celah keamanan.
+1. Seluruh 20 skenario pengujian fungsional *Black Box Testing* dinyatakan **100% LULUS (PASS)** tanpa ditemukan kesalahan logika (*logic flaws*) maupun celah keamanan.
 2. Pengujian otomatis E2E Playwright membuktikan integrasi antarmuka peramban, pemutar streaming PDF, navigasi URL, dan generator dokumen spreadsheet Excel berjalan stabil dan bebas hambatan (*zero page errors*).
 3. Sistem terbukti memecahkan kendala lambatnya pencarian dokumen di Google Drive instansi dan siap digunakan secara penuh (*production-ready*) untuk operasional persuratan Sekretariat Dinas Kepemudaan dan Olahraga Provinsi Kalimantan Selatan.

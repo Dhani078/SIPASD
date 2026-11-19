@@ -1,12 +1,14 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Icon from './Icon';
-import type { LetterRecord } from '@/types';
+import NewClassificationModal from './NewClassificationModal';
+import type { LetterRecord, DemoUser } from '@/types';
 
 interface Props {
   letters: LetterRecord[];
   onClassify: (code: string) => void;
+  user?: DemoUser;
 }
 
 interface CodeItem {
@@ -17,64 +19,55 @@ interface CodeItem {
 }
 
 const MASTER_CODES: CodeItem[] = [
-  {
-    code: '005',
-    title: 'Undangan Kedinasan',
-    desc: 'Surat undangan rapat dinas, sosialisasi program kerja, seminar teknis, dan audiensi pimpinan.',
-    scope: 'Rapat koordinasi internal/eksternal, apel kedinasan, pelantikan, dan forum konsultasi publik.',
-  },
-  {
-    code: '045',
-    title: 'Kearsipan & Dokumentasi',
-    desc: 'Surat pengelolaan dokumen arsip inaktif, penyerahan berkas, peminjaman fisik, dan retensi kearsipan.',
-    scope: 'Pemberkasan naskah dinas, audit sistem kearsipan internal, dan tata kelola lembar disposisi.',
-  },
-  {
-    code: '426',
-    title: 'Keolahragaan & Venue',
-    desc: 'Surat pembinaan prestasi atlet daerah, kompetisi olahraga, hibah induk cabor, dan pengelolaan venue.',
-    scope: 'Pemberian rekomendasi kejuaraan, pemakaian gedung/lapangan olahraga, dan sarana prasarana.',
-  },
-  {
-    code: '427',
-    title: 'Kepemudaan & Organisasi',
-    desc: 'Surat kegiatan jambore pemuda, seleksi pertukaran pemuda daerah, paskibraka, dan wirausaha muda.',
-    scope: 'Fasilitasi OKP, kemitraan kepemudaan, pembinaan karakter generasi muda, dan kewirausahaan.',
-  },
-  {
-    code: '800',
-    title: 'Kepegawaian & Aparatur',
-    desc: 'Surat tugas dinas (SPT), mutasi pegawai, penilaian kinerja ASN, magang/PKL siswa/mahasiswa, dan diklat.',
-    scope: 'Disiplin pegawai, cuti tahunan, penerimaan peserta PKL, dan kenaikan pangkat aparatur.',
-  },
-  {
-    code: '900',
-    title: 'Keuangan & Aset Daerah',
-    desc: 'Surat pengantar SPJ belanja, permohonan pencairan anggaran APBD, retribusi daerah, dan aset BMD.',
-    scope: 'Penatausahaan kas daerah, verifikasi berkas pertanggungjawaban, dan inventarisasi aset dinas.',
-  },
+  { code: '005', title: 'Undangan Kedinasan', desc: 'Surat undangan rapat dinas, sosialisasi program kerja, seminar teknis, dan audiensi pimpinan.', scope: 'Rapat koordinasi internal/eksternal, apel kedinasan, pelantikan, dan forum konsultasi publik.' },
+  { code: '045', title: 'Kearsipan & Dokumentasi', desc: 'Surat pengelolaan dokumen arsip inaktif, penyerahan berkas, peminjaman fisik, dan retensi kearsipan.', scope: 'Pemberkasan naskah dinas, audit sistem kearsipan internal, dan tata kelola lembar disposisi.' },
+  { code: '426', title: 'Keolahragaan & Venue', desc: 'Surat pembinaan prestasi atlet daerah, kompetisi olahraga, hibah induk cabor, dan pengelolaan venue.', scope: 'Pemberian rekomendasi kejuaraan, pemakaian gedung/lapangan olahraga, dan sarana prasarana.' },
+  { code: '427', title: 'Kepemudaan & Organisasi', desc: 'Surat kegiatan jambore pemuda, seleksi pertukaran pemuda daerah, paskibraka, dan wirausaha muda.', scope: 'Fasilitasi OKP, kemitraan kepemudaan, pembinaan karakter generasi muda, dan kewirausahaan.' },
+  { code: '800', title: 'Kepegawaian & Aparatur', desc: 'Surat tugas dinas (SPT), mutasi pegawai, penilaian kinerja ASN, magang/PKL siswa/mahasiswa, dan diklat.', scope: 'Disiplin pegawai, cuti tahunan, penerimaan peserta PKL, dan kenaikan pangkat aparatur.' },
+  { code: '900', title: 'Keuangan & Aset Daerah', desc: 'Surat pengantar SPJ belanja, permohonan pencairan anggaran APBD, retribusi daerah, dan aset BMD.', scope: 'Penatausahaan kas daerah, verifikasi berkas pertanggungjawaban, dan inventarisasi aset dinas.' },
 ];
 
-export default function ClassificationView({ letters, onClassify }: Props) {
+export default function ClassificationView({ letters, onClassify, user }: Props) {
   const [query, setQuery] = useState('');
+  const [codes, setCodes] = useState<CodeItem[]>(MASTER_CODES);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const u = user?.username?.toLowerCase() || '';
+  const n = user?.name?.toLowerCase() || '';
+  const canAdd = Boolean(user && (u === 'developer' || u === 'pengarsip' || u === 'rana' || n.includes('rana') || user.role === 'SUPER_ADMIN'));
+
+  useEffect(() => {
+    fetch('/api/classification')
+      .then((r) => r.json())
+      .then((res) => {
+        if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+          const list: CodeItem[] = res.data.map((r: any) => ({
+            code: String(r.kode),
+            title: String(r.nama_klasifikasi),
+            desc: String(r.uraian || `${r.nama_klasifikasi} Dispora Prov. Kalsel`),
+            scope: `Retensi aktif ${r.retensi_aktif_tahun || 2} th, inaktif ${r.retensi_inaktif_tahun || 5} th.`,
+          }));
+          setCodes(list);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const codeCounts = useMemo(() => {
     const counts: Record<string, number> = {};
-    for (const item of MASTER_CODES) {
+    for (const item of codes) {
       counts[item.code] = letters.filter(
         (l) => l.number?.startsWith(item.code) || l.number?.includes(`/${item.code}/`) || l.subject.toLowerCase().includes(item.title.toLowerCase())
       ).length;
     }
     return counts;
-  }, [letters]);
+  }, [letters, codes]);
 
   const filtered = useMemo(() => {
-    if (!query) return MASTER_CODES;
+    if (!query) return codes;
     const q = query.toLowerCase();
-    return MASTER_CODES.filter(
-      (c) => c.code.includes(q) || c.title.toLowerCase().includes(q) || c.desc.toLowerCase().includes(q)
-    );
-  }, [query]);
+    return codes.filter((c) => c.code.includes(q) || c.title.toLowerCase().includes(q) || c.desc.toLowerCase().includes(q));
+  }, [query, codes]);
 
   return (
     <section className="space-y-4">
@@ -83,14 +76,26 @@ export default function ClassificationView({ letters, onClassify }: Props) {
           <div>
             <div className="flex items-center gap-2">
               <h2>Master Klasifikasi Arsip Dispora</h2>
-              <span className="small-count">{MASTER_CODES.length} Kode Baku</span>
+              <span className="small-count">{codes.length} Kode Baku</span>
             </div>
             <p>Berdasarkan Permendagri No. 83 Tahun 2022 &amp; Tata Naskah Dinas Pemprov Kalimantan Selatan</p>
           </div>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 self-start sm:self-auto">
-            <Icon name="shield" size={13} />
-            Standar SPBE Kalsel
-          </span>
+          <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
+            {canAdd && (
+              <button
+                type="button"
+                onClick={() => setIsModalOpen(true)}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold bg-emerald-700 text-white hover:bg-emerald-800 transition-colors shadow-xs cursor-pointer"
+              >
+                <Icon name="plus" size={13} />
+                <span>Tambah Klasifikasi</span>
+              </button>
+            )}
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+              <Icon name="shield" size={13} />
+              Standar SPBE Kalsel
+            </span>
+          </div>
         </div>
 
         <div className="p-3 bg-slate-50 border-b border-slate-200">
@@ -152,11 +157,19 @@ export default function ClassificationView({ letters, onClassify }: Props) {
             <b className="text-slate-900 font-semibold text-sm">Pedoman Format Penomoran Naskah Dinas</b>
             <p className="text-slate-600 leading-relaxed">
               Format baku penomoran surat keluar Dispora Kalsel: <code>[Kode Klasifikasi] / [Nomor Agenda] / Dispora / [Tahun]</code>.
-              Contoh untuk urusan keolahragaan: <code>426 / 8756 / Dispora / 2026</code>. Seluruh naskah terhubung otomatis dengan pengindeksan digital TiDB Cloud dan arsip fisik.
+              Contoh: <code>426 / 8756 / Dispora / 2026</code>. Naskah terhubung otomatis dengan pengindeksan digital TiDB Cloud.
             </p>
           </div>
         </div>
       </div>
+
+      {isModalOpen && (
+        <NewClassificationModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onAdded={(item) => setCodes((prev) => [item, ...prev.filter((c) => c.code !== item.code)])}
+        />
+      )}
     </section>
   );
 }

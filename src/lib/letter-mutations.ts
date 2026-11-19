@@ -15,13 +15,15 @@ function parseBidangId(name?: string): number {
   if (s.includes('pembudayaan')) return 2;
   if (s.includes('prestasi')) return 3;
   if (s.includes('pemuda') || s.includes('pengembangan')) return 4;
-  if (s.includes('sarana') || s.includes('prasarana')) return 5;
-  return 1;
+  return s.includes('sarana') || s.includes('prasarana') ? 5 : 1;
 }
 
-function parseKlasifikasiId(code?: string): number {
+async function parseKlasifikasiId(conn: any, code?: string): Promise<number> {
+  if (!code) return 1;
+  const [rows] = await conn.query('SELECT id FROM klasifikasi_arsip WHERE kode = ? LIMIT 1', [code]);
+  if (rows && rows.length > 0) return Number(rows[0].id);
   const map: Record<string, number> = { '005': 1, '045': 2, '426': 3, '427': 4, '800': 5, '900': 6 };
-  return (code && map[code]) || 1;
+  return map[code] || 1;
 }
 
 export async function insertNewLetter(
@@ -74,7 +76,7 @@ export async function insertNewLetter(
       const nomorAgenda = calculateNextWorkdayAgenda(targetDate, 'out', rows.map((r) => r.nomor_agenda)).agendaNumber;
       const nextUrut = rows.reduce((max, r) => Math.max(max, Number(r.nomor_urut || 0)), 0) + 1;
       const pId = parseBidangId(data.division);
-      const kId = parseKlasifikasiId(data.classification);
+      const kId = await parseKlasifikasiId(conn, data.classification);
 
       await conn.query(
         'INSERT INTO arsip_surat_keluar (id, nomor_agenda, nomor_surat, nomor_urut, tahun, kode_klasifikasi_id, bidang_pemrakarsa_id, tanggal_surat, tujuan_instansi, perihal, ringkasan_isi, file_url, cloudinary_public_id, drive_url, file_name_original, indexed_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?)',

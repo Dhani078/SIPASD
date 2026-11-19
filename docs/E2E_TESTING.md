@@ -25,7 +25,7 @@ Sistem SIPASD menerapkan **3 lapis testing** untuk memastikan kualitas produksi:
 
 | # | Test | Pass Criteria | Rationale |
 |---|------|---------------|-----------|
-| 1 | TiDB Connection | 170 SM + 241 SK + 7 Users + 5 Bidang + 6 Klasifikasi | Cloud DB accessible & seeded |
+| 1 | TiDB Connection | 170 SM + 240 SK + 9 Users + 5 Bidang + 6 Klasifikasi | Cloud DB accessible & seeded |
 | 2 | Cloudinary Signed URL | Valid signature generated | Anti-401 PDF streaming |
 | 3 | Code Modular Ratio | All 107 src/ files <= 200 LOC | Zero god objects, maintainability |
 | 4 | Zero Em-Dash Invariant | 0 em-dash in 179 files | Readability (hindari karakter em-dash pada kode/dokumen) |
@@ -208,6 +208,10 @@ Sistem dilengkapi dengan 6 skrip otomasi peramban Google Chrome nyata (Playwrigh
 
 #### F. Audit Manajemen Master Klasifikasi Arsip (`scripts/audit_e2e_classification.py`)
 - **Cakupan**: Memvalidasi isolasi RBAC (tombol `+ Tambah Klasifikasi` tidak muncul untuk Petugas TU), memvalidasi kehadiran tombol untuk akun Developer dan Akun Rana, menguji penambahan kode klasifikasi baru via modal, penyimpanan ke basis data TiDB Cloud, verifikasi kemunculan kode di daftar, dan pembersihan data uji coba.
+- **Hasil Pengujian**: 100% SUKSES (ALL PASSED), 0 console error.
+
+#### G. Audit Akun Khusus Magang Surat Masuk & Keluar (`scripts/audit_e2e_intern_roles.py`)
+- **Cakupan**: Memvalidasi login akun Magang Surat Masuk (`magang_masuk`) dan Magang Surat Keluar (`magang_keluar`), penyaringan menu bilah samping (hanya naskah sesuai lingkup), pengalihan rute proteksi URL (`/arsip-keluar` dan `/arsip-masuk`), penguncian jenis naskah pada formulir Indeks Surat Baru, dan penolakan operasi silang oleh backend API dengan HTTP 403 Forbidden.
 - **Hasil Pengujian**: 100% SUKSES (ALL PASSED), 0 console error.
 
 ---

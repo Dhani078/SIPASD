@@ -11,6 +11,9 @@ export default async function ArsipKeluarRoute() {
   if (!session) {
     redirect('/login');
   }
+  if (session.username === 'magang_masuk') {
+    redirect('/arsip-masuk');
+  }
 
   const letters = await getRealLetters();
   const user = demoUsers.find((u) => u.username === session.username) || {

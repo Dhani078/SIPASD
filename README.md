@@ -46,6 +46,8 @@ Kondisi eksisting penyimpanan Google Drive:
 | `tu_umum` | Petugas Kearsipan | Staf Agenda TU Dispora | PETUGAS_ARSIP | Pengadministrasi Persuratan |
 | `subbag_keuangan` | Verifikator Keuangan | Norika Fajriana, SH, MH | BIDANG | Kasubbag Perencanaan & Keuangan |
 | `kabid_pora` | Kepala Bidang Teknis | Budiono, S.Pd, M.AP | BIDANG | Kepala Bidang Pembudayaan Olahraga |
+| `magang_masuk` | Magang Surat Masuk | Anak Magang Surat Masuk | PETUGAS_ARSIP | Staff Magang Persuratan Masuk (Khusus Surat Masuk) |
+| `magang_keluar` | Magang Surat Keluar | Anak Magang Surat Keluar | PETUGAS_ARSIP | Staff Magang Persuratan Keluar (Khusus Surat Keluar) |
 
 Kata sandi setiap akun kedinasan disimpan dalam bentuk salted hash Bcrypt dan dirahasiakan untuk menjaga integritas data kearsipan daerah.
 

@@ -22,6 +22,8 @@ export default function Sidebar({
 }) {
   const isDeveloper = user.username === 'developer' || user.label === 'Developer';
   const isAdmin = isDeveloper || user.label === 'Super Admin' || user.username === 'admin';
+  const isMagangMasuk = user.username === 'magang_masuk' || user.label === 'Magang Surat Masuk';
+  const isMagangKeluar = user.username === 'magang_keluar' || user.label === 'Magang Surat Keluar';
 
   return (
     <aside className={`sidebar ${drawer ? 'open' : ''}`}>
@@ -44,6 +46,8 @@ export default function Sidebar({
           const visibleItems = g.items.filter(([, , id]) => {
             if (id === 'reports' && !isDeveloper) return false;
             if ((id === 'users' || id === 'audit') && !isAdmin) return false;
+            if (isMagangMasuk && (id === 'out' || id === 'distribution' || id === 'classification')) return false;
+            if (isMagangKeluar && (id === 'in' || id === 'history' || id === 'classification')) return false;
             return true;
           });
           if (visibleItems.length === 0) return null;

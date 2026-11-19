@@ -38,9 +38,11 @@ export default function SipasdApp({
   initialPage = 'dashboard',
   isAuthenticated = false,
 }: Props) {
-  const [page, setPage] = useState(initialPage);
+  const curUser = initialUser || demoUsers[0];
+  const safeInit = curUser.username === 'magang_keluar' && initialPage === 'in' ? 'out' : curUser.username === 'magang_masuk' && initialPage === 'out' ? 'in' : initialPage;
+  const [page, setPage] = useState(safeInit);
   const [letters, setLetters] = useState<LetterRecord[]>(initialLetters);
-  const [user, setUser] = useState<DemoUser>(initialUser || demoUsers[0]);
+  const [user, setUser] = useState<DemoUser>(curUser);
   const [auth, setAuth] = useState(isAuthenticated || Boolean(initialUser));
   const [drawer, setDrawer] = useState(false);
   const [filters, setFilters] = useState<ArchiveFilters>(emptyFilters);
@@ -60,7 +62,14 @@ export default function SipasdApp({
   } = useLetterActions(setLetters, tell);
 
   const go = (next: string) => {
-    const target = !auth && next !== 'landing' && next !== 'login' ? 'login' : next;
+    let target = !auth && next !== 'landing' && next !== 'login' ? 'login' : next;
+    if (user.username === 'magang_masuk' && (target === 'out' || target === 'distribution')) {
+      target = 'in';
+      tell('Akses dibatasi: Akun Magang Surat Masuk hanya berhak mengelola Surat Masuk.', false);
+    } else if (user.username === 'magang_keluar' && (target === 'in' || target === 'history')) {
+      target = 'out';
+      tell('Akses dibatasi: Akun Magang Surat Keluar hanya berhak mengelola Surat Keluar.', false);
+    }
     setSelected(null); setSelectedDoc('letter'); setSelectedIds([]); setFilters(emptyFilters); setPagination(1); setDrawer(false); setPage(target);
     if (typeof window !== 'undefined') {
       const dest = URL_MAP[target] || `/dashboard?view=${target}`;
@@ -74,12 +83,14 @@ export default function SipasdApp({
       const v = new URLSearchParams(window.location.search).get('view');
       let t = v || (path.includes('arsip-masuk') ? 'in' : path.includes('arsip-keluar') ? 'out' : path.includes('laporan') ? 'reports' : path.includes('dashboard') ? 'dashboard' : path.includes('login') ? 'login' : 'landing');
       if (!auth && t !== 'landing' && t !== 'login') t = 'login';
+      if (user.username === 'magang_masuk' && (t === 'out' || t === 'distribution')) t = 'in';
+      if (user.username === 'magang_keluar' && (t === 'in' || t === 'history')) t = 'out';
       setPage(t);
     };
     handlePop();
     window.addEventListener('popstate', handlePop);
     return () => window.removeEventListener('popstate', handlePop);
-  }, [auth]);
+  }, [auth, user]);
 
   const archive = (next: string, values: Partial<ArchiveFilters> = {}) => {
     go(next);
@@ -171,6 +182,7 @@ export default function SipasdApp({
         setEditTarget={setEditTarget} setDeleteTarget={setDeleteTarget} setBatchTargets={setBatchTargets}
         setSelectedIds={setSelectedIds} onSaveLetter={onSaveLetter} onUpdateLetter={handleUpdate}
         confirmDelete={confirmDelete} confirmBatchDelete={confirmBatchDelete} letters={letters}
+        user={user}
       />
     </div>
   );

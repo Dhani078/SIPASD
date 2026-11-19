@@ -1191,3 +1191,29 @@
    - `npm test`: 6/6 test suites passed (100% HEALTHY).
    - Seluruh 107 berkas di `src/` <= 200 LOC, 0 em-dash across all 179 project files.
 
+---
+
+## Sesi 56: Penambahan Akun Khusus Magang Surat Masuk & Magang Surat Keluar
+**Tanggal**: 20 November 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Pembuatan & Pendaftaran Akun Magang Resmi**:
+   - Menambahkan akun `magang_masuk` (Anak Magang Surat Masuk) dan `magang_keluar` (Anak Magang Surat Keluar) ke tabel `users` di basis data TiDB Cloud Serverless dengan peran `PETUGAS_ARSIP` dan kata sandi Bcrypt terenkripsi.
+   - Mendaftarkan kedua akun pada konfigurasi aparatur `src/data/users.ts` dan antarmuka login `LoginPage.tsx` (bilah pengujian 1-klik).
+2. **Penyaringan Bilah Samping (Sidebar Filtering)**:
+   - Memperbarui `Sidebar.tsx`: Akun Magang Masuk hanya melihat menu Surat Masuk, Disposisi, dan Agenda; menu Surat Keluar dan Ekspedisi disembunyikan.
+   - Akun Magang Keluar hanya melihat menu Surat Keluar, Ekspedisi, dan Agenda; menu Surat Masuk dan Disposisi disembunyikan.
+3. **Proteksi Navigasi & Route Guarding**:
+   - Memperbarui `SipasdApp.tsx`, `src/app/arsip-masuk/page.tsx`, dan `src/app/arsip-keluar/page.tsx`: Navigasi URL silang otomatis dialihkan ke halaman naskah yang sah disertai notifikasi pembatasan akses.
+4. **Penguncian Formulir Perekaman Naskah Baru**:
+   - Memperbarui `NewLetterModal.tsx` dan `AppModals.tsx`: Pilihan jenis arsip secara otomatis terkunci pada `Surat Masuk` untuk Magang Masuk, dan `Surat Keluar` untuk Magang Keluar, mencegah kekeliruan pemilihan jenis arsip.
+5. **Keamanan API Backend (403 Forbidden Guard)**:
+   - Memperbarui rute `src/app/api/letters/route.ts` pada metode POST, PUT, dan DELETE: Menolak percobaan manipulasi arsip yang berlawanan dengan kewenangan naskah akun magang dengan HTTP 403 Forbidden.
+6. **Pengujian & Verifikasi Kualitas Menyeluruh**:
+   - Membangun skrip pengujian Playwright `scripts/audit_e2e_intern_roles.py`: 100% SUKSES (ALL PASSED), memvalidasi isolasi sidebar, route guard, penguncian formulir, dan penolakan API.
+   - Menjalankan `npm test`: 6/6 test suites passed (100% HEALTHY).
+   - Menjalankan `npx tsc --noEmit`: 0 error.
+   - Master Chrome Audit (`scripts/master_chrome_audit.py`): 11/11 UI modules & 6/6 API endpoints ALL_PASS (0 console error).
+   - Seluruh 107 berkas di `src/` tetap <= 200 LOC, 0 em-dash across all 180 project files.
+

@@ -32,6 +32,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, message: 'Akses ditolak. Peran tidak memiliki izin menambah arsip.' }, { status: 403 });
     }
     const body = await request.json();
+    if (session.username === 'magang_masuk' && body.direction === 'out') {
+      return NextResponse.json({ success: false, message: 'Akses ditolak. Akun Magang Surat Masuk hanya berhak mencatat Surat Masuk.' }, { status: 403 });
+    }
+    if (session.username === 'magang_keluar' && body.direction === 'in') {
+      return NextResponse.json({ success: false, message: 'Akses ditolak. Akun Magang Surat Keluar hanya berhak mencatat Surat Keluar.' }, { status: 403 });
+    }
     if (!body.number || !body.origin || !body.subject) {
       return NextResponse.json({ success: false, message: 'Nomor surat, instansi, dan perihal wajib diisi.' }, { status: 400 });
     }
@@ -83,6 +89,13 @@ export async function DELETE(request: Request) {
       if (body.trashDrive !== undefined) trashDrive = Boolean(body.trashDrive);
     }
 
+    if (session.username === 'magang_masuk' && direction === 'out') {
+      return NextResponse.json({ success: false, message: 'Akses ditolak. Akun Magang Surat Masuk tidak berhak menghapus Surat Keluar.' }, { status: 403 });
+    }
+    if (session.username === 'magang_keluar' && direction === 'in') {
+      return NextResponse.json({ success: false, message: 'Akses ditolak. Akun Magang Surat Keluar tidak berhak menghapus Surat Masuk.' }, { status: 403 });
+    }
+
     if (!ids.length) {
       if (idsParam) ids = idsParam.split(',').map((s) => s.trim()).filter(Boolean);
       else if (id) ids = [id];
@@ -123,6 +136,12 @@ export async function PUT(request: Request) {
     }
     const body = await request.json();
     const { id, direction, ...updates } = body;
+    if (session.username === 'magang_masuk' && direction === 'out') {
+      return NextResponse.json({ success: false, message: 'Akses ditolak. Akun Magang Surat Masuk tidak berhak mengubah Surat Keluar.' }, { status: 403 });
+    }
+    if (session.username === 'magang_keluar' && direction === 'in') {
+      return NextResponse.json({ success: false, message: 'Akses ditolak. Akun Magang Surat Keluar tidak berhak mengubah Surat Masuk.' }, { status: 403 });
+    }
     if (!id) {
       return NextResponse.json({ success: false, message: 'ID atau nomor agenda arsip wajib diisi.' }, { status: 400 });
     }

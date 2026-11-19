@@ -8,6 +8,20 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.69.0] - 2026-11-20
+
+### Added
+- **Penambahan Akun Khusus Magang Surat Masuk & Magang Surat Keluar**:
+  * Menghadirkan akun **Magang Surat Masuk** (`magang_masuk`) dengan pembatasan hak akses ketat khusus penatausahaan Surat Masuk dan Disposisi. Menu Surat Keluar dan Distribusi Ekspedisi otomatis disembunyikan dari navigasi bilah samping.
+  * Menghadirkan akun **Magang Surat Keluar** (`magang_keluar`) dengan pembatasan hak akses ketat khusus penatausahaan Surat Keluar dan Ekspedisi. Menu Surat Masuk dan Riwayat Disposisi otomatis disembunyikan dari navigasi bilah samping.
+  * **Route Guard & Navigation Protection**: Navigasi langsung ke `/arsip-keluar` oleh akun Magang Masuk otomatis dialihkan kembali ke `/arsip-masuk`, dan navigasi ke `/arsip-masuk` oleh akun Magang Keluar dialihkan ke `/arsip-keluar`.
+  * **Formulir Perekaman Naskah Terkunci**: Modal "Indeks Surat Baru" (`NewLetterModal.tsx`) secara otomatis mengunci dan menonaktifkan pilihan jenis arsip sesuai lingkup tugas magang (Surat Masuk atau Surat Keluar).
+  * **Backend Security API Guard**: Endpoint `POST /api/letters`, `DELETE /api/letters`, dan `PUT /api/letters` menolak segala operasi silang jenis naskah dengan status HTTP 403 Forbidden.
+  * **Pangkalan Data TiDB Cloud**: Rekord akun aparatur magang terdaftar resmi pada tabel `users` dengan kata sandi terenkripsi Bcrypt.
+  * **Uji Coba E2E Playwright**: Skrip `scripts/audit_e2e_intern_roles.py` membuktikan 100% kelulusan isolasi navigasi, pembatasan formulir, proteksi rute, dan penolakan API.
+
+---
+
 ## [2.68.0] - 2026-11-20
 
 ### Added

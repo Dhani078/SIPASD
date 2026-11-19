@@ -4,7 +4,7 @@ import DocumentPreview from './DocumentPreview';
 import DeleteConfirmModal from './DeleteConfirmModal';
 import EditLetterModal from './EditLetterModal';
 import HelpModal from './HelpModal';
-import type { LetterRecord } from '@/types';
+import type { LetterRecord, DemoUser } from '@/types';
 
 interface Props {
   modal: string;
@@ -29,6 +29,7 @@ interface Props {
   confirmDelete: (trashDrive?: boolean) => Promise<void>;
   confirmBatchDelete: (trashDrive?: boolean) => Promise<void>;
   letters?: LetterRecord[];
+  user?: DemoUser;
 }
 
 export default function AppModals({
@@ -54,6 +55,7 @@ export default function AppModals({
   confirmDelete,
   confirmBatchDelete,
   letters,
+  user,
 }: Props) {
   return (
     <>
@@ -80,6 +82,7 @@ export default function AppModals({
           onClose={() => setModal('')}
           onSave={onSaveLetter}
           letters={letters}
+          user={user}
         />
       )}
       {printLetter && (

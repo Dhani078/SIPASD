@@ -5,6 +5,16 @@ Format: `[YYYY-MM-DD] Fitur/Perbaikan - Deskripsi`
 
 ---
 
+## [2026-11-20] Penambahan Akun Magang Khusus Surat Masuk & Surat Keluar
+
+- Akun Khusus Magang Surat Masuk (`magang_masuk`): Dibatasi secara ketat hanya dapat mengelola Surat Masuk dan Disposisi. Menu Surat Keluar dan Distribusi Ekspedisi disembunyikan dari bilah navigasi.
+- Akun Khusus Magang Surat Keluar (`magang_keluar`): Dibatasi secara ketat hanya dapat mengelola Surat Keluar dan Ekspedisi. Menu Surat Masuk dan Riwayat Disposisi disembunyikan dari bilah navigasi.
+- Route Guard & Form Lock: Percobaan akses URL silang (`/arsip-keluar` oleh magang masuk atau `/arsip-masuk` oleh magang keluar) dialihkan otomatis, dan formulir rekam naskah terkunci sesuai kewenangan peran.
+- Perlindungan Backend API: Endpoint `/api/letters` menolak mutasi POST/PUT/DELETE naskah yang melanggar batas kewenangan dengan HTTP 403 Forbidden.
+- Audit E2E Playwright: Skrip `scripts/audit_e2e_intern_roles.py` berhasil memverifikasi seluruh pembatasan antarmuka, rute, dan API dengan kelulusan 100% SUKSES.
+
+---
+
 ## [2026-11-20] Penambahan Master Klasifikasi Arsip (Otorisasi Developer & Akun Rana)
 
 - Otorisasi Berbasis Akun Khusus: Menambahkan tombol dan formulir modal `+ Tambah Klasifikasi` (`NewClassificationModal.tsx`) yang secara khusus hanya terbuka untuk akun Developer (`developer`) dan akun Rana (`pengarsip` / Rana Nur Syifa).

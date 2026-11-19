@@ -139,3 +139,7 @@ Berdasarkan observasi operasional persuratan langsung di Subbagian Umum dan Kepe
    - Permendagri No. 83 Tahun 2022 mengatur bahwa urusan pemerintahan daerah yang berkembang dapat memerlukan penambahan sub-klasifikasi persuratan baru (misal: kewirausahaan pemuda, sentra olahraga disabilitas).
    - Penambahan kode klasifikasi baru tidak boleh sembarangan dilakukan oleh seluruh staf umum guna mencegah kekacauan skema penomoran surat dinas.
    - Ditetapkan kebijakan otorisasi ketat: Hanya akun Developer (`developer`) dan akun Rana (`pengarsip` / Rana Nur Syifa) selaku Pengelola Arsip Digital yang memiliki hak akses menambah kode klasifikasi baru ke basis data TiDB Cloud.
+5. **Diferensiasi Tugas Magang: Pemisahan Akun Magang Surat Masuk vs Surat Keluar**:
+   - Di lingkungan Sekretariat Dispora Kalsel, mahasiswa/siswa magang sering dibagi ke dalam dua pos tugas berbeda: satu orang ditugaskan khusus menerima, mencatat, dan mendokumentasikan Surat Masuk beserta lembar disposisi pimpinan; sementara satu orang lainnya bertugas mengagendakan, mencetak penomoran, dan mencatat ekspedisi Surat Keluar.
+   - Untuk mencegah kesalahan input data silang atau akses naskah di luar tanggung jawab pos tugasnya, sistem menerapkan pembatasan hak akses berbasis akun terisolasi: Akun `magang_masuk` hanya dapat melihat dan merekam Surat Masuk, sedangkan Akun `magang_keluar` hanya dapat melihat dan merekam Surat Keluar.
+   - Isolasi diterapkan multi-lapis: bilah navigasi, route guard pengalihan URL, penguncian formulir modal, hingga penolakan mutasi API 403 Forbidden.

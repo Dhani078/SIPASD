@@ -496,6 +496,15 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi Playwright Chrome: `scripts/audit_e2e_classification.py` 100% SUKSES, `npm test` 6/6 PASS, 107 files <= 200 LOC, 0 em-dash across 179 files.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 58: Penambahan Akun Khusus Magang Surat Masuk & Magang Surat Keluar (100% COMPLETE)
+- [x] Pendaftaran akun `magang_masuk` (Anak Magang Surat Masuk) dan `magang_keluar` (Anak Magang Surat Keluar) ke tabel `users` TiDB Cloud dan `src/data/users.ts`.
+- [x] Penyaringan bilah samping (`Sidebar.tsx`): Magang Masuk hanya melihat Surat Masuk; Magang Keluar hanya melihat Surat Keluar.
+- [x] Proteksi rute URL (`SipasdApp.tsx`, `arsip-masuk/page.tsx`, `arsip-keluar/page.tsx`): pengalihan otomatis jika membuka URL di luar wewenang tugas.
+- [x] Penguncian formulir modal `NewLetterModal.tsx`: jenis arsip otomatis terkunci sesuai peran.
+- [x] Pengamanan backend API (`/api/letters`): penolakan 403 Forbidden untuk operasi silang jenis arsip.
+- [x] Verifikasi Playwright Chrome: `scripts/audit_e2e_intern_roles.py` 100% SUKSES, `npm test` 6/6 PASS, 107 files <= 200 LOC, 0 em-dash across 180 files.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

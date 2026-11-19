@@ -8,17 +8,21 @@ import LetterFileUpload from './LetterFileUpload';
 import { classifications, venues, divisions } from '@/data/constants';
 import { classifyText, type ClassificationResult } from '@/lib/classifier';
 import { getWorkdayIndex, format5Digit, calculateNextWorkdayAgenda } from '@/lib/workday-slot';
-import type { Direction, LetterRecord, Urgency } from '@/types';
+import type { Direction, LetterRecord, Urgency, DemoUser } from '@/types';
 
 interface Props {
   direction: Direction;
   onClose: () => void;
   onSave: (letter: Omit<LetterRecord, 'id'>, file?: File, dispFile?: File) => Promise<void> | void;
   letters?: LetterRecord[];
+  user?: DemoUser;
 }
 
-export default function NewLetterModal({ direction, onClose, onSave, letters }: Props) {
-  const [kind, setKind] = useState<Direction>(direction);
+export default function NewLetterModal({ direction, onClose, onSave, letters, user }: Props) {
+  const isMagangMasuk = user?.username === 'magang_masuk' || user?.label === 'Magang Surat Masuk';
+  const isMagangKeluar = user?.username === 'magang_keluar' || user?.label === 'Magang Surat Keluar';
+  const initialKind: Direction = isMagangKeluar ? 'out' : isMagangMasuk ? 'in' : direction;
+  const [kind, setKind] = useState<Direction>(initialKind);
   const [file, setFile] = useState<File>();
   const [dispFile, setDispFile] = useState<File | null>(null);
   const [error, setError] = useState('');
@@ -91,7 +95,10 @@ export default function NewLetterModal({ direction, onClose, onSave, letters }: 
         <div className="form-grid">
           <div>
             <label htmlFor={`${uid}-kind`} className="block text-[11px] font-semibold text-slate-700 mb-1">Jenis Arsip</label>
-            <select id={`${uid}-kind`} name="direction" value={kind} onChange={(e) => setKind(e.target.value as Direction)} className="w-full"><option value="in">Surat Masuk</option><option value="out">Surat Keluar</option></select>
+            <select id={`${uid}-kind`} name="direction" value={kind} disabled={isMagangMasuk || isMagangKeluar} onChange={(e) => setKind(e.target.value as Direction)} className="w-full">
+              {!isMagangKeluar && <option value="in">Surat Masuk</option>}
+              {!isMagangMasuk && <option value="out">Surat Keluar</option>}
+            </select>
           </div>
           <div>
             <label htmlFor={`${uid}-urg`} className="block text-[11px] font-semibold text-slate-700 mb-1">Sifat Surat</label>

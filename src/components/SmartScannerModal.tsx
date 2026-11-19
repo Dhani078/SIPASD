@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Modal from './Modal';
+import Icon from './Icon';
 import ScannerPageNav from './ScannerPageNav';
 import ScannerToolbar from './ScannerToolbar';
 import ScannerPageCard from './ScannerPageCard';
@@ -149,11 +150,16 @@ export default function SmartScannerModal({ files, file, onApply, onClose }: Pro
         </div>
 
         <div className="flex-shrink-0 p-3 bg-white border-t border-slate-200 flex items-center justify-between gap-2 shadow-xs">
-          <span className="text-[11px] text-slate-500 font-medium">
-            {pages.length > 1
-              ? `📄 ${pages.length} halaman foto otomatis digabung menjadi 1 dokumen PDF A4 resmi.`
-              : '📄 1 halaman foto otomatis dipindai bersih menjadi dokumen dinas PDF A4 resmi.'}
-          </span>
+          <div className="flex items-center gap-1.5 text-[11px] text-slate-600 font-medium">
+            <span className="text-emerald-700">
+              <Icon name="file" size={13} />
+            </span>
+            <span>
+              {pages.length > 1
+                ? `${pages.length} halaman foto otomatis digabung menjadi 1 dokumen PDF A4 resmi.`
+                : '1 halaman foto otomatis dipindai bersih menjadi dokumen dinas PDF A4 resmi.'}
+            </span>
+          </div>
           <div className="flex items-center gap-2">
             <button
               type="button"

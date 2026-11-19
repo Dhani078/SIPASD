@@ -125,6 +125,18 @@ Total Execution Time: 2.741 seconds | Zero Uncaught Page Errors
 ================================================================================
 ```
 
+### 4.2 Hasil Pengujian Otomasi Google Chrome (Playwright E2E)
+
+Selain naskah interaksi dasar, sistem SIPASD dilengkapi dengan 5 skrip otomasi peramban Google Chrome nyata (`Chromium Headless / Headed`) yang menguji seluruh fitur spesifik kearsipan:
+
+| Skrip Pengujian | Lingkup & Fitur yang Diuji | Status & Metrik Kelulusan |
+| :--- | :--- | :---: |
+| `scripts/master_chrome_audit.py` | 11 Modul UI Lengkap, 6 Backend API Route, Isolasi RBAC, Zero-Overflow 375px/1280px | **100% ALL_PASS (0 Error)** |
+| `scripts/audit_table_columns.py` | Kolom Posisi Disposisi, Bidang Pemrakarsa, Format Nomor Surat Keluar Lengkap | **100% SUKSES (0 Error)** |
+| `scripts/audit_e2e_optional_file.py` | Perekaman Tanpa Berkas, Lencana `⚠️ Belum Ada Berkas`, Modal Pratinjau, Alur Edit | **100% SUKSES (0 Error)** |
+| `scripts/audit_e2e_multipage_scanner.py` | Multi-Foto Naskah, Filter Kanvas Real-Time, Navigasi Halaman, Kompilasi PDF A4 | **100% SUKSES (0 Error)** |
+| `scripts/audit_e2e_photo_scan.py` | Pindai Foto Naskah, Berkas Scan Disposisi Fisik, Tombol Akses Cepat Disposisi PDF | **100% SUKSES (0 Error)** |
+
 ---
 
 ## 5. EVALUASI TOLOK UKUR KINERJA SEBELUM VS SESUDAH SISTEM

@@ -8,6 +8,17 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.67.1] - 2026-11-20
+
+### Fixed & Tested
+- **Penyelarasan Pemilih Naskah pada Master Chrome Audit (`scripts/master_chrome_audit.py`)**:
+  * Mengarahkan selektor pengujian pemutar streaming PDF (`/api/pdf`) pada baris arsip yang memiliki berkas digital aktif, menghindari klik pada naskah berstatus tanpa berkas yang menampilkan status ramah penanda.
+  * Hasil audit Master Chrome: 11 dari 11 modul UI berstatus PASS, 6 dari 6 API route berstatus 200 OK, dan 0 error konsol (ALL_PASS).
+- **Validasi Menyeluruh 5 Test Suite Google Chrome Playwright**:
+  * Seluruh 5 rangkaian otomasi peramban Google Chrome nyata (`master_chrome_audit.py`, `audit_table_columns.py`, `audit_e2e_optional_file.py`, `audit_e2e_multipage_scanner.py`, `audit_e2e_photo_scan.py`) lulus 100% SUKSES.
+
+---
+
 ## [2.67.0] - 2026-11-19
 
 ### Added

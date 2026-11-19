@@ -183,11 +183,12 @@ Screenshots saved to: C:\xampp\htdocs\SIPASD\tests\e2e\screenshots
 
 ### 3. Dedicated Google Chrome E2E Automated Suites (Playwright)
 
-Sistem dilengkapi dengan 4 skrip otomasi peramban Google Chrome nyata (Playwright async) untuk menguji fitur-fitur kritis persuratan digital:
+Sistem dilengkapi dengan 5 skrip otomasi peramban Google Chrome nyata (Playwright async) untuk menguji fitur-fitur kritis persuratan digital:
 
 #### A. Master Chrome Audit (`scripts/master_chrome_audit.py`)
 - **Cakupan**: 11 Modul Antarmuka (Landing Page, Login RBAC, Dashboard Eksekutif, Arsip Surat Masuk, Arsip Surat Keluar, Riwayat Disposisi Fisik, Buku Ekspedisi, Master Klasifikasi, Manajemen Pengguna, Audit Trail Forensik, Pusat Laporan Eksekutif) dan 6 API Endpoint langsung.
 - **Kriteria Kelulusan**: Seluruh 11 modul UI berstatus PASS, 6 API berstatus 200 OK, 0 horizontal overflow, dan 0 console error.
+- **Hasil Pengujian**: 100% SUKSES (ALL_PASS) - 11/11 Modul UI PASS, 6/6 API Suites 200 OK, 0 console error.
 
 #### B. Audit Multi-Foto Smart Document Scanner (`scripts/audit_e2e_multipage_scanner.py`)
 - **Cakupan**: Menguji pemilihan multi-foto sekaligus (`multiple`), pembukaan otomatis Smart Scanner, navigasi lembar 1-5, penambahan foto dinamis dari dalam modal, rotasi 90 derajat, filter dokumen, dan penggabungan seluruh lembar ke 1 file PDF A4 resmi.

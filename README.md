@@ -163,6 +163,9 @@ python scripts/audit_e2e_photo_scan.py
 
 # 4. Audit Berkas Opsional, Lencana Penanda & Alur Edit Berkas
 python scripts/audit_e2e_optional_file.py
+
+# 5. Audit Kolom Posisi Disposisi & Nomor Surat Keluar
+python scripts/audit_table_columns.py
 ```
 Seluruh pengujian peramban Google Chrome berjalan otomatis (*headless/headed*) dengan tingkat kelulusan **100% SUKSES (ALL PASSED)** dan **0 console errors**.
 

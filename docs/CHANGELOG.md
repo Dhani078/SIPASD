@@ -5,6 +5,14 @@ Format: `[YYYY-MM-DD] Fitur/Perbaikan - Deskripsi`
 
 ---
 
+## [2026-11-20] Audit Menyeluruh Full End-to-End (Backend, Frontend & Chrome Playwright)
+
+- Penyelarasan Master Chrome Audit: Mengarahkan pemilih baris arsip pada `scripts/master_chrome_audit.py` untuk menguji streaming PDF pada naskah yang memiliki file aktif, menghasilkan kelulusan penuh 11/11 modul antarmuka UI dan 6/6 backend API (ALL_PASS).
+- Eksekusi Lengkap 5 Test Suite Otomasi Chrome: Memverifikasi kelulusan 100% tanpa error konsol pada seluruh skrip pengujian peramban (`master_chrome_audit.py`, `audit_table_columns.py`, `audit_e2e_optional_file.py`, `audit_e2e_multipage_scanner.py`, `audit_e2e_photo_scan.py`).
+- Verifikasi Invariant Kualitas: 6/6 test suites pada `npm test` lolos (100% HEALTHY), seluruh 104 file di `src/` tetap $\le 200$ LOC, dan 0 karakter em-dash di seluruh 176 berkas repositori.
+
+---
+
 ## [2026-11-19] Kolom Posisi Disposisi / Bidang Pemrakarsa & Format Nomor Surat Keluar Lengkap
 
 - Kolom Khusus Posisi Disposisi: Menambahkan kolom `POSISI DISPOSISI` di antara kolom *ASAL / TUJUAN INSTANSI DAN PERIHAL* dan kolom *TANGGAL* pada tabel katalog persuratan.

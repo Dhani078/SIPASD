@@ -8,6 +8,20 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.70.0] - 2026-11-20
+
+### Improved & Redesigned
+- **Penyempurnaan Visual & Estetika Modal "Tambah Kode Klasifikasi Arsip Baru" (`NewClassificationModal.tsx`)**:
+  * Menghilangkan tampilan kolom formulir tanpa bingkai (*borderless/transparent*) menjadi komponen formulir modern kedinasan yang rapi, berbingkai jelas (`border-slate-300`), latar putih solid, dan bayangan lembut (`shadow-sm`).
+  * Efek fokus interaktif cincin hijau zamrud (`focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20`) pada setiap masukan teks dan area teks.
+  * Penataan grid terstruktur: Kolom Kode Klasifikasi (1 kolom, font mono tebal) dan Nama/Judul Klasifikasi (2 kolom, font semi-tebal).
+  * Penambahan label informatif dan petunjuk sekunder (*helper hints*) seperti "3 digit angka baku", "Urusan persuratan Dispora", "Cakupan Naskah Dinas", dan "Sub-Kegiatan Teknis".
+  * Kartu status otorisasi kedinasan berlatar zamrud lembut dengan ikon perisai (`shield`) yang menjelaskan integrasi langsung ke basis data TiDB Cloud Serverless.
+  * Kaki dialog standar sistem (`modal-actions`) yang menyematkan lencana "Standar SPBE Pemprov Kalsel" serta tombol aksi `Batal` dan `+ Simpan Klasifikasi`.
+  * Memenuhi seluruh standar kualitas arsitektur: ukuran berkas 184 LOC ($\le 200$ LOC), 0 em-dash, dan 100% lulus uji Playwright nyata di Google Chrome.
+
+---
+
 ## [2.69.0] - 2026-11-20
 
 ### Added

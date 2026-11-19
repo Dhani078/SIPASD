@@ -5,6 +5,15 @@ Format: `[YYYY-MM-DD] Fitur/Perbaikan - Deskripsi`
 
 ---
 
+## [2026-11-20] Penyempurnaan Visual & Estetika Modal Klasifikasi Arsip
+
+- Redesain Formulir Modal (`NewClassificationModal.tsx`): Menata ulang tampilan formulir input modal klasifikasi dengan bingkai jelas (`border-slate-300`), latar putih solid, bayangan halus, dan cincin fokus hijau zamrud (`focus:border-emerald-600 focus:ring-2`).
+- Penataan Elemen & Hint Informatif: Membagi kolom kode dan judul secara proporsional dengan petunjuk pembantu (*helper hints*), deskripsi lingkup urusan kedinasan, dan kartu otorisasi kedinasan TiDB yang rapi.
+- Kaki Dialog Standar (`modal-actions`): Memanfaatkan tombol aksi standar sistem (`Batal` dan `+ Simpan Klasifikasi`) serta badge otorisasi SPBE Pemprov Kalsel.
+- Standar Kualitas Keras: Berkas 184 LOC ($\le 200$ LOC), 0 em-dash, dan diverifikasi langsung lewat uji coba peramban Playwright Google Chrome.
+
+---
+
 ## [2026-11-20] Penambahan Akun Magang Khusus Surat Masuk & Surat Keluar
 
 - Akun Khusus Magang Surat Masuk (`magang_masuk`): Dibatasi secara ketat hanya dapat mengelola Surat Masuk dan Disposisi. Menu Surat Keluar dan Distribusi Ekspedisi disembunyikan dari bilah navigasi.

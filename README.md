@@ -119,6 +119,11 @@ Kata sandi setiap akun kedinasan disimpan dalam bentuk salted hash Bcrypt dan di
 - **Pratinjau Informatif & Tombol Cepat**: Pratinjau surat tanpa berkas menyajikan ajakan ramah dan tombol `Unggah Berkas Sekarang`.
 - **Lengkapi Kapan Saja**: Melalui modal edit (Ubah Metadata Arsip), berkas PDF atau foto naskah dapat dilampirkan kapan saja; lencana penanda otomatis hilang begitu berkas tersimpan.
 
+### 13. Struktur Tabel Dinamis: Kolom Posisi Disposisi & Format Nomor Surat Keluar
+- **Kolom Posisi Disposisi / Bidang Pemrakarsa**: Terletak tepat di tengah antara kolom Asal/Tujuan & Perihal dan kolom Tanggal, menyajikan status disposisi secara visual (`Diterima Persuratan` [amber], `Kepala Dinas` [blue], `Selesai` [emerald] dilengkapi unit kerja tujuan `ke: {bidang}`).
+- **Format Khusus Surat Keluar**: Kolom pertama menampilkan Nomor Surat Keluar resmi lengkap secara tegas (misal `005/11502/DISPORA/2026`) dengan subteks nomor slot agenda (`Agenda #...`), sementara kolom ketiga secara otomatis berganti tajuk menjadi `BIDANG PEMRAKARSA`.
+- **Kolom Perihal Bersih & Bebas Redundansi**: Redundansi nomor surat dan tag bidang di kolom perihal dibersihkan sehingga tabel tampil rapi, proporsional, dan informatif.
+
 ---
 
 ## 🛠️ Tumpukan Teknologi (Cloud-Native & Zero Cost)
@@ -140,8 +145,8 @@ npm test
 Test suite verifikasi 6 dimensi:
 1. **TiDB Connection**: 170 Surat Masuk, 241 Surat Keluar, 7 Users, 5 Bidang, 6 Klasifikasi
 2. **Cloudinary Signed URL**: Anti-401 streaming signature valid
-3. **Code Modular Ratio**: Semua 103 files di src/ <= 200 LOC (zero god objects)
-4. **Zero Em-Dash Invariant**: 0 em-dash di 175 project files (readability)
+3. **Code Modular Ratio**: Semua 104 files di src/ <= 200 LOC (zero god objects)
+4. **Zero Em-Dash Invariant**: 0 em-dash di 176 project files (readability)
 5. **Security Headers**: API auth guards aktif di gateway & routes
 6. **Zero Hardcoded Secrets**: Semua credentials via env vars
 

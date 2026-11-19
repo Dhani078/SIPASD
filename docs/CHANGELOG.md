@@ -5,6 +5,17 @@ Format: `[YYYY-MM-DD] Fitur/Perbaikan - Deskripsi`
 
 ---
 
+## [2026-11-19] Kolom Posisi Disposisi / Bidang Pemrakarsa & Format Nomor Surat Keluar Lengkap
+
+- Kolom Khusus Posisi Disposisi: Menambahkan kolom `POSISI DISPOSISI` di antara kolom *ASAL / TUJUAN INSTANSI DAN PERIHAL* dan kolom *TANGGAL* pada tabel katalog persuratan.
+- Lencana Semantik Status Disposisi: Komponen terpisah `DispositionStatusBadge.tsx` (44 LOC) yang menampilkan pill status `Diterima Persuratan` (amber), `Kepala Dinas` (blue), atau `Selesai` (emerald) disertai rincian bidang tujuan `ke: {bidang}`.
+- Tampilan Nomor Surat Lengkap pada Surat Keluar: Kolom pertama pada katalog Surat Keluar menampilkan Nomor Surat Keluar resmi lengkap (misal `005/11502/DISPORA/2026`) dengan subteks nomor agenda (`Agenda #{id}`).
+- Tajuk Kolom Dinamis: Tajuk kolom pertama otomatis menjadi `NOMOR SURAT KELUAR` dan tajuk kolom ketiga menjadi `BIDANG PEMRAKARSA` pada tabel surat keluar.
+- Pembersihan Duplikasi Kolom Perihal: Menghilangkan redundansi nomor surat dan label bidang pada kolom perihal surat keluar.
+- Pengujian E2E & Visual: Berhasil diverifikasi melalui `scripts/audit_table_columns.py` dan `scripts/audit_e2e_optional_file.py` dengan 0 console error.
+
+---
+
 ## [2026-11-19] Lampiran Berkas Opsional, Lencana Penanda Tanpa Berkas, dan Pembersihan Teks Unggah
 
 - Lampiran Naskah 100% Opsional: Pengguna dapat mencatat dan menyimpan surat masuk maupun surat keluar tanpa harus melampirkan berkas fisik terlebih dahulu. Sistem menyimpan record naskah ke basis data TiDB Cloud Serverless dengan status valid.

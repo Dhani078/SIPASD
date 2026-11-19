@@ -1122,3 +1122,29 @@
    - `scripts/master_chrome_audit.py`: 11/11 UI modules & 6/6 API endpoints ALL_PASS.
    - Seluruh 103 berkas di `src/` <= 200 LOC, 0 em-dash across 175 files.
 
+---
+
+## Sesi 53: Restrukturisasi Tabel Persuratan: Kolom Posisi Disposisi & Format Nomor Surat Keluar
+**Tanggal**: 19 November 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Penambahan Kolom Posisi Disposisi / Bidang Pemrakarsa**:
+   - Menambahkan kolom baru di antara kolom Asal/Tujuan Instansi & Perihal dan kolom Tanggal pada tabel persuratan (`ArchiveTable.tsx`).
+   - Membuat komponen pembantu modular `DispositionStatusBadge.tsx` (44 LOC) yang menampilkan pill status disposisi semantik:
+     * `Diterima Persuratan` (amber) untuk surat yang baru diterima frontdesk.
+     * `Kepala Dinas` (blue) untuk surat yang sedang ditelaah/didisposisikan pimpinan.
+     * `Selesai` (emerald) untuk surat yang telah selesai atau diteruskan ke bidang tujuan (`ke: {bidang}`).
+2. **Penyelarasan Format Nomor Surat Keluar**:
+   - Pada katalog Surat Keluar (`direction === 'out'`), kolom pertama menampilkan Nomor Surat Keluar resmi lengkap (misal `005/11502/DISPORA/2026`) secara tegas dan jelas dengan subteks nomor agenda (`Agenda #{id}`).
+   - Tajuk kolom pertama otomatis menjadi `NOMOR SURAT KELUAR` dan tajuk kolom ketiga otomatis menjadi `BIDANG PEMRAKARSA`.
+3. **Pembersihan Redundansi Kolom Perihal**:
+   - Menghilangkan duplikasi nomor surat dan label bidang pada kolom perihal surat keluar sehingga tabel tampil lapang dan proporsional.
+4. **Verifikasi Kualitas**:
+   - `npm test`: 6/6 test suites passed (100% HEALTHY).
+   - Seluruh 104 berkas di `src/` <= 200 LOC (termasuk `ArchiveTable.tsx` 186 LOC dan `DispositionStatusBadge.tsx` 44 LOC).
+   - 0 em-dash across all 176 project files.
+   - `scripts/audit_table_columns.py`: 100% SUKSES (ALL PASSED, 0 console error).
+   - `scripts/audit_e2e_optional_file.py`: 100% SUKSES (ALL PASSED).
+   - `scripts/audit_e2e_multipage_scanner.py`: 100% SUKSES (ALL PASSED).
+

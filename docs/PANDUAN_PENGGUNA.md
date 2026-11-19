@@ -129,6 +129,24 @@ Modul ini digunakan untuk menelusuri 171 dokumen surat masuk pindaian yang diter
    - Pada modal edit yang terbuka, pilih berkas lampiran yang diinginkan, lalu klik **"Simpan Perubahan"**.
    - Lencana penanda otomatis hilang dan berkas langsung siap dibuka maupun diunduh.
 
+### 5.5 Struktur Kolom Tabel Persuratan & Posisi Disposisi
+Tabel katalog persuratan dirancang secara ergonomis untuk mempermudah pemantauan berkas:
+1. **Kolom Pertama (No. Agenda / Nomor Surat Keluar)**:
+   - Pada **Surat Masuk**: Menampilkan nomor agenda kedinasan urut per tahun dinas (contoh: `11502/SM/2026`).
+   - Pada **Surat Keluar**: Menampilkan Nomor Surat Keluar resmi lengkap yang diterbitkan Dispora (contoh: `005/11502/DISPORA/2026`) dengan subteks nomor slot agenda (`Agenda #11502`).
+2. **Kolom Kedua (Asal / Tujuan Instansi dan Perihal)**:
+   - Menampilkan instansi asal (atau instansi tujuan) dan perihal surat dengan format tipografi yang jelas dan bersih.
+   - Dilengkapi lencana penanda jika berkas belum diunggah (`⚠️ Belum Ada Berkas`) atau tombol buka cepat lembar disposisi pimpinan (`Scan Disposisi (PDF)`).
+3. **Kolom Ketiga (Posisi Disposisi / Bidang Pemrakarsa)**:
+   - Terletak strategis di tengah antara kolom Perihal dan Tanggal.
+   - Pada **Surat Masuk**: Menampilkan status perjalanan naskah:
+     * `Diterima Persuratan` (kuning/amber): Berkas baru masuk di loket persuratan.
+     * `Kepala Dinas` (biru): Berkas sedang dalam penelaahan dan disposisi oleh pimpinan.
+     * `Selesai` (hijau emerald): Disposisi telah selesai dan didistribusikan ke bidang teknis tujuan (`ke: {bidang}`).
+   - Pada **Surat Keluar**: Menampilkan nama **Bidang Pemrakarsa** yang memprakarsai penerbitan surat dinas tersebut.
+4. **Kolom Tanggal, Sifat, & Aksi**:
+   - Menampilkan tanggal surat, badge sifat (*Biasa, Penting, Segera, Kilat*), serta menu aksi terpadu (*Lihat PDF, Unduh, Disposisi, Edit, Hapus*).
+
 ---
 
 ## 6. PANDUAN PEREKAMAN RIWAYAT DISPOSISI FISIK PIMPINAN

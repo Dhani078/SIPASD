@@ -4,6 +4,7 @@ import Icon from './Icon';
 import Badge from './Badge';
 import Pagination from './Pagination';
 import RowActionMenu from './RowActionMenu';
+import DispositionStatusBadge from './DispositionStatusBadge';
 import { shortDate } from '@/lib/format';
 import type { LetterRecord } from '@/types';
 
@@ -27,34 +28,21 @@ function downloadPdf(letter: LetterRecord, e: React.MouseEvent) {
   e.stopPropagation();
   const fileName = letter.fileName || `${letter.id.replace(/\/(SM|SK)\/.*$/i, '')}.pdf`;
   const a = document.createElement('a');
-  a.href = letter.fileUrl
-    ? `/api/pdf?url=${encodeURIComponent(letter.fileUrl)}&name=${encodeURIComponent(fileName)}`
-    : '/placeholder-surat.pdf';
-  a.download = fileName;
-  a.target = '_blank';
-  a.click();
+  a.href = letter.fileUrl ? `/api/pdf?url=${encodeURIComponent(letter.fileUrl)}&name=${encodeURIComponent(fileName)}` : '/placeholder-surat.pdf';
+  a.download = fileName; a.target = '_blank'; a.click();
 }
 
 export default function ArchiveTable({
-  letters,
-  compact = false,
-  selectedId,
-  selectedIds = [],
-  onSelect,
-  onSelectDisp,
-  onToggleSelect,
-  onToggleAll,
-  onPrint,
-  onEdit,
-  onDelete,
-  page = 1,
-  onPage,
+  letters, compact = false, selectedId, selectedIds = [],
+  onSelect, onSelectDisp, onToggleSelect, onToggleAll,
+  onPrint, onEdit, onDelete, page = 1, onPage,
 }: Props) {
   const pages = Math.max(1, Math.ceil(letters.length / 15)), current = Math.min(page, pages);
   const visible = letters.slice(compact ? 0 : (current - 1) * 15, compact ? 5 : current * 15);
   const visibleIds = visible.map((l) => l.id);
   const allChecked = visibleIds.length > 0 && visibleIds.every((id) => selectedIds.includes(id));
   const someChecked = visibleIds.some((id) => selectedIds.includes(id)) && !allChecked;
+  const isAllOut = visible.length > 0 && visible.every((l) => l.direction === 'out');
 
   return (
     <>
@@ -74,8 +62,13 @@ export default function ArchiveTable({
                   />
                 </th>
               )}
-              <th scope="col">NO. AGENDA</th>
+              <th scope="col" style={{ minWidth: isAllOut ? '180px' : '110px' }}>
+                {isAllOut ? 'NOMOR SURAT KELUAR' : 'NO. AGENDA'}
+              </th>
               <th scope="col">ASAL / TUJUAN INSTANSI DAN PERIHAL</th>
+              <th scope="col" style={{ minWidth: isAllOut ? '140px' : '150px' }}>
+                {isAllOut ? 'BIDANG PEMRAKARSA' : 'POSISI DISPOSISI'}
+              </th>
               <th scope="col" style={{ whiteSpace: 'nowrap' }}>
                 TANGGAL <Icon name="down" size={11} />
               </th>
@@ -114,20 +107,24 @@ export default function ArchiveTable({
                     </td>
                   )}
                   <td>
-                    <b className="mono agenda">
-                      {letter.id}
-                      <span>/{letter.direction === 'in' ? 'SM' : 'SK'}/{letter.date ? letter.date.slice(0, 4) : '2026'}</span>
-                    </b>
+                    {letter.direction === 'out' ? (
+                      <b className="mono agenda">
+                        {letter.number || letter.id}
+                        <span>Agenda #{letter.id}</span>
+                      </b>
+                    ) : (
+                      <b className="mono agenda">
+                        {letter.id}
+                        <span>/SM/{letter.date ? letter.date.slice(0, 4) : '2026'}</span>
+                      </b>
+                    )}
                   </td>
                   <td>
                     <b className="text-slate-900 font-semibold">{letter.origin}</b>
                     <p title={letter.subject} className="text-slate-700 text-xs mt-0.5">{letter.subject}</p>
                     <div className="flex items-center gap-1.5 flex-wrap mt-1">
-                      {!compact && <small className="mono text-[11px] text-slate-500">{letter.number}</small>}
-                      {letter.division && (
-                        <span className="inline-flex items-center text-[10px] font-medium px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200">
-                          {letter.division}
-                        </span>
+                      {!compact && letter.direction === 'in' && (
+                        <small className="mono text-[11px] text-slate-500">{letter.number}</small>
                       )}
                       {!letter.fileUrl && (
                         <span
@@ -153,6 +150,9 @@ export default function ArchiveTable({
                         </button>
                       )}
                     </div>
+                  </td>
+                  <td>
+                    <DispositionStatusBadge letter={letter} />
                   </td>
                   <td className="mono date-cell">{shortDate(letter.date)}</td>
                   <td>

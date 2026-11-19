@@ -8,6 +8,25 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.67.0] - 2026-11-19
+
+### Added
+- **Kolom Baru Posisi Disposisi / Bidang Pemrakarsa pada Tabel Persuratan**:
+  * Menambahkan kolom khusus tepat di tengah antara kolom *Asal / Tujuan Instansi dan Perihal* dan kolom *Tanggal*.
+  * Komponen visual status semantik `DispositionStatusBadge.tsx` yang secara otomatis menampilkan status disposisi riil:
+    - `Diterima Persuratan` (lencana amber dengan titik status) untuk arsip baru atau naskah di frontdesk.
+    - `Kepala Dinas` (lencana biru dengan titik status) untuk disposisi yang sedang ditelaah/didisposisikan pimpinan.
+    - `Selesai` (lencana hijau emerald dengan titik status) untuk surat yang telah selesai atau didistribusikan ke bidang.
+    - Subteks unit kerja tujuan `ke: {bidang}` yang memperjelas arah disposisi tindak lanjut.
+- **Tampilan Nomor Surat Keluar Lengkap di Kolom Utama**:
+  * Untuk naskah Surat Keluar (`direction === 'out'`), kolom pertama kini menampilkan Nomor Surat Resmi lengkap (misal `005/11502/DISPORA/2026`) secara tegas dan jelas, dilengkapi subteks slot register `Agenda #{id}`.
+  * Tajuk kolom tabel secara cerdas berubah menjadi `NOMOR SURAT KELUAR` pada katalog surat keluar.
+  * Tajuk kolom ketiga pada katalog surat keluar otomatis beralih menjadi `BIDANG PEMRAKARSA` dengan lencana unit kerja pembuat naskah.
+- **Eliminasi Redundansi Tampilan Kolom Perihal**:
+  * Membersihkan duplikasi nomor surat dan lencana bidang di kolom perihal surat keluar, menghasilkan tampilan tabel yang lapang, proporsional, dan elegan.
+
+---
+
 ## [2.66.0] - 2026-11-19
 
 ### Added

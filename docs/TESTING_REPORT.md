@@ -65,6 +65,7 @@ Tabel berikut menyajikan hasil pengujian fungsional pada 15 skenario kritis sist
 | **TC-16** | Smart Document Scanner (Multi-Foto ke PDF A4) | Memilih banyak foto naskah sekaligus, mengatur filter Magic Color / Hitam Putih, memotong margin, dan klik Simpan. | Seluruh lembar foto diproses bersih di kanvas dan digabungkan menjadi 1 berkas PDF A4 resmi. | Berkas PDF A4 multi-halaman terbit seketika, badge 'Scan Genius' terverifikasi. | **PASS** |
 | **TC-17** | Perekaman Surat Tanpa Berkas (Opsional) | Menyimpan surat baru tanpa mengunggah berkas PDF maupun foto. | Surat tersimpan sukses di TiDB Cloud dan baris tabel menampilkan lencana '⚠️ Belum Ada Berkas'. | Data tersimpan aman, lencana amber muncul di tabel, pratinjau menampilkan tombol unggah cepat. | **PASS** |
 | **TC-18** | Pelengkapan Berkas Digital Susulan via Edit | Membuka modal edit pada surat tanpa berkas, memilih file lampiran, dan menyimpan. | Berkas terunggah ke Cloudinary & TiDB, lencana '⚠️ Belum Ada Berkas' otomatis hilang. | Status diperbarui, lencana penanda hilang, dokumen langsung siap dibaca/diunduh. | **PASS** |
+| **TC-19** | Kolom Posisi Disposisi & Format Nomor Surat Keluar | Membuka katalog Surat Masuk dan Surat Keluar, memverifikasi posisi kolom ketiga dan format nomor surat. | Kolom Posisi Disposisi / Bidang Pemrakarsa muncul di antara Perihal dan Tanggal; Surat Keluar menampilkan Nomor Surat Lengkap di kolom pertama. | Tajuk kolom dinamis, status lencana semantik terverifikasi, nomor surat keluar tampil jelas dan terformat. | **PASS** |
 
 ---
 
@@ -143,6 +144,6 @@ Berdasarkan pengujian empiris langsung pada operasional Sekretariat Dispora Kals
 
 ## 6. KESIMPULAN HASIL PENGUJIAN
 
-1. Seluruh 18 skenario pengujian fungsional *Black Box Testing* dinyatakan **100% LULUS (PASS)** tanpa ditemukan kesalahan logika (*logic flaws*) maupun celah keamanan.
+1. Seluruh 19 skenario pengujian fungsional *Black Box Testing* dinyatakan **100% LULUS (PASS)** tanpa ditemukan kesalahan logika (*logic flaws*) maupun celah keamanan.
 2. Pengujian otomatis E2E Playwright membuktikan integrasi antarmuka peramban, pemutar streaming PDF, navigasi URL, dan generator dokumen spreadsheet Excel berjalan stabil dan bebas hambatan (*zero page errors*).
 3. Sistem terbukti memecahkan kendala lambatnya pencarian dokumen di Google Drive instansi dan siap digunakan secara penuh (*production-ready*) untuk operasional persuratan Sekretariat Dinas Kepemudaan dan Olahraga Provinsi Kalimantan Selatan.

@@ -27,8 +27,8 @@ Sistem SIPASD menerapkan **3 lapis testing** untuk memastikan kualitas produksi:
 |---|------|---------------|-----------|
 | 1 | TiDB Connection | 170 SM + 241 SK + 7 Users + 5 Bidang + 6 Klasifikasi | Cloud DB accessible & seeded |
 | 2 | Cloudinary Signed URL | Valid signature generated | Anti-401 PDF streaming |
-| 3 | Code Modular Ratio | All 103 src/ files <= 200 LOC | Zero god objects, maintainability |
-| 4 | Zero Em-Dash Invariant | 0 em-dash in 175 files | Readability (hindari karakter em-dash pada kode/dokumen) |
+| 3 | Code Modular Ratio | All 104 src/ files <= 200 LOC | Zero god objects, maintainability |
+| 4 | Zero Em-Dash Invariant | 0 em-dash in 176 files | Readability (hindari karakter em-dash pada kode/dokumen) |
 | 5 | Security Headers | API auth guards active | Gateway & route-level protection |
 | 6 | Zero Hardcoded Secrets | Pure env var consumption | No credentials in src/ |
 
@@ -51,10 +51,10 @@ Dinas Kepemudaan dan Olahraga Provinsi Kalsel (2026)
 - Cloudinary Signed URL generated: OK (Anti-401 compliant).
 
 [TEST 3] Auditing Code Modular Ratio (The Floor: <= 200 LOC per file)...
-- Modular Check OK: All 103 files in src/ are <= 200 LOC.
+- Modular Check OK: All 104 files in src/ are <= 200 LOC.
 
 [TEST 4] Auditing Zero Em-Dash Quality Invariant...
-- Zero Em-Dash Invariant OK: 0 em-dash across all 175 project files.
+- Zero Em-Dash Invariant OK: 0 em-dash across all 176 project files.
 
 [TEST 5] Auditing Security Headers & Route Auth Guards...
 - Security Headers & API Auth Guards OK: Enforced at gateway and routes.
@@ -199,6 +199,10 @@ Sistem dilengkapi dengan 4 skrip otomasi peramban Google Chrome nyata (Playwrigh
 
 #### D. Audit Berkas Opsional, Lencana Penanda & Alur Edit (`scripts/audit_e2e_optional_file.py`)
 - **Cakupan**: Menguji pencatatan surat masuk tanpa lampiran berkas fisik, kemunculan lencana warna amber `⚠️ Belum Ada Berkas` di tabel, tampilan status modal pratinjau ramah dengan tombol `Unggah Berkas Sekarang`, alur pengunggahan berkas susulan via modal edit, dan hilangnya lencana penanda secara otomatis setelah berkas tersimpan.
+- **Hasil Pengujian**: 100% SUKSES (ALL PASSED), 0 console error.
+
+#### E. Audit Kolom Posisi Disposisi & Nomor Surat Keluar (`scripts/audit_table_columns.py`)
+- **Cakupan**: Memverifikasi keberadaan kolom `POSISI DISPOSISI` pada tabel Surat Masuk dan `BIDANG PEMRAKARSA` pada tabel Surat Keluar, penempatan kolom di antara Perihal dan Tanggal, format nomor agenda urut `/SM/` pada Surat Masuk, format nomor surat resmi lengkap dan subteks `Agenda #` pada Surat Keluar, serta integritas lencana status.
 - **Hasil Pengujian**: 100% SUKSES (ALL PASSED), 0 console error.
 
 ---

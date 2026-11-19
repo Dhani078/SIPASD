@@ -1074,3 +1074,51 @@
    - `npm run build`: 12 rute produksi sukses.
    - Seluruh 86 berkas di `src/` <= 200 baris kode.
 
+---
+
+## Sesi 51: Pembangunan Smart Document Scanner Multi-Foto ke 1 PDF A4 & Integrasi Kanvas
+**Tanggal**: 19 November 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Pembangunan Smart Document Scanner**:
+   - Membangun modal pemindai dokumen cerdas berbasis kanvas HTML5 (`SmartScannerModal.tsx`, `ScannerToolbar.tsx`, `ScannerPageNav.tsx`, `ScannerPageCard.tsx`).
+   - Menerapkan 3 filter dokumen kedinasan: Magic Color (pencerah latar & penajam tinta), Hitam Putih (teks tegas), dan Foto Asli.
+   - Menyediakan fitur rotasi 90 derajat per halaman dan tombol Terapkan ke Semua.
+2. **Dukungan Multi-Foto & Penggabungan PDF A4 Instan**:
+   - Mendukung pemilihan banyak foto sekaligus via atribut `multiple`.
+   - Mengemas seluruh lembar foto hasil pemindaian langsung ke dalam 1 berkas PDF ukuran A4 via `canvasesToA4Pdf` (`pdf-lib`).
+3. **Penyempurnaan Ruang & Zero-Overflow**:
+   - Menyembunyikan slider pemotong margin dalam toggle accordion `[✂ Pangkas Tepi]`.
+   - Memperbesar kanvas dokumen menjadi `max-h-[440px]` dengan bayangan kertas dokumen realistis.
+4. **Verifikasi Kualitas**:
+   - `npm test`: 6/6 test suites passed (100% HEALTHY).
+   - `scripts/audit_e2e_multipage_scanner.py`: 100% SUKSES (ALL PASSED).
+   - Seluruh berkas di `src/` <= 200 LOC, 0 em-dash across 175 files.
+
+---
+
+## Sesi 52: Fleksibilitas Lampiran Berkas Opsional, Lencana Penanda & Pembersihan Teks Unggah
+**Tanggal**: 19 November 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Lampiran Naskah 100% Opsional**:
+   - Pengguna dapat mencatat dan menyimpan surat masuk maupun surat keluar tanpa harus melampirkan berkas fisik terlebih dahulu.
+   - Perekaman langsung tersimpan aman ke database TiDB Cloud Serverless.
+2. **Lencana Penanda Khusus & Pratinjau Informatif**:
+   - Baris tabel persuratan otomatis memunculkan lencana warna amber `⚠️ Belum Ada Berkas` untuk naskah yang belum memiliki file digital.
+   - Modal pratinjau surat tanpa berkas menyajikan informasi ramah status dan tombol cepat `[ Unggah Berkas Sekarang ]`.
+   - Dropdown menu aksi titik tiga `(...)` menampilkan opsi kontekstual `Lengkapi / Unggah Berkas`.
+3. **Alur Pelengkapan Berkas via Edit**:
+   - Melalui modal edit (Ubah Metadata Arsip), pengguna dapat melampirkan berkas PDF atau foto naskah kapan saja.
+   - Lencana penanda otomatis hilang pasca penyimpanan dan berkas siap dibuka/diunduh.
+4. **Pembersihan Teks Kotak Unggah Berkas**:
+   - Mengeliminasi teks ramai `(Bisa Banyak Foto)` pada tombol dan teks panjang di bawahnya.
+   - Menyeragamkan menjadi tombol `[ 📄 Pilih Lampiran Berkas ]` dan teks bantuan `Tarik & lepas PDF atau foto naskah di sini (Opsional)`.
+5. **Verifikasi Kualitas**:
+   - `npm test`: 6/6 test suites passed (100% HEALTHY).
+   - `scripts/audit_e2e_optional_file.py`: 100% SUKSES (ALL PASSED, 0 console error).
+   - `scripts/master_chrome_audit.py`: 11/11 UI modules & 6/6 API endpoints ALL_PASS.
+   - Seluruh 103 berkas di `src/` <= 200 LOC, 0 em-dash across 175 files.
+

@@ -107,6 +107,28 @@ Modul ini digunakan untuk menelusuri 171 dokumen surat masuk pindaian yang diter
    - **Ikon Unduh**: Mengunduh berkas pindaian asli ke komputer Anda.
    - **Tombol "Buka Cadangan di Google Drive"**: Membuka salinan arsip pada folder Google Drive resmi instansi jika terjadi kendala akses.
 
+### 5.3 Cara Mengindeks Surat Baru & Menggunakan Smart Document Scanner
+1. Klik tombol hijau **"+ Indeks Surat Baru"** pada bilah atas katalog.
+2. Isi data surat: Nomor Surat (otomatis/manual), Asal Instansi, Perihal, Tanggal Surat, Tanggal Diterima, Sifat, dan Klasifikasi.
+3. Untuk melampirkan berkas, Anda dapat:
+   - Mengunggah berkas PDF naskah langsung, ATAU
+   - Memilih satu atau banyak foto naskah (JPG/PNG) sekaligus dari kamera HP/laptop.
+4. Jika memilih foto, jendela **Smart Document Scanner** akan otomatis terbuka:
+   - Pilih filter dokumen: **Magic Color** (mencerahkan kertas & mempertajam tinta/stempel), **Hitam Putih** (teks kontras), atau **Foto Asli**.
+   - Gunakan tombol **[✂ Pangkas Tepi]** jika ingin memotong pinggiran meja/latar foto.
+   - Putar lembar yang miring dengan tombol **Putar 90°**.
+   - Beralih antar lembar dengan tombol navigasi `[1] [2] [3]...` di baris atas.
+   - Klik **"✓ Terapkan Hasil Scan"**; seluruh foto otomatis digabung rapi menjadi 1 berkas PDF resmi ukuran A4.
+
+### 5.4 Perekaman Surat Tanpa Berkas (Opsional) & Melengkapi Berkas Nanti
+1. **Perekaman Tanpa Berkas**:
+   - Jika berkas fisik naskah belum selesai dipindai tetapi surat harus segera diagendakan, Anda dapat mengosongkan kotak lampiran dan langsung mengklik **"Simpan Indeks Arsip"**.
+   - Surat akan tersimpan resmi di database dengan lencana penanda khusus: **`⚠️ Belum Ada Berkas`** pada tabel persuratan.
+2. **Cara Melengkapi Berkas di Kemudian Hari**:
+   - Begitu berkas PDF atau foto naskah sudah siap, klik tombol aksi titik tiga **`(...)`** pada baris surat tersebut, lalu pilih **"Lengkapi / Unggah Berkas"** (atau klik tombol **"Unggah Berkas Sekarang"** di modal pratinjau).
+   - Pada modal edit yang terbuka, pilih berkas lampiran yang diinginkan, lalu klik **"Simpan Perubahan"**.
+   - Lencana penanda otomatis hilang dan berkas langsung siap dibuka maupun diunduh.
+
 ---
 
 ## 6. PANDUAN PEREKAMAN RIWAYAT DISPOSISI FISIK PIMPINAN

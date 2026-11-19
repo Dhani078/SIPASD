@@ -449,6 +449,26 @@ Phase 6: Verifikasi Akhir & Deploy Publik Vercel (In Progress)
 - [x] Verifikasi akhir: `aislop` 100/100, `npm test` 6/6 suites PASS, build 100% sukses.
 - *Status: Complete (100% PRODUCTION READY)*
 
+### [x] Phase 53: Smart Document Scanner Multi-Foto ke 1 Dokumen PDF A4 (100% COMPLETE)
+- [x] Pembangunan komponen scanner cerdas berbasis kanvas HTML5 (`SmartScannerModal.tsx`, `ScannerToolbar.tsx`, `ScannerPageNav.tsx`, `ScannerPageCard.tsx`).
+- [x] Dukungan input file `multiple` untuk memilih banyak foto sekaligus.
+- [x] 3 filter dokumen kedinasan: Magic Color (pencerah latar & penajam tinta), Hitam Putih (teks tegas), dan Foto Asli.
+- [x] Navigasi multi-halaman dengan rotasi 90 derajat per halaman, tombol Tambah Foto, dan Terapkan ke Semua.
+- [x] Pengemasan instan multi-lembar ke 1 PDF A4 terpadu via `pdf-lib` (`canvasesToA4Pdf`).
+- [x] Tombol pintas lencana `[📄 Scan Disposisi (PDF)]` di tabel arsip masuk dan riwayat disposisi fisik.
+- [x] Verifikasi Playwright Chrome: `scripts/audit_e2e_multipage_scanner.py` & `scripts/audit_e2e_photo_scan.py` 100% SUKSES.
+- *Status: Complete (100% PRODUCTION READY)*
+
+### [x] Phase 54: Lampiran Berkas Opsional, Lencana Penanda & Pembersihan Teks (100% COMPLETE)
+- [x] Lampiran berkas 100% opsional pada formulir Indeks Berkas Baru (Surat Masuk & Surat Keluar).
+- [x] Pembersihan teks kotak unggah naskah (`LetterFileUpload.tsx`): tombol `[ 📄 Pilih Lampiran Berkas ]` dan teks bantuan ringkas tanpa tulisan penjelas ramai.
+- [x] Lencana penanda khusus warna amber `⚠️ Belum Ada Berkas` otomatis terpasang pada baris tabel persuratan.
+- [x] Tampilan pratinjau surat tanpa berkas (`PdfPreviewPanel.tsx`) menyajikan status informatif dan tombol `Unggah Berkas Sekarang`.
+- [x] Opsi menu aksi dinamis `Lengkapi / Unggah Berkas` pada menu titik tiga `(...)`.
+- [x] Alur pengunggahan susulan via modal edit (`EditLetterModal.tsx`); lencana otomatis hilang pasca simpan.
+- [x] Verifikasi Playwright Chrome: `scripts/audit_e2e_optional_file.py` dan `scripts/master_chrome_audit.py` 100% SUKSES.
+- *Status: Complete (100% PRODUCTION READY)*
+
 ---
 
 ## Key Decisions & Locations

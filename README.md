@@ -108,6 +108,17 @@ Kata sandi setiap akun kedinasan disimpan dalam bentuk salted hash Bcrypt dan di
 - Retry logic 2x dengan exponential backoff untuk reliability 99%.
 - Fallback URL folder jika upload gagal setelah 2 retry.
 
+### 11. Smart Document Scanner (Pindai Bersih Multi-Foto ke 1 PDF A4)
+- **Genius Scan Bawaan Peramban**: Pengguna dapat memilih banyak foto naskah (JPG/PNG) sekaligus dari kamera HP atau komputer.
+- **Filter Pemrosesan Kanvas Real-Time**: Magic Color (mencerahkan kertas & mempertahankan warna stempel/paraf resmi), Hitam Putih (teks tegas kontras tinggi), dan Foto Asli.
+- **Navigasi Multi-Halaman & Pangkas Tepi Lipat**: Lompat antar lembar halaman, rotasi 90 derajat, slider potong margin yang dapat dilipat (collapsible) hemat ruang, dan pengemasan instan multi-lembar ke 1 berkas PDF A4 terpadu via `pdf-lib`.
+
+### 12. Lampiran Naskah Opsional & Lencana Penanda Khusus
+- **Perekaman Fleksibel**: Surat masuk maupun surat keluar dapat langsung diindeks dan disimpan tanpa lampiran berkas fisik.
+- **Lencana Status di Tabel**: Surat tanpa lampiran berkas ditandai lencana peringatan warna amber `⚠️ Belum Ada Berkas` di tabel persuratan.
+- **Pratinjau Informatif & Tombol Cepat**: Pratinjau surat tanpa berkas menyajikan ajakan ramah dan tombol `Unggah Berkas Sekarang`.
+- **Lengkapi Kapan Saja**: Melalui modal edit (Ubah Metadata Arsip), berkas PDF atau foto naskah dapat dilampirkan kapan saja; lencana penanda otomatis hilang begitu berkas tersimpan.
+
 ---
 
 ## 🛠️ Tumpukan Teknologi (Cloud-Native & Zero Cost)
@@ -127,28 +138,28 @@ Kata sandi setiap akun kedinasan disimpan dalam bentuk salted hash Bcrypt dan di
 npm test
 ```
 Test suite verifikasi 6 dimensi:
-1. **TiDB Connection**: 170 Surat Masuk, 241 Surat Keluar, 5 Users, 5 Bidang, 6 Klasifikasi
+1. **TiDB Connection**: 170 Surat Masuk, 241 Surat Keluar, 7 Users, 5 Bidang, 6 Klasifikasi
 2. **Cloudinary Signed URL**: Anti-401 streaming signature valid
-3. **Code Modular Ratio**: Semua 58 files ≤ 200 LOC (zero god objects)
-4. **Zero Em-Dash Invariant**: 0 em-dash di 108 project files (readability)
+3. **Code Modular Ratio**: Semua 103 files di src/ <= 200 LOC (zero god objects)
+4. **Zero Em-Dash Invariant**: 0 em-dash di 175 project files (readability)
 5. **Security Headers**: API auth guards aktif di gateway & routes
 6. **Zero Hardcoded Secrets**: Semua credentials via env vars
 
-### E2E Production Tests
+### E2E Production & Browser Automation Tests (Google Chrome)
 ```bash
-python tests/e2e/production-test.py
-```
-Browser automation (Playwright) test 8 skenario real user:
-1. Login & cookie persistence
-2. Dashboard stats load
-3. Upload surat masuk baru (PDF + metadata)
-4. PDF preview & GDrive backup link
-5. Cetak lembar disposisi
-6. Distribusi ekspedisi (surat keluar)
-7. Riwayat disposisi (filter status + search)
-8. Ekspor Buku Agenda Excel
+# 1. Master E2E Chrome Audit (11 Modul UI + 6 API Suites)
+python scripts/master_chrome_audit.py
 
-**Output**: 8 screenshots bukti di `tests/e2e/screenshots/`
+# 2. Audit Smart Document Scanner Multi-Foto ke 1 PDF A4
+python scripts/audit_e2e_multipage_scanner.py
+
+# 3. Audit Pindai Foto & Akses Dokumen Disposisi Fisik
+python scripts/audit_e2e_photo_scan.py
+
+# 4. Audit Berkas Opsional, Lencana Penanda & Alur Edit Berkas
+python scripts/audit_e2e_optional_file.py
+```
+Seluruh pengujian peramban Google Chrome berjalan otomatis (*headless/headed*) dengan tingkat kelulusan **100% SUKSES (ALL PASSED)** dan **0 console errors**.
 
 ---
 

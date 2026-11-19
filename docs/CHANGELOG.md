@@ -5,6 +5,31 @@ Format: `[YYYY-MM-DD] Fitur/Perbaikan - Deskripsi`
 
 ---
 
+## [2026-11-19] Lampiran Berkas Opsional, Lencana Penanda Tanpa Berkas, dan Pembersihan Teks Unggah
+
+- Lampiran Naskah 100% Opsional: Pengguna dapat mencatat dan menyimpan surat masuk maupun surat keluar tanpa harus melampirkan berkas fisik terlebih dahulu. Sistem menyimpan record naskah ke basis data TiDB Cloud Serverless dengan status valid.
+- Lencana Penanda Warna Amber: Di tabel persuratan (Arsip Surat Masuk & Keluar), surat tanpa berkas otomatis diberi penanda visual khusus `⚠️ Belum Ada Berkas`.
+- Pratinjau Status Ramah & Tombol Unggah Cepat: Modal pratinjau surat tanpa berkas menyajikan kotak informasi informatif dan tombol `Unggah Berkas Sekarang`.
+- Dropdown Menu Aksi Kontekstual: Opsi aksi baris berubah otomatis menjadi `Lengkapi / Unggah Berkas` jika naskah belum memiliki file digital.
+- Lengkapi Kapan Saja via Edit: Modal edit (Ubah Metadata Arsip) memungkinkan arsiparis mengunggah berkas PDF atau foto naskah kapan saja. Setelah disimpan, lencana peringatan hilang dan berkas langsung siap dibaca/diunduh.
+- Pembersihan Teks Kotak Unggah: Teks tombol disederhanakan menjadi `Pilih Lampiran Berkas` dan teks keterangan disederhanakan menjadi `Tarik & lepas PDF atau foto naskah di sini (Opsional)` tanpa teks ramai.
+- Audit E2E Google Chrome: Lolos 100% dengan skrip `scripts/audit_e2e_optional_file.py` (0 console error).
+
+---
+
+## [2026-11-19] Smart Document Scanner (Pindai Multi-Foto ke 1 Dokumen PDF A4)
+
+- Pemindai Dokumen Cerdas Berbasis Kanvas: Menghadirkan modal Smart Document Scanner terintegrasi di peramban web (`SmartScannerModal.tsx`, `ScannerToolbar.tsx`, `ScannerPageNav.tsx`, `ScannerPageCard.tsx`).
+- Dukungan Multi-Foto Sekaligus: Input berkas mendukung atribut `multiple` untuk memilih banyak foto dokumen langsung dari kamera HP atau komputer.
+- Tiga Filter Dokumen Real-Time: Filter Magic Color (mencerahkan kertas & mempertahankan warna stempel/paraf resmi), Hitam Putih (teks tegas kontras tinggi), dan Foto Asli.
+- Navigasi & Alat Pengeditan Lembar: Navigasi lompat halaman [1][2][3]..., rotasi 90 derajat per halaman, tombol Tambah Foto dari dalam modal, dan tombol Terapkan ke Semua.
+- Penghemat Ruang Vertikal: Slider potong tepi (crop) dibuat collapsible (dapat dilipat) dengan toggle `[✂ Pangkas Tepi]`, sehingga kanvas dokumen dapat diperbesar hingga 440px dengan bayangan kertas realistis.
+- Penggabungan Multi-Halaman Instan: Seluruh lembar foto hasil pindaian otomatis digabungkan menjadi satu berkas PDF resmi ukuran A4 menggunakan pustaka `pdf-lib` (`canvasesToA4Pdf`).
+- Akses Cepat Dokumen Disposisi: Tombol lencana `[📄 Scan Disposisi (PDF)]` di tabel arsip masuk dan riwayat disposisi fisik untuk membuka lembar disposisi pimpinan secara instan.
+- Audit E2E Google Chrome: Lolos 100% dengan skrip `scripts/audit_e2e_multipage_scanner.py` dan `scripts/audit_e2e_photo_scan.py`.
+
+---
+
 ## [2026-11-17] Otomatisasi Generator Nomor Surat ({Klasifikasi}/{Slot}/DISPORA/{Tahun}) dan Dropdown Mode
 
 - Generator Otomatis Nomor Surat: Pada formulir Indeks Berkas Baru, input Nomor Surat otomatis terisi dengan format standar kedinasan Dispora: `{kode_klasifikasi}/{slot_agenda}/DISPORA/{tahun}`.

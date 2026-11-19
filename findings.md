@@ -116,3 +116,18 @@ Berdasarkan analisis byte-level langsung terhadap seluruh 420 berkas di `C:\xamp
 | **Metode Rekayasa** | Waterfall / Agile rekayasa web responsif (Next.js 15 + TiDB + Cloudinary). | Algoritma **OCR Tesseract** (ekstraksi teks otomatis) atau **Multinomial Naive Bayes TF-IDF** (klasifikasi kategori otomatis). |
 | **Data Penelitian** | 420 berkas riil sebagai basis data arsip sistem. | 420 berkas riil sebagai korpus data latih (*training*) dan data uji (*testing*). |
 | **Kesiapan** | **100% Siap Diujikan pada Sidang Magang**. | **Tinggal menambahkan 1 modul algoritma di semester 8**. |
+
+---
+
+## 7. Temuan Kebutuhan Lapangan: Pemindaian Multi-Foto & Fleksibilitas Lampiran Berkas
+
+Berdasarkan observasi operasional persuratan langsung di Subbagian Umum dan Kepegawaian Dispora:
+
+1. **Pemindaian Lembar Naskah Menggunakan Kamera Seluler (Multi-Halaman)**:
+   - Staf kearsipan sering menerima naskah dinas fisik yang terdiri atas beberapa lembar kertas (2 s.d. 5 halaman).
+   - Saat scanner flatbed kantor sedang antre atau mati lampu, staf memotret lembar demi lembar naskah fisik menggunakan kamera ponsel pintar (*smartphone*).
+   - Dibutuhkan fitur pemindai cerdas (*Smart Document Scanner*) yang mampu menerima banyak foto JPG/PNG sekaligus, membersihkan bayangan kertas, memotong tepi (*crop*), dan mengemas seluruh lembar foto menjadi satu berkas PDF ukuran A4 resmi.
+2. **Pencatatan Surat Masuk/Keluar Tanpa Menunggu Berkas Selesai Dipindai**:
+   - Dalam alur kerja dinas yang padat, nomor surat atau agenda sering kali harus segera diterbitkan atau diagendakan terlebih dahulu oleh pengadministrasi persuratan, sementara dokumen fisik masih dibawa pimpinan untuk paraf atau sedang dalam proses pindaian.
+   - Perekaman naskah surat harus dapat disimpan tanpa file lampiran fisik terlebih dahulu (lampiran opsional).
+   - Diperlukan penanda visual yang tegas pada tabel arsip (`⚠️ Belum Ada Berkas`) agar arsiparis dapat mengetahui naskah mana yang belum memiliki lampiran berkas digital, serta tombol langsung untuk mengunggah berkas kapan saja via formulir edit.

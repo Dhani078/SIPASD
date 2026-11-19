@@ -6,6 +6,39 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ## [Unreleased]
 
+---
+
+## [2.66.0] - 2026-11-19
+
+### Added
+- **Lampiran Berkas Opsional & Lencana Penanda `⚠️ Belum Ada Berkas`**:
+  * Perekaman surat masuk dan surat keluar kini 100% opsional terhadap file lampiran; naskah dapat langsung disimpan ke TiDB Cloud tanpa file fisik terlebih dahulu.
+  * Baris tabel persuratan otomatis memunculkan lencana warna amber `⚠️ Belum Ada Berkas` untuk naskah yang belum memiliki file digital.
+  * Tampilan pratinjau surat tanpa berkas menyajikan informasi ramah status dan tombol langsung `[ Unggah Berkas Sekarang ]`.
+  * Menu aksi dropdown titik tiga (`...`) secara cerdas menampilkan opsi `Lengkapi / Unggah Berkas` jika naskah belum memiliki lampiran.
+  * Modal edit (`EditLetterModal.tsx`) diperbarui untuk mendukung pelengkapan/pengunggahan berkas digital kapan saja; lencana peringatan otomatis hilang pasca penyimpanan.
+- **Pembersihan Teks Kotak Unggah Berkas (Zero Clutter)**:
+  * Menghapus teks penjelas yang berlebihan seperti `(Bisa Banyak Foto)` pada tombol dan deskripsi panjang di bawahnya.
+  * Mengganti label menjadi `Pilih Lampiran Berkas` dan subteks `Tarik & lepas PDF atau foto naskah di sini (Opsional)`.
+  * Kemampuan multi-pilihan foto dan konversi otomatis Smart Scanner tetap aktif penuh di latar belakang.
+
+---
+
+## [2.65.0] - 2026-11-19
+
+### Added
+- **Smart Document Scanner (Pindai Multi-Foto ke 1 Dokumen PDF A4)**:
+  * Komponen pemindai cerdas dokumen berbasis kanvas (`SmartScannerModal.tsx`, `ScannerToolbar.tsx`, `ScannerPageNav.tsx`, `ScannerPageCard.tsx`).
+  * Dukungan unggah multi-foto naskah sekaligus (`multiple`) dari kamera ponsel maupun komputer.
+  * Filter pemrosesan kanvas real-time: `Magic Color` (mencerahkan kertas & mempertahankan warna stempel/paraf resmi), `Hitam Putih` (teks tegas kontras tinggi), dan `Foto Asli`.
+  * Navigasi lembar multi-halaman dengan tombol lompat halaman, rotasi 90 derajat per halaman, dan tombol *Terapkan ke Semua*.
+  * Slider pemotong margin kertas yang dapat dilipat (*collapsible accordion* `[✂ Pangkas Tepi]`) menghemat ~60px ruang vertikal.
+  * Kanvas pratinjau diperbesar hingga `max-h-[440px]` dengan efek bayangan dokumen kertas nyata (*realistic paper shadow*).
+  * Pengemasan instan seluruh kanvas lembar foto ke dalam 1 berkas PDF A4 terpadu via pustaka `pdf-lib` (`canvasesToA4Pdf`).
+- **Akses Langsung Berkas Scan Disposisi Fisik**:
+  * Tombol pintas lencana `[📄 Scan Disposisi (PDF)]` di tabel arsip masuk dan riwayat disposisi fisik untuk membuka dokumen lembar disposisi pimpinan secara instan.
+
+
 ### Added (Phase 30)
 - Modul dan rute resmi Pusat Laporan Eksekutif (`/laporan` dan `/api/reports`) mencakup 5 laporan kearsipan inti dan 1 laporan cadangan audit trail:
   1. Buku Agenda Register Surat Masuk (detail per naskah + summary total sifat).

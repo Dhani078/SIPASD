@@ -25,10 +25,10 @@ Sistem SIPASD menerapkan **3 lapis testing** untuk memastikan kualitas produksi:
 
 | # | Test | Pass Criteria | Rationale |
 |---|------|---------------|-----------|
-| 1 | TiDB Connection | 170 SM + 241 SK + 5 Users + 5 Bidang + 6 Klasifikasi | Cloud DB accessible & seeded |
+| 1 | TiDB Connection | 170 SM + 241 SK + 7 Users + 5 Bidang + 6 Klasifikasi | Cloud DB accessible & seeded |
 | 2 | Cloudinary Signed URL | Valid signature generated | Anti-401 PDF streaming |
-| 3 | Code Modular Ratio | All 58 src/ files ≤ 200 LOC | Zero god objects, maintainability |
-| 4 | Zero Em-Dash Invariant | 0 em-dash in 108 files | Readability (hindari karakter em-dash pada kode/dokumen) |
+| 3 | Code Modular Ratio | All 103 src/ files <= 200 LOC | Zero god objects, maintainability |
+| 4 | Zero Em-Dash Invariant | 0 em-dash in 175 files | Readability (hindari karakter em-dash pada kode/dokumen) |
 | 5 | Security Headers | API auth guards active | Gateway & route-level protection |
 | 6 | Zero Hardcoded Secrets | Pure env var consumption | No credentials in src/ |
 
@@ -45,21 +45,21 @@ Dinas Kepemudaan dan Olahraga Provinsi Kalsel (2026)
 ====================================================
 
 [TEST 1] Verifying TiDB Cloud Database Connection...
-- TiDB OK: 170 Surat Masuk, 241 Surat Keluar, 5 Users, 5 Bidang, 6 Klasifikasi.
+- TiDB OK: 170 Surat Masuk, 241 Surat Keluar, 7 Users, 5 Bidang, 6 Klasifikasi.
 
 [TEST 2] Verifying Cloudinary Signed Streaming Signature...
 - Cloudinary Signed URL generated: OK (Anti-401 compliant).
 
 [TEST 3] Auditing Code Modular Ratio (The Floor: <= 200 LOC per file)...
-- Modular Check OK: All 58 files in src/ are <= 200 LOC.
+- Modular Check OK: All 103 files in src/ are <= 200 LOC.
 
 [TEST 4] Auditing Zero Em-Dash Quality Invariant...
-- Zero Em-Dash Invariant OK: 0 em-dash across all 108 project files.
+- Zero Em-Dash Invariant OK: 0 em-dash across all 175 project files.
 
 [TEST 5] Auditing Security Headers & Route Auth Guards...
 - Security Headers & API Auth Guards OK: Enforced at gateway and routes.
 
-[TEST 6] Auditing Zero Hardcoded Secret in src/..
+[TEST 6] Auditing Zero Hardcoded Secret in src/...
 - Zero Hardcoded Secret OK: All production files consume pure environment variables.
 
 ====================================================
@@ -178,6 +178,28 @@ Target: https://www.sipasd.my.id
 Screenshots saved to: C:\xampp\htdocs\SIPASD\tests\e2e\screenshots
 ============================================================
 ```
+
+---
+
+### 3. Dedicated Google Chrome E2E Automated Suites (Playwright)
+
+Sistem dilengkapi dengan 4 skrip otomasi peramban Google Chrome nyata (Playwright async) untuk menguji fitur-fitur kritis persuratan digital:
+
+#### A. Master Chrome Audit (`scripts/master_chrome_audit.py`)
+- **Cakupan**: 11 Modul Antarmuka (Landing Page, Login RBAC, Dashboard Eksekutif, Arsip Surat Masuk, Arsip Surat Keluar, Riwayat Disposisi Fisik, Buku Ekspedisi, Master Klasifikasi, Manajemen Pengguna, Audit Trail Forensik, Pusat Laporan Eksekutif) dan 6 API Endpoint langsung.
+- **Kriteria Kelulusan**: Seluruh 11 modul UI berstatus PASS, 6 API berstatus 200 OK, 0 horizontal overflow, dan 0 console error.
+
+#### B. Audit Multi-Foto Smart Document Scanner (`scripts/audit_e2e_multipage_scanner.py`)
+- **Cakupan**: Menguji pemilihan multi-foto sekaligus (`multiple`), pembukaan otomatis Smart Scanner, navigasi lembar 1-5, penambahan foto dinamis dari dalam modal, rotasi 90 derajat, filter dokumen, dan penggabungan seluruh lembar ke 1 file PDF A4 resmi.
+- **Hasil Pengujian**: 100% SUKSES (ALL PASSED), 0 console error.
+
+#### C. Audit Pindai Foto & Akses Scan Disposisi (`scripts/audit_e2e_photo_scan.py`)
+- **Cakupan**: Menguji konversi foto tunggal naskah, filter warna Magic Color / Hitam Putih / Asli, perekaman berkas scan lembar disposisi pimpinan, serta verifikasi tombol lencana cepat `[📄 Scan Disposisi (PDF)]` di tabel arsip masuk dan riwayat disposisi.
+- **Hasil Pengujian**: 100% SUKSES (ALL PASSED), 0 console error.
+
+#### D. Audit Berkas Opsional, Lencana Penanda & Alur Edit (`scripts/audit_e2e_optional_file.py`)
+- **Cakupan**: Menguji pencatatan surat masuk tanpa lampiran berkas fisik, kemunculan lencana warna amber `⚠️ Belum Ada Berkas` di tabel, tampilan status modal pratinjau ramah dengan tombol `Unggah Berkas Sekarang`, alur pengunggahan berkas susulan via modal edit, dan hilangnya lencana penanda secara otomatis setelah berkas tersimpan.
+- **Hasil Pengujian**: 100% SUKSES (ALL PASSED), 0 console error.
 
 ---
 

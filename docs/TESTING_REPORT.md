@@ -62,6 +62,9 @@ Tabel berikut menyajikan hasil pengujian fungsional pada 15 skenario kritis sist
 | **TC-13** | Penapisan Berdasarkan 11 Venue Olahraga | Mengklik chip filter venue `GOR Hasanuddin HM` pada panel samping dasbor. | Menampilkan seluruh arsip surat yang bersinggungan dengan perizinan venue GOR Hasanuddin HM. | Daftar surat terfilter khusus pada permohonan dan retribusi GOR Hasanuddin HM. | **PASS** |
 | **TC-14** | Generator Ekspor Buku Agenda Excel (.xlsx) | Menekan tombol "Ekspor Excel" pada menu buku agenda persuratan. | Mengunduh berkas spreadsheet resmi `.xlsx` yang dibuat oleh pustaka `exceljs` secara otomatis. | Berkas `.xlsx` terunduh dalam **1.22 detik**, memuat kop dinas, freeze panes, dan garis sel rapi. | **PASS** |
 | **TC-15** | Responsivitas Mobile (0 Overflow) | Mengakses seluruh modul aplikasi pada viewport smartphone 375x812 px. | Antarmuka beradaptasi ke mode kartu vertikal, menu bawah aktif, tidak ada scrollbar horizontal. | Tampilan presisi pas layar HP, seluruh tombol berukuran $\ge$ 44x44 px, **0 horizontal overflow**. | **PASS** |
+| **TC-16** | Smart Document Scanner (Multi-Foto ke PDF A4) | Memilih banyak foto naskah sekaligus, mengatur filter Magic Color / Hitam Putih, memotong margin, dan klik Simpan. | Seluruh lembar foto diproses bersih di kanvas dan digabungkan menjadi 1 berkas PDF A4 resmi. | Berkas PDF A4 multi-halaman terbit seketika, badge 'Scan Genius' terverifikasi. | **PASS** |
+| **TC-17** | Perekaman Surat Tanpa Berkas (Opsional) | Menyimpan surat baru tanpa mengunggah berkas PDF maupun foto. | Surat tersimpan sukses di TiDB Cloud dan baris tabel menampilkan lencana '⚠️ Belum Ada Berkas'. | Data tersimpan aman, lencana amber muncul di tabel, pratinjau menampilkan tombol unggah cepat. | **PASS** |
+| **TC-18** | Pelengkapan Berkas Digital Susulan via Edit | Membuka modal edit pada surat tanpa berkas, memilih file lampiran, dan menyimpan. | Berkas terunggah ke Cloudinary & TiDB, lencana '⚠️ Belum Ada Berkas' otomatis hilang. | Status diperbarui, lencana penanda hilang, dokumen langsung siap dibaca/diunduh. | **PASS** |
 
 ---
 
@@ -140,6 +143,6 @@ Berdasarkan pengujian empiris langsung pada operasional Sekretariat Dispora Kals
 
 ## 6. KESIMPULAN HASIL PENGUJIAN
 
-1. Seluruh 15 skenario pengujian fungsional *Black Box Testing* dinyatakan **100% LULUS (PASS)** tanpa ditemukan kesalahan logika (*logic flaws*) maupun celah keamanan.
+1. Seluruh 18 skenario pengujian fungsional *Black Box Testing* dinyatakan **100% LULUS (PASS)** tanpa ditemukan kesalahan logika (*logic flaws*) maupun celah keamanan.
 2. Pengujian otomatis E2E Playwright membuktikan integrasi antarmuka peramban, pemutar streaming PDF, navigasi URL, dan generator dokumen spreadsheet Excel berjalan stabil dan bebas hambatan (*zero page errors*).
 3. Sistem terbukti memecahkan kendala lambatnya pencarian dokumen di Google Drive instansi dan siap digunakan secara penuh (*production-ready*) untuk operasional persuratan Sekretariat Dinas Kepemudaan dan Olahraga Provinsi Kalimantan Selatan.

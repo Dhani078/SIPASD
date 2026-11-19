@@ -16,26 +16,26 @@ interface Props {
 export default function LetterFileUpload({
   file,
   onFileChange,
-  label = 'Pilih Lampiran PDF atau Foto Naskah (JPG/PNG)',
-  hint = 'Tarik & lepas PDF/Foto di sini (JPG, PNG otomatis dipindai via Smart Scanner A4)',
+  label = 'Pilih Lampiran PDF atau Foto Naskah (Bisa Banyak Foto)',
+  hint = 'Tarik & lepas PDF/Foto di sini (Bisa pilih banyak foto JPG/PNG sekaligus via Smart Scanner)',
   accept = 'application/pdf,image/jpeg,image/png,image/webp',
 }: Props) {
   const [isDrag, setIsDrag] = useState(false);
-  const [isPhotoScan, setIsPhotoScan] = useState(false);
-  const [pendingScanFile, setPendingScanFile] = useState<File | null>(null);
+  const [scanPageCount, setScanPageCount] = useState<number>(0);
+  const [pendingScanFiles, setPendingScanFiles] = useState<File[]>([]);
   const fileInput = useRef<HTMLInputElement>(null);
 
   const processFiles = (fileList?: FileList | File[] | null) => {
     if (!fileList || fileList.length === 0) return;
     const arr = Array.from(fileList);
-    const img = arr.find((f) => isImageFile(f));
+    const images = arr.filter((f) => isImageFile(f));
 
-    if (img) {
-      setPendingScanFile(img);
+    if (images.length > 0) {
+      setPendingScanFiles(images);
     } else {
       const pdf = arr.find((f) => f.name.toLowerCase().endsWith('.pdf'));
       if (pdf) {
-        setIsPhotoScan(false);
+        setScanPageCount(0);
         onFileChange(pdf);
       }
     }
@@ -55,17 +55,21 @@ export default function LetterFileUpload({
           type="file"
           ref={fileInput}
           accept={accept}
+          multiple
           className="hidden"
-          onChange={(e) => processFiles(e.target.files)}
+          onChange={(e) => {
+            processFiles(e.target.files);
+            if (e.target) e.target.value = '';
+          }}
         />
         {file ? (
           <div className="flex items-center justify-center flex-wrap gap-2 text-xs text-emerald-900 bg-emerald-100 py-1.5 px-3 rounded">
             <Icon name="file" size={14} />
             <span className="font-semibold truncate max-w-xs">{file.name}</span>
             <span className="text-emerald-700 text-[11px]">({(file.size / 1024).toFixed(0)} KB)</span>
-            {isPhotoScan && (
+            {scanPageCount > 0 && (
               <span className="bg-emerald-600 text-white text-[10px] px-1.5 py-0.5 rounded font-semibold tracking-wide">
-                Scan Genius Bersih
+                Scan Genius ({scanPageCount} Hal)
               </span>
             )}
             {file.size > 4 * 1024 * 1024 && (
@@ -73,8 +77,8 @@ export default function LetterFileUpload({
             )}
             <button
               type="button"
-              className="ml-1 text-red-600 hover:text-red-800 font-bold"
-              onClick={() => { onFileChange(undefined); setIsPhotoScan(false); }}
+              className="ml-1 text-red-600 hover:text-red-800 font-bold cursor-pointer"
+              onClick={() => { onFileChange(undefined); setScanPageCount(0); }}
               title="Hapus berkas"
             >
               ✕
@@ -84,7 +88,7 @@ export default function LetterFileUpload({
           <>
             <button
               type="button"
-              className="btn outline text-xs py-1.5 px-3 flex items-center justify-center gap-1.5 mx-auto"
+              className="btn outline text-xs py-1.5 px-3 flex items-center justify-center gap-1.5 mx-auto cursor-pointer"
               onClick={() => fileInput.current?.click()}
             >
               <Icon name="file" size={14} /> <span>{label}</span>
@@ -96,15 +100,15 @@ export default function LetterFileUpload({
         )}
       </div>
 
-      {pendingScanFile && (
+      {pendingScanFiles.length > 0 && (
         <SmartScannerModal
-          file={pendingScanFile}
-          onApply={(processedPdf) => {
-            setPendingScanFile(null);
-            setIsPhotoScan(true);
+          files={pendingScanFiles}
+          onApply={(processedPdf, pageCount) => {
+            setPendingScanFiles([]);
+            setScanPageCount(pageCount);
             onFileChange(processedPdf);
           }}
-          onClose={() => setPendingScanFile(null)}
+          onClose={() => setPendingScanFiles([])}
         />
       )}
     </>

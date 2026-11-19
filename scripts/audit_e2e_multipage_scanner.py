@@ -64,7 +64,7 @@ async def main():
         await modal_title.wait_for(state="visible", timeout=10000)
         print("  ✓ Modal Smart Scanner terbuka otomatis untuk multi-foto")
 
-        page_info = page.locator("text=Halaman 1 dari 2")
+        page_info = page.locator("text=Halaman 1 dari 2").first
         await page_info.wait_for(state="visible", timeout=5000)
         print("  ✓ Terdeteksi indikator: 'Halaman 1 dari 2'")
 
@@ -72,7 +72,7 @@ async def main():
         page_2_btn = page.locator(".modal button:has-text('2')").first
         await page_2_btn.click()
         await asyncio.sleep(0.3)
-        page_2_info = page.locator("text=Halaman 2 dari 2")
+        page_2_info = page.locator("text=Halaman 2 dari 2").first
         await page_2_info.wait_for(state="visible", timeout=5000)
         print("  ✓ Pindah ke Halaman 2 sukses via tab halaman")
 
@@ -90,7 +90,7 @@ async def main():
         await add_photo_input.set_input_files([IMG_3])
         await asyncio.sleep(0.5)
 
-        page_3_info = page.locator("text=Halaman 3 dari 3")
+        page_3_info = page.locator("text=Halaman 3 dari 3").first
         await page_3_info.wait_for(state="visible", timeout=5000)
         print("  ✓ Foto ke-3 berhasil ditambahkan, status berubah menjadi 'Halaman 3 dari 3'")
 

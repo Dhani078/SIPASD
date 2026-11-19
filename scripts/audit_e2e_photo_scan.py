@@ -103,11 +103,22 @@ async def main():
         assert file_name_display.lower().endswith(".pdf"), f"Expected .pdf, got {file_name_display}"
 
         # -------------------------------------------------------------
-        # STEP 4: SAVE NEW LETTER TO TIDB
+        # STEP 4: SAVE NEW LETTER TO TIDB WITH DISPOSITION SCAN
         # -------------------------------------------------------------
-        print("\n[STEP 4] Menyimpan Indeks Surat dengan Dokumen PDF Hasil Scan...")
+        print("\n[STEP 4] Menyimpan Indeks Surat dengan Dokumen PDF Hasil Scan & Scan Disposisi...")
         await page.fill("input[name='origin']", "Kemenpora RI - Uji Scanner Genius")
         await page.fill("input[name='subject']", "Audit Integrasi Smart Document Scanner dan Akses Lembar Disposisi Fisik")
+
+        # Also upload a disposition scan file
+        disp_file_box = page.locator(".new-form .file-box").nth(1)
+        disp_input = disp_file_box.locator("input[type='file']")
+        await disp_input.set_input_files(SAMPLE_PNG)
+        disp_scanner = page.locator("text=Smart Document Scanner (Pindai Bersih A4)")
+        await disp_scanner.wait_for(state="visible", timeout=10000)
+        disp_apply = page.locator("button:has-text('Terapkan Hasil Scan')").last
+        await disp_apply.click()
+        await disp_scanner.wait_for(state="detached", timeout=10000)
+        print("  ✓ Scan lembar disposisi berhasil diproses ke PDF")
 
         submit_btn = page.locator("button[type='submit']:has-text('Simpan Indeks Arsip')")
         await submit_btn.click()
@@ -119,7 +130,6 @@ async def main():
         # STEP 5: VERIFY ACCESS BUTTONS FOR DISPOSITION PDF
         # -------------------------------------------------------------
         print("\n[STEP 5] Memverifikasi Tombol Akses Berkas Scan Disposisi (PDF)...")
-        # Find row 11451 or letter with disposition file
         disp_pill = page.locator("button:has-text('Scan Disposisi (PDF)')").first
         disp_count = await disp_pill.count()
         print(f"  ✓ Terdeteksi {disp_count} tombol lencana 'Scan Disposisi (PDF)' di tabel arsip masuk")

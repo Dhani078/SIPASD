@@ -1,13 +1,13 @@
 'use client';
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Modal from './Modal';
 import ScannerPageNav from './ScannerPageNav';
 import ScannerToolbar from './ScannerToolbar';
+import ScannerPageCard from './ScannerPageCard';
 import {
   type PageScanConfig,
   createDefaultPageConfig,
-  renderImageToCanvas,
   canvasesToA4Pdf,
 } from '@/lib/document-filter';
 
@@ -25,16 +25,37 @@ export default function SmartScannerModal({ files, file, onApply, onClose }: Pro
   );
   const [pageIndex, setPageIndex] = useState(0);
   const [processing, setProcessing] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
+  const [images, setImages] = useState<{ [id: string]: HTMLImageElement }>({});
 
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const imageMapRef = useRef<Map<File, HTMLImageElement>>(new Map());
-  const activeImageRef = useRef<HTMLImageElement | null>(null);
+  const canvasMapRef = useRef<{ [index: number]: HTMLCanvasElement | null }>({});
 
   const currentPage = pages[pageIndex] || pages[0];
 
+  useEffect(() => {
+    pages.forEach((p) => {
+      if (images[p.id]) return;
+      const img = new Image();
+      const url = URL.createObjectURL(p.file);
+      img.onload = () => {
+        URL.revokeObjectURL(url);
+        setImages((prev) => ({ ...prev, [p.id]: img }));
+      };
+      img.src = url;
+    });
+  }, [pages, images]);
+
   const updateCurrent = (patch: Partial<PageScanConfig>) => {
     setPages((prev) => prev.map((p, idx) => (idx === pageIndex ? { ...p, ...patch } : p)));
+  };
+
+  const handleRotatePage = (index: number) => {
+    setPages((prev) =>
+      prev.map((p, idx) =>
+        idx === index
+          ? { ...p, rotation: ((p.rotation + 90) % 360) as 0 | 90 | 180 | 270 }
+          : p
+      )
+    );
   };
 
   const handleApplyAll = () => {
@@ -57,11 +78,8 @@ export default function SmartScannerModal({ files, file, onApply, onClose }: Pro
 
   const handleAddFiles = (newFiles: File[]) => {
     const newConfigs = newFiles.map((f) => createDefaultPageConfig(f));
-    setPages((prev) => {
-      const updated = [...prev, ...newConfigs];
-      setPageIndex(prev.length);
-      return updated;
-    });
+    setPages((prev) => [...prev, ...newConfigs]);
+    setPageIndex(pages.length);
   };
 
   const handleRemovePage = (indexToRemove: number) => {
@@ -70,57 +88,18 @@ export default function SmartScannerModal({ files, file, onApply, onClose }: Pro
     setPageIndex((prev) => Math.max(0, Math.min(prev, pages.length - 2)));
   };
 
-  useEffect(() => {
-    if (!currentPage) return;
-    setImageLoaded(false);
-    const existing = imageMapRef.current.get(currentPage.file);
-    if (existing) {
-      activeImageRef.current = existing;
-      setImageLoaded(true);
-      return;
-    }
-    const img = new Image();
-    const url = URL.createObjectURL(currentPage.file);
-    img.onload = () => {
-      URL.revokeObjectURL(url);
-      imageMapRef.current.set(currentPage.file, img);
-      activeImageRef.current = img;
-      setImageLoaded(true);
-    };
-    img.src = url;
-  }, [currentPage]);
-
-  const render = useCallback(() => {
-    const img = activeImageRef.current;
-    const canvas = canvasRef.current;
-    if (!img || !canvas || !imageLoaded || !currentPage) return;
-    renderImageToCanvas(img, canvas, currentPage);
-  }, [imageLoaded, currentPage]);
-
-  useEffect(() => {
-    if (imageLoaded) render();
-  }, [imageLoaded, render]);
+  const registerCanvas = (index: number, el: HTMLCanvasElement | null) => {
+    canvasMapRef.current[index] = el;
+  };
 
   const handleApply = async () => {
     if (pages.length === 0) return;
     setProcessing(true);
     try {
       const canvases: HTMLCanvasElement[] = [];
-      for (const p of pages) {
-        let img = imageMapRef.current.get(p.file);
-        if (!img) {
-          img = await new Promise<HTMLImageElement>((resolve, reject) => {
-            const i = new Image();
-            const u = URL.createObjectURL(p.file);
-            i.onload = () => { URL.revokeObjectURL(u); resolve(i); };
-            i.onerror = reject;
-            i.src = u;
-          });
-          imageMapRef.current.set(p.file, img);
-        }
-        const c = document.createElement('canvas');
-        renderImageToCanvas(img, c, p);
-        canvases.push(c);
+      for (let i = 0; i < pages.length; i++) {
+        const c = canvasMapRef.current[i];
+        if (c) canvases.push(c);
       }
       const pdf = await canvasesToA4Pdf(canvases, pages[0].file.name);
       onApply(pdf, pages.length);
@@ -134,32 +113,54 @@ export default function SmartScannerModal({ files, file, onApply, onClose }: Pro
   if (!currentPage) return null;
 
   return (
-    <Modal title="Smart Document Scanner (Pindai Bersih A4)" onClose={onClose}>
-      <div className="space-y-2 text-xs">
-        <ScannerPageNav
-          currentIndex={pageIndex}
-          total={pages.length}
-          onSelect={setPageIndex}
-          onAddFiles={handleAddFiles}
-          onRemove={handleRemovePage}
-          onApplyAll={handleApplyAll}
-        />
-
-        <ScannerToolbar page={currentPage} onUpdate={updateCurrent} />
-
-        <div className="bg-slate-900 rounded p-2 flex items-center justify-center min-h-[220px] max-h-[360px] overflow-auto">
-          {!imageLoaded && <span className="text-slate-400">Memuat foto halaman...</span>}
-          <canvas ref={canvasRef} className={`max-h-[340px] max-w-full object-contain shadow-lg rounded ${!imageLoaded ? 'hidden' : 'block'}`} />
+    <Modal
+      title="Smart Document Scanner (Pindai Bersih A4)"
+      onClose={onClose}
+      className="scanner-modal-popup"
+    >
+      <div className="flex flex-col flex-1 min-h-0 overflow-hidden text-xs">
+        <div className="flex-shrink-0 p-2.5 space-y-1.5 bg-white border-b border-slate-200">
+          <ScannerPageNav
+            currentIndex={pageIndex}
+            total={pages.length}
+            onSelect={setPageIndex}
+            onAddFiles={handleAddFiles}
+            onRemove={handleRemovePage}
+            onApplyAll={handleApplyAll}
+          />
+          <ScannerToolbar page={currentPage} onUpdate={updateCurrent} />
         </div>
 
-        <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-200">
-          <span className="text-[11px] text-slate-500">
+        <div className="flex-1 min-h-0 overflow-y-auto p-3 space-y-3 bg-slate-950">
+          {pages.map((p, idx) => (
+            <ScannerPageCard
+              key={p.id}
+              page={p}
+              index={idx}
+              total={pages.length}
+              isActive={idx === pageIndex}
+              image={images[p.id] || null}
+              onSelect={setPageIndex}
+              onRotate={handleRotatePage}
+              onRemove={handleRemovePage}
+              registerCanvas={registerCanvas}
+            />
+          ))}
+        </div>
+
+        <div className="flex-shrink-0 p-3 bg-white border-t border-slate-200 flex items-center justify-between gap-2 shadow-xs">
+          <span className="text-[11px] text-slate-500 font-medium">
             {pages.length > 1
-              ? `Otomatis menggabungkan ${pages.length} foto menjadi 1 berkas PDF A4 resmi.`
-              : 'Otomatis menghilangkan bayangan & memutihkan latar kertas menjadi dokumen dinas resmi.'}
+              ? `📄 ${pages.length} halaman foto otomatis digabung menjadi 1 dokumen PDF A4 resmi.`
+              : '📄 1 halaman foto otomatis dipindai bersih menjadi dokumen dinas PDF A4 resmi.'}
           </span>
           <div className="flex items-center gap-2">
-            <button type="button" className="btn outline text-xs py-1.5 px-3 cursor-pointer" onClick={onClose} disabled={processing}>
+            <button
+              type="button"
+              className="btn outline text-xs py-1.5 px-3 cursor-pointer"
+              onClick={onClose}
+              disabled={processing}
+            >
               Batal
             </button>
             <button

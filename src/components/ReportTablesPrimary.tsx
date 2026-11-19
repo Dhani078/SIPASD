@@ -28,7 +28,17 @@ export function ReportTableMasuk({ data, summary }: { data: Record<string, unkno
             <td className="p-2.5 border-r border-slate-200 text-slate-700 leading-relaxed">{String(r.perihal)}</td>
             <td className="p-2.5 border-r border-slate-200 text-[11px] text-emerald-800">{r.bidang_tujuan ? String(r.bidang_tujuan) : '-'}</td>
             <td className="p-2.5 text-center whitespace-nowrap">
-              <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${r.sifat_surat === 'KILAT' ? 'bg-red-100 text-red-700' : r.sifat_surat === 'PENTING' ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-700'}`}>
+              <span
+                className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                  r.sifat_surat === 'KILAT'
+                    ? 'bg-red-100 text-red-700'
+                    : r.sifat_surat === 'PENTING'
+                      ? 'bg-blue-100 text-blue-700'
+                      : r.sifat_surat === 'SEGERA'
+                        ? 'bg-amber-100 text-amber-700'
+                        : 'bg-emerald-100 text-emerald-700'
+                }`}
+              >
                 {String(r.sifat_surat)}
               </span>
             </td>
@@ -87,6 +97,11 @@ export function ReportTableKeluar({ data }: { data: Record<string, unknown>[] })
 }
 
 export function ReportTableDisposisiBidang({ data }: { data: Record<string, unknown>[] }) {
+  const totSurat = data.reduce((acc, r) => acc + Number(r.jumlah_surat || 0), 0);
+  const totSelesai = data.reduce((acc, r) => acc + Number(r.selesai || 0), 0);
+  const totProses = data.reduce((acc, r) => acc + Number(r.proses || 0), 0);
+  const totBelum = data.reduce((acc, r) => acc + Number(r.belum_diproses || 0), 0);
+
   return (
     <table className="w-full text-left text-xs border border-slate-200">
       <thead className="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
@@ -113,6 +128,16 @@ export function ReportTableDisposisiBidang({ data }: { data: Record<string, unkn
           </tr>
         ))}
       </tbody>
+      <tfoot className="bg-slate-100 font-semibold border-t-2 border-slate-300 text-slate-800">
+        <tr>
+          <td colSpan={2} className="p-2.5 text-right font-bold">Total Rekapitulasi Disposisi:</td>
+          <td className="p-2.5 text-center font-bold">{totSurat}</td>
+          <td className="p-2.5 text-center text-slate-400 font-normal">-</td>
+          <td className="p-2.5 text-center font-bold text-emerald-700">{totSelesai}</td>
+          <td className="p-2.5 text-center font-bold text-blue-700">{totProses}</td>
+          <td className="p-2.5 text-center font-bold text-amber-700">{totBelum}</td>
+        </tr>
+      </tfoot>
     </table>
   );
 }

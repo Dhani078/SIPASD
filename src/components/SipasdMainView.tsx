@@ -70,7 +70,7 @@ export default function SipasdMainView({
               : page === 'profile'
                 ? 'Informasi identitas aparatur, rincian kewenangan akses, dan riwayat sesi kedinasan.'
                 : page === 'reports'
-                  ? 'Kompilasi 5 laporan kearsipan resmi & audit trail kedinasan siap cetak dan ekspor Excel.'
+                  ? 'Kompilasi 6 laporan kearsipan eksekutif & audit trail kedinasan siap cetak dan ekspor Excel.'
                   : page === 'history'
                     ? 'Pencatatan lembar disposisi kertas Kepala Dinas & status tindak lanjut bidang.'
                   : page === 'agenda' || page === 'excel'
@@ -104,7 +104,7 @@ export default function SipasdMainView({
         <div>
           <Icon name="shield" size={16} />
           <b>Arsip tertib, tata kelola akuntabel.</b>
-          <span>411 naskah dinas fisik terindeks resmi &amp; tersinkronisasi terpusat.</span>
+          <span>{letters.length} naskah dinas fisik terindeks resmi &amp; tersinkronisasi terpusat.</span>
         </div>
         <span className="system-status">
           <span className="live-dot" /> Sistem Aktif

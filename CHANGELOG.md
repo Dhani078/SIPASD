@@ -8,6 +8,22 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.71.0] - 2026-11-20
+
+### Improved & Enhanced
+- **Penyempurnaan & Revisi Menyeluruh Pusat Laporan Eksekutif (`ReportsManagementView.tsx`, `ReportsFilterBar.tsx`, `ReportTablesPrimary.tsx`, `ReportTablesSecondary.tsx`)**:
+  * **Fitur Ekspor Excel 6 Format Laporan (`src/lib/exportReportExcel.ts`)**: Menghadirkan tombol aksi "Ekspor Excel (.xlsx)" pada bilah filter laporan yang secara dinamis mengekspor format tabel laporan aktif (Surat Masuk, Surat Keluar, Disposisi Bidang, Kepatuhan, Klasifikasi, dan Audit Trail) dengan styling resmi Dispora (tajuk hijau zamrud `#064E3B`, teks tebal putih, auto-filter, dan pembekuan baris judul).
+  * **Tanggal Cetak Dinamis**: Memperbarui tanggal bertanda tangan pada lembar cetak laporan resmi dari yang sebelumnya statis menjadi dinamis mengikuti kalender hari ini (`Banjarmasin, [Tanggal Hari Ini]`) menggunakan pemformat bahasa Indonesia resmi.
+  * **Periode Tahun Anggaran Dinamis**: Menghapus teks tahun anggaran statis dan menggantinya dengan tahun aktif dinamis (`Periode: Tahun Anggaran [Tahun Berjalan]`).
+  * **Penyempurnaan Lencana Sifat Naskah**: Menambahkan penanganan warna khusus sifat naskah `SEGERA` (`bg-amber-100 text-amber-700`) di samping `KILAT` (merah), `PENTING` (biru), dan `BIASA` (hijau zamrud).
+  * **Kelengkapan Filter Aksi Audit Trail**: Memperluas pilihan filter aksi log forensik audit mencakup seluruh 10 aksi database riil (`BUAT_ARSIP`, `EDIT_ARSIP`, `HAPUS_ARSIP`, `CATAT_EKSPEDISI`, `UNGGAH_BERKAS`, `TAMBAH_KLASIFIKASI`, `LOGIN_SUCCESS`, `LOGIN_FAILED`, `LOGOUT`).
+  * **Baris Rekapitulasi Total (`<tfoot>`)**: Menambahkan baris akumulasi total pada seluruh tabel laporan (Total Rekapitulasi Disposisi pada Laporan 3, Total Monitoring pada Laporan 4, Total Akumulasi Surat Keluar pada Laporan 5, dan Total Rekaman pada Laporan 6).
+  * **Penyelarasan Jabatan Kepala Dinas**: Menyelaraskan teks jabatan pimpinan penandatangan cetak menjadi "Kepala Dinas Kepemudaan dan Olahraga Provinsi Kalimantan Selatan".
+  * **Banner Sistem Dinamis (`SipasdMainView.tsx`)**: Mengubah jumlah total naskah dinas pada banner beranda dari angka statis menjadi dinamis mengikuti panjang data arsip riil (`{letters.length} naskah dinas fisik`).
+  * **Kepatuhan Invarian Keras**: Seluruh 108 berkas di `src/` tetap $\le 200$ LOC, 0 em-dash di seluruh 181 berkas repositori, dan lulus 100% pada Master Chrome Playwright Audit.
+
+---
+
 ## [2.70.0] - 2026-11-20
 
 ### Improved & Redesigned

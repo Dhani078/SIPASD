@@ -19,43 +19,44 @@ interface Props {
   divisionFilter: string;
   setDivisionFilter: (v: string) => void;
   onRefresh: () => void;
+  onExportExcel?: () => void;
 }
 
 export default function ReportsFilterBar({
-  reportType,
-  setReportType,
-  periodPreset,
-  onPresetChange,
-  startDate,
-  setStartDate,
-  endDate,
-  setEndDate,
-  statusFilter,
-  setStatusFilter,
-  actionFilter,
-  setActionFilter,
-  divisionFilter,
-  setDivisionFilter,
-  onRefresh,
+  reportType, setReportType, periodPreset, onPresetChange,
+  startDate, setStartDate, endDate, setEndDate,
+  statusFilter, setStatusFilter, actionFilter, setActionFilter,
+  divisionFilter, setDivisionFilter, onRefresh, onExportExcel,
 }: Props) {
   return (
     <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4">
       <div className="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
         <div className="space-y-1">
           <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
-            <Icon name="chart" size={18} /> Pusat Laporan &amp; Keluaran Sistem (5 Laporan + Audit Trail)
+            <Icon name="chart" size={18} /> Pusat Laporan &amp; Keluaran Sistem (6 Format Laporan)
           </h2>
           <p className="text-xs text-slate-500">
             Pilih format laporan baku untuk mencetak berkas fisik atau mengekspor rekapitulasi data.
           </p>
         </div>
-        <button
-          type="button"
-          onClick={() => window.print()}
-          className="px-3 py-2 bg-emerald-700 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 hover:bg-emerald-800 transition"
-        >
-          <Icon name="print" size={14} /> Cetak Laporan (Print / PDF)
-        </button>
+        <div className="flex items-center gap-2 flex-wrap">
+          {onExportExcel && (
+            <button
+              type="button"
+              onClick={onExportExcel}
+              className="px-3 py-2 bg-emerald-800 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 hover:bg-emerald-900 transition shadow-xs cursor-pointer"
+            >
+              <Icon name="download" size={14} /> Ekspor Excel (.xlsx)
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={() => window.print()}
+            className="px-3 py-2 bg-slate-800 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 hover:bg-slate-900 transition shadow-xs cursor-pointer"
+          >
+            <Icon name="print" size={14} /> Cetak Laporan (Print / PDF)
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-3 border-t border-slate-100 text-xs">
@@ -84,7 +85,7 @@ export default function ReportsFilterBar({
             onChange={(e) => onPresetChange(e.target.value)}
             className="w-full px-3 py-2 border border-slate-300 rounded-lg text-slate-800 bg-slate-50"
           >
-            <option value="all">Semua Periode (TA 2026)</option>
+            <option value="all">Semua Periode (TA Berjalan)</option>
             <option value="today">Hari Ini</option>
             <option value="this_month">Bulan Berjalan</option>
             <option value="this_year">Tahun 2026 Penuh</option>
@@ -158,7 +159,11 @@ export default function ReportsFilterBar({
               <option value="BUAT_ARSIP">Buat Arsip</option>
               <option value="EDIT_ARSIP">Edit Arsip</option>
               <option value="HAPUS_ARSIP">Hapus Arsip</option>
+              <option value="CATAT_EKSPEDISI">Catat Ekspedisi</option>
+              <option value="UNGGAH_BERKAS">Unggah Berkas</option>
+              <option value="TAMBAH_KLASIFIKASI">Tambah Klasifikasi</option>
               <option value="LOGIN_SUCCESS">Login Sukses</option>
+              <option value="LOGIN_FAILED">Login Gagal</option>
               <option value="LOGOUT">Logout</option>
             </select>
           </div>

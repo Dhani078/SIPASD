@@ -5,6 +5,17 @@ Format: `[YYYY-MM-DD] Fitur/Perbaikan - Deskripsi`
 
 ---
 
+## [2026-11-20] Penyempurnaan Menyeluruh Pusat Laporan Eksekutif
+
+- Ekspor Excel 6 Format Laporan: Menambahkan utilitas `src/lib/exportReportExcel.ts` dan tombol "Ekspor Excel (.xlsx)" pada filter bar untuk mengunduh laporan berformat spreadsheet resmi dengan tajuk hijau kedinasan.
+- Tanggal & Periode Cetak Dinamis: Mengganti tanggal cetak statis dengan tanggal hari ini dinamis (`formatDate`) dan tahun anggaran berjalan otomatis.
+- Visual Badge Sifat Naskah: Menambahkan warna amber khusus untuk naskah berkategori sifat `SEGERA` (`bg-amber-100 text-amber-700`).
+- Kelengkapan Filter Audit Trail: Memuat seluruh 10 aksi audit log database ke dropdown filter log audit.
+- Baris Total Rekapitulasi: Menyematkan baris `<tfoot>` pada Laporan 3 (Disposisi per Bidang), Laporan 4 (Monitoring Kepatuhan), Laporan 5 (Volume Klasifikasi), dan Laporan 6 (Audit Trail).
+- Banner Sistem Dinamis: Menampilkan total fisik naskah dinamis `{letters.length}` pada `SipasdMainView.tsx`.
+
+---
+
 ## [2026-11-20] Penyempurnaan Visual & Estetika Modal Klasifikasi Arsip
 
 - Redesain Formulir Modal (`NewClassificationModal.tsx`): Menata ulang tampilan formulir input modal klasifikasi dengan bingkai jelas (`border-slate-300`), latar putih solid, bayangan halus, dan cincin fokus hijau zamrud (`focus:border-emerald-600 focus:ring-2`).

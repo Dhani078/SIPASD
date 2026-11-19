@@ -1,6 +1,9 @@
 'use client';
 
 export function ReportTableKepatuhan({ data }: { data: Record<string, unknown>[] }) {
+  const totSelesai = data.filter((r) => r.status_penyelesaian === 'SELESAI').length;
+  const totBelum = data.length - totSelesai;
+
   return (
     <table className="w-full text-left text-xs border border-slate-200">
       <thead className="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
@@ -33,11 +36,21 @@ export function ReportTableKepatuhan({ data }: { data: Record<string, unknown>[]
           </tr>
         ))}
       </tbody>
+      <tfoot className="bg-slate-100 font-semibold border-t-2 border-slate-300 text-slate-800">
+        <tr>
+          <td colSpan={5} className="p-2.5 text-right font-bold">Total Rekapitulasi Monitoring:</td>
+          <td colSpan={3} className="p-2.5 text-center font-bold">
+            {data.length} Naskah ({totSelesai} Selesai, {totBelum} Dalam Proses/Tenggat)
+          </td>
+        </tr>
+      </tfoot>
     </table>
   );
 }
 
 export function ReportTableKlasifikasi({ data }: { data: Record<string, unknown>[] }) {
+  const totSurat = data.reduce((acc, r) => acc + Number(r.total_surat_keluar || 0), 0);
+
   return (
     <table className="w-full text-left text-xs border border-slate-200">
       <thead className="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
@@ -58,6 +71,12 @@ export function ReportTableKlasifikasi({ data }: { data: Record<string, unknown>
           </tr>
         ))}
       </tbody>
+      <tfoot className="bg-slate-100 font-semibold border-t-2 border-slate-300 text-slate-800">
+        <tr>
+          <td colSpan={3} className="p-2.5 text-right font-bold">Total Akumulasi Surat Keluar:</td>
+          <td className="p-2.5 text-center font-bold text-slate-900">{totSurat} Berkas</td>
+        </tr>
+      </tfoot>
     </table>
   );
 }
@@ -91,6 +110,12 @@ export function ReportTableAudit({ data }: { data: Record<string, unknown>[] }) 
           </tr>
         ))}
       </tbody>
+      <tfoot className="bg-slate-100 font-semibold border-t-2 border-slate-300 text-slate-800">
+        <tr>
+          <td colSpan={7} className="p-2.5 text-right font-bold">Total Rekaman Audit Trail:</td>
+          <td className="p-2.5 text-left font-bold">{data.length} Log Aktivitas</td>
+        </tr>
+      </tfoot>
     </table>
   );
 }

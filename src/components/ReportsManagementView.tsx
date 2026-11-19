@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import ReportsFilterBar from './ReportsFilterBar';
 import { ReportTableMasuk, ReportTableKeluar, ReportTableDisposisiBidang } from './ReportTablesPrimary';
 import { ReportTableKepatuhan, ReportTableKlasifikasi, ReportTableAudit } from './ReportTablesSecondary';
+import { exportReportToExcel } from '@/lib/exportReportExcel';
+import { formatDate } from '@/lib/format';
 import type { DemoUser } from '@/types';
 
 interface Props {
@@ -21,7 +23,6 @@ export default function ReportsManagementView({ currentUser: _currentUser }: Pro
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<Record<string, unknown>[]>([]);
   const [summary, setSummary] = useState<Record<string, unknown> | null>(null);
-
   const [reloadKey, setReloadKey] = useState<number>(0);
 
   const handlePresetChange = (preset: string) => {
@@ -72,10 +73,17 @@ export default function ReportsManagementView({ currentUser: _currentUser }: Pro
       }
     }
     void load();
-    return () => {
-      ignore = true;
-    };
+    return () => { ignore = true; };
   }, [reportType, startDate, endDate, statusFilter, actionFilter, divisionFilter, reloadKey]);
+
+  const handleExportExcel = () => {
+    if (data.length === 0) return;
+    const label = startDate && endDate ? `${startDate}_sd_${endDate}` : periodPreset;
+    void exportReportToExcel(reportType, data, label);
+  };
+
+  const todayStr = formatDate(new Date().toISOString().slice(0, 10));
+  const currentYear = new Date().getFullYear();
 
   return (
     <div className="space-y-6">
@@ -95,14 +103,12 @@ export default function ReportsManagementView({ currentUser: _currentUser }: Pro
         divisionFilter={divisionFilter}
         setDivisionFilter={setDivisionFilter}
         onRefresh={() => setReloadKey((k) => k + 1)}
+        onExportExcel={handleExportExcel}
       />
 
-      {/* Sheet Laporan: Format Baku Panel Web & Print */}
       <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm print:border-none print:shadow-none print:p-0">
-        {/* Kop Surat Cetak Resmi Pemprov Kalsel (Tampil elegan saat cetak, dan tersembunyi/minimal di web) */}
         <div className="hidden print:flex items-center justify-between border-b-2 border-slate-900 pb-3 mb-6">
           <div className="w-16 flex-shrink-0 flex items-center justify-center">
-            {/* Logo Kalsel Resmi */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo-kalsel.svg" alt="Logo Pemprov Kalsel" className="w-14 h-16 object-contain" />
           </div>
@@ -116,7 +122,6 @@ export default function ReportsManagementView({ currentUser: _currentUser }: Pro
           <div className="w-16 flex-shrink-0" />
         </div>
 
-        {/* Judul Laporan Terpilih */}
         <div className="mb-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-100 pb-3 print:border-none print:text-center print:pb-0">
           <div>
             <h1 className="text-sm sm:text-base font-bold uppercase tracking-wide text-slate-900">
@@ -128,7 +133,7 @@ export default function ReportsManagementView({ currentUser: _currentUser }: Pro
               {reportType === '6' && 'Laporan Rekapitulasi Riwayat Audit Trail Sistem'}
             </h1>
             <p className="text-xs text-slate-500 font-medium">
-              {startDate && endDate ? `Periode: ${startDate} s/d ${endDate}` : 'Periode: Tahun Anggaran 2026'}
+              {startDate && endDate ? `Periode: ${startDate} s/d ${endDate}` : `Periode: Tahun Anggaran ${currentYear}`}
             </p>
           </div>
           <div className="text-xs text-slate-500 print:hidden flex items-center gap-2">
@@ -154,14 +159,14 @@ export default function ReportsManagementView({ currentUser: _currentUser }: Pro
         <div className="hidden print:grid grid-cols-2 gap-8 mt-12 text-xs text-slate-800">
           <div>
             <p>Mengetahui,</p>
-            <p className="font-bold">Plt. Kepala Dinas Kepemudaan dan Olahraga</p>
+            <p className="font-bold">Kepala Dinas Kepemudaan dan Olahraga</p>
             <p className="font-bold">Provinsi Kalimantan Selatan</p>
             <div className="h-16" />
             <p className="font-bold underline">Pebriadin Hapiz, AP, M.Si</p>
             <p>Pembina Utama Muda (IV/c)</p>
           </div>
           <div className="text-right">
-            <p>Banjarmasin, 30 Oktober 2026</p>
+            <p>Banjarmasin, {todayStr}</p>
             <p className="font-bold">Pengelola Arsip Kedinasan</p>
             <div className="h-16" />
             <p className="font-bold underline">Rana Nur Syifa</p>

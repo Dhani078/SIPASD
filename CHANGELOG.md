@@ -8,6 +8,18 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.75.0] - 2026-11-20
+
+### Fixed & Enhanced
+- **Pencegahan Cetak Saat Data Masih Dimuat & Penguncian Tombol Aksi (`ReportsFilterBar.tsx`, `ReportsManagementView.tsx`)**:
+  * **Kunci Pengaman Cetak & Ekspor (`Loading Lock`)**: Tombol `Cetak Laporan (Print / PDF)` dan `Ekspor Excel (.xlsx)` otomatis dinonaktifkan (`disabled`) dengan indikator animasi pemrosesan (*spinner*) dan teks `Menyiapkan Data...` saat halaman laporan baru dibuka atau saat filter sedang dimuat ulang, mencegah Chrome membekukan dialog cetak dalam status "Memuat data...".
+  * **Inisialisasi Status Loading Sejak Mount Pertama**: Mengatur nilai awal `loading: true` pada `ReportsManagementView` sehingga peramban langsung mengenali fase pemuatan data sebelum kueri API selesai.
+  * **Penanganan Cerdas Filter Kosong (`0 Baris Data`)**: Jika filter yang dipilih aparatur menghasilkan 0 rekaman data, tombol cetak beralih menampilkan status `0 Baris (Tidak Ada Data)` dalam keadaan dinonaktifkan guna mencegah pencetakan laporan kosong tanpa tabel.
+  * **Perlindungan CSS Media Cetak (`print:hidden`)**: Menambahkan aturan `print:hidden` pada teks pemuatan agar tulisan sementara tidak pernah bocor ke lembar cetakan fisik dokumen.
+
+
+---
+
 ## [2.74.0] - 2026-11-20
 
 ### Improved & Optimized

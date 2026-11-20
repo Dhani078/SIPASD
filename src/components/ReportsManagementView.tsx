@@ -20,7 +20,7 @@ export default function ReportsManagementView({ currentUser: _currentUser }: Pro
   const [statusFilter, setStatusFilter] = useState<string>('SEMUA');
   const [actionFilter, setActionFilter] = useState<string>('SEMUA');
   const [divisionFilter, setDivisionFilter] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [data, setData] = useState<Record<string, unknown>[]>([]);
   const [summary, setSummary] = useState<Record<string, unknown> | null>(null);
   const [reloadKey, setReloadKey] = useState<number>(0);
@@ -105,6 +105,9 @@ export default function ReportsManagementView({ currentUser: _currentUser }: Pro
         setDivisionFilter={setDivisionFilter}
         onRefresh={() => setReloadKey((k) => k + 1)}
         onExportExcel={handleExportExcel}
+        loading={loading}
+        dataCount={data.length}
+        onPrint={() => window.print()}
       />
 
       <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm print:border-none print:shadow-none print:p-0">
@@ -143,9 +146,15 @@ export default function ReportsManagementView({ currentUser: _currentUser }: Pro
         </div>
 
         {loading ? (
-          <div className="py-12 text-center text-xs text-slate-400">Memuat data laporan kearsipan...</div>
+          <div className="py-12 text-center text-xs text-slate-400 print:hidden">
+            <span className="inline-block w-5 h-5 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin mb-2" />
+            <p>Memuat data laporan kearsipan...</p>
+          </div>
         ) : data.length === 0 ? (
-          <div className="py-12 text-center text-xs text-slate-400">Tidak ada arsip yang cocok dengan filter yang dipilih.</div>
+          <div className="py-12 text-center text-xs text-slate-400 print:text-slate-600">
+            <p className="font-semibold text-slate-600">Tidak ada arsip yang cocok dengan filter yang dipilih.</p>
+            <p className="text-[11px] text-slate-400 mt-1">Silakan pilih bidang lain atau perluas rentang tanggal periode.</p>
+          </div>
         ) : (
           <div className="overflow-x-auto print:overflow-visible">
             {reportType === '1' && <ReportTableMasuk data={data} summary={summary} />}

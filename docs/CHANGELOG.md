@@ -5,6 +5,15 @@ Format: `[YYYY-MM-DD] Fitur/Perbaikan - Deskripsi`
 
 ---
 
+## [2026-11-20] Pengamanan Cetak Laporan & Penanganan Status Loading / 0 Baris Data
+
+- Kunci Pengaman Cetak (Loading Lock): Menonaktifkan tombol "Cetak Laporan (Print / PDF)" dan "Ekspor Excel" dengan status "Menyiapkan Data..." saat halaman baru dimuat atau saat proses filtering berlangsung, mencegah peramban mencetak lembar kosong atau pesan "Memuat data...".
+- Inisialisasi Status Loading Sejak Mount Awal: Memastikan state awal bernilai loading agar tidak terjadi jeda waktu klik prematur sebelum data kearsipan tiba dari database.
+- Proteksi Filter Kosong: Tombol cetak beralih menampilkan "0 Baris (Tidak Ada Data)" dalam keadaan nonaktif bila hasil saringan filter bernilai nihil.
+- Proteksi Media Cetak CSS: Menyembunyikan elemen indikator pemuatan dari print view (`print:hidden`).
+
+---
+
 ## [2026-11-20] Modernisasi Desain & Estetika Modal Ubah Arsip Agenda
 
 - Redesain Antarmuka SPBE: Memperbarui visual modal "Ubah Arsip Agenda" dengan border elegan, focus ring emerald, dan tipografi rapi berstandar tata naskah kedinasan Pemprov Kalsel.

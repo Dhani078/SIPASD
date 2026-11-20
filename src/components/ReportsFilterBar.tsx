@@ -4,22 +4,15 @@ import Icon from './Icon';
 import { divisions } from '@/data/constants';
 
 interface Props {
-  reportType: string;
-  setReportType: (v: string) => void;
-  periodPreset: string;
-  onPresetChange: (p: string) => void;
-  startDate: string;
-  setStartDate: (v: string) => void;
-  endDate: string;
-  setEndDate: (v: string) => void;
-  statusFilter: string;
-  setStatusFilter: (v: string) => void;
-  actionFilter: string;
-  setActionFilter: (v: string) => void;
-  divisionFilter: string;
-  setDivisionFilter: (v: string) => void;
-  onRefresh: () => void;
-  onExportExcel?: () => void;
+  reportType: string; setReportType: (v: string) => void;
+  periodPreset: string; onPresetChange: (p: string) => void;
+  startDate: string; setStartDate: (v: string) => void;
+  endDate: string; setEndDate: (v: string) => void;
+  statusFilter: string; setStatusFilter: (v: string) => void;
+  actionFilter: string; setActionFilter: (v: string) => void;
+  divisionFilter: string; setDivisionFilter: (v: string) => void;
+  onRefresh: () => void; onExportExcel?: () => void;
+  loading?: boolean; dataCount?: number; onPrint?: () => void;
 }
 
 export default function ReportsFilterBar({
@@ -27,6 +20,7 @@ export default function ReportsFilterBar({
   startDate, setStartDate, endDate, setEndDate,
   statusFilter, setStatusFilter, actionFilter, setActionFilter,
   divisionFilter, setDivisionFilter, onRefresh, onExportExcel,
+  loading = false, dataCount = 0, onPrint,
 }: Props) {
   return (
     <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4 print:hidden">
@@ -35,26 +29,32 @@ export default function ReportsFilterBar({
           <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
             <Icon name="chart" size={18} /> Pusat Laporan &amp; Keluaran Sistem (6 Format Laporan)
           </h2>
-          <p className="text-xs text-slate-500">
-            Pilih format laporan baku untuk mencetak berkas fisik atau mengekspor rekapitulasi data.
-          </p>
+          <p className="text-xs text-slate-500">Pilih format laporan baku untuk mencetak berkas fisik atau mengekspor rekapitulasi data.</p>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           {onExportExcel && (
             <button
-              type="button"
-              onClick={onExportExcel}
-              className="px-3 py-2 bg-emerald-800 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 hover:bg-emerald-900 transition shadow-xs cursor-pointer"
+              type="button" disabled={loading || dataCount === 0} onClick={onExportExcel}
+              className={`px-3 py-2 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition shadow-xs ${
+                loading || dataCount === 0 ? 'bg-slate-200 text-slate-400 cursor-not-allowed border border-slate-200' : 'bg-emerald-800 text-white hover:bg-emerald-900 cursor-pointer'
+              }`}
             >
               <Icon name="download" size={14} /> Ekspor Excel (.xlsx)
             </button>
           )}
           <button
-            type="button"
-            onClick={() => window.print()}
-            className="px-3 py-2 bg-slate-800 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 hover:bg-slate-900 transition shadow-xs cursor-pointer"
+            type="button" disabled={loading || dataCount === 0} onClick={onPrint || (() => window.print())}
+            className={`px-3 py-2 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition shadow-xs ${
+              loading || dataCount === 0 ? 'bg-slate-200 text-slate-400 cursor-not-allowed border border-slate-200' : 'bg-slate-800 text-white hover:bg-slate-900 cursor-pointer'
+            }`}
           >
-            <Icon name="print" size={14} /> Cetak Laporan (Print / PDF)
+            {loading ? (
+              <><span className="inline-block w-3.5 h-3.5 border-2 border-slate-400 border-t-transparent rounded-full animate-spin" /><span>Menyiapkan Data...</span></>
+            ) : dataCount === 0 ? (
+              <><Icon name="print" size={14} /> <span>0 Baris (Tidak Ada Data)</span></>
+            ) : (
+              <><Icon name="print" size={14} /> <span>Cetak Laporan (Print / PDF)</span></>
+            )}
           </button>
         </div>
       </div>
@@ -62,12 +62,7 @@ export default function ReportsFilterBar({
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-3 border-t border-slate-100 text-xs">
         <div>
           <label htmlFor="select-report-type" className="block text-slate-600 font-medium mb-1">Pilih Jenis Laporan:</label>
-          <select
-            id="select-report-type"
-            value={reportType}
-            onChange={(e) => setReportType(e.target.value)}
-            className="w-full px-3 py-2 border border-slate-300 rounded-lg text-slate-800 bg-slate-50 font-medium focus:bg-white"
-          >
+          <select id="select-report-type" value={reportType} onChange={(e) => setReportType(e.target.value)} className="w-full px-3 py-2 border border-slate-300 rounded-lg text-slate-800 bg-slate-50 font-medium focus:bg-white">
             <option value="1">Laporan 1: Buku Agenda Surat Masuk</option>
             <option value="2">Laporan 2: Buku Agenda Surat Keluar</option>
             <option value="3">Laporan 3: Rekap Disposisi per Bidang</option>
@@ -79,12 +74,7 @@ export default function ReportsFilterBar({
 
         <div>
           <label htmlFor="select-period-preset" className="block text-slate-600 font-medium mb-1">Periode Waktu:</label>
-          <select
-            id="select-period-preset"
-            value={periodPreset}
-            onChange={(e) => onPresetChange(e.target.value)}
-            className="w-full px-3 py-2 border border-slate-300 rounded-lg text-slate-800 bg-slate-50"
-          >
+          <select id="select-period-preset" value={periodPreset} onChange={(e) => onPresetChange(e.target.value)} className="w-full px-3 py-2 border border-slate-300 rounded-lg text-slate-800 bg-slate-50">
             <option value="all">Semua Periode (TA Berjalan)</option>
             <option value="today">Hari Ini</option>
             <option value="this_month">Bulan Berjalan</option>
@@ -95,39 +85,18 @@ export default function ReportsFilterBar({
         <div>
           <label htmlFor="input-start-date" className="block text-slate-600 font-medium mb-1">Rentang Tanggal:</label>
           <div className="flex items-center gap-1">
-            <input
-              id="input-start-date"
-              type="date"
-              aria-label="Tanggal mulai"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
-              className="w-1/2 px-2 py-1.5 border border-slate-300 rounded text-slate-800"
-            />
+            <input id="input-start-date" type="date" aria-label="Tanggal mulai" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="w-1/2 px-2 py-1.5 border border-slate-300 rounded text-slate-800" />
             <span className="text-slate-400">-</span>
-            <input
-              id="input-end-date"
-              type="date"
-              aria-label="Tanggal akhir"
-              value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
-              className="w-1/2 px-2 py-1.5 border border-slate-300 rounded text-slate-800"
-            />
+            <input id="input-end-date" type="date" aria-label="Tanggal akhir" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="w-1/2 px-2 py-1.5 border border-slate-300 rounded text-slate-800" />
           </div>
         </div>
 
         {['1', '2', '3', '4'].includes(reportType) && (
           <div>
             <label htmlFor="select-division-filter" className="block text-slate-600 font-medium mb-1">Filter Bidang / Unit Kerja:</label>
-            <select
-              id="select-division-filter"
-              value={divisionFilter}
-              onChange={(e) => setDivisionFilter(e.target.value)}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg text-slate-800 bg-slate-50"
-            >
+            <select id="select-division-filter" value={divisionFilter} onChange={(e) => setDivisionFilter(e.target.value)} className="w-full px-3 py-2 border border-slate-300 rounded-lg text-slate-800 bg-slate-50">
               <option value="">Semua Bidang &amp; Subbagian</option>
-              {divisions.map((d) => (
-                <option key={d} value={d}>{d}</option>
-              ))}
+              {divisions.map((d) => <option key={d} value={d}>{d}</option>)}
             </select>
           </div>
         )}
@@ -135,12 +104,7 @@ export default function ReportsFilterBar({
         {reportType === '4' ? (
           <div>
             <label htmlFor="select-status-filter" className="block text-slate-600 font-medium mb-1">Filter Status:</label>
-            <select
-              id="select-status-filter"
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg text-slate-800 bg-slate-50"
-            >
+            <select id="select-status-filter" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="w-full px-3 py-2 border border-slate-300 rounded-lg text-slate-800 bg-slate-50">
               <option value="SEMUA">Semua Status</option>
               <option value="BELUM_SELESAI">Belum Selesai (Proses / Belum)</option>
               <option value="SELESAI">Sudah Selesai</option>
@@ -149,33 +113,24 @@ export default function ReportsFilterBar({
         ) : reportType === '6' ? (
           <div>
             <label htmlFor="select-action-filter" className="block text-slate-600 font-medium mb-1">Filter Aksi Log:</label>
-            <select
-              id="select-action-filter"
-              value={actionFilter}
-              onChange={(e) => setActionFilter(e.target.value)}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg text-slate-800 bg-slate-50"
-            >
+            <select id="select-action-filter" value={actionFilter} onChange={(e) => setActionFilter(e.target.value)} className="w-full px-3 py-2 border border-slate-300 rounded-lg text-slate-800 bg-slate-50">
               <option value="SEMUA">Semua Tindakan</option>
-              <option value="BUAT_ARSIP">Buat Arsip</option>
-              <option value="EDIT_ARSIP">Edit Arsip</option>
-              <option value="HAPUS_ARSIP">Hapus Arsip</option>
-              <option value="CATAT_EKSPEDISI">Catat Ekspedisi</option>
-              <option value="UNGGAH_BERKAS">Unggah Berkas</option>
-              <option value="TAMBAH_KLASIFIKASI">Tambah Klasifikasi</option>
-              <option value="LOGIN_SUCCESS">Login Sukses</option>
-              <option value="LOGIN_FAILED">Login Gagal</option>
-              <option value="LOGOUT">Logout</option>
+              <option value="BUAT_ARSIP">Buat Arsip</option><option value="EDIT_ARSIP">Edit Arsip</option><option value="HAPUS_ARSIP">Hapus Arsip</option>
+              <option value="CATAT_EKSPEDISI">Catat Ekspedisi</option><option value="UNGGAH_BERKAS">Unggah Berkas</option><option value="TAMBAH_KLASIFIKASI">Tambah Klasifikasi</option>
+              <option value="LOGIN_SUCCESS">Login Sukses</option><option value="LOGIN_FAILED">Login Gagal</option><option value="LOGOUT">Logout</option>
             </select>
           </div>
         ) : null}
 
         <div className="flex items-end">
           <button
-            type="button"
-            onClick={onRefresh}
-            className="w-full py-2 bg-slate-800 text-white rounded-lg text-xs font-medium hover:bg-slate-900 transition flex items-center justify-center gap-1.5 h-[34px]"
+            type="button" disabled={loading} onClick={onRefresh}
+            className={`w-full py-2 rounded-lg text-xs font-medium transition flex items-center justify-center gap-1.5 h-[34px] ${
+              loading ? 'bg-slate-300 text-slate-500 cursor-not-allowed' : 'bg-slate-800 text-white hover:bg-slate-900 cursor-pointer'
+            }`}
           >
-            <Icon name="clock" size={14} /> Muat Ulang Data
+            {loading ? <span className="inline-block w-3.5 h-3.5 border-2 border-slate-500 border-t-transparent rounded-full animate-spin" /> : <Icon name="clock" size={14} />}
+            <span>{loading ? 'Memuat...' : 'Muat Ulang Data'}</span>
           </button>
         </div>
       </div>

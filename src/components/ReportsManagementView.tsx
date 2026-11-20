@@ -87,6 +87,7 @@ export default function ReportsManagementView({ currentUser: _currentUser }: Pro
 
   return (
     <div className="space-y-6">
+      <style>{`@media print { @page { size: landscape; margin: 8mm 10mm; } }`}</style>
       <ReportsFilterBar
         reportType={reportType}
         setReportType={setReportType}

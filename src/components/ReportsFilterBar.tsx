@@ -29,7 +29,7 @@ export default function ReportsFilterBar({
   divisionFilter, setDivisionFilter, onRefresh, onExportExcel,
 }: Props) {
   return (
-    <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4">
+    <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4 print:hidden">
       <div className="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
         <div className="space-y-1">
           <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">

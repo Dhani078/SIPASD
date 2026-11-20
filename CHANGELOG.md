@@ -8,6 +8,23 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.72.0] - 2026-11-20
+
+### Fixed & Resolved
+- **Perbaikan Cetak Laporan Resmi & Ekspor PDF (`src/app/globals.css`, `ReportsFilterBar.tsx`, `ReportsManagementView.tsx`)**:
+  * **Resolusi Blank Print Preview**: Menghapus kelas `.app-shell` dari selektor `display: none !important;` pada `@media print` di `src/app/globals.css`. Sebelumnya, karena seluruh aplikasi dibungkus dalam `.app-shell`, pratinjau cetak browser (`window.print()`) merender halaman putih kosong.
+  * **Isolasi Cetak Bersih & Otomatis**: Menambahkan `print:hidden` pada `ReportsFilterBar.tsx` agar bilah filter dan tombol aksi tidak ikut tercetak, serta menyembunyikan `.sidebar`, `.topbar`, `.workspace-footer`, dan elemen antarmuka lainnya saat mode cetak aktif.
+  * **Format Cetak Landscape Resmi**: Menyematkan aturan `@page { size: landscape; margin: 8mm 10mm; }` pada `ReportsManagementView.tsx` agar tabel buku agenda persuratan dinas berkolom 7-9 tercetak membujur secara rapi dan presisi tanpa terpotong.
+  * **Ketajaman Warna Cetak**: Menambahkan `-webkit-print-color-adjust: exact` dan `print-color-adjust: exact` agar tajuk tabel, bingkai, lencana warna sifat surat, dan kop resmi tercetak tajam.
+  * **Penanganan Bersih Modal Disposisi**: Menerapkan selektor `:has(.print-overlay)` untuk memastikan ketika modal cetak lembar disposisi terbuka, konten halaman kerja di belakangnya otomatis disembunyikan.
+- **Perbaikan Akses & Pemutaran Dokumen Scan Disposisi PDF (`src/app/api/pdf/route.ts`)**:
+  * **Otorisasi Folder Disposisi**: Memperbarui pola regex pada route API proxy PDF `/api/pdf` agar mencakup folder `disposisi` (`rawUrl.match(/sipasd\/(surat_masuk|surat_keluar|disposisi|test)\/[^?#]+/)`). Sebelumnya, berkas scan disposisi yang diunggah ke Cloudinary pada direktori `sipasd/disposisi/` ditolak dengan status HTTP 400 Bad Request ("Format public_id tidak diizinkan").
+  * **Dukungan Karakter Nama Berkas**: Menambahkan dukungan karakter tanda kurung `()` pada regex nama berkas `cleanPublicId`.
+  * **Penyediaan Berkas Cadangan**: Membuat berkas PDF resmi cadangan `public/placeholder-surat.pdf` sehingga tautan berkas kosong tidak menghasilkan galat 404.
+  * **Verifikasi E2E Headless Chrome**: Berkas scan disposisi berukuran 719.519 bytes berhasil dimuat dan dialirkan dengan status HTTP 200 via `scripts/test_print_pdf.py`.
+
+---
+
 ## [2.71.0] - 2026-11-20
 
 ### Improved & Enhanced

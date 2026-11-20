@@ -1259,3 +1259,27 @@
    - Kompilasi `npx tsc --noEmit` & `npm run build`: 0 error, build sukses.
    - Seluruh 108 berkas di `src/` tetap <= 200 LOC, 0 em-dash across all 181 project files.
 
+---
+
+## Sesi 59: Perbaikan Cetak Laporan Resmi & Akses Berkas Scan Disposisi PDF
+**Tanggal**: 20 November 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Perbaikan Tampilan Cetak Laporan (Print / PDF)**:
+   - Mengatasi masalah pratinjau cetak yang kosong/blank dengan menghapus selektor `.app-shell` dari aturan `display: none !important;` pada `@media print` di `src/app/globals.css`.
+   - Mengaktifkan `print:hidden` pada `ReportsFilterBar.tsx` sehingga formulir filter tidak mengotori dokumen resmi cetak.
+   - Mengatur orientasi cetak dokumen kearsipan menjadi mendatar (`@page { size: landscape; margin: 8mm 10mm; }`) pada `ReportsManagementView.tsx` agar tabel berkolom banyak muat dengan proporsional.
+   - Mengaktifkan `-webkit-print-color-adjust: exact` dan `print-color-adjust: exact` untuk mempertahankan warna lencana dan tajuk resmi saat dicetak atau disimpan ke PDF.
+   - Mengisolasi modal cetak disposisi fisik (`PrintDisposisiModal.tsx`) menggunakan aturan `:has(.print-overlay)` agar ruang kerja belakangnya otomatis tersembunyi.
+2. **Perbaikan Otorisasi & Aliran Berkas Scan Disposisi (PDF)**:
+   - Memperbaiki ekspresi reguler pada route proxy `/api/pdf` (`src/app/api/pdf/route.ts`) agar folder `disposisi` di Cloudinary (`sipasd/disposisi/...`) diakui secara sah (`rawUrl.match` dan `cleanPublicId` regex).
+   - Menambahkan berkas cadangan `public/placeholder-surat.pdf` agar tautan berkas kosong tidak menghasilkan galat 404.
+3. **Validasi & Verifikasi Menyeluruh**:
+   - Skrip pengujian terpadu `scripts/test_print_pdf.py` menggunakan Playwright Google Chrome nyata:
+     * Pratinjau media print: kop surat Pemprov Kalsel `flex`, bilah filter `none`, sidebar `none`, tabel `table`, tanda tangan `grid` (100% TERVERIFIKASI).
+     * Pemutaran berkas scan disposisi PDF: berkas sebesar 719.519 bytes berhasil dialirkan dengan status HTTP 200 `application/pdf` (100% TERVERIFIKASI).
+   - `npm test`: Seluruh 6/6 test suite HEALTHY (108 berkas di `src/` tetap $\le 200$ LOC, 0 em-dash across 181 files).
+   - `npx tsc --noEmit`: 0 error.
+   - `npm run build`: Exit code 0, build produksi sukses.
+

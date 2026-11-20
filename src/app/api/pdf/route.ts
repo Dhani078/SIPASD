@@ -17,7 +17,7 @@ export async function GET(request: Request) {
 
     let publicId = publicIdParam;
     if (!publicId && rawUrl) {
-      const match = rawUrl.match(/sipasd\/(surat_masuk|surat_keluar|test)\/[^?#]+/);
+      const match = rawUrl.match(/sipasd\/(surat_masuk|surat_keluar|disposisi|test)\/[^?#]+/);
       if (match) {
         publicId = match[0];
       }
@@ -31,7 +31,7 @@ export async function GET(request: Request) {
     }
 
     const cleanPublicId = publicId.replace(/\.pdf$/i, '') + '.pdf';
-    if (!/^sipasd\/(surat_masuk|surat_keluar|test)\/[a-zA-Z0-9_.-]+\.pdf$/.test(cleanPublicId) || cleanPublicId.includes('..')) {
+    if (!/^sipasd\/(surat_masuk|surat_keluar|disposisi|test)\/[a-zA-Z0-9_.()-]+\.pdf$/.test(cleanPublicId) || cleanPublicId.includes('..')) {
       return NextResponse.json(
         { success: false, message: 'Format public_id tidak diizinkan.' },
         { status: 400 }

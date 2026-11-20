@@ -5,6 +5,15 @@ Format: `[YYYY-MM-DD] Fitur/Perbaikan - Deskripsi`
 
 ---
 
+## [2026-11-20] Perbaikan Cetak Laporan Resmi & Akses Berkas Scan Disposisi PDF
+
+- Perbaikan Pratinjau Cetak Kosong: Menghapus `.app-shell` dari daftar elemen `display: none` pada `@media print` di `src/app/globals.css` sehingga dokumen laporan resmi dapat dicetak dan diekspor ke PDF dengan kop surat Pemprov Kalsel, tabel data lengkap, dan tanda tangan Kepala Dinas.
+- Standarisasi Kertas Landscape: Menambahkan aturan cetak mendatar (`landscape`) pada `ReportsManagementView.tsx` dan menyembunyikan bilah filter (`print:hidden`).
+- Otorisasi Berkas Scan Disposisi PDF: Memperbaiki endpoint `/api/pdf` agar mengizinkan berkas dari direktori Cloudinary `sipasd/disposisi/`, mengatasi kendala kegagalan pembukaan scan disposisi fisik.
+- Berkas Placeholder Kearsipan: Menyediakan berkas `public/placeholder-surat.pdf` sebagai cadangan resmi bila berkas belum diunggah.
+
+---
+
 ## [2026-11-20] Penyempurnaan Menyeluruh Pusat Laporan Eksekutif
 
 - Ekspor Excel 6 Format Laporan: Menambahkan utilitas `src/lib/exportReportExcel.ts` dan tombol "Ekspor Excel (.xlsx)" pada filter bar untuk mengunduh laporan berformat spreadsheet resmi dengan tajuk hijau kedinasan.

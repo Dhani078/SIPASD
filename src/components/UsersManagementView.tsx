@@ -11,9 +11,11 @@ interface Props {
   onNavigate: (page: string) => void;
 }
 
-function formatNip(nip?: string): string {
+function formatIdentity(nip?: string): string {
   if (!nip) return '-';
-  return nip.length === 18 ? `${nip.slice(0, 8)} ${nip.slice(8, 14)} ${nip.slice(14, 15)} ${nip.slice(15)}` : `ID: ${nip}`;
+  return nip.length === 18
+    ? `NIP: ${nip.slice(0, 8)} ${nip.slice(8, 14)} ${nip.slice(14, 15)} ${nip.slice(15)}`
+    : `NIM / ID: ${nip}`;
 }
 
 export default function UsersManagementView({ currentUser }: Props) {
@@ -91,7 +93,7 @@ export default function UsersManagementView({ currentUser }: Props) {
                     </div>
                     <p className="text-xs text-slate-700 mt-0.5">{account.role} &bull; <span className="font-medium text-slate-500">{account.unitKerja}</span></p>
                     <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-slate-500 mt-1">
-                      {isDev && <span className="mono text-emerald-800 font-medium">NIP: {formatNip(account.nip)}</span>}
+                      {isDev && <span className="mono text-emerald-800 font-medium">{formatIdentity(account.nip)}</span>}
                       <span className="mono">@{account.username}</span>
                       {account.email && <span className="text-slate-400">{account.email}</span>}
                     </div>
@@ -121,7 +123,7 @@ export default function UsersManagementView({ currentUser }: Props) {
             </div>
             <div className="space-y-2 text-xs border-y border-slate-100 py-3">
               {isDev && (
-                <div className="flex justify-between py-1"><span className="text-slate-500">NIP BKN:</span><span className="mono font-semibold text-slate-800">{formatNip(selectedUser.nip)}</span></div>
+                <div className="flex justify-between py-1"><span className="text-slate-500">{selectedUser.nip?.length === 18 ? 'NIP BKN:' : 'NIM / ID:'}</span><span className="mono font-semibold text-slate-800">{formatIdentity(selectedUser.nip).replace(/^(NIP: |NIM \/ ID: )/, '')}</span></div>
               )}
               <div className="flex justify-between py-1"><span className="text-slate-500">Jabatan:</span><span className="font-medium text-slate-800 text-right">{selectedUser.role}</span></div>
               <div className="flex justify-between py-1"><span className="text-slate-500">Unit Kerja:</span><span className="font-medium text-slate-800">{selectedUser.unitKerja}</span></div>

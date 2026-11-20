@@ -80,7 +80,8 @@ export default function SipasdApp({
   useEffect(() => {
     const handlePop = () => {
       const path = window.location.pathname;
-      const v = new URLSearchParams(window.location.search).get('view');
+      const rawV = new URLSearchParams(window.location.search).get('view');
+      const v = rawV === 'disposisi' ? 'history' : rawV === 'ekspedisi' ? 'distribution' : rawV === 'laporan' ? 'reports' : rawV;
       let t = v || (path.includes('arsip-masuk') ? 'in' : path.includes('arsip-keluar') ? 'out' : path.includes('laporan') ? 'reports' : path.includes('dashboard') ? 'dashboard' : path.includes('login') ? 'login' : 'landing');
       if (!auth && t !== 'landing' && t !== 'login') t = 'login';
       if (user.username === 'magang_masuk' && (t === 'out' || t === 'distribution')) t = 'in';
@@ -97,7 +98,7 @@ export default function SipasdApp({
     setFilters({ ...emptyFilters, ...values });
   };
 
-  const title = page === 'dashboard' ? 'Beranda Eksekutif' : groups.flatMap((g) => g.items).find((i) => i[2] === page)?.[0] ?? 'Profil Pengguna';
+  const title = page === 'dashboard' ? 'Beranda Eksekutif' : page === 'profile' ? 'Profil Pengguna' : groups.flatMap((g) => g.items).find((i) => i[2] === page)?.[0] ?? 'Beranda Eksekutif';
   const visible = filterLetters(letters, page, filters);
   const inCount = letters.filter((l) => l.direction === 'in').length;
   const outCount = letters.filter((l) => l.direction === 'out').length;

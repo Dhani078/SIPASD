@@ -1,6 +1,7 @@
 'use client';
 
 import { useId } from 'react';
+import Icon from './Icon';
 import { divisions } from '@/data/constants';
 import LetterFileUpload from './LetterFileUpload';
 
@@ -28,12 +29,16 @@ export default function NewLetterDisposisiFields({
   const uid = useId();
 
   return (
-    <div className="disposition-fields border-t border-slate-200 pt-3 mt-1">
-      <h3 className="font-semibold text-emerald-950 mb-2.5 text-xs flex items-center gap-1.5">
-        <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
-        Perekaman Lembar Disposisi Awal
-      </h3>
-      <div className="form-grid">
+    <div className="p-3.5 rounded-xl bg-emerald-50/60 border border-emerald-200/80 space-y-3 mt-1">
+      <div className="flex items-center justify-between">
+        <span className="font-bold text-emerald-950 flex items-center gap-1.5 text-xs">
+          <Icon name="shield" size={13} className="text-emerald-700" /> Perekaman Lembar Disposisi Awal
+        </span>
+        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
+          SPBE Kalsel
+        </span>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
           <label htmlFor={`${uid}-off`} className="block text-[11px] font-semibold text-slate-700 mb-1">
             Pejabat Pendisposisi
@@ -44,7 +49,7 @@ export default function NewLetterDisposisiFields({
             defaultValue={defaultOfficial}
             placeholder="Nama Pejabat"
             required
-            className="w-full"
+            className="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20"
           />
         </div>
         <div>
@@ -55,7 +60,7 @@ export default function NewLetterDisposisiFields({
             id={`${uid}-pos`}
             value={posisiSurat}
             onChange={(e) => onPosisiSuratChange(e.target.value)}
-            className="w-full"
+            className="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20"
           >
             {POSISI_SURAT_OPTIONS.map((pos) => (
               <option key={pos} value={pos}>
@@ -68,7 +73,7 @@ export default function NewLetterDisposisiFields({
           <label htmlFor={`${uid}-div`} className="block text-[11px] font-semibold text-slate-700 mb-1">
             Diteruskan Kepada (Bidang)
           </label>
-          <select id={`${uid}-div`} name="disposisi_division" className="w-full">
+          <select id={`${uid}-div`} name="disposisi_division" className="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20">
             {divisions.map((d) => (
               <option key={d} value={d}>
                 {d}
@@ -84,12 +89,12 @@ export default function NewLetterDisposisiFields({
             id={`${uid}-not`}
             name="notes"
             placeholder="Catatan pimpinan..."
-            className="w-full"
+            className="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20"
           />
         </div>
       </div>
 
-      <div className="mt-2.5">
+      <div>
         <span className="block text-[11px] font-semibold text-slate-700 mb-1">
           Upload Scan Lembar Disposisi (PDF / Foto Opsional)
         </span>

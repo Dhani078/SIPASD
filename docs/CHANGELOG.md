@@ -5,6 +5,16 @@ Format: `[YYYY-MM-DD] Fitur/Perbaikan - Deskripsi`
 
 ---
 
+## [2026-11-20] Eliminasi Tampilan Terpotong, Pratinjau Lembar Disposisi & Pemformatan Identitas
+
+- Eliminasi Masalah Terpotong pada Modal Berkas Baru: Menghilangkan tumpang tindih antara input kelola disposisi dan tombol aksi modal dengan kontainer scrollable responsif (`max-h-[72vh] overflow-y-auto`) serta kartu disposisi beraksen emerald.
+- Penyempurnaan Lembar Cetak Disposisi: Mengemas kertas pratinjau F4 ke dalam kontainer berbingkai scrollable (`max-h-[70vh] overflow-y-auto`) sehingga tidak tertutup di balik footer, serta memodernisasi toolbar aksi cetak dengan tombol pill.
+- Pemisahan Format Identitas Pegawai & Magang: Menampilkan `NIP:` dengan pemisah 18 digit resmi BKN untuk ASN dan `NIM / ID:` untuk mahasiswa magang/developer, mengeliminasi teks dobel `NIP: ID: 2310010406`.
+- Banner Kontekstual & Parameter URL Ramah: Banner statistik atas kini menampilkan data spesifik per jenis surat (173 Masuk, 253 Keluar, 426 Total), serta mendukung URL alias `?view=disposisi`, `?view=ekspedisi`, dan `?view=laporan`.
+- Modernisasi Modal Konfirmasi Hapus: Desain baru berbasis rose alert card dengan opsi pemindahan berkas Drive ke kotak sampah.
+
+---
+
 ## [2026-11-20] Pengamanan Cetak Laporan & Penanganan Status Loading / 0 Baris Data
 
 - Kunci Pengaman Cetak (Loading Lock): Menonaktifkan tombol "Cetak Laporan (Print / PDF)" dan "Ekspor Excel" dengan status "Menyiapkan Data..." saat halaman baru dimuat atau saat proses filtering berlangsung, mencegah peramban mencetak lembar kosong atau pesan "Memuat data...".

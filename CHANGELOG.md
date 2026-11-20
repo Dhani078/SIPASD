@@ -8,6 +8,26 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.76.0] - 2026-11-20
+
+### Fixed & Enhanced
+- **Eliminasi Tampilan Terpotong pada Modal Registrasi Berkas Baru (`NewLetterModal.tsx`, `NewLetterDisposisiFields.tsx`)**:
+  * Menghilangkan tumpang tindih (*overlap*) antara field kelola disposisi dan tombol aksi modal di bagian bawah.
+  * Menerapkan kontainer scrollable yang responsif (`max-h-[72vh] overflow-y-auto`) dengan ruang bantalan bawah (*bottom padding*) yang proporsional sehingga seluruh formulir hingga bagian catatan instruksi dan berkas scan disposisi dapat diakses dengan leluasa.
+  * Mempercantik kartu kelola disposisi dengan latar emerald lembut (`bg-emerald-50/60 border-emerald-200/80`) serta footer berstempel resmi standar SPBE Dispora Kalsel.
+- **Penyempurnaan Pratinjau Cetak Lembar Disposisi (`PrintDisposisiModal.tsx`)**:
+  * Menyelaraskan kertas pratinjau lembar disposisi standar F4 ke dalam kontainer berbingkai scrollable (`max-h-[70vh] overflow-y-auto`) agar tidak lagi terpotong di balik footer tombol aksi.
+  * Memodernisasi bilah tombol aksi cetak dan unduh dengan gaya *rounded-full pill*, serta menyematkan stempel validasi SPBE.
+- **Modernisasi Modal Konfirmasi Pemusnahan Arsip (`DeleteConfirmModal.tsx`)**:
+  * Memperbarui visual konfirmasi penghapusan dengan kartu peringatan elegan bernuansa *rose alert*, kotak centang pemindahan berkas Google Drive ke kotak sampah (*Trash*), dan stempel pengamanan sistem.
+- **Perapian Pemformatan Identitas Pegawai & Pengembang (`UsersManagementView.tsx`)**:
+  * Memisahkan identitas aparatur sipil negara (NIP BKN 18 digit) dan mahasiswa magang / pengembang (`NIM / ID`) sehingga tidak ada lagi teks ganda `NIP: ID: 2310010406`.
+- **Banner Status Sistem Kontekstual & Navigasi URL Dinamis (`SipasdMainView.tsx`, `SipasdApp.tsx`)**:
+  * Banner status kearsipan di bagian atas kini menampilkan jumlah berkas sesuai konteks halaman (173 berkas masuk pada Arsip Masuk, 253 berkas keluar pada Arsip Keluar, dan 426 berkas pada Beranda).
+  * Menambahkan dukungan pemetaan alias URL `?view=disposisi`, `?view=ekspedisi`, dan `?view=laporan`, serta memperbaiki label judul fallback navbar.
+
+---
+
 ## [2.75.0] - 2026-11-20
 
 ### Fixed & Enhanced

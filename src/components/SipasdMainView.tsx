@@ -104,7 +104,13 @@ export default function SipasdMainView({
         <div>
           <Icon name="shield" size={16} />
           <b>Arsip tertib, tata kelola akuntabel.</b>
-          <span>{letters.length} naskah dinas fisik terindeks resmi &amp; tersinkronisasi terpusat.</span>
+          <span>
+            {page === 'in'
+              ? `${letters.filter((l) => l.direction === 'in').length} naskah surat masuk terindeks resmi & tersinkronisasi terpusat.`
+              : page === 'out'
+              ? `${letters.filter((l) => l.direction === 'out').length} naskah surat keluar terindeks resmi & tersinkronisasi terpusat.`
+              : `${letters.length} naskah dinas fisik terindeks resmi & tersinkronisasi terpusat.`}
+          </span>
         </div>
         <span className="system-status">
           <span className="live-dot" /> Sistem Aktif

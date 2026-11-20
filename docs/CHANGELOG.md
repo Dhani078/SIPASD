@@ -5,6 +5,16 @@ Format: `[YYYY-MM-DD] Fitur/Perbaikan - Deskripsi`
 
 ---
 
+## [2026-11-20] Modernisasi Desain & Estetika Modal Ubah Arsip Agenda
+
+- Redesain Antarmuka SPBE: Memperbarui visual modal "Ubah Arsip Agenda" dengan border elegan, focus ring emerald, dan tipografi rapi berstandar tata naskah kedinasan Pemprov Kalsel.
+- Pembaruan Pemilih Berkas Digital: Menggantikan input berkas standar browser yang kaku dengan tombol interaktif kustom dan pill status ketersediaan dokumen (`✓ Berkas Terlampir (Buka PDF)` atau `Belum Ada Berkas`).
+- Kartu Khusus Disposisi Kedinasan: Menempatkan modul pengelolaan lembar disposisi dalam kartu aksen emerald terpadu dengan pintasan buka scan PDF disposisi fisik dan penggantian berkas.
+- Fleksibilitas Komponen Icon: Menambahkan dukungan properti `className` pada komponen `Icon` untuk penataan gaya dinamis berbasis Tailwind.
+- Kepatuhan Mutu Kode: Memenuhi seluruh batas kualitas modularitas (185 baris kode dari batas maksimum 200 LOC) dan nihil karakter em-dash di seluruh berkas.
+
+---
+
 ## [2026-11-20] Penyempurnaan Visual & Eliminasi Pemotongan Cetak Laporan
 
 - Otomasi Kertas Landscape: Menetapkan `@page { size: A4 landscape; margin: 8mm 10mm; }` secara global sehingga dialog cetak peramban otomatis menyajikan orientasi mendatar.

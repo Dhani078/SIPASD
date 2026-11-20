@@ -33,9 +33,11 @@ export type IconName =
 export default function Icon({
   name,
   size = 18,
+  className,
 }: {
   name: IconName;
   size?: number;
+  className?: string;
 }) {
   const paths: Record<IconName, React.ReactNode> = {
     grid: (
@@ -172,6 +174,7 @@ export default function Icon({
       strokeWidth="1.65"
       strokeLinecap="round"
       strokeLinejoin="round"
+      className={className}
     >
       {paths[name]}
     </svg>

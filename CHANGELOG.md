@@ -8,6 +8,19 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.74.0] - 2026-11-20
+
+### Improved & Optimized
+- **Modernisasi Tampilan & Desain Modal Ubah Arsip Agenda (`EditLetterModal.tsx`, `Icon.tsx`)**:
+  * **Penyempurnaan Antarmuka Berstandar SPBE**: Menyelaraskan seluruh elemen modal "Ubah Arsip Agenda" dengan palet modern Dispora Kalsel (border tegas beradius `rounded-lg`, ring fokus emerald `focus:ring-emerald-500/20`, dan label teks terstruktur).
+  * **Penggantian Tombol Berkas Bawaan Browser**: Menggantikan tombol input berkas mentah ("Choose File No file chosen") dengan tombol kustom elegan (`[Ganti Berkas Naskah]` dan `[Ganti Scan Disposisi]`), lengkap dengan indikator badge status (`✓ Berkas Terlampir (Buka PDF)` atau `Belum Ada Berkas`).
+  * **Kartu Terpisah Pengelolaan Disposisi Kedinasan**: Mengelompokkan formulir disposisi surat masuk ke dalam kartu bernuansa hijau zamrud (`bg-emerald-50/60 border border-emerald-200/80`) dengan indikator ketersediaan lembar scan disposisi fisik.
+  * **Pratinjau Langsung Berkas Tersimpan**: Menyediakan tautan cepat untuk membuka berkas naskah PDF maupun scan lembar disposisi yang sudah tersimpan di cloud langsung dari jendela modal.
+  * **Pemberian Dukungan `className` pada Komponen Icon**: Memperluas tipe dan elemen SVG komponen `Icon` agar menerima kelas styling kustom Tailwind secara fleksibel.
+
+
+---
+
 ## [2.73.0] - 2026-11-20
 
 ### Improved & Optimized

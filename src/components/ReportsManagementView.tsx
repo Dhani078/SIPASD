@@ -108,7 +108,7 @@ export default function ReportsManagementView({ currentUser: _currentUser }: Pro
       />
 
       <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm print:border-none print:shadow-none print:p-0">
-        <div className="hidden print:flex items-center justify-between border-b-2 border-slate-900 pb-3 mb-6">
+        <div className="hidden print:flex items-center justify-between border-b-4 border-double border-slate-950 pb-2.5 mb-4">
           <div className="w-16 flex-shrink-0 flex items-center justify-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo-kalsel.svg" alt="Logo Pemprov Kalsel" className="w-14 h-16 object-contain" />
@@ -123,7 +123,7 @@ export default function ReportsManagementView({ currentUser: _currentUser }: Pro
           <div className="w-16 flex-shrink-0" />
         </div>
 
-        <div className="mb-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-100 pb-3 print:border-none print:text-center print:pb-0">
+        <div className="mb-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-100 pb-3 print:border-none print:text-center print:pb-0 print:mb-3">
           <div>
             <h1 className="text-sm sm:text-base font-bold uppercase tracking-wide text-slate-900">
               {reportType === '1' && 'Buku Agenda Register Surat Masuk'}
@@ -147,7 +147,7 @@ export default function ReportsManagementView({ currentUser: _currentUser }: Pro
         ) : data.length === 0 ? (
           <div className="py-12 text-center text-xs text-slate-400">Tidak ada arsip yang cocok dengan filter yang dipilih.</div>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto print:overflow-visible">
             {reportType === '1' && <ReportTableMasuk data={data} summary={summary} />}
             {reportType === '2' && <ReportTableKeluar data={data} />}
             {reportType === '3' && <ReportTableDisposisiBidang data={data} />}
@@ -157,21 +157,24 @@ export default function ReportsManagementView({ currentUser: _currentUser }: Pro
           </div>
         )}
 
-        <div className="hidden print:grid grid-cols-2 gap-8 mt-12 text-xs text-slate-800">
+        <div className="hidden print:grid grid-cols-2 gap-8 mt-8 text-xs text-slate-900 print:break-inside-avoid">
           <div>
             <p>Mengetahui,</p>
             <p className="font-bold">Kepala Dinas Kepemudaan dan Olahraga</p>
             <p className="font-bold">Provinsi Kalimantan Selatan</p>
             <div className="h-16" />
-            <p className="font-bold underline">Pebriadin Hapiz, AP, M.Si</p>
-            <p>Pembina Utama Muda (IV/c)</p>
+            <p className="font-bold underline text-slate-950">Pebriadin Hapiz, AP, M.Si</p>
+            <p className="text-[11px] text-slate-700">Pembina Utama Muda (IV/c)</p>
+            <p className="text-[11px] font-mono text-slate-700">NIP. 19780214 199612 1 001</p>
           </div>
           <div className="text-right">
             <p>Banjarmasin, {todayStr}</p>
             <p className="font-bold">Pengelola Arsip Kedinasan</p>
+            <p className="font-bold">Sekretariat Dispora Kalsel</p>
             <div className="h-16" />
-            <p className="font-bold underline">Rana Nur Syifa</p>
-            <p>Sekretariat Dispora Kalsel</p>
+            <p className="font-bold underline text-slate-950">Rana Nur Syifa</p>
+            <p className="text-[11px] text-slate-700">Analis Anggaran &amp; Tata Usaha</p>
+            <p className="text-[11px] font-mono text-slate-700">NIP. 19970101 202502 2 001</p>
           </div>
         </div>
       </div>

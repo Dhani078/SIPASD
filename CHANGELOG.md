@@ -8,6 +8,19 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.73.0] - 2026-11-20
+
+### Improved & Optimized
+- **Penyempurnaan Visual & Eliminasi Pemotongan Cetak Laporan (`globals.css`, `ReportTablesPrimary.tsx`, `ReportTablesSecondary.tsx`, `ReportsManagementView.tsx`)**:
+  * **Otomasi Orientasi Kertas Landscape (`@page { size: A4 landscape; margin: 8mm 10mm; }`)**: Menerapkan ukuran standar A4 mendatar langsung pada aturan global peramban sehingga Chrome secara otomatis memilih orientasi Landscape tanpa perlu diatur manual oleh aparatur.
+  * **Perbaikan Total Berulang (`tfoot { display: table-row-group !important; }`)**: Mengatasi masalah baris total rekapitulasi yang sebelumnya tercetak berulang di bagian bawah setiap lembar halaman (seperti pada baris ke-7 lembar pertama). Baris total kini hanya dicetak satu kali di akhir tabel laporan pada lembar terakhir.
+  * **Eliminasi Pemotongan Kolom Kanan (`overflow: visible !important`)**: Menghapus batasan overflow pada seluruh pembungkus tabel saat mencetak serta menetapkan `word-break: break-word` dan proporsi lebar kolom yang seimbang sehingga kolom Perihal dan Tujuan tidak lagi terpotong di tepi kanan halaman.
+  * **Tipografi Cetak Kompak & Elegan**: Mengoptimalkan bantalan sel (`print:p-1.5`) dan ukuran teks (`print:text-[10px]`) agar setiap lembar laporan mampu menampung 15-20 baris rekaman naskah secara tertib, rapi, dan proporsional.
+  * **Kop Surat Kedinasan Ganda Resmi**: Menggunakan garis ganda standar tata naskah dinas Pemprov Kalsel (`border-b-4 border-double border-slate-950`) pada kepala surat.
+  * **Penyempurnaan Blok Tanda Tangan**: Melengkapi tanda tangan Kepala Dinas dan Pengelola Arsip dengan Nomor Induk Pegawai (NIP BKN resmi) dan pangkat golongan, serta mengunci blok dengan `print:break-inside-avoid` agar tanda tangan tidak terbelah antarhalaman.
+
+---
+
 ## [2.72.0] - 2026-11-20
 
 ### Fixed & Resolved

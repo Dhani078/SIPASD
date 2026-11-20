@@ -1283,3 +1283,27 @@
    - `npx tsc --noEmit`: 0 error.
    - `npm run build`: Exit code 0, build produksi sukses.
 
+---
+
+## Sesi 60: Penyempurnaan Visual & Eliminasi Pemotongan Cetak Laporan
+**Tanggal**: 20 November 2026  
+**Operator / Pengembang**: Muhammad Rizki Ramadhani (Dhani078 / dhanisepeda@gmail.com)
+
+### Aktivitas yang Telah Diselesaikan
+1. **Otomasi Orientasi Kertas Landscape**:
+   - Memasukkan ukuran standar `@page { size: A4 landscape; margin: 8mm 10mm; }` langsung pada aturan cetak global di `src/app/globals.css`, memastikan peramban otomatis memilih mode mendatar tanpa perlu diubah manual oleh pengguna.
+2. **Eliminasi Baris Total Berulang Antarhalaman**:
+   - Menetapkan aturan `tfoot { display: table-row-group !important; }` sehingga baris total akumulasi tidak lagi muncul di bawah setiap lembar halaman (seperti baris ke-7 pada lembar pertama), melainkan hanya muncul satu kali di bagian akhir tabel laporan.
+3. **Penyempurnaan Lebar Kolom & Anti-Potong Tepi Kanan**:
+   - Mengatur `overflow: visible !important;` pada seluruh pembungkus tabel cetak dan menyematkan `word-break: break-word` agar kolom `Perihal` dan `Tujuan Instansi` tidak terpotong di tepi kanan halaman.
+   - Mengoptimalkan proporsi lebar kolom pada `ReportTableMasuk`, `ReportTableKeluar`, `ReportTableDisposisiBidang`, `ReportTableKepatuhan`, `ReportTableKlasifikasi`, dan `ReportTableAudit`.
+4. **Peningkatan Kerapian Visual & Identitas Kedinasan**:
+   - Menggunakan garis ganda standar tata naskah dinas Pemprov Kalsel (`border-b-4 border-double border-slate-950`).
+   - Menerapkan bantalan cetak hemat ruang `print:p-1.5` dan ukuran font `print:text-[10px]` sehingga setiap halaman memuat 15-20 baris rekaman secara proporsional.
+   - Melengkapi NIP BKN resmi dan pangkat golongan Kepala Dinas dan Pengelola Arsip pada blok tanda tangan, serta menguncinya dengan `print:break-inside-avoid`.
+5. **Validasi & Verifikasi Menyeluruh**:
+   - `npm test`: 6/6 test suite HEALTHY (108 berkas di `src/` tetap $\le 200$ LOC, 0 em-dash across all 181 project files).
+   - `npx tsc --noEmit`: 0 error.
+   - `npm run build`: Exit code 0, build produksi sukses.
+   - `scripts/test_print_pdf.py`: Seluruh uji cetak dan pengaliran PDF 100% SUKSES.
+

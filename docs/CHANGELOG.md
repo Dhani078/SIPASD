@@ -5,6 +5,16 @@ Format: `[YYYY-MM-DD] Fitur/Perbaikan - Deskripsi`
 
 ---
 
+## [2026-11-20] Penyempurnaan Visual & Eliminasi Pemotongan Cetak Laporan
+
+- Otomasi Kertas Landscape: Menetapkan `@page { size: A4 landscape; margin: 8mm 10mm; }` secara global sehingga dialog cetak peramban otomatis menyajikan orientasi mendatar.
+- Perbaikan Baris Total Berulang: Mengatur `tfoot { display: table-row-group !important; }` agar baris akumulasi total tidak tercetak di setiap lembar halaman dan hanya tampil pada akhir laporan.
+- Penyesuaian Kolom & Anti-Potong: Menghapus batas overflow pada kontainer cetak dan menetapkan proporsi lebar kolom seimbang dengan `word-break: break-word`.
+- Tipografi & Kerapian Cetak: Menerapkan bantalan `print:p-1.5` dan ukuran teks `print:text-[10px]` untuk efisiensi muatan halaman (15-20 baris per halaman).
+- Standarisasi Garis Kop & NIP Pimpinan: Menggunakan garis ganda resmi (`border-double`) pada kop dinas dan melengkapi NIP BKN Kepala Dinas serta Pengelola Arsip.
+
+---
+
 ## [2026-11-20] Perbaikan Cetak Laporan Resmi & Akses Berkas Scan Disposisi PDF
 
 - Perbaikan Pratinjau Cetak Kosong: Menghapus `.app-shell` dari daftar elemen `display: none` pada `@media print` di `src/app/globals.css` sehingga dokumen laporan resmi dapat dicetak dan diekspor ke PDF dengan kop surat Pemprov Kalsel, tabel data lengkap, dan tanda tangan Kepala Dinas.

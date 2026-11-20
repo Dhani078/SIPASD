@@ -3189,8 +3189,8 @@ td .icon-btn {
 }
 @media print {
   @page {
-    size: auto;
-    margin: 10mm;
+    size: A4 landscape;
+    margin: 8mm 10mm;
   }
   * {
     -webkit-print-color-adjust: exact !important;
@@ -3230,6 +3230,32 @@ td .icon-btn {
     margin: 0 !important;
     max-width: 100% !important;
     width: 100% !important;
+  }
+  .overflow-x-auto,
+  .table-wrap {
+    overflow: visible !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  table {
+    width: 100% !important;
+    max-width: 100% !important;
+    table-layout: auto !important;
+    border-collapse: collapse !important;
+  }
+  thead {
+    display: table-header-group !important;
+  }
+  tfoot {
+    display: table-row-group !important;
+  }
+  tr {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+  th, td {
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
   }
   body:has(.print-overlay) .workspace,
   .app-shell:has(.print-overlay) .workspace {

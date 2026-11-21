@@ -143,3 +143,18 @@ Berdasarkan observasi operasional persuratan langsung di Subbagian Umum dan Kepe
    - Di lingkungan Sekretariat Dispora Kalsel, mahasiswa/siswa magang sering dibagi ke dalam dua pos tugas berbeda: satu orang ditugaskan khusus menerima, mencatat, dan mendokumentasikan Surat Masuk beserta lembar disposisi pimpinan; sementara satu orang lainnya bertugas mengagendakan, mencetak penomoran, dan mencatat ekspedisi Surat Keluar.
    - Untuk mencegah kesalahan input data silang atau akses naskah di luar tanggung jawab pos tugasnya, sistem menerapkan pembatasan hak akses berbasis akun terisolasi: Akun `magang_masuk` hanya dapat melihat dan merekam Surat Masuk, sedangkan Akun `magang_keluar` hanya dapat melihat dan merekam Surat Keluar.
    - Isolasi diterapkan multi-lapis: bilah navigasi, route guard pengalihan URL, penguncian formulir modal, hingga penolakan mutasi API 403 Forbidden.
+
+---
+
+## 8. Evaluasi & Mitigasi Pengujian Lapangan: Simulasi Presentasi & Pencegahan Galat
+
+Berdasarkan hasil simulasi presentasi langsung di hadapan pembimbing dan evaluasi pengujian otomatis (*Master Chrome Audit*):
+
+1. **Pencegahan Cetak Prematur (*Loading Lock*)**:
+   - Penarikan data laporan kearsipan melalui koneksi jaringan nirkabel dapat mengalami latensi sesaat. Jika tombol cetak ditekan sebelum data selesai ditarik, dialog cetak peramban akan membekukan teks status pemuatan (*loading*).
+   - Diterapkan mekanisme proteksi ganda: penonaktifan tombol (*disabled state*) dengan teks *"Menyiapkan Data..."* selama masa penarikan data, penguncian otomatis *"0 Baris (Tidak Ada Data)"* saat data kosong, serta penyembunyian teks indikator pemuatan dari lembar fisik cetak melalui aturan `@media print { .loading { display: none; } }`.
+2. **Isolasi Scroll Formulir Responsif**:
+   - Resolusi monitor laptop saat presentasi (sering kali terhubung ke proyektor HDMI dengan rasio 1366x768 atau 1280x720) dapat membuat bagian bawah formulir modal terpotong jika tingginya statis.
+   - Seluruh modal input data (`NewLetterModal`, `EditLetterModal`, `PrintDisposisiModal`) distandarisasi menggunakan kontainer terisolasi `max-h-[72vh] overflow-y-auto` dengan bantalan bawah (*bottom padding*) yang luas sehingga tombol simpan di footer tidak pernah menutupi isian formulir.
+3. **Streaming Berkas Scan Disposisi Fisik Terproteksi**:
+   - Tautan berkas scan disposisi dialirkan secara aman melalui rute proxy `/api/pdf?url=...` bertandatangan digital (*signed URL*), memisahkan tab Naskah Surat dan Lembar Disposisi, serta menyediakan kartu peringatan formal apabila suatu berkas naskah belum memiliki lampiran pindaian fisik.

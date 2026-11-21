@@ -17,21 +17,21 @@ Gunakan alur demonstrasi ini agar presentasi terlihat sistematis, percaya diri, 
    - Coba fitur **Lacak Status Disposisi Berkas**: Masukkan nomor agenda `1099` atau `1238`, lalu tekan Cari. Tunjukkan bahwa sistem langsung mengarahkan ke dokumen dalam waktu < 2 detik.
    - Tunjukkan visualisasi aset **11 Venue Olahraga Banua** yang dikelola Dispora Kalsel.
 
-### Menit ke-2: Otentikasi Terproteksi & RBAC 4 Tingkat
+### Menit ke-2: Otentikasi Terproteksi & RBAC 9 Akun Kedinasan
 1. Klik tombol **Masuk ke Sistem** (mengarah ke `/login`).
-2. Tunjukkan fitur **1-Klik Uji Peran Kedinasan**:
-   - Jelaskan bahwa sistem menerapkan Role-Based Access Control (RBAC) 4 tingkat: Super Admin (`admin`), Pimpinan/Kadis (`kadis`), Petugas Arsip (`tu_umum`), dan Kepala Bidang teknis.
+2. Tunjukkan fitur **1-Klik Uji Peran Kedinasan (9 Akun Resmi)**:
+   - Jelaskan bahwa sistem menerapkan Role-Based Access Control (RBAC) ketat: Kadispora (`kadis`), Super Admin (`admin`), Developer (`developer`), Pengelola Arsip (`pengarsip`), Petugas TU (`tu_umum`), Kasubbag Keuangan (`keuangan`), Kabid Pora (`kabid`), Magang Surat Masuk (`magang_masuk`), dan Magang Surat Keluar (`magang_keluar`).
    - Klik tombol tester **Kadispora** (`kadis`) untuk langsung masuk ke sesi pimpinan dengan keamanan enkripsi JWT Cookie HttpOnly dan Bcrypt hash.
 
 ### Menit ke-3: Dasbor Eksekutif & Kueri Riil TiDB Cloud
 1. Setelah login, sistem menampilkan halaman `/dashboard`.
 2. Tunjukkan 4 kartu metrik KPI real-time:
-   - Surat Masuk: **170 Dokumen**
-   - Surat Keluar: **241 Dokumen**
-   - Total Dokumen Digital: **411 Berkas Riil TA 2026**
-   - Sifat Kilat & Segera: Dokumen prioritas tinggi
+   - Surat Masuk: **173 Dokumen**
+   - Surat Keluar: **253 Dokumen**
+   - Total Dokumen Digital: **426 Berkas Riil TA 2026**
+   - Sifat Kilat & Segera: **54 Berkas** (prioritas tinggi)
 3. Tegaskan kepada penguji: *"Seluruh data ini 100% ditarik langsung secara real-time dari basis data TiDB Cloud Serverless tanpa dummy data atau array tiruan."*
-4. Tunjukkan grafik batang aktivitas bulanan TA 2026 dan diagram donat distribusi beban persuratan di 5 bidang dinas.
+4. Tunjukkan grafik batang aktivitas bulanan TA 2026 dan diagram donat distribusi beban persuratan di 9 bidang/subbagian dinas.
 
 ### Menit ke-4: Katalog Surat Masuk & Split-Screen PDF Viewer Asli
 1. Klik menu **Arsip Surat Masuk** pada bilah navigasi samping (`/arsip-masuk`).
@@ -97,3 +97,21 @@ Gunakan alur demonstrasi ini agar presentasi terlihat sistematis, percaya diri, 
 - [x] Siapkan file presentasi `docs/PRESENTASI_SIDANG_MAGANG_SIPASD.pptx` atau buka cadangan `docs/PRESENTASI_SIDANG_MAGANG_SIPASD.html`.
 - [x] Cetak naskah `docs/LAPORAN_MAGANG_SIPASD_DISPORA_KALSEL.docx` yang sudah dijilid rapi.
 - [x] Akun demo pimpinan siap digunakan via tombol akses cepat satu-klik.
+
+---
+
+## 4. Panduan Mitigasi Teknis Saat Live Demo (Pencegahan Galat)
+
+Agar demonstrasi di hadapan penguji dan pembimbing berjalan sempurna tanpa insiden, perhatikan poin-poin mitigasi yang telah diamankan di sistem:
+
+1. **Pusat Laporan Eksekutif (`/laporan`)**:
+   - Sistem dilengkapi **Kunci Pengaman Loading (*Loading Lock*)**: Saat berpindah antar laporan (Laporan 1 s.d. 6) atau mengubah filter bidang, tombol *Cetak Laporan* otomatis berstatus nonaktif dengan indikator animasi *"Menyiapkan Data..."*. Jangan panik, tunggu 1-2 detik hingga data selesai ditarik, tombol akan otomatis aktif berwarna biru gelap.
+   - Jika filter yang dipilih menghasilkan **0 Baris Data**, tombol otomatis menampilkan *"0 Baris (Tidak Ada Data)"* dan tidak dapat diklik. Ini mencegah browser Chrome membuka dialog cetak kosong.
+2. **Formulir Input & Ubah Data (`NewLetterModal` & `EditLetterModal`)**:
+   - Seluruh formulir modal memiliki kontainer gulir halus responsif (`max-h-[72vh]`). Seluruh isian (termasuk catatan instruksi dan scan lembar disposisi) dapat digulir ke bawah tanpa pernah terpotong atau tertutup tombol aksi modal.
+3. **Dokumen Scan Lembar Disposisi Fisik**:
+   - Jika mendemokan dokumen yang memiliki berkas scan disposisi, panel penampil dokumen menyediakan tab ganda: **[Naskah Surat]** dan **[Scan Lembar Disposisi]**. Berkas dialirkan secara aman melalui proxy bertandatangan digital (`/api/pdf?url=...`).
+4. **Surat Tanpa Lampiran PDF**:
+   - Jika penguji mengklik surat yang belum memiliki lampiran berkas digital, sistem tidak akan blank/error 404, melainkan menampilkan kartu peringatan formal *"⚠️ Berkas Fisik Belum Dilampirkan"* dengan tombol *"Unggah Berkas Sekarang"*.
+5. **Pencarian Nomor Surat**:
+   - Pencarian nomor surat dinas bebas menggunakan karakter garis miring (`/`), titik (`.`), atau spasi karena telah menggunakan pencocokan substring aman.

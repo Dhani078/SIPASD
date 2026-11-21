@@ -8,6 +8,17 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.77.0] - 2026-11-21
+
+### Verified & Audited
+- **Audit End-to-End Komprehensif Frontend & Backend (100% PASS)**:
+  * **Master Chrome Visual & Functional Test Suite (11/11 Lolos)**: Menjalankan audit menyeluruh headless Chrome pada seluruh tampilan aplikasi (Beranda Publik, Otentikasi & Isolasi RBAC 9 Akun, Dashboard Eksekutif, Arsip Surat Masuk, Arsip Surat Keluar, Riwayat Disposisi Fisik, Buku Ekspedisi, Master Klasifikasi, Manajemen Pengguna, Forensik Audit Trail, dan Pusat Laporan Eksekutif).
+  * **Backend API Integrity Test (6/6 Lolos)**: Memverifikasi endpoint inti (`/api/letters?direction=in`, `/api/letters?direction=out`, `/api/reports?type=1`, `/api/reports?type=3`, `/api/audit`, dan `/api/auth/logout`) dengan status HTTP 200 OK dan latensi responsif.
+  * **Zero Console Errors**: Tidak ditemukan adanya galat JavaScript peramban (*0 console errors*) pada seluruh interaksi halaman.
+  * **Penyempurnaan Label Tabel Buku Agenda Surat Masuk (`ReportTablesPrimary.tsx`)**: Menyelaraskan nama header kolom dari `Bidang Tujuan` menjadi `Bidang Tujuan Disposisi` untuk kepatuhan tata naskah kedinasan SPBE Dispora Kalsel dan sinkronisasi pengujian otomatis.
+
+---
+
 ## [2.76.0] - 2026-11-20
 
 ### Fixed & Enhanced

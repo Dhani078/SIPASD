@@ -12,7 +12,7 @@ export function ReportTableMasuk({ data, summary }: { data: Record<string, unkno
           <th className="p-2 print:p-1.5 border-r border-slate-300 w-[8%]">Tgl Surat</th>
           <th className="p-2 print:p-1.5 border-r border-slate-300 w-[15%]">Asal Instansi</th>
           <th className="p-2 print:p-1.5 border-r border-slate-300 w-[19%]">Perihal</th>
-          <th className="p-2 print:p-1.5 border-r border-slate-300 w-[14%]">Bidang Tujuan</th>
+          <th className="p-2 print:p-1.5 border-r border-slate-300 w-[14%]">Bidang Tujuan Disposisi</th>
           <th className="p-2 print:p-1.5 text-center w-[8%]">Sifat</th>
         </tr>
       </thead>
@@ -29,15 +29,14 @@ export function ReportTableMasuk({ data, summary }: { data: Record<string, unkno
             <td className="p-2 print:p-1.5 border-r border-slate-200 text-[11px] print:text-[9.5px] text-emerald-800">{r.bidang_tujuan ? String(r.bidang_tujuan) : '-'}</td>
             <td className="p-2 print:p-1.5 text-center whitespace-nowrap">
               <span
-                className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                  r.sifat_surat === 'KILAT'
-                    ? 'bg-red-100 text-red-700'
-                    : r.sifat_surat === 'PENTING'
-                      ? 'bg-blue-100 text-blue-700'
-                      : r.sifat_surat === 'SEGERA'
-                        ? 'bg-amber-100 text-amber-700'
-                        : 'bg-emerald-100 text-emerald-700'
-                }`}
+                className={`px-2 py-0.5 rounded text-[10px] font-bold ${r.sifat_surat === 'KILAT'
+                  ? 'bg-red-100 text-red-700'
+                  : r.sifat_surat === 'PENTING'
+                    ? 'bg-blue-100 text-blue-700'
+                    : r.sifat_surat === 'SEGERA'
+                      ? 'bg-amber-100 text-amber-700'
+                      : 'bg-emerald-100 text-emerald-700'
+                  }`}
               >
                 {String(r.sifat_surat)}
               </span>

@@ -46,6 +46,7 @@ export interface LetterRecord {
   origin: string; // Asal atau Tujuan Instansi
   subject: string; // Perihal
   date: string; // Tanggal Surat YYYY-MM-DD
+  receivedDate?: string; // Tanggal Diterima (Masuk) atau Tanggal Diterbitkan (Keluar) YYYY-MM-DD
   type: Urgency; // Sifat Surat
   direction: Direction; // in | out
   classification: string; // Kode Klasifikasi

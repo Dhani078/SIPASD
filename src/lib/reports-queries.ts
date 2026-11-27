@@ -38,6 +38,7 @@ export async function getReportKeluar(startDate?: string, endDate?: string) {
 
   const [rows] = await pool.query(
     `SELECT s.nomor_agenda, s.nomor_surat, s.tanggal_surat,
+            COALESCE(s.tanggal_diterbitkan, s.tanggal_surat) AS tanggal_diterbitkan,
             k.kode AS kode_klasifikasi, k.nama_klasifikasi,
             b.nama_bidang AS bidang_pemrakarsa,
             s.tujuan_instansi, s.perihal

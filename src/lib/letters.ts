@@ -3,6 +3,12 @@ import type { LetterRecord, Urgency } from '@/types';
 import { GDRIVE_FOLDERS } from '@/data/constants';
 import { classifyText } from '@/lib/classifier';
 import { toLocalDateString } from '@/lib/format';
+import {
+  mapDivision, detectVenue, detectClassification,
+  mapOutgoingDivision, mapOutgoingUrgency, mapUrgency,
+} from '@/lib/letter-helpers';
+
+export { mapDivision };
 
 interface SuratMasukDbRow {
   id: string; nomor_agenda: string; nomor_surat: string;
@@ -18,80 +24,11 @@ interface SuratMasukDbRow {
 
 interface SuratKeluarDbRow {
   id: string; nomor_agenda: string; nomor_surat: string; nomor_urut: number; tahun: number;
-  tanggal_surat: string | Date | null; tujuan_instansi: string; perihal: string; ringkasan_isi: string | null;
+  tanggal_surat: string | Date | null; tanggal_diterbitkan: string | Date | null;
+  tujuan_instansi: string; perihal: string; ringkasan_isi: string | null;
   venue: string | null; file_url: string | null; cloudinary_public_id: string | null; drive_url: string | null;
   file_name_original: string | null;
   kode_klasifikasi: string | null; nama_klasifikasi: string | null; nama_bidang: string | null;
-}
-
-export function mapDivision(name?: string | null): string {
-  if (!name) return 'Sekretariat';
-  if (name.includes('Keuangan') || name.includes('KEU')) return 'Subbagian Keuangan';
-  if (name.includes('Umum') || name.includes('Kepegawaian')) return 'Subbagian Umum & Kepegawaian';
-  if (name.includes('Perencanaan') || name.includes('Pelaporan')) return 'Subbagian Perencanaan & Pelaporan';
-  if (name.includes('Pembudayaan')) return 'Pembudayaan Olahraga';
-  if (name.includes('Prestasi')) return 'Peningkatan Prestasi';
-  if (name.includes('Pengembangan')) return 'Pengembangan Pemuda';
-  if (name.includes('Pemberdayaan')) return 'Pemberdayaan Pemuda';
-  if (name.includes('Pemuda')) return 'Pengembangan Pemuda';
-  if (name.includes('Sarana') || name.includes('Prasarana')) return 'Sarana & Prasarana';
-  return 'Sekretariat';
-}
-
-function detectVenue(text: string): string {
-  const t = text.toLowerCase();
-  if (t.includes('17 mei')) return 'Lapangan 17 Mei';
-  if (t.includes('swargaloka')) return 'Lap. Golf Swargaloka';
-  if (t.includes('darma praja') || t.includes('dharma praja')) return 'Lap. Tenis Dharma Praja';
-  if (t.includes('hasanuddin')) return 'GOR Hasanuddin HM';
-  if (t.includes('mulawarman') && (t.includes('kolam') || t.includes('renang'))) return 'Kolam Renang Mulawarman';
-  if (t.includes('demang lehman')) return 'Stadion Demang Lehman';
-  if (t.includes('paman birin')) return 'GOR Paman Birin';
-  if (t.includes('sultan suriansyah')) return 'Gedung Sultan Suriansyah';
-  if (t.includes('skb mulawarman') || t.includes('sentra olahraga skb')) return 'Lapangan SKB';
-  if (t.includes('sungai ulin')) return 'BMX Sungai Ulin';
-  if (t.includes('balipat')) return 'Sirkuit Balipat';
-  return '-';
-}
-
-function detectClassification(number: string, text: string): string {
-  const n = (number || '').trim();
-  const t = text.toLowerCase();
-  if (n.startsWith('900') || n.startsWith('90') || ['anggaran', 'keuangan', 'rekening', 'spj', 'bku', 'kas'].some((k) => t.includes(k))) return '900';
-  if (n.startsWith('800') || n.startsWith('80') || n.startsWith('000.1.2.3') || ['tugas', 'perjalanan', 'pegawai'].some((k) => t.includes(k))) return '800';
-  if (n.startsWith('005') || t.includes('undangan')) return '005';
-  if (n.startsWith('045') || n.startsWith('000.5') || t.includes('arsip')) return '045';
-  if (t.includes('pemuda') || t.includes('pramuka')) return '427';
-  if (t.includes('olahraga') || t.includes('atlet')) return '426';
-  return '900';
-}
-
-function mapOutgoingDivision(text: string): string {
-  const t = text.toLowerCase();
-  if (['keuangan', 'spj', 'bku', 'gaji', 'retribusi', 'anggaran', 'karcis', 'pembayaran', 'honor'].some((k) => t.includes(k))) return 'Subbagian Keuangan';
-  if (['kepegawaian', 'cuti', 'pangkat', 'skum', 'kp', 'kgb', 'tata usaha', 'ekspedisi', 'kenaikan'].some((k) => t.includes(k))) return 'Subbagian Umum & Kepegawaian';
-  if (['renja', 'renstra', 'lakip', 'sakip', 'lppd', 'perencanaan', 'pelaporan', 'monev', 'dpa'].some((k) => t.includes(k))) return 'Subbagian Perencanaan & Pelaporan';
-  if (['pemberdayaan', 'paskibraka', 'wawasan kebangsaan', 'imtaq'].some((k) => t.includes(k))) return 'Pemberdayaan Pemuda';
-  if (['pemuda', 'pramuka', 'wirausaha', 'kepemudaan', 'knpi', 'pelopor'].some((k) => t.includes(k))) return 'Pengembangan Pemuda';
-  if (['prestasi', 'atlet', 'koni', 'kejurprov', 'pelatda', 'npc', 'popda', 'pomnas'].some((k) => t.includes(k))) return 'Peningkatan Prestasi';
-  if (['pembudayaan', 'senam', 'masyarakat', 'rekreasi', 'tradisional', 'kormi'].some((k) => t.includes(k))) return 'Pembudayaan Olahraga';
-  if (['sarana', 'prasarana', 'kendaraan', 'pesanan', 'rehabilitasi', 'order', 'venue', 'gor', 'stadion', 'lapangan'].some((k) => t.includes(k))) return 'Sarana & Prasarana';
-  return 'Sekretariat';
-}
-
-function mapOutgoingUrgency(text: string): Urgency {
-  const t = text.toLowerCase();
-  if (['kilat', 'darurat'].some((k) => t.includes(k))) return 'Kilat';
-  if (['segera', 'tanggapan', 'konfirmasi'].some((k) => t.includes(k))) return 'Segera';
-  if (['audit', 'penting', 'perintah tugas', 'pemeriksaan'].some((k) => t.includes(k))) return 'Penting';
-  return 'Biasa';
-}
-
-function mapUrgency(sifat?: string | null): Urgency {
-  const s = (sifat || 'BIASA').toUpperCase();
-  if (s === 'KILAT') return 'Kilat';
-  if (s === 'SEGERA') return 'Segera';
-  return s === 'PENTING' ? 'Penting' : 'Biasa';
 }
 
 export async function getRealLetters(): Promise<LetterRecord[]> {
@@ -111,7 +48,7 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
     `),
     query<SuratKeluarDbRow>(`
       SELECT sk.id, sk.nomor_agenda, sk.nomor_surat, sk.nomor_urut, sk.tahun,
-             sk.tanggal_surat, sk.tujuan_instansi, sk.perihal, sk.ringkasan_isi, sk.venue,
+             sk.tanggal_surat, sk.tanggal_diterbitkan, sk.tujuan_instansi, sk.perihal, sk.ringkasan_isi, sk.venue,
              sk.file_url, sk.cloudinary_public_id, sk.drive_url, sk.file_name_original,
              k.kode as kode_klasifikasi, k.nama_klasifikasi,
              b.nama_bidang
@@ -125,7 +62,8 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
   const smList: LetterRecord[] = smRows.map((r) => {
     const agendaNum = r.nomor_agenda.split('/')[0] || r.id.slice(0, 6);
     const dateStr = toLocalDateString(r.tanggal_surat) || '2026-08-01';
-    const dispDate = toLocalDateString(r.tanggal_disposisi) || dateStr;
+    const receivedStr = toLocalDateString(r.tanggal_diterima) || dateStr;
+    const dispDate = toLocalDateString(r.tanggal_disposisi) || receivedStr;
     const combinedText = `${r.perihal} ${r.ringkasan_isi || ''} ${r.asal_instansi}`;
     const div = mapDivision(r.nama_bidang_disposisi);
     return {
@@ -135,6 +73,7 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
       origin: r.asal_instansi,
       subject: r.perihal,
       date: dateStr,
+      receivedDate: receivedStr,
       type: mapUrgency(r.sifat_surat),
       direction: 'in',
       classification: r.kode_klasifikasi || classifyText(combinedText)?.code || '005',
@@ -164,6 +103,7 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
   const skList: LetterRecord[] = skRows.map((r) => {
     const agendaNum = r.nomor_agenda.split('/')[0] || r.id.slice(0, 6);
     const dateStr = toLocalDateString(r.tanggal_surat) || '2026-08-01';
+    const issuedStr = toLocalDateString(r.tanggal_diterbitkan) || dateStr;
     const combinedText = `${r.perihal} ${r.ringkasan_isi || ''} ${r.tujuan_instansi}`;
     const div = r.nama_bidang && r.nama_bidang !== 'Sekretariat Dispora' ? mapDivision(r.nama_bidang) : mapOutgoingDivision(combinedText);
     const type: Urgency = mapOutgoingUrgency(combinedText);
@@ -175,6 +115,7 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
       origin: r.tujuan_instansi,
       subject: r.perihal,
       date: dateStr,
+      receivedDate: issuedStr,
       type,
       direction: 'out',
       classification: cls,

@@ -189,6 +189,7 @@ CREATE TABLE IF NOT EXISTS `arsip_surat_keluar` (
   `bidang_pemrakarsa_id` INT NOT NULL,
   `venue` VARCHAR(100) NULL,
   `tanggal_surat` DATE NOT NULL,
+  `tanggal_diterbitkan` DATE NULL,
   `tujuan_instansi` VARCHAR(150) NOT NULL,
   `perihal` VARCHAR(255) NOT NULL,
   `ringkasan_isi` TEXT NULL,

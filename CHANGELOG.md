@@ -18,7 +18,8 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 - Memutakhirkan paket `next@15.5.29`, `postcss@^8.5.31`, dan `uuid@^11.1.1` (melalui overrides `exceljs`) hingga `npm audit` mencatat 0 kerentanan.
 
 ### Fixed & Enhanced
-- Migrasi skema TiDB Cloud & `migrate-db.ts`: menambahkan kolom `kode_klasifikasi_id` dan `venue` pada `arsip_surat_masuk` serta `venue` pada `arsip_surat_keluar`, dan memastikan klasifikasi database tidak lagi tertimpa heuristik teks serta pembersihan `venue` (`-`) tersimpan akurat.
+- Migrasi skema TiDB Cloud & `migrate-db.ts`: menambahkan kolom `kode_klasifikasi_id` dan `venue` pada `arsip_surat_masuk` serta `venue` dan `tanggal_diterbitkan` pada `arsip_surat_keluar`, memastikan klasifikasi database tidak lagi tertimpa heuristik teks serta pembersihan `venue` (`-`) tersimpan akurat.
+- Dukungan penuh dua tanggal (`Tanggal Surat` dan `Tanggal Diterima` / `Tanggal Diterbitkan`) pada form buat & ubah arsip, tabel arsip, pratinjau PDF, Laporan Buku Agenda Surat Keluar, dan ekspor `Buku-Agenda-Dispora-*.xlsx`.
 - Menggunakan composite key `letterKey()` (`direction:rawId|id`) di state React, tabel arsip, register agenda, buku ekspedisi, dan pencarian navbar untuk mencegah bentrok nomor agenda yang sama antara surat masuk dan surat keluar.
 - Menyelaraskan tanggal bawaan WITA (`todayWitaString()`) dan koneksi `mysql2` (`dateStrings: ['DATE']` + auto-retry error transien).
 - Memperbaiki penolakan format gambar tidak didukung (seperti WebP) dengan magic-bytes validation dan respons HTTP 400 informatif pada `/api/upload`.

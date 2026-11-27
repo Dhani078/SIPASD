@@ -12,7 +12,8 @@ export async function exportExcel(letters: LetterRecord[]) {
     { header: 'No. Agenda', key: 'id', width: 20 },
     { header: 'Jenis', key: 'direction', width: 15 },
     { header: 'Nomor Surat', key: 'number', width: 30 },
-    { header: 'Tanggal', key: 'date', width: 16 },
+    { header: 'Tanggal Surat', key: 'date', width: 16 },
+    { header: 'Tgl Terima / Terbit', key: 'receivedDate', width: 18 },
     { header: 'Asal / Tujuan Instansi', key: 'origin', width: 45 },
     { header: 'Perihal', key: 'subject', width: 85 },
     { header: 'Sifat', key: 'type', width: 12 },
@@ -25,6 +26,7 @@ export async function exportExcel(letters: LetterRecord[]) {
   letters.forEach((l) =>
     sheet.addRow({
       ...l,
+      receivedDate: l.receivedDate || l.disposition?.date || l.date,
       direction: l.direction === 'in' ? 'Surat Masuk' : 'Surat Keluar',
       instructions: l.disposition?.instructions?.join(', ') || '-',
       notes: l.disposition?.notes || '-',
@@ -38,7 +40,7 @@ export async function exportExcel(letters: LetterRecord[]) {
     fgColor: { argb: 'FF064E3B' },
   };
   sheet.views = [{ state: 'frozen', ySplit: 1 }];
-  sheet.autoFilter = { from: 'A1', to: `K${letters.length + 1}` };
+  sheet.autoFilter = { from: 'A1', to: `L${letters.length + 1}` };
 
   const buffer = await workbook.xlsx.writeBuffer();
   downloadBlob(

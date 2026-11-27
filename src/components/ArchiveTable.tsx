@@ -155,7 +155,14 @@ export default function ArchiveTable({
                   <td>
                     <DispositionStatusBadge letter={letter} />
                   </td>
-                  <td className="mono date-cell">{shortDate(letter.date)}</td>
+                  <td className="mono date-cell">
+                    <span>{shortDate(letter.date)}</span>
+                    {letter.receivedDate && letter.receivedDate !== letter.date && (
+                      <small className="block text-[10px] text-emerald-700 font-normal">
+                        {letter.direction === 'in' ? 'Terima' : 'Terbit'}: {shortDate(letter.receivedDate)}
+                      </small>
+                    )}
+                  </td>
                   <td>
                     <Badge type={letter.type} />
                   </td>

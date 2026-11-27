@@ -63,12 +63,13 @@ export function ReportTableKeluar({ data }: { data: Record<string, unknown>[] })
         <tr>
           <th className="p-2 print:p-1.5 border-r border-slate-300 w-10 text-center">No</th>
           <th className="p-2 print:p-1.5 border-r border-slate-300 w-[13%]">No. Agenda</th>
-          <th className="p-2 print:p-1.5 border-r border-slate-300 w-[17%]">Nomor Surat Dinas</th>
+          <th className="p-2 print:p-1.5 border-r border-slate-300 w-[16%]">Nomor Surat Dinas</th>
           <th className="p-2 print:p-1.5 border-r border-slate-300 w-[8%]">Tgl Surat</th>
-          <th className="p-2 print:p-1.5 border-r border-slate-300 w-[13%]">Klasifikasi</th>
-          <th className="p-2 print:p-1.5 border-r border-slate-300 w-[14%]">Bidang Pemrakarsa</th>
-          <th className="p-2 print:p-1.5 border-r border-slate-300 w-[15%]">Tujuan Instansi</th>
-          <th className="p-2 print:p-1.5 w-[20%]">Perihal</th>
+          <th className="p-2 print:p-1.5 border-r border-slate-300 w-[8%]">Tgl Terbit</th>
+          <th className="p-2 print:p-1.5 border-r border-slate-300 w-[12%]">Klasifikasi</th>
+          <th className="p-2 print:p-1.5 border-r border-slate-300 w-[13%]">Bidang Pemrakarsa</th>
+          <th className="p-2 print:p-1.5 border-r border-slate-300 w-[14%]">Tujuan Instansi</th>
+          <th className="p-2 print:p-1.5 w-[18%]">Perihal</th>
         </tr>
       </thead>
       <tbody className="divide-y divide-slate-200">
@@ -78,6 +79,7 @@ export function ReportTableKeluar({ data }: { data: Record<string, unknown>[] })
             <td className="p-2 print:p-1.5 border-r border-slate-200 font-medium text-slate-900">{String(r.nomor_agenda)}</td>
             <td className="p-2 print:p-1.5 border-r border-slate-200 font-mono text-[11px] print:text-[9.5px] text-slate-800 break-all">{String(r.nomor_surat)}</td>
             <td className="p-2 print:p-1.5 border-r border-slate-200 text-slate-700">{String(r.tanggal_surat).slice(0, 10)}</td>
+            <td className="p-2 print:p-1.5 border-r border-slate-200 text-slate-700">{String(r.tanggal_diterbitkan || r.tanggal_surat).slice(0, 10)}</td>
             <td className="p-2 print:p-1.5 border-r border-slate-200 text-[11px] print:text-[9.5px] font-mono text-emerald-800">{String(r.kode_klasifikasi)} - {String(r.nama_klasifikasi)}</td>
             <td className="p-2 print:p-1.5 border-r border-slate-200 text-slate-800 font-medium">{String(r.bidang_pemrakarsa)}</td>
             <td className="p-2 print:p-1.5 border-r border-slate-200 text-slate-800">{String(r.tujuan_instansi)}</td>
@@ -87,7 +89,7 @@ export function ReportTableKeluar({ data }: { data: Record<string, unknown>[] })
       </tbody>
       <tfoot className="bg-slate-100 font-semibold border-t-2 border-slate-300 text-slate-800 print:text-[10.5px]">
         <tr>
-          <td colSpan={7} className="p-2.5 print:p-1.5 text-right font-bold">Total Berkas Surat Keluar:</td>
+          <td colSpan={8} className="p-2.5 print:p-1.5 text-right font-bold">Total Berkas Surat Keluar:</td>
           <td className="p-2.5 print:p-1.5 text-left font-bold">{data.length} Berkas</td>
         </tr>
       </tfoot>

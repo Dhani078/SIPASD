@@ -48,6 +48,10 @@ export default function PdfPreviewPanel({ letter, onClose, onPrint, onEdit, onDe
         <span className="font-semibold text-emerald-950">{letter.origin}</span>
         <span className="text-slate-400 mx-1.5">|</span>
         <span className="text-slate-600">{letter.subject}</span>
+        <span className="text-slate-400 mx-1.5">|</span>
+        <span className="text-[11px] font-mono text-slate-600">
+          Tgl Surat: {letter.date}{letter.receivedDate ? ` (${letter.direction === 'in' ? 'Diterima' : 'Diterbitkan'}: ${letter.receivedDate})` : ''}
+        </span>
       </div>
 
       <div className="document-tools my-1.5 flex items-center justify-between flex-wrap gap-2">

@@ -60,6 +60,7 @@ export async function POST(request: Request) {
     body.subject = sanitize(body.subject);
     if (body.venue) body.venue = sanitize(body.venue);
     if (body.classification) body.classification = sanitize(body.classification);
+    if (body.receivedDate) body.receivedDate = sanitize(body.receivedDate).slice(0, 10);
     const res = await insertNewLetter(body, session.id);
     const ip = getClientIp(request);
     const agent = request.headers.get('user-agent') || 'Unknown';
@@ -166,6 +167,7 @@ export async function PUT(request: Request) {
     if (updates.subject) updates.subject = sanitize(updates.subject);
     if (updates.venue) updates.venue = sanitize(updates.venue);
     if (updates.classification) updates.classification = sanitize(updates.classification);
+    if (updates.receivedDate) updates.receivedDate = String(sanitize(updates.receivedDate)).slice(0, 10);
 
     const ok = await updateLetter(id, updates, direction || 'in');
     if (!ok) {

@@ -65,7 +65,7 @@ export default function NewLetterModal({ direction, onClose, onSave, letters, us
       const dStatus = posisiSurat === 'Diterima Persuratan' ? 'BELUM_DIPROSES' : posisiSurat === 'Kepala Dinas' ? 'PROSES' : 'SELESAI';
       await onSave({
         number: val('number'), origin: val('origin'), subject: val('subject'),
-        date: val('date') || today, direction: kind, classification: classCode, venue: val('venue') || '-',
+        date: val('date') || today, receivedDate: val('received') || today, direction: kind, classification: classCode, venue: val('venue') || '-',
         division: (kind === 'out' ? val('division') : val('disposisi_division')) || 'Sekretariat',
         type: (val('urgency') || 'Biasa') as Urgency,
         disposition: {

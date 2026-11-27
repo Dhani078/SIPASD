@@ -22,6 +22,7 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 - Dukungan penuh dua tanggal (`Tanggal Surat` dan `Tanggal Diterima` / `Tanggal Diterbitkan`) pada form buat & ubah arsip, tabel arsip, pratinjau PDF, Laporan Buku Agenda Surat Keluar, dan ekspor `Buku-Agenda-Dispora-*.xlsx`.
 - Menggunakan composite key `letterKey()` (`direction:rawId|id`) di state React, tabel arsip, register agenda, buku ekspedisi, dan pencarian navbar untuk mencegah bentrok nomor agenda yang sama antara surat masuk dan surat keluar.
 - Menyelaraskan tanggal bawaan WITA (`todayWitaString()`) dan koneksi `mysql2` (`dateStrings: ['DATE']` + auto-retry error transien).
+- Menambahkan peringatan status cadangan Google Drive (`driveBackedUp` dan `driveWarning`) pada `/api/upload` serta `useLetterActions.ts`, plus script `scripts/backfill-gdrive.ts` untuk menyinkronkan ulang berkas yang sempat tertinggal ke Google Drive.
 - Memperbaiki penolakan format gambar tidak didukung (seperti WebP) dengan magic-bytes validation dan respons HTTP 400 informatif pada `/api/upload`.
 - Menyinkronkan checklist 9 unit kerja/bidang pada pratinjau cetak `Letter.tsx`, tombol `Simpan ke TiDB` pada koreksi disposisi, daftar akun dinamis di `UsersManagementView.tsx`, notifikasi dinamis sesuai peran, chip filter aktif plus `Reset Semua Filter`, progress bar unggahan PDF/scan, dan opsi ekspor cadangan Excel sebelum hapus massal.
 

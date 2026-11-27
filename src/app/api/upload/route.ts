@@ -81,6 +81,8 @@ export async function POST(request: Request) {
       url: result.url,
       publicId: result.publicId,
       driveUrl: driveUrl || getGdriveFolderUrl(gdriveFolderType, yearStr),
+      driveBackedUp: Boolean(driveUrl),
+      ...(driveUrl ? {} : { driveWarning: 'Berkas masuk ke Cloudinary, tetapi cadangan Google Drive gagal.' }),
     });
   } catch (error: unknown) {
     console.error('Upload API error:', error);

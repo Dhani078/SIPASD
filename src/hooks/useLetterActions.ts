@@ -23,16 +23,19 @@ export function useLetterActions(
     let finalFileName = file?.name, finalDispName = dispFile?.name;
     const year = record.date ? record.date.slice(0, 4) : '2026';
 
+    let warnMsg = '';
     if (file) {
       const up = await uploadPdf(file, record.direction === 'in' ? 'surat_masuk' : 'surat_keluar', year, tell, onProgress);
       fileUrl = up.url; publicId = up.publicId;
       if (up.driveUrl) driveUrl = up.driveUrl;
+      if (!up.driveBackedUp && up.driveWarning) warnMsg = up.driveWarning;
       finalFileName = up.fileName;
     }
     if (dispFile) {
       const upD = await uploadPdf(dispFile, 'disposisi', year, tell, onProgress);
       dispUrl = upD.url;
       if (upD.driveUrl) dispDrive = upD.driveUrl;
+      if (!upD.driveBackedUp && upD.driveWarning && !warnMsg) warnMsg = upD.driveWarning;
       finalDispName = upD.fileName;
     }
 
@@ -54,7 +57,7 @@ export function useLetterActions(
       dispositionFileUrl: dispUrl, dispositionDriveUrl: dispDrive, dispositionFileName: finalDispName,
     };
     setLetters((prev) => [newRecord, ...prev]);
-    tell(`Arsip ${newRecord.id} berhasil dicatat ke TiDB Cloud Serverless.`);
+    tell(warnMsg ? `Arsip ${newRecord.id} dicatat di TiDB, namun ${warnMsg}` : `Arsip ${newRecord.id} berhasil dicatat ke TiDB Cloud Serverless.`, !warnMsg);
     return newRecord;
   };
 
@@ -121,16 +124,19 @@ export function useLetterActions(
     let dispUrl = updates.dispositionFileUrl, dispDrive = updates.dispositionDriveUrl;
     let finalFileName = file?.name, finalDispName = dispFile?.name;
     const year = (updates.date || activeTarget?.date || '').slice(0, 4) || '2026';
+    let warnMsg = '';
     if (file) {
       const up = await uploadPdf(file, activeTarget?.direction === 'out' ? 'surat_keluar' : 'surat_masuk', year, tell, onProgress);
       fileUrl = up.url; publicId = up.publicId;
       if (up.driveUrl) driveUrl = up.driveUrl;
+      if (!up.driveBackedUp && up.driveWarning) warnMsg = up.driveWarning;
       finalFileName = up.fileName;
     }
     if (dispFile) {
       const upD = await uploadPdf(dispFile, 'disposisi', year, tell, onProgress);
       dispUrl = upD.url;
       if (upD.driveUrl) dispDrive = upD.driveUrl;
+      if (!upD.driveBackedUp && upD.driveWarning && !warnMsg) warnMsg = upD.driveWarning;
       finalDispName = upD.fileName;
     }
     const targetId = activeTarget?.rawId || id;
@@ -163,7 +169,7 @@ export function useLetterActions(
           : l
       )
     );
-    tell(`Arsip No. Agenda ${activeTarget?.id || id} berhasil diperbarui di TiDB Cloud.`);
+    tell(warnMsg ? `Arsip ${activeTarget?.id || id} diperbarui di TiDB, namun ${warnMsg}` : `Arsip No. Agenda ${activeTarget?.id || id} berhasil diperbarui di TiDB Cloud.`, !warnMsg);
     if (!explicitTarget) setEditTarget(null);
   };
 

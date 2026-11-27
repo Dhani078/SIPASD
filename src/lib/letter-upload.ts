@@ -39,6 +39,8 @@ export async function uploadPdf(
     url: data.url as string,
     publicId: (data.publicId as string) || undefined,
     driveUrl: (data.driveUrl as string) || undefined,
+    driveBackedUp: data.driveBackedUp !== false,
+    driveWarning: (data.driveWarning as string) || undefined,
     fileName: ready.name,
   };
 }

@@ -30,6 +30,7 @@ export default async function ArsipMasukRoute() {
       initialUser={user}
       initialPage="in"
       isAuthenticated={true}
+      allowDemoLogin={process.env.ALLOW_DEMO_LOGIN === 'true'}
     />
   );
 }

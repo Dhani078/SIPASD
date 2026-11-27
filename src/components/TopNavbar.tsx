@@ -6,7 +6,7 @@ import ProfileDropdown from './ProfileDropdown';
 import NotificationsFlyout from './NotificationsFlyout';
 import WitaClock from './WitaClock';
 import type { LetterRecord, DemoUser } from '@/types';
-import { matchesSearch } from '@/lib/format';
+import { matchesSearch, letterKey } from '@/lib/format';
 
 interface Props {
   title: string;
@@ -72,7 +72,10 @@ export default function TopNavbar({
     };
   }, []);
 
-  const results = letters.filter((l) => matchesSearch(l, query)).slice(0, 5);
+  const scopedLetters = letters.filter((l) =>
+    user.username === 'magang_masuk' ? l.direction === 'in' : user.username === 'magang_keluar' ? l.direction === 'out' : true
+  );
+  const results = scopedLetters.filter((l) => matchesSearch(l, query)).slice(0, 5);
 
   return (
     <header className="topbar" ref={root}>
@@ -118,7 +121,7 @@ export default function TopNavbar({
             <section className="search-results" aria-label="Hasil pencarian">
               {results.map((l) => (
                 <button
-                  key={l.id}
+                  key={letterKey(l)}
                   onClick={() => {
                     onSelect(l);
                     setOpen(false);
@@ -166,7 +169,7 @@ export default function TopNavbar({
 
       {notices && (
         <NotificationsFlyout
-          letters={letters}
+          letters={scopedLetters}
           read={read}
           setRead={setRead}
           onSelect={onSelect}

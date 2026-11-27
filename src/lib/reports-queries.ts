@@ -21,6 +21,7 @@ export async function getReportMasuk(startDate?: string, endDate?: string) {
     `SELECT COUNT(*) AS total,
             COALESCE(SUM(sifat_surat = 'BIASA'), 0) AS biasa,
             COALESCE(SUM(sifat_surat = 'PENTING'), 0) AS penting,
+            COALESCE(SUM(sifat_surat = 'SEGERA'), 0) AS segera,
             COALESCE(SUM(sifat_surat = 'KILAT'), 0) AS kilat
      FROM arsip_surat_masuk
      WHERE tanggal_diterima BETWEEN ? AND ?`,

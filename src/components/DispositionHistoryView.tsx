@@ -7,7 +7,7 @@ import DispositionInfoModal from './DispositionInfoModal';
 import DispositionFilters, { StatusFilter } from './DispositionFilters';
 import DispositionPagination from './DispositionPagination';
 import DispositionRowMenu from './DispositionRowMenu';
-import { formatDate } from '@/lib/format';
+import { formatDate, letterKey } from '@/lib/format';
 import type { LetterRecord } from '@/types';
 
 interface Props {
@@ -85,7 +85,7 @@ export default function DispositionHistoryView({ letters, onSelect, onSelectDisp
               <span>Info SOP &amp; Alur</span>
             </button>
           </div>
-          <p>Register 170 lembar instruksi resmi Kepala Dinas terhadap seluruh naskah masuk</p>
+          <p>Register {suratMasuk.length} lembar instruksi resmi Kepala Dinas terhadap seluruh naskah masuk</p>
         </div>
         <button className="btn outline w-full sm:w-auto justify-center" onClick={onExport} type="button">
           <Icon name="download" /> Ekspor Excel
@@ -124,7 +124,7 @@ export default function DispositionHistoryView({ letters, onSelect, onSelectDisp
               </thead>
               <tbody>
                 {paginated.map((letter) => (
-                  <tr key={letter.id} className="cursor-pointer hover:bg-slate-50 transition-colors" onClick={() => onSelect(letter)}>
+                  <tr key={letterKey(letter)} className="cursor-pointer hover:bg-slate-50 transition-colors" onClick={() => onSelect(letter)}>
                     <td>
                       <div className="flex items-baseline gap-1.5">
                         <b className="mono text-emerald-800 text-xs font-bold">{letter.id}</b>

@@ -53,6 +53,7 @@ export interface LetterRecord {
   division: string; // Bidang
   disposition: Disposition;
   fileUrl?: string; // Cloudinary CDN streaming URL
+  cloudinaryPublicId?: string; // Cloudinary public_id
   driveUrl?: string; // Google Drive backup URL
   rawId?: string; // Database UUID
   fileName?: string; // Nama berkas PDF asli

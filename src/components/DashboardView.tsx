@@ -103,7 +103,7 @@ export default function DashboardView({
               <div>
                 <h2>
                   Surat Terbaru
-                  <span className="small-count">{Math.min(5, letters.length)}</span>
+                  <span className="small-count">{Math.min(5, active.length)}</span>
                 </h2>
                 <p>Arsip terbaru yang memerlukan perhatian Anda</p>
               </div>
@@ -112,11 +112,11 @@ export default function DashboardView({
                 <Icon name="arrow" size={15} />
               </button>
             </div>
-            <ArchiveTable letters={letters.slice(0, 5)} compact onSelect={onSelect} />
+            <ArchiveTable letters={active.slice(0, 5)} compact onSelect={onSelect} />
             <div className="table-bottom">
               <Icon name="shield" size={13} />
               <span>Pusat Data SPBE Terenkripsi</span>
-              <span className="mono">{letters.length} arsip terindeks</span>
+              <span className="mono">{active.length} arsip terindeks</span>
             </div>
           </section>
         </div>
@@ -135,7 +135,7 @@ export default function DashboardView({
             <figure
               className="donut"
               style={{ background: `conic-gradient(${segments.join(',')})` }}
-              aria-label={`Distribusi ${active.length} berkas di lima bidang`}
+              aria-label={`Distribusi ${active.length} berkas pada sembilan unit kerja dan bidang`}
             >
               <div>
                 <strong>{active.length}</strong>

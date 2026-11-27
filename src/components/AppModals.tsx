@@ -4,6 +4,8 @@ import DocumentPreview from './DocumentPreview';
 import DeleteConfirmModal from './DeleteConfirmModal';
 import EditLetterModal from './EditLetterModal';
 import HelpModal from './HelpModal';
+import { exportExcel } from '@/lib/exportExcel';
+import type { UploadProgress } from '@/hooks/useLetterActions';
 import type { LetterRecord, DemoUser } from '@/types';
 
 interface Props {
@@ -24,8 +26,8 @@ interface Props {
   setDeleteTarget: (l: LetterRecord | null) => void;
   setBatchTargets: (b: LetterRecord[]) => void;
   setSelectedIds: (ids: string[]) => void;
-  onSaveLetter: (record: Omit<LetterRecord, 'id'>, file?: File, dispFile?: File) => Promise<void>;
-  onUpdateLetter: (id: string, updates: Partial<LetterRecord>, file?: File, dispFile?: File) => Promise<void>;
+  onSaveLetter: (record: Omit<LetterRecord, 'id'>, file?: File, dispFile?: File, onProgress?: (p: UploadProgress) => void) => Promise<void>;
+  onUpdateLetter: (id: string, updates: Partial<LetterRecord>, file?: File, dispFile?: File, onProgress?: (p: UploadProgress) => void, explicitTarget?: LetterRecord) => Promise<void>;
   confirmDelete: (trashDrive?: boolean) => Promise<void>;
   confirmBatchDelete: (trashDrive?: boolean) => Promise<void>;
   letters?: LetterRecord[];
@@ -86,7 +88,14 @@ export default function AppModals({
         />
       )}
       {printLetter && (
-        <PrintDisposisiModal letter={printLetter} onClose={() => setPrintLetter(null)} />
+        <PrintDisposisiModal
+          letter={printLetter}
+          onClose={() => setPrintLetter(null)}
+          onSaveDisposition={async (updated) => {
+            await onUpdateLetter(printLetter.id, { division: updated.division, disposition: updated }, undefined, undefined, undefined, printLetter);
+            setPrintLetter({ ...printLetter, division: updated.division, disposition: updated });
+          }}
+        />
       )}
       {deleteTarget && (
         <DeleteConfirmModal
@@ -101,6 +110,7 @@ export default function AppModals({
           letter={batchTargets[0]}
           batch={batchTargets}
           deleting={deleting}
+          onBackup={() => void exportExcel(batchTargets)}
           onClose={() => { setBatchTargets([]); setSelectedIds([]); }}
           onConfirm={async (trashDrive) => {
             await confirmBatchDelete(trashDrive);

@@ -5,7 +5,7 @@ import Badge from './Badge';
 import Pagination from './Pagination';
 import RowActionMenu from './RowActionMenu';
 import DispositionStatusBadge from './DispositionStatusBadge';
-import { shortDate } from '@/lib/format';
+import { shortDate, letterKey } from '@/lib/format';
 import type { LetterRecord } from '@/types';
 
 interface Props {
@@ -39,9 +39,9 @@ export default function ArchiveTable({
 }: Props) {
   const pages = Math.max(1, Math.ceil(letters.length / 15)), current = Math.min(page, pages);
   const visible = letters.slice(compact ? 0 : (current - 1) * 15, compact ? 5 : current * 15);
-  const visibleIds = visible.map((l) => l.id);
-  const allChecked = visibleIds.length > 0 && visibleIds.every((id) => selectedIds.includes(id));
-  const someChecked = visibleIds.some((id) => selectedIds.includes(id)) && !allChecked;
+  const visibleKeys = visible.map(letterKey);
+  const allChecked = visibleKeys.length > 0 && visibleKeys.every((k) => selectedIds.includes(k));
+  const someChecked = visibleKeys.some((k) => selectedIds.includes(k)) && !allChecked;
   const isAllOut = visible.length > 0 && visible.every((l) => l.direction === 'out');
 
   return (
@@ -80,11 +80,12 @@ export default function ArchiveTable({
           </thead>
           <tbody>
             {visible.map((letter) => {
-              const isChecked = selectedIds.includes(letter.id);
+              const rowKey = letterKey(letter);
+              const isChecked = selectedIds.includes(rowKey);
               return (
                 <tr
-                  key={letter.id}
-                  className={selectedId === letter.id ? 'selected' : ''}
+                  key={rowKey}
+                  className={selectedId === rowKey || selectedId === letter.id ? 'selected' : ''}
                   tabIndex={0}
                   aria-label={`Buka surat ${letter.id}: ${letter.subject}`}
                   onClick={() => onSelect(letter)}
@@ -100,7 +101,7 @@ export default function ArchiveTable({
                       <input
                         type="checkbox"
                         checked={isChecked}
-                        onChange={() => onToggleSelect(letter.id)}
+                        onChange={() => onToggleSelect(rowKey)}
                         onClick={(e) => e.stopPropagation()}
                         aria-label={`Pilih arsip ${letter.id}`}
                       />

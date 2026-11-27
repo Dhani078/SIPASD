@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useMemo } from 'react';
 import Icon from './Icon';
+import { todayWitaString } from '@/lib/format';
 import type { DemoUser } from '@/types';
 
 interface AuditLogItem {
@@ -82,7 +83,7 @@ export default function AuditTrailView({ currentUser: _currentUser }: Props) {
     const csvContent = 'data:text/csv;charset=utf-8,' + rows.map((e) => e.map((x) => `"${x.replace(/"/g, '""')}"`).join(',')).join('\n');
     const link = document.createElement('a');
     link.setAttribute('href', encodeURI(csvContent));
-    link.setAttribute('download', `audit_trail_dispora_${new Date().toISOString().slice(0, 10)}.csv`);
+    link.setAttribute('download', `audit_trail_dispora_${todayWitaString()}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

@@ -5,15 +5,18 @@ import Modal from './Modal';
 import Icon from './Icon';
 import NewLetterDisposisiFields from './NewLetterDisposisiFields';
 import LetterFileUpload from './LetterFileUpload';
+import UploadProgressBar from './UploadProgressBar';
 import { classifications, venues, divisions } from '@/data/constants';
 import { classifyText, type ClassificationResult } from '@/lib/classifier';
 import { getWorkdayIndex, format5Digit, calculateNextWorkdayAgenda } from '@/lib/workday-slot';
+import { todayWitaString } from '@/lib/format';
+import type { UploadProgress } from '@/hooks/useLetterActions';
 import type { Direction, LetterRecord, Urgency, DemoUser } from '@/types';
 
 interface Props {
   direction: Direction;
   onClose: () => void;
-  onSave: (letter: Omit<LetterRecord, 'id'>, file?: File, dispFile?: File) => Promise<void> | void;
+  onSave: (letter: Omit<LetterRecord, 'id'>, file?: File, dispFile?: File, onProgress?: (p: UploadProgress) => void) => Promise<void> | void;
   letters?: LetterRecord[];
   user?: DemoUser;
 }
@@ -25,11 +28,12 @@ export default function NewLetterModal({ direction, onClose, onSave, letters, us
   const [kind, setKind] = useState<Direction>(initialKind);
   const [file, setFile] = useState<File>(), [dispFile, setDispFile] = useState<File | null>(null);
   const [error, setError] = useState(''), [saving, setSaving] = useState(false);
+  const [uploadProg, setUploadProg] = useState<UploadProgress | null>(null);
   const [posisiSurat, setPosisiSurat] = useState('Diterima Persuratan');
   const [aiRec, setAiRec] = useState<ClassificationResult | null>(null), [classCode, setClassCode] = useState('005');
   const [classList, setClassList] = useState<Array<[string, string]>>(() => classifications.map(([c, n]) => [c, n]));
-  const [today] = useState(() => new Date().toISOString().slice(0, 10));
-  const [pickedDate, setPickedDate] = useState(() => new Date().toISOString().slice(0, 10));
+  const [today] = useState(() => todayWitaString());
+  const [pickedDate, setPickedDate] = useState(() => todayWitaString());
   const [numMode, setNumMode] = useState<'auto' | 'manual'>('auto'), [manualNum, setManualNum] = useState('');
   const uid = useId();
 
@@ -69,12 +73,13 @@ export default function NewLetterModal({ direction, onClose, onSave, letters, us
           division: val('disposisi_division') || 'Sekretariat', instructions: [posisiSurat],
           notes: val('notes') || '', status: dStatus,
         },
-      }, file, dispFile || undefined);
+      }, file, dispFile || undefined, setUploadProg);
       onClose();
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Gagal menyimpan arsip.');
     } finally {
       setSaving(false);
+      setUploadProg(null);
     }
   }
 
@@ -173,13 +178,9 @@ export default function NewLetterModal({ direction, onClose, onSave, letters, us
           <LetterFileUpload file={file} onFileChange={setFile} />
 
           {kind === 'in' && (
-            <NewLetterDisposisiFields
-              posisiSurat={posisiSurat}
-              onPosisiSuratChange={setPosisiSurat}
-              disposisiFile={dispFile}
-              onDisposisiFileChange={setDispFile}
-            />
+            <NewLetterDisposisiFields posisiSurat={posisiSurat} onPosisiSuratChange={setPosisiSurat} disposisiFile={dispFile} onDisposisiFileChange={setDispFile} />
           )}
+          {uploadProg && <UploadProgressBar progress={uploadProg} />}
         </div>
 
         <div className="modal-actions">

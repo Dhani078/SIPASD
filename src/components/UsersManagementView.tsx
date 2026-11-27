@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Icon from './Icon';
 import Modal from './Modal';
 import { demoUsers } from '@/data/users';
@@ -19,13 +19,27 @@ function formatIdentity(nip?: string): string {
 }
 
 export default function UsersManagementView({ currentUser }: Props) {
+  const [users, setUsers] = useState<DemoUser[]>(demoUsers);
   const [query, setQuery] = useState('');
   const [roleFilter, setRoleFilter] = useState('ALL');
   const [selectedUser, setSelectedUser] = useState<DemoUser | null>(null);
 
   const isDev = currentUser.username === 'developer' || currentUser.label === 'Developer';
 
-  const filtered = useMemo(() => demoUsers.filter((u) => {
+  useEffect(() => {
+    let ignore = false;
+    fetch('/api/users')
+      .then((r) => r.json())
+      .then((d) => {
+        if (!ignore && d?.success && Array.isArray(d.users) && d.users.length > 0) {
+          setUsers(d.users);
+        }
+      })
+      .catch(() => {});
+    return () => { ignore = true; };
+  }, []);
+
+  const filtered = useMemo(() => users.filter((u) => {
     if (roleFilter !== 'ALL' && u.label !== roleFilter) return false;
     if (query) {
       const q = query.toLowerCase();
@@ -34,9 +48,9 @@ export default function UsersManagementView({ currentUser }: Props) {
         (u.unitKerja && u.unitKerja.toLowerCase().includes(q)) || (u.email && u.email.toLowerCase().includes(q));
     }
     return true;
-  }), [query, roleFilter, isDev]);
+  }), [users, query, roleFilter, isDev]);
 
-  const roles = useMemo(() => Array.from(new Set(demoUsers.map((u) => u.label))), []);
+  const roles = useMemo(() => Array.from(new Set(users.map((u) => u.label))), [users]);
 
   return (
     <div className="space-y-4">

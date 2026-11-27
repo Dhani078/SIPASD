@@ -5,7 +5,7 @@ import ReportsFilterBar from './ReportsFilterBar';
 import { ReportTableMasuk, ReportTableKeluar, ReportTableDisposisiBidang } from './ReportTablesPrimary';
 import { ReportTableKepatuhan, ReportTableKlasifikasi, ReportTableAudit } from './ReportTablesSecondary';
 import { exportReportToExcel } from '@/lib/exportReportExcel';
-import { formatDate } from '@/lib/format';
+import { formatDate, todayWitaString } from '@/lib/format';
 import type { DemoUser } from '@/types';
 
 interface Props {
@@ -27,13 +27,12 @@ export default function ReportsManagementView({ currentUser: _currentUser }: Pro
 
   const handlePresetChange = (preset: string) => {
     setPeriodPreset(preset);
-    const now = new Date();
-    const y = now.getFullYear();
-    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const witaToday = todayWitaString();
+    const y = Number(witaToday.slice(0, 4));
+    const m = witaToday.slice(5, 7);
     if (preset === 'today') {
-      const d = String(now.getDate()).padStart(2, '0');
-      setStartDate(`${y}-${m}-${d}`);
-      setEndDate(`${y}-${m}-${d}`);
+      setStartDate(witaToday);
+      setEndDate(witaToday);
     } else if (preset === 'this_month') {
       const lastDay = new Date(y, Number(m), 0).getDate();
       setStartDate(`${y}-${m}-01`);
@@ -82,8 +81,9 @@ export default function ReportsManagementView({ currentUser: _currentUser }: Pro
     void exportReportToExcel(reportType, data, label);
   };
 
-  const todayStr = formatDate(new Date().toISOString().slice(0, 10));
-  const currentYear = new Date().getFullYear();
+  const todayWita = todayWitaString();
+  const todayStr = formatDate(todayWita);
+  const currentYear = Number(todayWita.slice(0, 4));
 
   return (
     <div className="space-y-6">

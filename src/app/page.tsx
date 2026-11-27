@@ -1,5 +1,6 @@
 import { getSession } from '@/lib/auth';
 import { getRealLetters } from '@/lib/letters';
+import { getPublicLandingStats } from '@/lib/stats';
 import SipasdApp from '@/components/SipasdApp';
 import { demoUsers } from '@/data/users';
 
@@ -10,11 +11,13 @@ interface Props {
 }
 
 export default async function HomePage({ searchParams }: Props) {
-  const [session, letters, params] = await Promise.all([
+  const [session, params] = await Promise.all([
     getSession(),
-    getRealLetters(),
     searchParams ? searchParams : Promise.resolve({ view: undefined }),
   ]);
+
+  const letters = session ? await getRealLetters() : [];
+  const publicCounts = session ? undefined : await getPublicLandingStats();
 
   const user = session
     ? demoUsers.find((u) => u.username === session.username) || {
@@ -34,6 +37,8 @@ export default async function HomePage({ searchParams }: Props) {
       initialUser={user}
       initialPage={initialPage}
       isAuthenticated={Boolean(session)}
+      initialCounts={publicCounts}
+      allowDemoLogin={process.env.ALLOW_DEMO_LOGIN === 'true'}
     />
   );
 }

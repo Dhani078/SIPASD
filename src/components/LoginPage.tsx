@@ -9,9 +9,11 @@ import type { DemoUser } from '@/types';
 export default function LoginPage({
   onLoginSuccess,
   onBack,
+  allowDemoLogin = false,
 }: {
   onLoginSuccess: (user: DemoUser) => void;
   onBack: () => void;
+  allowDemoLogin?: boolean;
 }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -159,29 +161,33 @@ export default function LoginPage({
             <Icon name="arrow" />
           </button>
 
-          <div className="demo-label">
-            AKUN RESMI DISPORA - 1 KLIK UJI PERAN
-          </div>
-          <div className="tester">
-            {demoUsers.map((user) => (
-              <button
-                key={user.username}
-                disabled={loading}
-                className={username === user.username ? 'active' : ''}
-                type="button"
-                onClick={() => {
-                  setUsername(user.username);
-                  setPassword('');
-                  submitLogin(user.username, '', true);
-                }}
-              >
-                {user.label}
-              </button>
-            ))}
-          </div>
-          <small className="demo-note">
-            Akses kedinasan terotentikasi &bull; Terintegrasi Pangkalan Data SPBE Dispora Kalsel.
-          </small>
+          {allowDemoLogin && (
+            <>
+              <div className="demo-label">
+                AKUN RESMI DISPORA - 1 KLIK UJI PERAN
+              </div>
+              <div className="tester">
+                {demoUsers.map((user) => (
+                  <button
+                    key={user.username}
+                    disabled={loading}
+                    className={username === user.username ? 'active' : ''}
+                    type="button"
+                    onClick={() => {
+                      setUsername(user.username);
+                      setPassword('');
+                      submitLogin(user.username, '', true);
+                    }}
+                  >
+                    {user.label}
+                  </button>
+                ))}
+              </div>
+              <small className="demo-note">
+                Akses kedinasan terotentikasi &bull; Terintegrasi Pangkalan Data SPBE Dispora Kalsel.
+              </small>
+            </>
+          )}
         </form>
       </div>
       <small>

@@ -111,7 +111,7 @@ export default function CorrespondenceChart({
                 <span>{g.label}</span>
                 {hover === i && (
                   <div role="tooltip" className="chart-tooltip">
-                    <b>{g.label} 2026</b>
+                    <b>{g.label} {selectedYear === 'Semua' ? 'Semua TA' : selectedYear}</b>
                     <div>Masuk: {g.incoming}</div>
                     <div>Keluar: {g.outgoing}</div>
                   </div>

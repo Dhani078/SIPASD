@@ -1,5 +1,6 @@
 import Crest from './Crest';
 import type { LetterRecord } from '@/types';
+import { divisions } from '@/data/constants';
 import { formatDate } from '@/lib/format';
 
 export default function Letter({
@@ -76,13 +77,7 @@ export default function Letter({
           <div className="paper-box">
             <b>Diteruskan kepada:</b>
             <p>
-              {[
-                'Sekretariat',
-                'Pembudayaan Olahraga',
-                'Peningkatan Prestasi',
-                'Pengembangan Pemuda',
-                'Sarana & Prasarana',
-              ].map((d) => (
+              {divisions.map((d) => (
                 <span key={d} className="print-check">
                   {letter.disposition?.division === d ? '[X]' : '[ ]'} {d}{' '}
                 </span>

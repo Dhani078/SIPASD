@@ -82,7 +82,7 @@ export default function LandingPage({
             </h1>
 
             <p className="mt-4 text-xs sm:text-sm text-slate-600 leading-relaxed max-w-xl">
-              Repositori digital resmi Sekretariat Dinas Kepemudaan dan Olahraga Provinsi Kalimantan Selatan. Memproses 411 naskah fisik pindaian dengan akses temu-kembali cepat via peramban HP dan PC.
+              Repositori digital resmi Sekretariat Dinas Kepemudaan dan Olahraga Provinsi Kalimantan Selatan. Memproses {totalSuratMasuk + totalSuratKeluar} naskah fisik pindaian dengan akses temu-kembali cepat via peramban HP dan PC.
             </p>
 
             <form
@@ -157,7 +157,7 @@ export default function LandingPage({
         <LandingStats totalSuratMasuk={totalSuratMasuk} totalSuratKeluar={totalSuratKeluar} />
 
         <div id="fitur">
-          <LandingFeatures />
+          <LandingFeatures totalDocs={totalSuratMasuk + totalSuratKeluar} />
         </div>
 
         <LandingVenues onVenue={onVenue} />

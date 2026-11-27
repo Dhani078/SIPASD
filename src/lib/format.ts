@@ -34,6 +34,19 @@ export function toLocalDateString(val: unknown): string {
   return String(val).slice(0, 10);
 }
 
+export function todayWitaString(): string {
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Makassar',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(new Date());
+}
+
+export function letterKey(l: Pick<LetterRecord, 'direction' | 'id' | 'rawId'>): string {
+  return `${l.direction}:${l.rawId || l.id}`;
+}
+
 export function matchesSearch(
   letter: {
     id: string;

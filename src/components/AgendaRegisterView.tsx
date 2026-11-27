@@ -5,7 +5,7 @@ import Icon from './Icon';
 import Badge from './Badge';
 import YearFilterControl from './YearFilterControl';
 import { monthsList } from '@/data/constants';
-import { formatDate } from '@/lib/format';
+import { formatDate, letterKey } from '@/lib/format';
 import type { LetterRecord } from '@/types';
 
 interface Props {
@@ -118,7 +118,7 @@ export default function AgendaRegisterView({ letters, onSelect, onExport }: Prop
           </thead>
           <tbody>
             {paginated.map((letter) => (
-              <tr key={letter.id} className="cursor-pointer hover:bg-slate-50 transition-colors" onClick={() => onSelect(letter)}>
+              <tr key={letterKey(letter)} className="cursor-pointer hover:bg-slate-50 transition-colors" onClick={() => onSelect(letter)}>
                 <td>
                   <div className="flex items-center gap-1.5">
                     <span className={`inline-block px-1.5 py-0.5 rounded text-[10px] font-bold ${letter.direction === 'in' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}`}>

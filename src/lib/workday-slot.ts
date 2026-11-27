@@ -1,3 +1,5 @@
+import { todayWitaString } from '@/lib/format';
+
 /**
  * Modul Alokasi Slot Agenda Harian Kelipatan 50 (Murni Senin s.d. Jumat)
  * Dinas Kepemudaan dan Olahraga Provinsi Kalimantan Selatan
@@ -48,7 +50,7 @@ export function calculateNextWorkdayAgenda(
   direction: 'in' | 'out',
   existingAgendas: string[]
 ): WorkdaySlotInfo {
-  const safeDate = dateStr && dateStr.length >= 10 ? dateStr.slice(0, 10) : new Date().toISOString().slice(0, 10);
+  const safeDate = dateStr && dateStr.length >= 10 ? dateStr.slice(0, 10) : todayWitaString();
   const [y, m, d] = safeDate.split('-').map(Number);
   const year = !isNaN(y) && y >= 2000 && y <= 2200 ? y : 2026;
   const month = !isNaN(m) && m >= 1 && m <= 12 ? m : 1;

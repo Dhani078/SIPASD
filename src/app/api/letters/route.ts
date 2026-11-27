@@ -9,9 +9,22 @@ function canManageLetters(role?: string): boolean {
   return role === 'SUPER_ADMIN' || role === 'PETUGAS_ARSIP';
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const letters = await getRealLetters();
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ success: false, message: 'Akses ditolak. Sesi tidak ditemukan.' }, { status: 401 });
+    }
+    const { searchParams } = new URL(request.url);
+    const dirFilter = searchParams.get('direction');
+    let letters = await getRealLetters();
+    if (session.username === 'magang_masuk') {
+      letters = letters.filter((l) => l.direction === 'in');
+    } else if (session.username === 'magang_keluar') {
+      letters = letters.filter((l) => l.direction === 'out');
+    } else if (dirFilter === 'in' || dirFilter === 'out') {
+      letters = letters.filter((l) => l.direction === dirFilter);
+    }
     return NextResponse.json({ success: true, letters });
   } catch (error: unknown) {
     console.error('API Letters GET error:', error);
@@ -45,6 +58,8 @@ export async function POST(request: Request) {
     body.number = sanitize(body.number);
     body.origin = sanitize(body.origin);
     body.subject = sanitize(body.subject);
+    if (body.venue) body.venue = sanitize(body.venue);
+    if (body.classification) body.classification = sanitize(body.classification);
     const res = await insertNewLetter(body, session.id);
     const ip = getClientIp(request);
     const agent = request.headers.get('user-agent') || 'Unknown';
@@ -149,6 +164,8 @@ export async function PUT(request: Request) {
     if (updates.number) updates.number = sanitize(updates.number);
     if (updates.origin) updates.origin = sanitize(updates.origin);
     if (updates.subject) updates.subject = sanitize(updates.subject);
+    if (updates.venue) updates.venue = sanitize(updates.venue);
+    if (updates.classification) updates.classification = sanitize(updates.classification);
 
     const ok = await updateLetter(id, updates, direction || 'in');
     if (!ok) {

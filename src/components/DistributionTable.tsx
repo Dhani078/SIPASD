@@ -1,7 +1,7 @@
 'use client';
 
 import Icon from './Icon';
-import { formatDate } from '@/lib/format';
+import { formatDate, letterKey } from '@/lib/format';
 import type { LetterRecord } from '@/types';
 
 export interface ExpeditionRecord {
@@ -38,7 +38,7 @@ export default function DistributionTable({ letters, records, onSelect }: Props)
           {letters.map((letter) => {
             const rec = letter.rawId ? records[letter.rawId] : undefined;
             return (
-              <tr key={letter.id} className="hover:bg-slate-50 transition-colors">
+              <tr key={letterKey(letter)} className="hover:bg-slate-50 transition-colors">
                 <td>
                   <b className="mono text-emerald-800 text-xs font-bold block">
                     {letter.id} <span className="font-normal text-slate-400 text-[11px]">/SK/{letter.date ? letter.date.slice(0, 4) : '2026'}</span>

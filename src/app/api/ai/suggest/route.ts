@@ -1,8 +1,13 @@
 import { NextResponse } from 'next/server';
 import { classifyText } from '@/lib/classifier';
+import { getSession } from '@/lib/auth';
 
 export async function POST(request: Request) {
   try {
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ success: false, message: 'Akses ditolak. Sesi tidak ditemukan.' }, { status: 401 });
+    }
     const { text } = await request.json();
     if (!text || typeof text !== 'string') {
       return NextResponse.json({ success: false, message: 'Teks perihal surat wajib diisi.' }, { status: 400 });

@@ -9,6 +9,7 @@ interface Props {
   letter: LetterRecord;
   batch?: LetterRecord[];
   deleting: boolean;
+  onBackup?: () => void;
   onClose: () => void;
   onConfirm: (trashDrive?: boolean) => Promise<void> | void;
 }
@@ -17,6 +18,7 @@ export default function DeleteConfirmModal({
   letter,
   batch,
   deleting,
+  onBackup,
   onClose,
   onConfirm,
 }: Props) {
@@ -68,6 +70,14 @@ export default function DeleteConfirmModal({
             </span>
           </label>
         </div>
+        {isBatch && onBackup && (
+          <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl flex items-center justify-between gap-2 text-xs">
+            <span className="text-amber-900 font-medium">Disarankan ekspor cadangan sebelum menghapus massal.</span>
+            <button type="button" onClick={onBackup} className="px-2.5 py-1 rounded bg-white border border-amber-300 text-amber-900 font-semibold hover:bg-amber-100 shrink-0 inline-flex items-center gap-1 cursor-pointer">
+              <Icon name="download" size={12} /> Unduh Excel
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="modal-actions">

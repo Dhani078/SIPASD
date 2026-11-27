@@ -4,27 +4,8 @@ import { getGdriveFolderUrl } from '@/data/constants';
 import { trashGoogleDriveFile, extractGoogleDriveFileId } from '@/lib/gdrive';
 import { deletePdf } from '@/lib/cloudinary';
 import { calculateNextWorkdayAgenda } from '@/lib/workday-slot';
+import { parseBidangId, parseKlasifikasiId } from '@/lib/letter-helpers';
 import { randomUUID } from 'crypto';
-
-function parseBidangId(name?: string): number {
-  const s = (name || '').toLowerCase();
-  if (s.includes('keuangan')) return 6;
-  if (s.includes('umum') || s.includes('kepegawaian')) return 7;
-  if (s.includes('perencanaan') || s.includes('pelaporan')) return 8;
-  if (s.includes('pemberdayaan')) return 9;
-  if (s.includes('pembudayaan')) return 2;
-  if (s.includes('prestasi')) return 3;
-  if (s.includes('pemuda') || s.includes('pengembangan')) return 4;
-  return s.includes('sarana') || s.includes('prasarana') ? 5 : 1;
-}
-
-async function parseKlasifikasiId(conn: any, code?: string): Promise<number> {
-  if (!code) return 1;
-  const [rows] = await conn.query('SELECT id FROM klasifikasi_arsip WHERE kode = ? LIMIT 1', [code]);
-  if (rows && rows.length > 0) return Number(rows[0].id);
-  const map: Record<string, number> = { '005': 1, '045': 2, '426': 3, '427': 4, '800': 5, '900': 6 };
-  return map[code] || 1;
-}
 
 export async function insertNewLetter(
   data: Omit<LetterRecord, 'id'>,
@@ -39,6 +20,8 @@ export async function insertNewLetter(
 
   try {
     await conn.beginTransaction();
+    const cleanVenue = data.venue && data.venue !== '-' ? data.venue : null;
+    const kId = await parseKlasifikasiId(conn, data.classification);
 
     if (data.direction === 'in') {
       const targetDate = data.disposition?.date || data.date || dateStr;
@@ -49,20 +32,20 @@ export async function insertNewLetter(
       const nomorAgenda = calculateNextWorkdayAgenda(targetDate, 'in', rows.map((r) => r.nomor_agenda)).agendaNumber;
 
       await conn.query(
-        'INSERT INTO arsip_surat_masuk (id, nomor_agenda, nomor_surat, tanggal_surat, tanggal_diterima, asal_instansi, perihal, ringkasan_isi, sifat_surat, file_url, cloudinary_public_id, drive_url, file_name_original, indexed_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?)',
-        [id, nomorAgenda, data.number, data.date, data.disposition?.date || data.date, data.origin, data.subject, data.subject, data.type.toUpperCase(), data.fileUrl || '', data.driveUrl || getGdriveFolderUrl('masuk', year), data.fileName || `${nomorAgenda.replace(/\//g, '_')}.pdf`, userId]
+        'INSERT INTO arsip_surat_masuk (id, nomor_agenda, nomor_surat, tanggal_surat, tanggal_diterima, asal_instansi, perihal, ringkasan_isi, sifat_surat, kode_klasifikasi_id, venue, file_url, cloudinary_public_id, drive_url, file_name_original, indexed_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        [id, nomorAgenda, data.number, data.date, data.disposition?.date || data.date, data.origin, data.subject, data.subject, data.type.toUpperCase(), kId, cleanVenue, data.fileUrl || '', data.cloudinaryPublicId || null, data.driveUrl || getGdriveFolderUrl('masuk', year), data.fileName || `${nomorAgenda.replace(/\//g, '_')}.pdf`, userId]
       );
 
       const dispId = randomUUID();
       const instStr = data.disposition?.instructions?.join(', ') || 'Tindak Lanjuti';
-      const kId = parseBidangId(data.disposition?.division || data.division);
+      const bId = parseBidangId(data.disposition?.division || data.division);
       const dStatus = data.disposition?.status || 'BELUM_DIPROSES';
       const dFile = data.dispositionFileUrl || data.disposition?.fileUrl || null;
       const dDrive = data.dispositionDriveUrl || data.disposition?.driveUrl || null;
       const dName = data.dispositionFileName || data.disposition?.fileName || null;
       await conn.query(
         'INSERT INTO riwayat_disposisi (id, surat_masuk_id, pejabat_pendisposisi, tanggal_disposisi, kepada_bidang_id, instruksi_tercatat, catatan_tertulis, status_penyelesaian, file_disposisi_url, disposisi_drive_url, disposisi_file_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-        [dispId, id, data.disposition?.official || '-', data.disposition?.date || data.date, kId, instStr, data.disposition?.notes || '', dStatus, dFile, dDrive, dName]
+        [dispId, id, data.disposition?.official || '-', data.disposition?.date || data.date, bId, instStr, data.disposition?.notes || '', dStatus, dFile, dDrive, dName]
       );
 
       await conn.commit();
@@ -76,11 +59,10 @@ export async function insertNewLetter(
       const nomorAgenda = calculateNextWorkdayAgenda(targetDate, 'out', rows.map((r) => r.nomor_agenda)).agendaNumber;
       const nextUrut = rows.reduce((max, r) => Math.max(max, Number(r.nomor_urut || 0)), 0) + 1;
       const pId = parseBidangId(data.division);
-      const kId = await parseKlasifikasiId(conn, data.classification);
 
       await conn.query(
-        'INSERT INTO arsip_surat_keluar (id, nomor_agenda, nomor_surat, nomor_urut, tahun, kode_klasifikasi_id, bidang_pemrakarsa_id, tanggal_surat, tujuan_instansi, perihal, ringkasan_isi, file_url, cloudinary_public_id, drive_url, file_name_original, indexed_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?)',
-        [id, nomorAgenda, data.number, nextUrut, year, kId, pId, data.date, data.origin, data.subject, data.subject, data.fileUrl || '', data.driveUrl || getGdriveFolderUrl('keluar', year), data.fileName || `${nomorAgenda.replace(/\//g, '_')}.pdf`, userId]
+        'INSERT INTO arsip_surat_keluar (id, nomor_agenda, nomor_surat, nomor_urut, tahun, kode_klasifikasi_id, bidang_pemrakarsa_id, venue, tanggal_surat, tujuan_instansi, perihal, ringkasan_isi, file_url, cloudinary_public_id, drive_url, file_name_original, indexed_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        [id, nomorAgenda, data.number, nextUrut, year, kId, pId, cleanVenue, data.date, data.origin, data.subject, data.subject, data.fileUrl || '', data.cloudinaryPublicId || null, data.driveUrl || getGdriveFolderUrl('keluar', year), data.fileName || `${nomorAgenda.replace(/\//g, '_')}.pdf`, userId]
       );
 
       await conn.commit();
@@ -169,28 +151,32 @@ export async function updateLetter(
   );
   if (!row) return false;
 
+  const pool = getDbPool();
+  const kId = data.classification ? await parseKlasifikasiId(pool, data.classification) : null;
+  const cleanVenue = data.venue !== undefined ? (data.venue && data.venue !== '-' ? data.venue : null) : undefined;
+
   if (isIn) {
     await query(
-      'UPDATE arsip_surat_masuk SET nomor_surat = COALESCE(?, nomor_surat), asal_instansi = COALESCE(?, asal_instansi), perihal = COALESCE(?, perihal), tanggal_surat = COALESCE(?, tanggal_surat), sifat_surat = COALESCE(?, sifat_surat), file_url = COALESCE(?, file_url), drive_url = COALESCE(?, drive_url), file_name_original = COALESCE(?, file_name_original) WHERE id = ?',
-      [data.number ?? null, data.origin ?? null, data.subject ?? null, data.date ?? null, data.type ? data.type.toUpperCase() : null, data.fileUrl ?? null, data.driveUrl ?? null, data.fileName ?? null, row.id]
+      'UPDATE arsip_surat_masuk SET nomor_surat = COALESCE(?, nomor_surat), asal_instansi = COALESCE(?, asal_instansi), perihal = COALESCE(?, perihal), tanggal_surat = COALESCE(?, tanggal_surat), sifat_surat = COALESCE(?, sifat_surat), kode_klasifikasi_id = COALESCE(?, kode_klasifikasi_id), venue = CASE WHEN ? = 1 THEN ? ELSE venue END, file_url = COALESCE(?, file_url), cloudinary_public_id = COALESCE(?, cloudinary_public_id), drive_url = COALESCE(?, drive_url), file_name_original = COALESCE(?, file_name_original) WHERE id = ?',
+      [data.number ?? null, data.origin ?? null, data.subject ?? null, data.date ?? null, data.type ? data.type.toUpperCase() : null, kId, cleanVenue !== undefined ? 1 : 0, cleanVenue ?? null, data.fileUrl ?? null, data.cloudinaryPublicId ?? null, data.driveUrl ?? null, data.fileName ?? null, row.id]
     );
     if (data.disposition) {
       const d = data.disposition;
       const instStr = d.instructions?.join(', ') || 'Tindak Lanjuti';
-      const kId = d.division || data.division ? parseBidangId(d.division || data.division) : null;
+      const bId = d.division || data.division ? parseBidangId(d.division || data.division) : null;
       const dFile = data.dispositionFileUrl || d.fileUrl || null;
       const dDrive = data.dispositionDriveUrl || d.driveUrl || null;
       const dName = data.dispositionFileName || d.fileName || null;
       await query(
         'UPDATE riwayat_disposisi SET pejabat_pendisposisi = COALESCE(?, pejabat_pendisposisi), kepada_bidang_id = COALESCE(?, kepada_bidang_id), instruksi_tercatat = ?, catatan_tertulis = ?, status_penyelesaian = COALESCE(?, status_penyelesaian), file_disposisi_url = COALESCE(?, file_disposisi_url), disposisi_drive_url = COALESCE(?, disposisi_drive_url), disposisi_file_name = COALESCE(?, disposisi_file_name) WHERE surat_masuk_id = ?',
-        [d.official || null, kId, instStr, d.notes || '', d.status || 'SELESAI', dFile, dDrive, dName, row.id]
+        [d.official || null, bId, instStr, d.notes || '', d.status || 'SELESAI', dFile, dDrive, dName, row.id]
       );
     }
   } else {
     const pId = data.division ? parseBidangId(data.division) : null;
     await query(
-      'UPDATE arsip_surat_keluar SET nomor_surat = COALESCE(?, nomor_surat), tujuan_instansi = COALESCE(?, tujuan_instansi), perihal = COALESCE(?, perihal), tanggal_surat = COALESCE(?, tanggal_surat), bidang_pemrakarsa_id = COALESCE(?, bidang_pemrakarsa_id), file_url = COALESCE(?, file_url), drive_url = COALESCE(?, drive_url), file_name_original = COALESCE(?, file_name_original) WHERE id = ?',
-      [data.number ?? null, data.origin ?? null, data.subject ?? null, data.date ?? null, pId, data.fileUrl ?? null, data.driveUrl ?? null, data.fileName ?? null, row.id]
+      'UPDATE arsip_surat_keluar SET nomor_surat = COALESCE(?, nomor_surat), tujuan_instansi = COALESCE(?, tujuan_instansi), perihal = COALESCE(?, perihal), tanggal_surat = COALESCE(?, tanggal_surat), kode_klasifikasi_id = COALESCE(?, kode_klasifikasi_id), bidang_pemrakarsa_id = COALESCE(?, bidang_pemrakarsa_id), venue = CASE WHEN ? = 1 THEN ? ELSE venue END, file_url = COALESCE(?, file_url), cloudinary_public_id = COALESCE(?, cloudinary_public_id), drive_url = COALESCE(?, drive_url), file_name_original = COALESCE(?, file_name_original) WHERE id = ?',
+      [data.number ?? null, data.origin ?? null, data.subject ?? null, data.date ?? null, kId, pId, cleanVenue !== undefined ? 1 : 0, cleanVenue ?? null, data.fileUrl ?? null, data.cloudinaryPublicId ?? null, data.driveUrl ?? null, data.fileName ?? null, row.id]
     );
   }
   return true;

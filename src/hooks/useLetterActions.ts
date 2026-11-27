@@ -1,28 +1,12 @@
 import { useState } from 'react';
 import type { LetterRecord } from '@/types';
-import { compressPdfIfNeeded } from '@/lib/pdf-compress';
-import { isImageFile, convertImageToPdf } from '@/lib/image-to-pdf';
+import { uploadPdf, type UploadProgress } from '@/lib/letter-upload';
+import { letterKey } from '@/lib/format';
+
+export type { UploadProgress };
 
 const formatDeleteMsg = (subject: string, trash: boolean) =>
   trash ? `${subject} dihapus & berkas dipindahkan ke Trash Google Drive.` : `${subject} berhasil dihapus dari TiDB.`;
-
-async function uploadPdf(file: File, folder: 'surat_masuk' | 'surat_keluar' | 'disposisi', year: string, tell: (m: string) => void) {
-  let readyFile = file;
-  if (isImageFile(file)) {
-    tell(`Memindai foto ${file.name} menjadi dokumen PDF A4...`);
-    readyFile = await convertImageToPdf(file);
-  }
-  tell(`Memeriksa lampiran ${readyFile.name}...`);
-  const ready = await compressPdfIfNeeded(readyFile, (p) => tell(p.message));
-  const fd = new FormData();
-  fd.append('file', ready);
-  fd.append('folder', folder);
-  fd.append('year', year);
-  const res = await fetch('/api/upload', { method: 'POST', body: fd });
-  const data = await res.json();
-  if (!res.ok || !data.success) throw new Error(data.message || 'Gagal mengunggah berkas PDF.');
-  return { url: data.url as string, driveUrl: (data.driveUrl as string) || undefined, fileName: ready.name };
-}
 
 export function useLetterActions(
   setLetters: React.Dispatch<React.SetStateAction<LetterRecord[]>>,
@@ -33,30 +17,31 @@ export function useLetterActions(
   const [deleting, setDeleting] = useState(false);
   const [editTarget, setEditTarget] = useState<LetterRecord | null>(null);
 
-  const handleSave = async (record: Omit<LetterRecord, 'id'>, file?: File, dispFile?: File) => {
-    let fileUrl = record.fileUrl, driveUrl = record.driveUrl;
+  const handleSave = async (record: Omit<LetterRecord, 'id'>, file?: File, dispFile?: File, onProgress?: (p: UploadProgress) => void) => {
+    let fileUrl = record.fileUrl, publicId = record.cloudinaryPublicId, driveUrl = record.driveUrl;
     let dispUrl = record.dispositionFileUrl, dispDrive = record.dispositionDriveUrl;
     let finalFileName = file?.name, finalDispName = dispFile?.name;
     const year = record.date ? record.date.slice(0, 4) : '2026';
 
     if (file) {
-      const up = await uploadPdf(file, record.direction === 'in' ? 'surat_masuk' : 'surat_keluar', year, tell);
-      fileUrl = up.url;
+      const up = await uploadPdf(file, record.direction === 'in' ? 'surat_masuk' : 'surat_keluar', year, tell, onProgress);
+      fileUrl = up.url; publicId = up.publicId;
       if (up.driveUrl) driveUrl = up.driveUrl;
       finalFileName = up.fileName;
     }
     if (dispFile) {
-      const upD = await uploadPdf(dispFile, 'disposisi', year, tell);
+      const upD = await uploadPdf(dispFile, 'disposisi', year, tell, onProgress);
       dispUrl = upD.url;
       if (upD.driveUrl) dispDrive = upD.driveUrl;
       finalDispName = upD.fileName;
     }
 
+    onProgress?.({ pct: 95, msg: 'Menyimpan indeks surat ke TiDB Cloud...' });
     const res = await fetch('/api/letters', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        ...record, fileUrl, driveUrl, fileName: finalFileName,
+        ...record, fileUrl, cloudinaryPublicId: publicId, driveUrl, fileName: finalFileName,
         dispositionFileUrl: dispUrl, dispositionDriveUrl: dispDrive, dispositionFileName: finalDispName,
       }),
     });
@@ -64,7 +49,7 @@ export function useLetterActions(
     if (!res.ok) throw new Error(data.message || 'Gagal menyimpan arsip');
     const agendaNum = (data.agendaNumber || 'BARU').split('/')[0];
     const newRecord: LetterRecord = {
-      ...record, fileUrl, driveUrl, id: agendaNum, rawId: data.id,
+      ...record, fileUrl, cloudinaryPublicId: publicId, driveUrl, id: agendaNum, rawId: data.id,
       fileName: finalFileName || `${agendaNum}.pdf`,
       dispositionFileUrl: dispUrl, dispositionDriveUrl: dispDrive, dispositionFileName: finalDispName,
     };
@@ -84,7 +69,8 @@ export function useLetterActions(
       );
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Gagal menghapus arsip');
-      setLetters((prev) => prev.filter((l) => l.id !== deleteTarget.id && (!deleteTarget.rawId || l.rawId !== deleteTarget.rawId)));
+      const targetKey = letterKey(deleteTarget);
+      setLetters((prev) => prev.filter((l) => letterKey(l) !== targetKey));
       const deletedId = deleteTarget.id;
       setDeleteTarget(null);
       tell(formatDeleteMsg(`Arsip No. Agenda ${deletedId}`, trashDrive));
@@ -99,18 +85,19 @@ export function useLetterActions(
     if (!batchTargets.length) return;
     setDeleting(true);
     try {
-      const ids = batchTargets.map((b) => b.rawId || b.id);
-      const direction = batchTargets[0].direction;
-      const res = await fetch('/api/letters', {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ids, direction, trashDrive }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Gagal menghapus arsip massal');
-      const idSet = new Set(batchTargets.map((b) => b.id));
-      const rawIdSet = new Set(batchTargets.map((b) => b.rawId).filter(Boolean));
-      setLetters((prev) => prev.filter((l) => !idSet.has(l.id) && (!l.rawId || !rawIdSet.has(l.rawId))));
+      for (const dir of ['in', 'out'] as const) {
+        const group = batchTargets.filter((b) => b.direction === dir);
+        if (!group.length) continue;
+        const res = await fetch('/api/letters', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ids: group.map((b) => b.rawId || b.id), direction: dir, trashDrive }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'Gagal menghapus arsip massal');
+      }
+      const keySet = new Set(batchTargets.map((b) => letterKey(b)));
+      setLetters((prev) => prev.filter((l) => !keySet.has(letterKey(l))));
       const count = batchTargets.length;
       setBatchTargets([]);
       tell(formatDeleteMsg(`${count} arsip terpilih`, trashDrive));
@@ -121,55 +108,63 @@ export function useLetterActions(
     }
   };
 
-  const handleUpdate = async (id: string, updates: Partial<LetterRecord>, file?: File, dispFile?: File) => {
-    let fileUrl = updates.fileUrl, driveUrl = updates.driveUrl;
+  const handleUpdate = async (
+    id: string,
+    updates: Partial<LetterRecord>,
+    file?: File,
+    dispFile?: File,
+    onProgress?: (p: UploadProgress) => void,
+    explicitTarget?: LetterRecord
+  ) => {
+    const activeTarget = explicitTarget || editTarget;
+    let fileUrl = updates.fileUrl, publicId = updates.cloudinaryPublicId, driveUrl = updates.driveUrl;
     let dispUrl = updates.dispositionFileUrl, dispDrive = updates.dispositionDriveUrl;
     let finalFileName = file?.name, finalDispName = dispFile?.name;
-    const year = (updates.date || editTarget?.date || '').slice(0, 4) || '2026';
+    const year = (updates.date || activeTarget?.date || '').slice(0, 4) || '2026';
     if (file) {
-      const up = await uploadPdf(file, editTarget?.direction === 'in' ? 'surat_masuk' : 'surat_keluar', year, tell);
-      fileUrl = up.url;
+      const up = await uploadPdf(file, activeTarget?.direction === 'out' ? 'surat_keluar' : 'surat_masuk', year, tell, onProgress);
+      fileUrl = up.url; publicId = up.publicId;
       if (up.driveUrl) driveUrl = up.driveUrl;
       finalFileName = up.fileName;
     }
     if (dispFile) {
-      const upD = await uploadPdf(dispFile, 'disposisi', year, tell);
+      const upD = await uploadPdf(dispFile, 'disposisi', year, tell, onProgress);
       dispUrl = upD.url;
       if (upD.driveUrl) dispDrive = upD.driveUrl;
       finalDispName = upD.fileName;
     }
-    const targetId = editTarget?.rawId || id;
+    const targetId = activeTarget?.rawId || id;
+    const direction = activeTarget?.direction || 'in';
     const res = await fetch('/api/letters', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        id: targetId, direction: editTarget?.direction || 'in', ...updates,
-        ...(fileUrl ? { fileUrl } : {}), ...(driveUrl ? { driveUrl } : {}),
-        ...(finalFileName ? { fileName: finalFileName } : {}),
-        ...(dispUrl ? { dispositionFileUrl: dispUrl } : {}),
-        ...(dispDrive ? { dispositionDriveUrl: dispDrive } : {}),
+        id: targetId, direction, ...updates,
+        ...(fileUrl ? { fileUrl } : {}), ...(publicId ? { cloudinaryPublicId: publicId } : {}),
+        ...(driveUrl ? { driveUrl } : {}), ...(finalFileName ? { fileName: finalFileName } : {}),
+        ...(dispUrl ? { dispositionFileUrl: dispUrl } : {}), ...(dispDrive ? { dispositionDriveUrl: dispDrive } : {}),
         ...(finalDispName ? { dispositionFileName: finalDispName } : {}),
       }),
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || 'Gagal memperbarui arsip');
 
+    const matchKey = activeTarget ? letterKey(activeTarget) : `${direction}:${id}`;
     setLetters((prev) =>
       prev.map((l) =>
-        l.id === id
+        letterKey(l) === matchKey
           ? {
               ...l, ...updates,
-              ...(fileUrl ? { fileUrl } : {}), ...(driveUrl ? { driveUrl } : {}),
-              ...(finalFileName ? { fileName: finalFileName } : {}),
-              ...(dispUrl ? { dispositionFileUrl: dispUrl } : {}),
-              ...(dispDrive ? { dispositionDriveUrl: dispDrive } : {}),
+              ...(fileUrl ? { fileUrl } : {}), ...(publicId ? { cloudinaryPublicId: publicId } : {}),
+              ...(driveUrl ? { driveUrl } : {}), ...(finalFileName ? { fileName: finalFileName } : {}),
+              ...(dispUrl ? { dispositionFileUrl: dispUrl } : {}), ...(dispDrive ? { dispositionDriveUrl: dispDrive } : {}),
               ...(finalDispName ? { dispositionFileName: finalDispName } : {}),
             }
           : l
       )
     );
-    tell(`Arsip No. Agenda ${id} berhasil diperbarui di TiDB Cloud.`);
-    setEditTarget(null);
+    tell(`Arsip No. Agenda ${activeTarget?.id || id} berhasil diperbarui di TiDB Cloud.`);
+    if (!explicitTarget) setEditTarget(null);
   };
 
   return {

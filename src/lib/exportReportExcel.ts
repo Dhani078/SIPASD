@@ -1,4 +1,5 @@
 import { downloadBlob } from './download';
+import { todayWitaString } from './format';
 
 export async function exportReportToExcel(
   reportType: string,
@@ -159,7 +160,7 @@ export async function exportReportToExcel(
   sheet.views = [{ state: 'frozen', ySplit: 1 }];
 
   const buffer = await workbook.xlsx.writeBuffer();
-  const safePeriod = (periodLabel || new Date().toISOString().slice(0, 10)).replace(/\s+/g, '-');
+  const safePeriod = (periodLabel || todayWitaString()).replace(/\s+/g, '-');
   downloadBlob(
     new Blob([buffer], {
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',

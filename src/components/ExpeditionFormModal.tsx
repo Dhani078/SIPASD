@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Icon from './Icon';
 import Modal from './Modal';
+import { todayWitaString } from '@/lib/format';
 import type { LetterRecord } from '@/types';
 
 interface Props {
@@ -65,13 +66,13 @@ export default function ExpeditionFormModal({ letter, initial, onClose, onSaved 
         {letter && (
           <div className="p-3 bg-slate-50 border border-slate-200 rounded">
             <p className="text-xs text-slate-600 mb-1">Surat Keluar</p>
-            <b className="text-sm">{letter.id}/SK/2026</b>
+            <b className="text-sm">{letter.id}/SK/{letter.date ? letter.date.slice(0, 4) : '2026'}</b>
             <p className="text-xs text-slate-700 mt-1">{letter.subject}</p>
           </div>
         )}
         <label>
           <span className="text-xs font-semibold text-slate-700">Tanggal Kirim</span>
-          <input type="date" name="tanggal_kirim" defaultValue={initial?.tanggal_kirim || ''} required className="w-full mt-1 px-2 py-1.5 text-sm border border-slate-300 rounded" />
+          <input type="date" name="tanggal_kirim" defaultValue={initial?.tanggal_kirim || todayWitaString()} required className="w-full mt-1 px-2 py-1.5 text-sm border border-slate-300 rounded" />
         </label>
         <label>
           <span className="text-xs font-semibold text-slate-700">Kurir Pengirim</span>

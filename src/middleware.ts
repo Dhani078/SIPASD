@@ -1,18 +1,34 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { jwtVerify } from 'jose';
 
-const PROTECTED_PATHS = ['/dashboard', '/arsip-masuk', '/arsip-keluar', '/master'];
+const PROTECTED_PATHS = ['/dashboard', '/arsip-masuk', '/arsip-keluar', '/master', '/laporan'];
 
-export function middleware(request: NextRequest) {
+async function hasValidSession(token?: string): Promise<boolean> {
+  if (!token) return false;
+  const secret = process.env.JWT_SECRET || (process.env.NODE_ENV === 'test' || process.env.CI ? 'ci_build_test_secret_key_minimum_32_characters' : '');
+  if (!secret) return false;
+  try {
+    await jwtVerify(token, new TextEncoder().encode(secret));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const isProtected = PROTECTED_PATHS.some((p) => pathname === p || pathname.startsWith(`${p}/`));
 
   if (isProtected) {
-    const hasSession = request.cookies.has('sipasd_session');
-    if (!hasSession) {
+    const token = request.cookies.get('sipasd_session')?.value;
+    const valid = await hasValidSession(token);
+    if (!valid) {
       const loginUrl = new URL('/login', request.url);
       loginUrl.searchParams.set('from', pathname);
-      return NextResponse.redirect(loginUrl);
+      const res = NextResponse.redirect(loginUrl);
+      if (token) res.cookies.delete('sipasd_session');
+      return res;
     }
   }
 
@@ -20,5 +36,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/arsip-masuk/:path*', '/arsip-keluar/:path*', '/master/:path*'],
+  matcher: ['/dashboard/:path*', '/arsip-masuk/:path*', '/arsip-keluar/:path*', '/master/:path*', '/laporan/:path*'],
 };

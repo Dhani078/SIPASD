@@ -16,6 +16,7 @@ export default async function LoginRoute() {
       initialUser={null}
       initialPage="login"
       isAuthenticated={false}
+      allowDemoLogin={process.env.ALLOW_DEMO_LOGIN === 'true'}
     />
   );
 }

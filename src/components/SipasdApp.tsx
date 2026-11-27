@@ -9,10 +9,10 @@ import SipasdMainView from './SipasdMainView';
 import AppModals from './AppModals';
 import HelpModal from './HelpModal';
 import { emptyFilters } from './ArchiveWorkspace';
-import { useLetterActions } from '@/hooks/useLetterActions';
+import { useLetterActions, type UploadProgress } from '@/hooks/useLetterActions';
 import { groups } from '@/data/navigation';
 import { demoUsers } from '@/data/users';
-import { filterLetters } from '@/lib/format';
+import { filterLetters, letterKey } from '@/lib/format';
 import { exportExcel } from '@/lib/exportExcel';
 import type { LetterRecord, DemoUser, ArchiveFilters } from '@/types';
 
@@ -21,6 +21,8 @@ interface Props {
   initialUser?: DemoUser | null;
   initialPage?: string;
   isAuthenticated?: boolean;
+  initialCounts?: { in: number; out: number };
+  allowDemoLogin?: boolean;
 }
 
 const URL_MAP: Record<string, string> = {
@@ -37,6 +39,8 @@ export default function SipasdApp({
   initialUser = null,
   initialPage = 'dashboard',
   isAuthenticated = false,
+  initialCounts,
+  allowDemoLogin = false,
 }: Props) {
   const curUser = initialUser || demoUsers[0];
   const safeInit = curUser.username === 'magang_keluar' && initialPage === 'in' ? 'out' : curUser.username === 'magang_masuk' && initialPage === 'out' ? 'in' : initialPage;
@@ -100,20 +104,20 @@ export default function SipasdApp({
 
   const title = page === 'dashboard' ? 'Beranda Eksekutif' : page === 'profile' ? 'Profil Pengguna' : groups.flatMap((g) => g.items).find((i) => i[2] === page)?.[0] ?? 'Beranda Eksekutif';
   const visible = filterLetters(letters, page, filters);
-  const inCount = letters.filter((l) => l.direction === 'in').length;
-  const outCount = letters.filter((l) => l.direction === 'out').length;
+  const inCount = letters.length > 0 ? letters.filter((l) => l.direction === 'in').length : (initialCounts?.in ?? 174);
+  const outCount = letters.length > 0 ? letters.filter((l) => l.direction === 'out').length : (initialCounts?.out ?? 260);
 
-  const onSaveLetter = async (record: Omit<LetterRecord, 'id'>, file?: File, dispFile?: File) => {
-    const saved = await handleSave(record, file, dispFile);
+  const onSaveLetter = async (record: Omit<LetterRecord, 'id'>, file?: File, dispFile?: File, onProgress?: (p: UploadProgress) => void) => {
+    const saved = await handleSave(record, file, dispFile, onProgress);
     setModal('');
     archive(saved.direction);
   };
 
-  const handleToggleSelect = (id: string) => setSelectedIds((p) => p.includes(id) ? p.filter((x) => x !== id) : [...p, id]);
+  const handleToggleSelect = (key: string) => setSelectedIds((p) => p.includes(key) ? p.filter((x) => x !== key) : [...p, key]);
   const handleToggleAll = () => {
-    const visibleIds = visible.map((l) => l.id);
-    const allChecked = visibleIds.length > 0 && visibleIds.every((id) => selectedIds.includes(id));
-    setSelectedIds(allChecked ? selectedIds.filter((id) => !visibleIds.includes(id)) : [...new Set([...selectedIds, ...visibleIds])]);
+    const visibleKeys = visible.map(letterKey);
+    const allChecked = visibleKeys.length > 0 && visibleKeys.every((k) => selectedIds.includes(k));
+    setSelectedIds(allChecked ? selectedIds.filter((k) => !visibleKeys.includes(k)) : [...new Set([...selectedIds, ...visibleKeys])]);
   };
 
   const handleLogout = async () => {
@@ -141,6 +145,7 @@ export default function SipasdApp({
     return (
       <LoginPage
         onBack={() => go('landing')}
+        allowDemoLogin={allowDemoLogin}
         onLoginSuccess={(acc) => {
           setUser(acc);
           setAuth(true);
@@ -169,7 +174,7 @@ export default function SipasdApp({
           setSelected={(l) => { setSelected(l); setSelectedDoc('letter'); }}
           onSelectDisp={(l) => { setSelected(l); setSelectedDoc('disp'); }}
           selectedIds={selectedIds} onToggleSelect={handleToggleSelect} onToggleAll={handleToggleAll}
-          onBatchDelete={() => setBatchTargets(letters.filter((l) => selectedIds.includes(l.id)))}
+          onBatchDelete={() => setBatchTargets(letters.filter((l) => selectedIds.includes(letterKey(l))))}
           setPrintLetter={setPrintLetter} onEdit={setEditTarget} onDelete={setDeleteTarget}
           setModal={setModal} pagination={pagination} setPagination={setPagination}
           go={go} archive={archive} onLogout={handleLogout}

@@ -6,6 +6,10 @@ import { getClientIp } from '@/lib/rate-limit';
 
 export async function GET() {
   try {
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ success: false, message: 'Akses ditolak. Sesi tidak ditemukan.' }, { status: 401 });
+    }
     const list = await getAllClassifications();
     return NextResponse.json({ success: true, data: list });
   } catch (err: unknown) {

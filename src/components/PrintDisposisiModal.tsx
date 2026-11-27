@@ -5,18 +5,20 @@ import Modal from './Modal';
 import Letter from './Letter';
 import Icon from './Icon';
 import { divisions } from '@/data/constants';
-import type { LetterRecord } from '@/types';
+import type { Disposition, LetterRecord } from '@/types';
 
 const POSISI_SURAT_OPTIONS = ['Diterima Persuratan', 'Kepala Dinas', 'Selesai'];
 
 interface Props {
   letter: LetterRecord;
   onClose: () => void;
+  onSaveDisposition?: (disposition: Disposition) => Promise<void>;
 }
 
-export default function PrintDisposisiModal({ letter, onClose }: Props) {
+export default function PrintDisposisiModal({ letter, onClose, onSaveDisposition }: Props) {
   const [paper, setPaper] = useState('A4');
   const [editMode, setEditMode] = useState(false);
+  const [savingDisp, setSavingDisp] = useState(false);
   const [editData, setEditData] = useState({
     official: letter.disposition?.official || 'Pebriadin Hapiz, AP, M.Si',
     division: letter.disposition?.division || divisions[0],
@@ -68,14 +70,38 @@ export default function PrintDisposisiModal({ letter, onClose }: Props) {
             <option>A4</option><option>F4</option>
           </select>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <button
             type="button"
             className="px-3 py-1 bg-white hover:bg-slate-100 border border-slate-300 rounded text-xs font-semibold text-slate-700 transition"
             onClick={() => setEditMode((v) => !v)}
           >
-            {editMode ? '✓ Selesai Koreksi' : '✏️ Koreksi Disposisi'}
+            {editMode ? '✓ Tutup Editor' : '✏️ Koreksi Disposisi'}
           </button>
+          {editMode && onSaveDisposition && (
+            <button
+              type="button"
+              disabled={savingDisp}
+              className="px-3 py-1 bg-emerald-700 hover:bg-emerald-800 text-white rounded text-xs font-semibold transition"
+              onClick={async () => {
+                setSavingDisp(true);
+                try {
+                  await onSaveDisposition({
+                    ...(letter.disposition || { date: letter.date }),
+                    official: editData.official,
+                    division: editData.division,
+                    instructions: editData.instructions,
+                    notes: editData.notes,
+                  });
+                  setEditMode(false);
+                } finally {
+                  setSavingDisp(false);
+                }
+              }}
+            >
+              {savingDisp ? 'Menyimpan...' : 'Simpan ke TiDB'}
+            </button>
+          )}
           {letter.dispositionFileUrl && (
             <button
               type="button"
@@ -141,8 +167,8 @@ export default function PrintDisposisiModal({ letter, onClose }: Props) {
         </div>
       )}
 
-      <div className="max-h-[70vh] overflow-y-auto p-4 bg-slate-100/70 rounded-xl my-2 flex justify-center print:max-h-none print:overflow-visible print:p-0 print:m-0 print:bg-transparent">
-        <div className="w-full max-w-[210mm] shadow-md bg-white print:shadow-none">
+      <div className="max-h-[70vh] overflow-auto p-2 sm:p-4 bg-slate-100/70 rounded-xl my-2 flex justify-start sm:justify-center print:max-h-none print:overflow-visible print:p-0 print:m-0 print:bg-transparent">
+        <div className="w-full min-w-[300px] max-w-[210mm] shadow-md bg-white print:shadow-none">
           <Letter letter={workingLetter} disposition />
         </div>
       </div>

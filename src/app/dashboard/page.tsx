@@ -34,6 +34,7 @@ export default async function DashboardRoute({ searchParams }: Props) {
       initialUser={user}
       initialPage={params?.view || 'dashboard'}
       isAuthenticated={true}
+      allowDemoLogin={process.env.ALLOW_DEMO_LOGIN === 'true'}
     />
   );
 }

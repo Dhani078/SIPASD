@@ -23,7 +23,7 @@ const FEATURES = [
   },
 ];
 
-export default function LandingFeatures() {
+export default function LandingFeatures({ totalDocs = 426 }: { totalDocs?: number }) {
   return (
     <section className="my-14 py-8 border-t border-b border-slate-200/80">
       <div className="text-center max-w-2xl mx-auto mb-10">
@@ -34,7 +34,7 @@ export default function LandingFeatures() {
           Dirancang untuk Ketertiban Arsip &amp; Kecepatan Pelayanan
         </h2>
         <p className="text-xs text-slate-600 mt-2 leading-relaxed">
-          Mengintegrasikan 411+ dokumen fisik Dispora Kalsel menjadi pangkalan data digital terstruktur, terenkripsi, dan mudah diakses.
+          Mengintegrasikan {totalDocs} dokumen fisik Dispora Kalsel menjadi pangkalan data digital terstruktur, terenkripsi, dan mudah diakses.
         </p>
       </div>
 

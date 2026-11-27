@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { v2 as cloudinary } from 'cloudinary';
+import { getSession } from '@/lib/auth';
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -10,6 +11,13 @@ cloudinary.config({
 
 export async function GET(request: Request) {
   try {
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json(
+        { success: false, message: 'Akses ditolak. Sesi kedinasan diperlukan untuk membuka dokumen.' },
+        { status: 401 }
+      );
+    }
     const { searchParams } = new URL(request.url);
     const rawUrl = searchParams.get('url') || '';
     const publicIdParam = searchParams.get('public_id') || '';

@@ -2,6 +2,7 @@
 
 import Icon, { type IconName } from './Icon';
 import type { LetterRecord } from '@/types';
+import { formatDate } from '@/lib/format';
 
 interface Props {
   letters: LetterRecord[];
@@ -12,12 +13,6 @@ interface Props {
   onClose: () => void;
 }
 
-const ITEMS: { text: string; icon: IconName; time: string }[] = [
-  { text: 'Surat kilat prioritas membutuhkan disposisi pimpinan', icon: 'shield', time: '2 menit yang lalu' },
-  { text: 'Indeks naskah fisik surat masuk baru diperbarui', icon: 'file', time: '3 menit yang lalu' },
-  { text: 'Laporan register buku agenda dinas siap diunduh', icon: 'download', time: '4 menit yang lalu' },
-];
-
 export default function NotificationsFlyout({
   letters,
   read,
@@ -27,6 +22,30 @@ export default function NotificationsFlyout({
   onClose,
 }: Props) {
   const unreadCount = 3 - read.length;
+  const urgentLetter = letters.find((l) => l.type === 'Kilat' || l.type === 'Segera') ?? letters[0];
+  const latestLetter = letters[0];
+  const pendingDisp = letters.find((l) => l.direction === 'in' && l.disposition?.status !== 'SELESAI') ?? latestLetter;
+
+  const items: { text: string; icon: IconName; time: string; target?: LetterRecord; isExport?: boolean }[] = [
+    {
+      text: urgentLetter ? `Prioritas ${urgentLetter.type}: ${urgentLetter.id} (${urgentLetter.origin})` : 'Tidak ada surat prioritas aktif',
+      icon: 'shield',
+      time: urgentLetter ? formatDate(urgentLetter.date) : 'Terkini',
+      target: urgentLetter,
+    },
+    {
+      text: pendingDisp ? `Tindak lanjut: ${pendingDisp.id} - ${pendingDisp.subject.slice(0, 42)}...` : 'Semua arsip aktif telah diproses',
+      icon: 'file',
+      time: pendingDisp ? formatDate(pendingDisp.date) : 'Terkini',
+      target: pendingDisp,
+    },
+    {
+      text: `Ekspor ${letters.length} arsip register buku agenda (.xlsx)`,
+      icon: 'download',
+      time: 'Siap unduh',
+      isExport: true,
+    },
+  ];
 
   return (
     <>
@@ -62,11 +81,11 @@ export default function NotificationsFlyout({
         </div>
 
         <div className="divide-y divide-slate-100">
-          {ITEMS.map((item, i) => {
+          {items.map((item, i) => {
             const isUnread = !read.includes(i);
             return (
               <button
-                key={item.text}
+                key={i}
                 type="button"
                 className={`flex items-start gap-3 w-full p-3 text-left transition-colors cursor-pointer min-h-[48px] ${
                   isUnread ? 'bg-emerald-50/30 hover:bg-emerald-50/60' : 'bg-white hover:bg-slate-50'
@@ -74,10 +93,10 @@ export default function NotificationsFlyout({
                 onClick={() => {
                   setRead((r) => (r.includes(i) ? r : [...r, i]));
                   onClose();
-                  if (i === 2) {
+                  if (item.isExport) {
                     onExport();
-                  } else {
-                    onSelect(letters.find((l) => l.type === 'Kilat') ?? letters[0]);
+                  } else if (item.target) {
+                    onSelect(item.target);
                   }
                 }}
               >

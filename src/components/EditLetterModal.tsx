@@ -3,50 +3,46 @@
 import { useId, useState } from 'react';
 import Modal from './Modal';
 import Icon from './Icon';
-import { divisions } from '@/data/constants';
+import UploadProgressBar from './UploadProgressBar';
+import { divisions, classifications, venues } from '@/data/constants';
+import type { UploadProgress } from '@/hooks/useLetterActions';
 import type { LetterRecord, Urgency } from '@/types';
 
 type DispStatus = 'BELUM_DIPROSES' | 'PROSES' | 'SELESAI';
 interface Props {
   letter: LetterRecord;
   onClose: () => void;
-  onSave: (id: string, updates: Partial<LetterRecord>, file?: File, dispFile?: File) => Promise<void>;
+  onSave: (id: string, updates: Partial<LetterRecord>, file?: File, dispFile?: File, onProgress?: (p: UploadProgress) => void) => Promise<void>;
 }
 
 export default function EditLetterModal({ letter, onClose, onSave }: Props) {
   const [number, setNumber] = useState(letter.number), [origin, setOrigin] = useState(letter.origin);
   const [subject, setSubject] = useState(letter.subject), [date, setDate] = useState(letter.date);
   const [type, setType] = useState<Urgency>(letter.type), [division, setDivision] = useState(letter.division || 'Sekretariat');
+  const [classification, setClassification] = useState(letter.classification || '005');
+  const [venue, setVenue] = useState(letter.venue || '-');
   const [official, setOfficial] = useState(letter.disposition?.official || 'Pebriadin Hapiz, AP, M.Si');
   const [dispStatus, setDispStatus] = useState<DispStatus>(letter.disposition?.status || 'PROSES');
   const [notes, setNotes] = useState(letter.disposition?.notes || '');
   const [file, setFile] = useState<File | null>(null), [dispFile, setDispFile] = useState<File | null>(null);
-  const [saving, setSaving] = useState(false), [err, setErr] = useState('');
+  const [saving, setSaving] = useState(false), [err, setErr] = useState(''), [prog, setProg] = useState<UploadProgress | null>(null);
   const uid = useId();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!number.trim() || !origin.trim() || !subject.trim()) {
-      setErr('Nomor surat, instansi, dan perihal wajib diisi.');
-      return;
-    }
-    setSaving(true);
-    setErr('');
+    if (!number.trim() || !origin.trim() || !subject.trim()) { setErr('Nomor surat, instansi, dan perihal wajib diisi.'); return; }
+    setSaving(true); setErr('');
     try {
-      const updates: Partial<LetterRecord> = { number: number.trim(), origin: origin.trim(), subject: subject.trim(), date, type, division };
+      const updates: Partial<LetterRecord> = { number: number.trim(), origin: origin.trim(), subject: subject.trim(), date, type, division, classification, venue };
       if (letter.direction === 'in') {
         updates.disposition = {
           official: official.trim() || 'Pebriadin Hapiz, AP, M.Si', date: letter.disposition?.date || date, division,
           instructions: letter.disposition?.instructions || ['Tindak Lanjuti'], notes: notes.trim(), status: dispStatus,
         };
       }
-      await onSave(letter.id, updates, file || undefined, dispFile || undefined);
+      await onSave(letter.id, updates, file || undefined, dispFile || undefined, setProg);
       onClose();
-    } catch (e: unknown) {
-      setErr(e instanceof Error ? e.message : 'Gagal menyimpan perubahan.');
-    } finally {
-      setSaving(false);
-    }
+    } catch (e: unknown) { setErr(e instanceof Error ? e.message : 'Gagal menyimpan perubahan.'); } finally { setSaving(false); setProg(null); }
   }
 
   const fileLink = letter.fileUrl ? (letter.fileUrl.startsWith('http') ? `/api/pdf?url=${encodeURIComponent(letter.fileUrl)}` : letter.fileUrl) : null;
@@ -96,6 +92,22 @@ export default function EditLetterModal({ letter, onClose, onSave }: Props) {
               <label htmlFor={`${uid}-div`} className="block font-semibold mb-1.5 text-slate-700">{letter.direction === 'in' ? 'Bidang Tujuan Disposisi' : 'Bidang Pemrakarsa'}</label>
               <select id={`${uid}-div`} value={division} onChange={(e) => setDivision(e.target.value)} className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20 outline-none transition">
                 {divisions.map((d) => <option key={d} value={d}>{d}</option>)}
+              </select>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div>
+              <label htmlFor={`${uid}-cls`} className="block font-semibold mb-1.5 text-slate-700">Klasifikasi Arsip</label>
+              <select id={`${uid}-cls`} value={classification} onChange={(e) => setClassification(e.target.value)} className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs focus:border-emerald-600 outline-none">
+                {classifications.map(([c, n]) => <option key={c} value={c}>{c} - {n}</option>)}
+              </select>
+            </div>
+            <div>
+              <label htmlFor={`${uid}-ven`} className="block font-semibold mb-1.5 text-slate-700">Venue Olahraga</label>
+              <select id={`${uid}-ven`} value={venue} onChange={(e) => setVenue(e.target.value)} className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs focus:border-emerald-600 outline-none">
+                <option value="-">- Tidak Terkait Venue -</option>
+                {venues.map((v) => <option key={v} value={v}>{v}</option>)}
               </select>
             </div>
           </div>
@@ -167,6 +179,7 @@ export default function EditLetterModal({ letter, onClose, onSave }: Props) {
               </div>
             </div>
           )}
+          {prog && <UploadProgressBar progress={prog} />}
         </div>
 
         <div className="modal-actions">

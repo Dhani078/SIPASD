@@ -32,6 +32,7 @@ export default async function LaporanRoute() {
       initialUser={user}
       initialPage="reports"
       isAuthenticated={true}
+      allowDemoLogin={process.env.ALLOW_DEMO_LOGIN === 'true'}
     />
   );
 }

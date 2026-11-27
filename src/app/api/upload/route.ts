@@ -47,9 +47,14 @@ export async function POST(request: Request) {
     let finalFileName = file.name;
 
     if (isImg) {
-      const conv = await convertImageBufferToPdf(buffer, file.name);
-      buffer = conv.buffer;
-      finalFileName = conv.fileName;
+      try {
+        const conv = await convertImageBufferToPdf(buffer, file.name);
+        buffer = conv.buffer;
+        finalFileName = conv.fileName;
+      } catch (imgErr: unknown) {
+        const msg = imgErr instanceof Error ? imgErr.message : 'Format gambar tidak didukung.';
+        return NextResponse.json({ success: false, message: msg }, { status: 400 });
+      }
     } else {
       const magic = buffer.subarray(0, 5).toString('ascii');
       if (magic !== '%PDF-') {

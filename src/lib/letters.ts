@@ -8,6 +8,7 @@ interface SuratMasukDbRow {
   id: string; nomor_agenda: string; nomor_surat: string;
   tanggal_surat: string | Date | null; tanggal_diterima: string | Date | null;
   asal_instansi: string; perihal: string; ringkasan_isi: string | null; sifat_surat: string | null;
+  kode_klasifikasi: string | null; venue: string | null;
   file_url: string | null; cloudinary_public_id: string | null; drive_url: string | null;
   file_name_original: string | null; pejabat_pendisposisi: string | null;
   tanggal_disposisi: string | Date | null; instruksi_tercatat: string | null;
@@ -18,7 +19,7 @@ interface SuratMasukDbRow {
 interface SuratKeluarDbRow {
   id: string; nomor_agenda: string; nomor_surat: string; nomor_urut: number; tahun: number;
   tanggal_surat: string | Date | null; tujuan_instansi: string; perihal: string; ringkasan_isi: string | null;
-  file_url: string | null; cloudinary_public_id: string | null; drive_url: string | null;
+  venue: string | null; file_url: string | null; cloudinary_public_id: string | null; drive_url: string | null;
   file_name_original: string | null;
   kode_klasifikasi: string | null; nama_klasifikasi: string | null; nama_bidang: string | null;
 }
@@ -97,19 +98,20 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
   const [smRows, skRows] = await Promise.all([
     query<SuratMasukDbRow>(`
       SELECT sm.id, sm.nomor_agenda, sm.nomor_surat, sm.tanggal_surat, sm.tanggal_diterima,
-             sm.asal_instansi, sm.perihal, sm.ringkasan_isi, sm.sifat_surat, sm.file_url,
-             sm.cloudinary_public_id, sm.drive_url, sm.file_name_original,
-             rd.pejabat_pendisposisi, rd.tanggal_disposisi, rd.instruksi_tercatat,
+             sm.asal_instansi, sm.perihal, sm.ringkasan_isi, sm.sifat_surat, sm.venue,
+             k.kode as kode_klasifikasi, sm.file_url, sm.cloudinary_public_id, sm.drive_url,
+             sm.file_name_original, rd.pejabat_pendisposisi, rd.tanggal_disposisi, rd.instruksi_tercatat,
              rd.catatan_tertulis, rd.status_penyelesaian, rd.file_disposisi_url,
              rd.disposisi_drive_url, rd.disposisi_file_name, b.nama_bidang as nama_bidang_disposisi
       FROM arsip_surat_masuk sm
+      LEFT JOIN klasifikasi_arsip k ON sm.kode_klasifikasi_id = k.id
       LEFT JOIN riwayat_disposisi rd ON sm.id = rd.surat_masuk_id
       LEFT JOIN bidang_dispora b ON rd.kepada_bidang_id = b.id
       ORDER BY sm.tanggal_surat DESC, CAST(SUBSTRING_INDEX(sm.nomor_agenda, '/', 1) AS UNSIGNED) DESC
     `),
     query<SuratKeluarDbRow>(`
       SELECT sk.id, sk.nomor_agenda, sk.nomor_surat, sk.nomor_urut, sk.tahun,
-             sk.tanggal_surat, sk.tujuan_instansi, sk.perihal, sk.ringkasan_isi,
+             sk.tanggal_surat, sk.tujuan_instansi, sk.perihal, sk.ringkasan_isi, sk.venue,
              sk.file_url, sk.cloudinary_public_id, sk.drive_url, sk.file_name_original,
              k.kode as kode_klasifikasi, k.nama_klasifikasi,
              b.nama_bidang
@@ -135,8 +137,8 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
       date: dateStr,
       type: mapUrgency(r.sifat_surat),
       direction: 'in',
-      classification: classifyText(combinedText)?.code || '005',
-      venue: detectVenue(combinedText),
+      classification: r.kode_klasifikasi || classifyText(combinedText)?.code || '005',
+      venue: r.venue || detectVenue(combinedText),
       division: div,
       disposition: {
         official: r.pejabat_pendisposisi || '-',
@@ -150,6 +152,7 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
         fileName: r.disposisi_file_name || undefined,
       },
       fileUrl: r.file_url || undefined,
+      cloudinaryPublicId: r.cloudinary_public_id || undefined,
       driveUrl: r.drive_url || GDRIVE_FOLDERS.smUrl,
       fileName: r.file_name_original || `${agendaNum}.pdf`,
       dispositionFileUrl: r.file_disposisi_url || undefined,
@@ -164,7 +167,7 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
     const combinedText = `${r.perihal} ${r.ringkasan_isi || ''} ${r.tujuan_instansi}`;
     const div = r.nama_bidang && r.nama_bidang !== 'Sekretariat Dispora' ? mapDivision(r.nama_bidang) : mapOutgoingDivision(combinedText);
     const type: Urgency = mapOutgoingUrgency(combinedText);
-    const cls = detectClassification(r.nomor_surat, combinedText);
+    const cls = r.kode_klasifikasi || detectClassification(r.nomor_surat, combinedText);
     return {
       id: agendaNum,
       rawId: r.id,
@@ -175,7 +178,7 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
       type,
       direction: 'out',
       classification: cls,
-      venue: detectVenue(combinedText),
+      venue: r.venue || detectVenue(combinedText),
       division: div,
       disposition: {
         official: '-',
@@ -185,6 +188,7 @@ export async function getRealLetters(): Promise<LetterRecord[]> {
         notes: 'Arsip surat keluar resmi Dispora Kalsel.',
       },
       fileUrl: r.file_url || undefined,
+      cloudinaryPublicId: r.cloudinary_public_id || undefined,
       driveUrl: r.drive_url || GDRIVE_FOLDERS.skUrl,
       fileName: r.file_name_original || `${agendaNum}.pdf`,
     };

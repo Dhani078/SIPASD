@@ -30,6 +30,7 @@ export default async function ArsipKeluarRoute() {
       initialUser={user}
       initialPage="out"
       isAuthenticated={true}
+      allowDemoLogin={process.env.ALLOW_DEMO_LOGIN === 'true'}
     />
   );
 }

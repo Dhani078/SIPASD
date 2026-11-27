@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
-import { toLocalDateString } from '@/lib/format';
+import { todayWitaString } from '@/lib/format';
 import { mapDivision } from '@/lib/letters';
 import { getReportMasuk, getReportKeluar, getReportDisposisi } from '@/lib/reports-queries';
 import { getReportKepatuhan, getReportKlasifikasi, getReportAudit } from '@/lib/reports-queries-secondary';
@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
   const status = searchParams.get('status') || 'SEMUA';
   const action = searchParams.get('action') || 'SEMUA';
   const division = searchParams.get('division') || '';
-  const todayDate = toLocalDateString(new Date());
+  const todayDate = todayWitaString();
 
   const bid = (r: Record<string, unknown>) =>
     (r.bidang_pemrakarsa || r.bidang_tujuan || r.nama_bidang) as string | undefined;
@@ -36,11 +36,22 @@ export async function GET(req: NextRequest) {
     switch (type) {
       case '1': {
         const { rows, summary } = await getReportMasuk(startDate, endDate);
-        return NextResponse.json({ success: true, data: byDivision(rows), summary });
+        const filtered = byDivision(rows);
+        const computedSummary = division
+          ? {
+              total: filtered.length,
+              biasa: filtered.filter((r) => r.sifat_surat === 'BIASA').length,
+              penting: filtered.filter((r) => r.sifat_surat === 'PENTING').length,
+              segera: filtered.filter((r) => r.sifat_surat === 'SEGERA').length,
+              kilat: filtered.filter((r) => r.sifat_surat === 'KILAT').length,
+            }
+          : summary;
+        return NextResponse.json({ success: true, data: filtered, summary: computedSummary });
       }
       case '2': {
         const { rows, summary } = await getReportKeluar(startDate, endDate);
-        return NextResponse.json({ success: true, data: byDivision(rows), summary });
+        const filtered = byDivision(rows);
+        return NextResponse.json({ success: true, data: filtered, summary: division ? byDivision(summary) : summary });
       }
       case '3': {
         const rows = await getReportDisposisi(startDate, endDate);

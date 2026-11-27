@@ -15,6 +15,7 @@ export function getDbPool(): mysql.Pool {
       ssl: {
         rejectUnauthorized: true,
       },
+      dateStrings: ['DATE'],
       waitForConnections: true,
       connectionLimit: 10,
       queueLimit: 0,
@@ -25,10 +26,21 @@ export function getDbPool(): mysql.Pool {
   return pool;
 }
 
+const TRANSIENT_CODES = new Set(['ETIMEDOUT', 'ECONNRESET', 'PROTOCOL_CONNECTION_LOST', 'EPIPE']);
+
 export async function query<T = any>(sql: string, params: any[] = []): Promise<T[]> {
   const p = getDbPool();
-  const [rows] = await p.execute(sql, params);
-  return rows as T[];
+  try {
+    const [rows] = await p.execute(sql, params);
+    return rows as T[];
+  } catch (err: unknown) {
+    const code = (err as { code?: string })?.code || '';
+    if (TRANSIENT_CODES.has(code)) {
+      const [rows] = await p.execute(sql, params);
+      return rows as T[];
+    }
+    throw err;
+  }
 }
 
 export async function queryOne<T = any>(sql: string, params: any[] = []): Promise<T | null> {

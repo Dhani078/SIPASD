@@ -134,6 +134,10 @@ export async function convertImageBufferToPdf(buffer: Buffer, originalName: stri
   const pdfDoc = await PDFDocument.create();
   const cleanArr = new Uint8Array(buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength));
   const isPng = buffer.length >= 8 && buffer[0] === 0x89 && buffer[1] === 0x50 && buffer[2] === 0x4e && buffer[3] === 0x47;
+  const isJpg = buffer.length >= 3 && buffer[0] === 0xff && buffer[1] === 0xd8 && buffer[2] === 0xff;
+  if (!isPng && !isJpg) {
+    throw new Error('Berkas gambar non-JPG/PNG (seperti WebP) harus dipindai melalui antarmuka web agar terkonversi ke PDF.');
+  }
   const embedded = isPng ? await pdfDoc.embedPng(cleanArr) : await pdfDoc.embedJpg(cleanArr);
 
   const isLandscape = embedded.width > embedded.height;

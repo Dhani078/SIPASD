@@ -8,6 +8,24 @@ Semua perubahan pada proyek **SIPASD (Sistem Informasi Pengelolaan Arsip Surat D
 
 ---
 
+## [2.78.0] - 2026-11-27
+
+### Security
+- Menutup kebocoran metadata arsip pada halaman publik `/` dan `/landing` saat pengunjung belum login melalui query hitung khusus (`getPublicLandingStats()`).
+- Mengunci akses sesi (`getSession()`) pada seluruh endpoint privat (`/api/letters`, `/api/pdf`, `/api/ai/suggest`, `/api/classification`, `/api/users`) dan menyelaraskan otorisasi admin pada `/api/users` serta `/api/audit`.
+- Memperketat `middleware.ts` dengan verifikasi tanda tangan JWT `jose` (`jwtVerify`) serta memperluas proteksi route ke `/laporan/:path*`.
+- Menyembunyikan panel quick-login uji peran di UI bila `ALLOW_DEMO_LOGIN` bernilai `false`.
+- Memutakhirkan paket `next@15.5.29`, `postcss@^8.5.31`, dan `uuid@^11.1.1` (melalui overrides `exceljs`) hingga `npm audit` mencatat 0 kerentanan.
+
+### Fixed & Enhanced
+- Migrasi skema TiDB Cloud & `migrate-db.ts`: menambahkan kolom `kode_klasifikasi_id` dan `venue` pada `arsip_surat_masuk` serta `venue` pada `arsip_surat_keluar`, dan memastikan klasifikasi database tidak lagi tertimpa heuristik teks serta pembersihan `venue` (`-`) tersimpan akurat.
+- Menggunakan composite key `letterKey()` (`direction:rawId|id`) di state React, tabel arsip, register agenda, buku ekspedisi, dan pencarian navbar untuk mencegah bentrok nomor agenda yang sama antara surat masuk dan surat keluar.
+- Menyelaraskan tanggal bawaan WITA (`todayWitaString()`) dan koneksi `mysql2` (`dateStrings: ['DATE']` + auto-retry error transien).
+- Memperbaiki penolakan format gambar tidak didukung (seperti WebP) dengan magic-bytes validation dan respons HTTP 400 informatif pada `/api/upload`.
+- Menyinkronkan checklist 9 unit kerja/bidang pada pratinjau cetak `Letter.tsx`, tombol `Simpan ke TiDB` pada koreksi disposisi, daftar akun dinamis di `UsersManagementView.tsx`, notifikasi dinamis sesuai peran, chip filter aktif plus `Reset Semua Filter`, progress bar unggahan PDF/scan, dan opsi ekspor cadangan Excel sebelum hapus massal.
+
+---
+
 ## [2.77.0] - 2026-11-21
 
 ### Verified & Audited
